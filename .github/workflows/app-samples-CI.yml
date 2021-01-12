@@ -66,4 +66,4 @@ jobs:
     - name: ktlint
       run: |
         cd ${{matrix.projects}}
-        ./gradlew ktlint --info
+        ./gradlew ktlint --info --build-cache
