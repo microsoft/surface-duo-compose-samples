@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        projects: [DuoComposeSampleApps]
+        projects: [DuoComposeSampleApps, CompanionPane]
       fail-fast: false
 
     steps:
