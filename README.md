@@ -12,7 +12,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ### [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane)
 
-Includes example of building [companion pane] in Jetpack Compose (https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern
+Includes example of building [companion pane] (https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose 
 
 ## Related links
 

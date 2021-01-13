@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        projects: [CompanionPane]
+        projects: [CompanionPane, ComposeSample]
       fail-fast: false
 
     steps:
