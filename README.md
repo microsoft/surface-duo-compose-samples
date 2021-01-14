@@ -1,14 +1,29 @@
-# Project
+![App samples CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+# Surface Duo Jetpack Compose samples
 
-As the maintainer of this project, please make a few updates:
+This repo contains the samples built in Jetpack Compose for Microsoft Surface Duo.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Getting Started
+
+To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
+
+## Contents
+
+### [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane)
+
+Includes example of building [companion pane] in Jetpack Compose (https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern
+
+## Related links
+
+- [App samples](https://github.com/microsoft/surface-duo-app-samples)
+- [SDK samples (Java)](https://github.com/microsoft/surface-duo-sdk-samples)
+- [SDK samples (Kotlin)](https://github.com/microsoft/surface-duo-sdk-samples-kotlin)
+- [Unity samples](https://github.com/microsoft/surface-duo-sdk-unity-samples)
+- [Xamarin samples](https://github.com/microsoft/surface-duo-sdk-xamarin-samples)
+- [Flutter samples](https://github.com/microsoft/surface-duo-sdk-samples-flutter)
+- [React Native samples](https://github.com/microsoft/react-native-dualscreen)
+- Web samples are coming soon
 
 ## Contributing
 
