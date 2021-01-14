@@ -9,7 +9,7 @@ products:
 urlFragment: companionpane
 ---
 
-# ComposeSample
+# Companion Pane
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
@@ -34,7 +34,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build Companion Pane(https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
+The sample showcases how to build [Companion Pane](https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
 
 ![Single portrait](screenshots/1.png)
 

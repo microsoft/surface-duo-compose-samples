@@ -1,31 +1,31 @@
 ---
 page_type: sample
-name: "Surface Duo - ComposeSample"
-description: "A sample showing how to use Jetpack Compose to build an app on the Surface Duo."
+name: "Surface Duo - Compose Gallery"
+description: "A simple gallery sample showing how to use Jetpack Compose to build an app on the Surface Duo."
 languages:
 - kotlin
 products:
 - surface-duo
-urlFragment: compose-sample
+urlFragment: compose-gallery
 ---
 
-# ComposeSample
+# Compose Gallery
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
-## Prerequisites
+## Prerequisites - updated
 
-- Jetpack Compose version: `1.0.0-alpha01`
+- Jetpack Compose version: 1.0.0-alpha09
 
-- Kotlin version: `1.4.0`
+- Kotlin version: 1.4.21
 
-- Gradle version: `6.6-rc-6`
+- Gradle version: 6.8-rc-5
 
-- Android Gradle plugin version: `4.2.0-alpha08`
+- Android Gradle plugin version: 7.0.0-alpha04
 
-- Android Studio version: `4.2 Canary 8`
+- Android Studio version: Arctic Fox 3.1 Canary 4
 
-- AndroidX WindowManager version: `1.0.0-alpha01`
+- AndroidX WindowManager version: 1.0.0-alpha01
 
 ## Getting Started
 
