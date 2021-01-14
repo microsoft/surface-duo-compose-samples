@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample.ui
+package com.microsoft.device.display.samples.composegallery.ui
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

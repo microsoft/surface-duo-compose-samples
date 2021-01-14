@@ -5,9 +5,9 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample.models
+package com.microsoft.device.display.samples.composegallery.models
 
-import com.microsoft.device.display.samples.composesample.R
+import com.microsoft.device.display.samples.composegallery.R
 import java.util.ArrayList
 
 object DataProvider {

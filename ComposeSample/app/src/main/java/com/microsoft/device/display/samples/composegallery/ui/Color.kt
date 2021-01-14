@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample.ui
+package com.microsoft.device.display.samples.composegallery.ui
 
 import androidx.compose.ui.graphics.Color
 

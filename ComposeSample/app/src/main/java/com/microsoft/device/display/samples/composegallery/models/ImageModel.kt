@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample.models
+package com.microsoft.device.display.samples.composegallery.models
 
 data class ImageModel(
     val id: String,

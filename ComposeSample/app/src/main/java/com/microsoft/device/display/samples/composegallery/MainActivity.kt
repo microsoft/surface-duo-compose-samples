@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample
+package com.microsoft.device.display.samples.composegallery
 
 import android.os.Bundle
 import android.os.Handler
@@ -18,8 +18,8 @@ import androidx.core.util.Consumer
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.WindowLayoutInfo
 import androidx.window.WindowManager
-import com.microsoft.device.display.samples.composesample.ui.ComposeSampleTheme
-import com.microsoft.device.display.samples.composesample.viewModels.AppStateViewModel
+import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
+import com.microsoft.device.display.samples.composegallery.viewModels.AppStateViewModel
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComposeSampleTheme {
+            ComposeGalleryTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Home(appStateViewModel)
                 }

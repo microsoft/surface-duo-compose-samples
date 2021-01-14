@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample
+package com.microsoft.device.display.samples.composegallery
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -34,12 +34,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.microsoft.device.display.samples.composesample.models.DataProvider
-import com.microsoft.device.display.samples.composesample.models.ImageModel
-import com.microsoft.device.display.samples.composesample.viewModels.AppStateViewModel
+import com.microsoft.device.display.samples.composegallery.models.DataProvider
+import com.microsoft.device.display.samples.composegallery.models.ImageModel
+import com.microsoft.device.display.samples.composegallery.viewModels.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
-private val DEBUG_TAG = "ComposeSample"
+private val DEBUG_TAG = "ComposeGallery"
 
 @Preview
 @Composable

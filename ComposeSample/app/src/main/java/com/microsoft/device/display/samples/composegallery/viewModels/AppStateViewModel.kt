@@ -5,7 +5,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.composesample.viewModels
+package com.microsoft.device.display.samples.composegallery.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
