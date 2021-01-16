@@ -2,33 +2,24 @@ package com.microsoft.device.display.samples.extendedcanvas
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.res.stringResource
-import androidx.core.util.Consumer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import androidx.window.WindowLayoutInfo
-import androidx.window.WindowManager
 import com.microsoft.device.display.samples.extendedcanvas.ui.ExtendedCanvasAppsTheme
 import com.microsoft.device.display.samples.extendedcanvas.viewmodel.AppStateViewModel
-import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowManager: WindowManager
     private lateinit var appStateViewModel: AppStateViewModel
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
-    private val layoutStateChangeCallback = LayoutStateChangeCallback()
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        windowManager = WindowManager(this, null)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
@@ -37,9 +28,19 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             ExtendedCanvasAppsTheme {
-                Scaffold (
-                    topBar = { TopAppBar(
-                        title = { BasicText(stringResource(R.string.app_name)) }
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                                BasicText(
+                                    text = stringResource(R.string.app_name),
+                                    style = TextStyle(
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                )
+                            }
                         )
                     },
                     bodyContent = { MainPage(appStateViewModel) }
@@ -54,22 +55,5 @@ class MainActivity : AppCompatActivity() {
 
         val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
         appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        windowManager.registerLayoutChangeCallback(mainThreadExecutor, layoutStateChangeCallback)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        windowManager.unregisterLayoutChangeCallback(layoutStateChangeCallback)
-    }
-
-    inner class LayoutStateChangeCallback : Consumer<WindowLayoutInfo> {
-        override fun accept(newLayoutInfo: WindowLayoutInfo) {
-            val isScreenSpanned = newLayoutInfo.displayFeatures.size > 0
-            appStateViewModel.setIsScreenSpannedLiveData(isScreenSpanned)
-        }
     }
 }

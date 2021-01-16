@@ -6,16 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class AppStateViewModel : ViewModel() {
 
-    private val isScreenSpannedLiveData = MutableLiveData<Boolean>() // observe the screen spanning mode
     private val isScreenPortraitLiveData = MutableLiveData<Boolean>() // observe the screen Portrait/Landscape mode
-
-    fun getIsScreenSpannedLiveData(): LiveData<Boolean> {
-        return this.isScreenSpannedLiveData
-    }
-
-    fun setIsScreenSpannedLiveData(isScreenSpanned: Boolean) {
-        isScreenSpannedLiveData.value = isScreenSpanned
-    }
 
     fun getIsScreenPortraitLiveData(): LiveData<Boolean> {
         return this.isScreenPortraitLiveData
