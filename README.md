@@ -10,9 +10,17 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Contents
 
+### [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery)
+
+A simple sample uses List-Detail app pattern to show a list of image thumbnails in the single screen. The sample uses List-Detail app pattern to show a list of image thumbnails in the single screen.
+
 ### [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane)
 
-Includes example of building [companion pane](https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose 
+Includes example of building [Companion Pane](https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
+
+### [ExtendedCanvas](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ExtendedCanvas)
+
+Includes example of building [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 
 ## Related links
 

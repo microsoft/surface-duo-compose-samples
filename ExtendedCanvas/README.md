@@ -9,7 +9,7 @@ products:
 urlFragment: extendedcanvas
 ---
 
-# ComposeSample
+# Extended Canvas
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
@@ -34,7 +34,15 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build Extended Canvas(https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+
+![Single portrait](screenshots/1.png)
+
+![Single landscape](screenshots/4.png)
+
+![Double portrait](screenshots/2.png)
+
+![Double landscape](screenshots/3.png)
 
 ## Contributing
 
