@@ -24,12 +24,4 @@ class AppStateViewModel : ViewModel() {
     fun setIsScreenSpannedLiveData(isScreenSpanned: Boolean) {
         isScreenSpannedLiveData.value = isScreenSpanned
     }
-
-    fun getIsScreenPortraitLiveData(): LiveData<Boolean> {
-        return this.isScreenPortraitLiveData
-    }
-
-    fun setIsScreenPortraitLiveData(IsScreenPortrait: Boolean) {
-        isScreenPortraitLiveData.value = IsScreenPortrait
-    }
 }
