@@ -12,5 +12,5 @@ fun SetupUI(viewModel: AppStateViewModel) {
     val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
     val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
 
-
 }
+
