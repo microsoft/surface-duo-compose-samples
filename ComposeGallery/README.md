@@ -1,31 +1,31 @@
 ---
 page_type: sample
-name: "Surface Duo - Companion Pane - Compose sample"
-description: "A sample showing how to use Jetpack Compose to build Companion Pane app pattern on the Surface Duo."
+name: "Surface Duo - Compose Gallery"
+description: "A simple gallery sample showing how to use Jetpack Compose to build an app on the Surface Duo."
 languages:
 - kotlin
 products:
 - surface-duo
-urlFragment: companionpane
+urlFragment: compose-gallery
 ---
 
-# Companion Pane
+# Compose Gallery
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
-## Prerequisites
+## Prerequisites - updated
 
-- Jetpack Compose version: `1.0.0-alpha09`
+- Jetpack Compose version: 1.0.0-alpha09
 
-- Kotlin version: `1.4.21`
+- Kotlin version: 1.4.21
 
-- Gradle version: `6.8-rc-5`
+- Gradle version: 6.8-rc-5
 
-- Android Gradle plugin version: `7.0.0-alpha04`
+- Android Gradle plugin version: 7.0.0-alpha04
 
-- Android Studio version: `Arctic Fox 3.1 Canary 4`
+- Android Studio version: Arctic Fox 3.1 Canary 4
 
-- AndroidX WindowManager version: `1.0.0-alpha01`
+- AndroidX WindowManager version: 1.0.0-alpha01
 
 ## Getting Started
 
@@ -34,15 +34,9 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build [Companion Pane](https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
+The sample uses [List-Detail](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern to show a list of image thumbnails in the single screen. When the app is spanned into two screens, it shows the full image in the other screen. To select the image item from the list will show the full image accordingly.
 
-![Single portrait](screenshots/1.png)
-
-![Single landscape](screenshots/2.png)
-
-![Double portrait](screenshots/3.png)
-
-![Double landscape](screenshots/4.png)
+![Screenshot](screenshots/Screenshot.png)
 
 ## Contributing
 
