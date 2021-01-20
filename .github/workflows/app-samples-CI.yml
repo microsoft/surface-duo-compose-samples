@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        projects: [CompanionPane, ComposeGallery]
+        projects: [CompanionPane, ComposeGallery, ExtendedCanvas]
       fail-fast: false
 
     steps:
