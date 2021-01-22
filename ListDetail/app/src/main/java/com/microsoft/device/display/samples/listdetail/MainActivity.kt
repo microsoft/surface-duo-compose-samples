@@ -59,9 +59,12 @@ class MainActivity : AppCompatActivity() {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        windowManager.registerLayoutChangeCallback(mainThreadExecutor, { windowLayoutInfo ->
-            appStateViewModel.setIsScreenSpannedLiveData(windowLayoutInfo.displayFeatures.size > 0)
-        })
+        windowManager.registerLayoutChangeCallback(
+            mainThreadExecutor,
+            { windowLayoutInfo ->
+                appStateViewModel.setIsScreenSpannedLiveData(windowLayoutInfo.displayFeatures.size > 0)
+            }
+        )
     }
 
     override fun onDetachedFromWindow() {

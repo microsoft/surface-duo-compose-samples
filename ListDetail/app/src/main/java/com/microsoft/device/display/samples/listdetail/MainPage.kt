@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -59,15 +59,21 @@ fun SingleScreenUI() {
 
 @Composable
 fun DualScreenUI() {
-    Row(modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-        ListView(modifier = Modifier
-            .fillMaxHeight()
-            .wrapContentWidth()
-            .weight(1f))
-        DetailView(modifier = Modifier
-            .fillMaxHeight()
-            .weight(1f))
+    Row(
+        modifier = Modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        ListView(
+            modifier = Modifier
+                .fillMaxHeight()
+                .wrapContentWidth()
+                .weight(1f)
+        )
+        DetailView(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+        )
     }
 }
 
@@ -78,26 +84,38 @@ fun ListView(modifier: Modifier) {
     val imageList = images
     val subImageList = imageList.chunked(3)
 
-    Box(modifier = modifier.then(
-        Modifier
-            .fillMaxSize()
-            .padding(
-                top = verticalPadding,
-                bottom = verticalPadding,
-                start = horizontalPadding,
-                end = horizontalPadding
-            )
+    Box(
+        modifier = modifier.then(
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    top = verticalPadding,
+                    bottom = verticalPadding,
+                    start = horizontalPadding,
+                    end = horizontalPadding
+                )
         )
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(imagePadding)
         ) {
-            items(subImageList) {
+            itemsIndexed(subImageList) { index, item ->
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(imagePadding)
+                    horizontalArrangement = Arrangement.spacedBy(imagePadding),
                 ) {
-                    for (image in it) {
-                        ImageView(imageId = image, Modifier.weight(1f))
+                    for ((imageIndex, image) in item.withIndex()) {
+                        var listIndex = 3 * index + imageIndex
+                        ImageView(
+                            imageId = image,
+                            modifier = Modifier
+                                .weight(1f)
+                                .selectable(
+                                    selected = (listIndex == selectedIndex),
+                                    onClick = {
+                                        appStateViewModel.setImageSelectionLiveData(listIndex)
+                                    }
+                                )
+                        )
                     }
                 }
             }
@@ -108,87 +126,31 @@ fun ListView(modifier: Modifier) {
 @Composable
 fun DetailView(modifier: Modifier) {
     val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
-    val selectedIndex = 0//imageSelectionLiveData.observeAsState(initial = 0).value
+    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val selectedImageId = images[selectedIndex]
 
     Column(modifier = modifier) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(
-                top = imagePadding * 2,
-                bottom = imagePadding,
-                start = imagePadding,
-                end = imagePadding
-            ), 
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(
+                    top = imagePadding * 2,
+                    bottom = imagePadding,
+                    start = imagePadding,
+                    end = imagePadding
+                ),
             contentAlignment = Alignment.Center
         ) {
-            ImageView(imageId = selectedImageId,
-                      modifier = Modifier
-                          .height(500.dp)
-                          .wrapContentWidth())
+            ImageView(
+                imageId = selectedImageId,
+                modifier = Modifier
+                    .height(500.dp)
+                    .wrapContentWidth()
+            )
         }
         Spacer(modifier = Modifier.preferredHeight(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Spacer(modifier = Modifier.preferredWidth(40.dp))
-            Box(contentAlignment = Alignment.TopCenter,
-                modifier = Modifier.padding(bottom = 10.dp)) {
-                ImageView(imageId = R.drawable.info_icon,
-                      modifier = Modifier
-                          .height(15.dp)
-                          .width(15.dp))
-            }
-            Spacer(modifier = Modifier.preferredWidth(15.dp))
-            ImageView(imageId = R.drawable.image_icon,
-                      modifier = Modifier
-                          .width(25.dp)
-                          .height(25.dp))
-            Spacer(modifier = Modifier.preferredWidth(20.dp))
-            Column(modifier = Modifier.wrapContentWidth()) {
-                BasicText(
-                    text = stringResource(R.string.camera),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.preferredHeight(3.dp))
-                BasicText(
-                    modifier = Modifier.wrapContentWidth(),
-                    text = stringResource(R.string.camera_info),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        color = colorResource(id = R.color.light_gary)
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.preferredWidth(40.dp))
-            ImageView(imageId = R.drawable.camera_icon,
-                      modifier = Modifier
-                          .width(25.dp)
-                          .height(25.dp))
-            Spacer(modifier = Modifier.preferredWidth(20.dp))
-            Column(modifier = Modifier.wrapContentWidth()) {
-                BasicText(
-                    text = stringResource(R.string.device),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.preferredHeight(3.dp))
-                BasicText(
-                    modifier = Modifier.wrapContentWidth(),
-                    text = stringResource(R.string.device_info),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        color = colorResource(id = R.color.light_gary)
-                    )
-                )
-            }
-        }
+        ImageInfoTile()
     }
 }
 
@@ -205,5 +167,82 @@ fun ImageView(imageId: Int, modifier: Modifier) {
 
 @Composable
 fun ImageInfoTile() {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.preferredWidth(40.dp))
+        Box(
+            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier.padding(bottom = 10.dp)
+        ) {
+            ImageView(
+                imageId = R.drawable.info_icon,
+                modifier = Modifier
+                    .height(15.dp)
+                    .width(15.dp)
+            )
+        }
+        Spacer(modifier = Modifier.preferredWidth(15.dp))
+        CameraInfoTile()
+        DeviceInfoTile()
+    }
+}
 
+@Composable
+fun CameraInfoTile() {
+    ImageView(
+        imageId = R.drawable.image_icon,
+        modifier = Modifier
+            .width(25.dp)
+            .height(25.dp)
+    )
+    Spacer(modifier = Modifier.preferredWidth(20.dp))
+    Column(modifier = Modifier.wrapContentWidth()) {
+        BasicText(
+            text = stringResource(R.string.camera),
+            style = TextStyle(
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        )
+        Spacer(modifier = Modifier.preferredHeight(3.dp))
+        BasicText(
+            modifier = Modifier.wrapContentWidth(),
+            text = stringResource(R.string.camera_info),
+            style = TextStyle(
+                fontSize = 12.sp,
+                color = colorResource(id = R.color.light_gary)
+            )
+        )
+    }
+}
+
+@Composable
+fun DeviceInfoTile() {
+    Spacer(modifier = Modifier.preferredWidth(40.dp))
+    ImageView(
+        imageId = R.drawable.camera_icon,
+        modifier = Modifier
+            .width(25.dp)
+            .height(25.dp)
+    )
+    Spacer(modifier = Modifier.preferredWidth(20.dp))
+    Column(modifier = Modifier.wrapContentWidth()) {
+        BasicText(
+            text = stringResource(R.string.device),
+            style = TextStyle(
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        )
+        Spacer(modifier = Modifier.preferredHeight(3.dp))
+        BasicText(
+            modifier = Modifier.wrapContentWidth(),
+            text = stringResource(R.string.device_info),
+            style = TextStyle(
+                fontSize = 12.sp,
+                color = colorResource(id = R.color.light_gary)
+            )
+        )
+    }
 }
