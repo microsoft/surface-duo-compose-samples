@@ -46,6 +46,7 @@ dependencies {
     implementation androidxDependencies.composeRuntime
     implementation androidxDependencies.composeMaterial
     implementation androidxDependencies.composeUITooling
+    implementation androidxDependencies.navigationCompose
 
     implementation googleDependencies.material
 }

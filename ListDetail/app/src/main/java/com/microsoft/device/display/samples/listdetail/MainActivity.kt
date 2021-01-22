@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.listdetail
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this, null)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
+        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -70,5 +73,12 @@ class MainActivity : AppCompatActivity() {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         windowManager.unregisterLayoutChangeCallback {}
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
+        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
     }
 }

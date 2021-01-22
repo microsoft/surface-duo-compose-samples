@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
@@ -31,10 +30,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.companionpane.viewModels.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 
 private lateinit var appStateViewModel: AppStateViewModel
+private lateinit var navController: NavHostController
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
@@ -42,8 +48,12 @@ private val horizontalPadding = 15.dp
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
+    navController = rememberNavController()
+
     val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
     val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
+    val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
+    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
 
     if (isScreenSpanned) {
         DualScreenUI()
@@ -54,7 +64,16 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun SingleScreenUI() {
-    ListView(modifier = Modifier.fillMaxSize())
+    NavHost(
+        navController = navController,
+        startDestination = "list") {
+        composable("list") {
+            ListViewUnspanned(navController)
+        }
+        composable("detail") {
+            DetailView(modifier = Modifier.fillMaxSize())
+        }
+    }
 }
 
 @Composable
@@ -63,7 +82,7 @@ fun DualScreenUI() {
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        ListView(
+        ListViewSpanned(
             modifier = Modifier
                 .fillMaxHeight()
                 .wrapContentWidth()
@@ -78,7 +97,17 @@ fun DualScreenUI() {
 }
 
 @Composable
-fun ListView(modifier: Modifier) {
+fun ListViewSpanned(modifier: Modifier) {
+    ListView(modifier = modifier, navController = null)
+}
+
+@Composable
+fun ListViewUnspanned(navController: NavController) {
+    ListView(modifier = Modifier.fillMaxSize(), navController = navController)
+}
+
+@Composable
+fun ListView(modifier: Modifier, navController: NavController?) {
     val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val imageList = images
@@ -113,6 +142,9 @@ fun ListView(modifier: Modifier) {
                                     selected = (listIndex == selectedIndex),
                                     onClick = {
                                         appStateViewModel.setImageSelectionLiveData(listIndex)
+                                        navController?.let {
+                                            it.navigate("detail")
+                                        }
                                     }
                                 )
                         )
@@ -133,7 +165,7 @@ fun DetailView(modifier: Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(500.dp + imagePadding * 3)
                 .padding(
                     top = imagePadding * 2,
                     bottom = imagePadding,
