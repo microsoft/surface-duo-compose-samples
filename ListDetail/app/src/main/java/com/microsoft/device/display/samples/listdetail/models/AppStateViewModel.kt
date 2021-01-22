@@ -6,7 +6,7 @@
  *
  */
 
-package com.microsoft.device.display.samples.companionpane.viewModels
+package com.microsoft.device.display.samples.listdetail.models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
