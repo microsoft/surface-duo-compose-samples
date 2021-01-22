@@ -1,21 +1,21 @@
 ---
 page_type: sample
-name: "Surface Duo - Companion Pane - Compose sample"
-description: "A sample showing how to use Jetpack Compose to build Companion Pane app pattern on the Surface Duo."
+name: "Surface Duo - List Detail - Compose sample"
+description: "A sample showing how to use Jetpack Compose to build List Detail app pattern on the Surface Duo."
 languages:
 - kotlin
 products:
 - surface-duo
-urlFragment: companionpane
+urlFragment: listdetail
 ---
 
-# ComposeSample
+# List Detail
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.0.0-alpha09`
+- Jetpack Compose version: `1.0.0-alpha10`
 
 - Kotlin version: `1.4.21`
 
@@ -34,15 +34,15 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build Companion Pane(https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
+The sample showcases how to build List Detail(https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
 
-![Single portrait](screenshots/1.png)
+![Single list](screenshots/1.png)
+
+![Single detail](screenshots/4.png)
 
 ![Single landscape](screenshots/2.png)
 
 ![Double portrait](screenshots/3.png)
-
-![Double landscape](screenshots/4.png)
 
 ## Contributing
 

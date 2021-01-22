@@ -22,6 +22,10 @@ Includes example of building [Companion Pane](https://docs.microsoft.com/en-us/d
 
 Includes example of building [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 
+### [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ListDetail)
+
+Includes example of building [List Detail](https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
+
 ## Related links
 
 - [App samples](https://github.com/microsoft/surface-duo-app-samples)
