@@ -1,6 +1,5 @@
 package com.microsoft.device.display.samples.listdetail
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
@@ -36,8 +34,8 @@ import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 
 private val imageSize = 25.dp
-private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
+private val horizontalPadding = 20.dp
 
 @Composable
 fun DetailViewUnspanned(modifier: Modifier, navController: NavController, appStateViewModel: AppStateViewModel) {
@@ -77,24 +75,23 @@ fun DetailView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(.8f)
+                .weight(.85f)
                 .padding(
                     top = verticalPadding,
-                    bottom = imagePadding,
-                    start = imagePadding,
-                    end = imagePadding
-                ),
-            contentAlignment = Alignment.Center
+                    start = horizontalPadding,
+                    end = horizontalPadding
+                )
         ) {
             ImageView(
                 imageId = selectedImageId,
-                modifier = Modifier.wrapContentSize()
+                modifier = Modifier.fillMaxSize()
             )
         }
         ImageInfoTile(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(.2f)
+                .weight(.15f)
+                .padding(start = 25.dp)
         )
     }
 }
@@ -103,8 +100,7 @@ fun DetailView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
 fun ImageInfoTile(modifier: Modifier) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             contentAlignment = Alignment.TopStart,

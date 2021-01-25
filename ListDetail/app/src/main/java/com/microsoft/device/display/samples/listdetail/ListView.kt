@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.listdetail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +29,7 @@ import com.microsoft.device.display.samples.listdetail.models.images
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
+private val imageMargin = 3.dp
 
 @Composable
 fun ListViewSpanned(modifier: Modifier, appStateViewModel: AppStateViewModel) {
@@ -88,24 +91,37 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
         ) {
             itemsIndexed(subImageList) { index, item ->
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(imagePadding),
+                    horizontalArrangement = Arrangement.spacedBy(imagePadding)
                 ) {
                     for ((imageIndex, image) in item.withIndex()) {
                         var listIndex = 3 * index + imageIndex
-                        ImageView(
-                            imageId = image,
+                        var outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
+                        Box(
                             modifier = Modifier
+                                .fillMaxSize()
                                 .weight(1f)
-                                .selectable(
-                                    selected = (listIndex == selectedIndex),
-                                    onClick = {
-                                        appStateViewModel.setImageSelectionLiveData(listIndex)
-                                        navController?.let {
-                                            it.navigate("detail")
-                                        }
-                                    }
+                                .background(color = colorResource(id = R.color.outline_blue))
+                                .padding(
+                                    top = outlineWidth,
+                                    bottom = outlineWidth,
+                                    start = outlineWidth,
+                                    end = outlineWidth
                                 )
-                        )
+                        ) {
+                            ImageView(
+                                imageId = image,
+                                modifier = Modifier
+                                    .selectable(
+                                        selected = (listIndex == selectedIndex),
+                                        onClick = {
+                                            appStateViewModel.setImageSelectionLiveData(listIndex)
+                                            navController?.let {
+                                                it.navigate("detail")
+                                            }
+                                        }
+                                    )
+                            )
+                        }
                     }
                 }
             }
