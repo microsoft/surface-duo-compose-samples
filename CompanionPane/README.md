@@ -1,14 +1,3 @@
----
-page_type: sample
-name: "Surface Duo - Companion Pane - Compose sample"
-description: "A sample showing how to use Jetpack Compose to build Companion Pane app pattern on the Surface Duo."
-languages:
-- kotlin
-products:
-- surface-duo
-urlFragment: companionpane
----
-
 # Companion Pane
 
 This sample is built with Jetpack Compose, the new UI framework in Android.

@@ -1,14 +1,3 @@
----
-page_type: sample
-name: "Surface Duo - Extended Canvas - Compose sample"
-description: "A sample showing how to use Jetpack Compose to build Extended Canvas app pattern on the Surface Duo."
-languages:
-- kotlin
-products:
-- surface-duo
-urlFragment: extendedcanvas
----
-
 # Extended Canvas
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
