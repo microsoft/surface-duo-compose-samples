@@ -1,15 +1,15 @@
 ---
 page_type: sample
-name: "Surface Duo - Extended Canvas - Compose sample"
-description: "A sample showing how to use Jetpack Compose to build Extended Canvas app pattern on the Surface Duo."
+name: "Surface Duo - List Detail - Compose sample"
+description: "A sample showing how to use Jetpack Compose to build List Detail app pattern on the Surface Duo."
 languages:
 - kotlin
 products:
 - surface-duo
-urlFragment: extendedcanvas
+urlFragment: listdetail
 ---
 
-# Extended Canvas
+# List Detail
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
@@ -34,15 +34,15 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+The sample showcases how to build List Detail(https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
 
-![Single portrait](screenshots/1.png)
+![Single list](screenshots/1.png)
 
-![Single landscape](screenshots/4.png)
+![Single detail](screenshots/4.png)
 
-![Double portrait](screenshots/2.png)
+![Single landscape](screenshots/2.png)
 
-![Double landscape](screenshots/3.png)
+![Double portrait](screenshots/3.png)
 
 ## Contributing
 

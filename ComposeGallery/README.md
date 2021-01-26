@@ -15,7 +15,7 @@ This sample is built with Jetpack Compose, the new UI framework in Android.
 
 ## Prerequisites - updated
 
-- Jetpack Compose version: 1.0.0-alpha09
+- Jetpack Compose version: 1.0.0-alpha10
 
 - Kotlin version: 1.4.21
 

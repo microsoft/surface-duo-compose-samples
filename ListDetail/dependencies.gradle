@@ -33,6 +33,7 @@ ext {
     preferenceVersion = "1.1.1"
     composeVersion = "1.0.0-alpha10"
     windowVersion = "1.0.0-alpha01"
+    navigationComposeVersion = "1.0.0-alpha05"
 
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -43,6 +44,7 @@ ext {
             composeMaterial   : "androidx.compose.material:material:$composeVersion",
             composeUI         : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling  : "androidx.compose.ui:ui-tooling:$composeVersion",
+            navigationCompose : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
 
     //Google dependencies
