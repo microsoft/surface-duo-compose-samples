@@ -1,8 +1,18 @@
-![App samples CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
-
+---
+page_type: sample
+name: Surface Duo - Jetpack Compose samples
+languages:
+- kotlin
+products:
+- surface-duo
+description: "Samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns."
+urlFragment: all
+---
 # Surface Duo Jetpack Compose samples
 
-This repo contains the samples built in Jetpack Compose for Microsoft Surface Duo.
+This repo contains the samples built in Jetpack Compose for Microsoft Surface Duo. These samples demonstrate [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) with the new UI framework.
+
+![Jetpack Compose samples CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
 
 ## Getting Started
 

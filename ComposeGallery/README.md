@@ -1,14 +1,3 @@
----
-page_type: sample
-name: "Surface Duo - Compose Gallery"
-description: "A simple gallery sample showing how to use Jetpack Compose to build an app on the Surface Duo."
-languages:
-- kotlin
-products:
-- surface-duo
-urlFragment: compose-gallery
----
-
 # Compose Gallery
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
