@@ -7,24 +7,34 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.loadImageResource
+import androidx.compose.ui.res.loadVectorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.display.samples.dualview.components.MapView
 import com.microsoft.device.display.samples.dualview.components.RestaurantListView
 import com.microsoft.device.display.samples.dualview.components.RestaurantView
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
+import com.microsoft.device.display.samples.dualview.models.Restaurant
 
 private lateinit var appStateViewModel: AppStateViewModel
 
@@ -44,48 +54,99 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun SingleScreenUI() {
-    RestaurantView()
-//    val navController = rememberNavController()
-//
-//    NavHost(
-//        navController = navController,
-//        startDestination = "list"
-//    ) {
-//        composable("list") {
-//            ListViewUnspanned(
-//                navController = navController,
-//                appStateViewModel = appStateViewModel
-//            )
-//        }
-//        composable("detail") {
-//            DetailViewUnspanned(
-//                modifier = Modifier.fillMaxSize(),
-//                navController = navController,
-//                appStateViewModel = appStateViewModel
-//            )
-//        }
-//    }
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "list"
+    ) {
+        composable("list") {
+            RestaurantViewWithTopBar(
+                navController = navController,
+                appStateViewModel = appStateViewModel
+            )
+        }
+        composable("map") {
+            MapViewWithTopBar(
+                navController = navController
+            )
+        }
+    }
 }
 
 @Composable
 fun DualScreenUI() {
+    ListDetailView()
+}
+
+@Composable
+fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    BasicText(
+                    Text(
                         text = stringResource(R.string.app_name),
                         style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = Color.White
                         )
                     )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate("map")
+                    }) {
+                        val image = loadVectorResource(id = R.drawable.ic_map)
+                        image.resource.resource?.let {
+                            Icon(
+                                imageVector = it,
+                                tint = Color.White
+                            )
+                        }
+                    }
                 }
             )
         },
         bodyContent = {
-            ListDetailView()
+            RestaurantView()
+        }
+    )
+}
+
+@Composable
+fun MapViewWithTopBar(navController: NavController) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = TextStyle(
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White
+                        )
+                    )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        val image = loadVectorResource(id = R.drawable.ic_list)
+                        image.resource.resource?.let {
+                            Icon(
+                                imageVector = it,
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
+            )
+        },
+        bodyContent = {
+            MapView()
         }
     )
 }
@@ -103,12 +164,7 @@ fun ListDetailView() {
                 .weight(1f),
             appStateViewModel = appStateViewModel
         )
-        DetailView(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(1f),
-            appStateViewModel = appStateViewModel
-        )
+        MapView()
     }
 }
 

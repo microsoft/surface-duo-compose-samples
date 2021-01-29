@@ -11,13 +11,13 @@ import com.microsoft.device.display.samples.dualview.R
 val typography = Typography(
     subtitle1 = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 17.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
         letterSpacing = 0.01.sp
     ),
     subtitle2 = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 15.sp,
         letterSpacing = 0.01.sp
     ),

@@ -63,7 +63,7 @@ fun RestaurantListView() {
 @Composable
 fun RestaurantTile(restaurant: Restaurant) {
     Row(modifier = Modifier.wrapContentSize(),
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ImageView(
             imageId = restaurant.imageResourceId,
