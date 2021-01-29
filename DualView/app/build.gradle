@@ -1,30 +1,36 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.microsoft.device.display.samples.dualview"
+        applicationId "com.microsoft.device.display.samples.listdetail"
         minSdkVersion 21
         targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
-
     buildFeatures {
         compose true
     }
-
     composeOptions {
         kotlinCompilerVersion "$kotlinVersion"
         kotlinCompilerExtensionVersion "$composeVersion"
@@ -33,15 +39,14 @@ android {
 
 dependencies {
     implementation kotlinDependencies.kotlinStdlib
-
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
     implementation androidxDependencies.compose
     implementation androidxDependencies.composeRuntime
     implementation androidxDependencies.composeMaterial
-    implementation androidxDependencies.composeUI
     implementation androidxDependencies.composeUITooling
+    implementation androidxDependencies.navigationCompose
 
     implementation googleDependencies.material
 }

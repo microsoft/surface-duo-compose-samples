@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">DualView</string>
+    <string name="app_name">List Detail-Compose</string>
+    <string name="list_title">Dine-in Restaurants</string>
+    <string name="restaurant_type">%1$s restaurant</string>
 </resources>

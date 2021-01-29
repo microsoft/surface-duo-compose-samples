@@ -1,2 +1,2 @@
-rootProject.name = "DualView"
+rootProject.name = "DualView-Compose sample"
 include ':app'

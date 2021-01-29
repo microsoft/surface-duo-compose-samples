@@ -5,7 +5,7 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.0-alpha05'
+    gradlePluginVersion = '7.0.0-alpha04'
     kotlinVersion = "1.4.21"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
@@ -14,6 +14,7 @@ ext {
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
             kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
     ]
 
     kotlinDependencies = [
@@ -32,6 +33,7 @@ ext {
     preferenceVersion = "1.1.1"
     composeVersion = "1.0.0-alpha10"
     windowVersion = "1.0.0-alpha01"
+    navigationComposeVersion = "1.0.0-alpha05"
 
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -42,6 +44,7 @@ ext {
             composeMaterial   : "androidx.compose.material:material:$composeVersion",
             composeUI         : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling  : "androidx.compose.ui:ui-tooling:$composeVersion",
+            navigationCompose : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
 
     //Google dependencies
