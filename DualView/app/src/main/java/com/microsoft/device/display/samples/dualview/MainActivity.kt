@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        windowManager = WindowManager(this, null)
+        windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
