@@ -1,10 +1,14 @@
 package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.rememberZoomableController
+import androidx.compose.foundation.gestures.zoomable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
@@ -14,14 +18,25 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.loadImageResource
 import androidx.compose.ui.res.loadVectorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,6 +50,7 @@ import com.microsoft.device.display.samples.dualview.components.RestaurantListVi
 import com.microsoft.device.display.samples.dualview.components.RestaurantView
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
+import kotlin.math.roundToInt
 
 private lateinit var appStateViewModel: AppStateViewModel
 
@@ -68,7 +84,8 @@ fun SingleScreenUI() {
         }
         composable("map") {
             MapViewWithTopBar(
-                navController = navController
+                navController = navController,
+                appStateViewModel = appStateViewModel
             )
         }
     }
@@ -97,7 +114,8 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
                 actions = {
                     IconButton(onClick = {
                         navController.navigate("map")
-                    }) {
+                        }
+                    ) {
                         val image = loadVectorResource(id = R.drawable.ic_map)
                         image.resource.resource?.let {
                             Icon(
@@ -110,13 +128,13 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
             )
         },
         bodyContent = {
-            RestaurantView()
+            RestaurantView(navController, appStateViewModel)
         }
     )
 }
 
 @Composable
-fun MapViewWithTopBar(navController: NavController) {
+fun MapViewWithTopBar(navController: NavController, appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -146,7 +164,7 @@ fun MapViewWithTopBar(navController: NavController) {
             )
         },
         bodyContent = {
-            MapView()
+            MapView(appStateViewModel)
         }
     )
 }
@@ -164,7 +182,7 @@ fun ListDetailView() {
                 .weight(1f),
             appStateViewModel = appStateViewModel
         )
-        MapView()
+        MapView(appStateViewModel)
     }
 }
 

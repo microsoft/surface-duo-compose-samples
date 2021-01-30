@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import com.microsoft.device.display.samples.dualview.components.RestaurantListView
+import com.microsoft.device.display.samples.dualview.components.RestaurantView
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 
@@ -33,97 +35,5 @@ private val imageMargin = 3.dp
 
 @Composable
 fun ListViewSpanned(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    ListView(
-        modifier = modifier,
-        navController = null,
-        appStateViewModel = appStateViewModel
-    )
-}
 
-@Composable
-fun ListViewUnspanned(navController: NavController?, appStateViewModel: AppStateViewModel) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    BasicText(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    )
-                }
-            )
-        },
-        bodyContent = {
-            ListView(
-                modifier = Modifier.fillMaxSize(),
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
-        }
-    )
-}
-
-@Composable
-fun ListView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
-    val imageList = restaurants
-    val subImageList = imageList.chunked(3)
-
-    Box(
-        modifier = modifier.then(
-            Modifier
-                .fillMaxSize()
-                .padding(
-                    top = verticalPadding,
-                    bottom = verticalPadding,
-                    start = horizontalPadding,
-                    end = horizontalPadding
-                )
-        )
-    ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(imagePadding)
-        ) {
-            itemsIndexed(subImageList) { index, item ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(imagePadding)
-                ) {
-                    for ((imageIndex, image) in item.withIndex()) {
-                        var listIndex = 3 * index + imageIndex
-                        var outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .weight(1f)
-                                .padding(
-                                    top = outlineWidth,
-                                    bottom = outlineWidth,
-                                    start = outlineWidth,
-                                    end = outlineWidth
-                                )
-                        ) {
-                            ImageView(
-                                imageId = image.imageResourceId,
-                                modifier = Modifier
-                                    .selectable(
-                                        selected = (listIndex == selectedIndex),
-                                        onClick = {
-                                            appStateViewModel.setImageSelectionLiveData(listIndex)
-                                            navController?.let {
-                                                it.navigate("detail")
-                                            }
-                                        }
-                                    )
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

@@ -14,16 +14,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import com.microsoft.device.display.samples.contentcontext.util.formatPriceRange
 import com.microsoft.device.display.samples.contentcontext.util.formatRating
 import com.microsoft.device.display.samples.dualview.ImageView
 import com.microsoft.device.display.samples.dualview.R
+import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
@@ -31,7 +36,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.typography
 private val outlinePadding = 25.dp
 
 @Composable
-fun RestaurantView() {
+fun RestaurantView(navController: NavController, appStateViewModel: AppStateViewModel) {
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(
@@ -45,24 +50,36 @@ fun RestaurantView() {
             Text(text = stringResource(id = R.string.list_title),
                  style = typography.subtitle1
             )
-            RestaurantListView()
+            RestaurantListView(navController, appStateViewModel)
+            Spacer(modifier = Modifier.preferredHeight(10.dp))
         }
     }
 }
 
 @Composable
-fun RestaurantListView() {
+fun RestaurantListView(navController: NavController, appStateViewModel: AppStateViewModel) {
     val restaurants = restaurants
+    val selectionLiveData = appStateViewModel.getSelectionLiveData()
+    val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
+
     LazyColumn(verticalArrangement = Arrangement.spacedBy(25.dp)) {
-        items(restaurants) {
-            RestaurantTile(restaurant = it)
+        itemsIndexed(restaurants) { index, item ->
+            RestaurantTile(restaurant = item,
+                           modifier = Modifier.selectable(
+                               selected = (index == selectedIndex),
+                               onClick = {
+                                   appStateViewModel.setSelectionLiveData(index)
+                                   navController.navigate("map")
+                               }
+                           )
+            )
         }
     }
 }
 
 @Composable
-fun RestaurantTile(restaurant: Restaurant) {
-    Row(modifier = Modifier.wrapContentSize(),
+fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
+    Row(modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ImageView(
