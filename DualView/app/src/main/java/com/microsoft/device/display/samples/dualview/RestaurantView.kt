@@ -36,7 +36,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.typography
 private val outlinePadding = 25.dp
 
 @Composable
-fun RestaurantView(navController: NavController, appStateViewModel: AppStateViewModel) {
+fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(
@@ -44,6 +44,7 @@ fun RestaurantView(navController: NavController, appStateViewModel: AppStateView
             start = outlinePadding,
             end = outlinePadding
         )
+        .then(modifier)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
@@ -57,7 +58,7 @@ fun RestaurantView(navController: NavController, appStateViewModel: AppStateView
 }
 
 @Composable
-fun RestaurantListView(navController: NavController, appStateViewModel: AppStateViewModel) {
+fun RestaurantListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
     val restaurants = restaurants
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
@@ -69,7 +70,7 @@ fun RestaurantListView(navController: NavController, appStateViewModel: AppState
                                selected = (index == selectedIndex),
                                onClick = {
                                    appStateViewModel.setSelectionLiveData(index)
-                                   navController.navigate("map")
+                                   navController?.navigate("map")
                                }
                            )
             )

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.microsoft.device.display.samples.dualview.components.RestaurantListView
-import com.microsoft.device.display.samples.dualview.components.RestaurantView
+import com.microsoft.device.display.samples.dualview.components.RestaurantsView
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 
