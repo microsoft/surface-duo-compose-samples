@@ -13,7 +13,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.microsoft.device.display.samples.listdetail"
+        applicationId "com.microsoft.device.display.samples.dualview"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

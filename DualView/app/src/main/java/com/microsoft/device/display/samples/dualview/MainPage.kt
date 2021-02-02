@@ -138,6 +138,7 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
                         image.resource.resource?.let {
                             Icon(
                                 imageVector = it,
+                                contentDescription = "",
                                 tint = Color.White
                             )
                         }
@@ -177,6 +178,7 @@ fun MapViewWithTopBar(navController: NavController, appStateViewModel: AppStateV
                         image.resource.resource?.let {
                             Icon(
                                 imageVector = it,
+                                contentDescription = "",
                                 tint = Color.White
                             )
                         }
@@ -197,6 +199,7 @@ fun ImageView(imageId: Int, modifier: Modifier) {
     val image = imageResource(id = imageId)
     Image(
         bitmap = image,
+        contentDescription = "",
         modifier = modifier
     )
 }

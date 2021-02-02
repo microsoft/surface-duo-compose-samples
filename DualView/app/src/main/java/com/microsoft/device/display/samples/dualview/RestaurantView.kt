@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -59,7 +60,6 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
 
 @Composable
 fun RestaurantListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
-    val restaurants = restaurants
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
 
