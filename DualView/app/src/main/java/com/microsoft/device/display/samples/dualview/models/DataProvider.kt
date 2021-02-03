@@ -10,7 +10,7 @@ package com.microsoft.device.display.samples.dualview.models
 
 import com.microsoft.device.display.samples.dualview.R
 
-data class Restaurant (
+data class Restaurant(
     val title: String? = "",
     val imageResourceId: Int = 0,
     val rating: Double = 0.0,

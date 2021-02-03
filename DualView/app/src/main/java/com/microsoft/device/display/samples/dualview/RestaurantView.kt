@@ -43,19 +43,22 @@ private val outlinePadding = 25.dp
 
 @Composable
 fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(
-            top = outlinePadding,
-            start = outlinePadding,
-            end = outlinePadding
-        )
-        .then(modifier)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = outlinePadding,
+                start = outlinePadding,
+                end = outlinePadding
+            )
+            .then(modifier)
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(15.dp)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            Text(text = stringResource(id = R.string.list_title),
-                 style = typography.subtitle1
+            Text(
+                text = stringResource(id = R.string.list_title),
+                style = typography.subtitle1
             )
             RestaurantListView(navController, appStateViewModel)
             Spacer(modifier = Modifier.preferredHeight(10.dp))
@@ -70,14 +73,15 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
 
     LazyColumn(verticalArrangement = Arrangement.spacedBy(25.dp)) {
         itemsIndexed(restaurants) { index, item ->
-            RestaurantTile(restaurant = item,
-                           modifier = Modifier.selectable(
-                               selected = (index == selectedIndex),
-                               onClick = {
-                                   appStateViewModel.setSelectionLiveData(index)
-                                   navController?.navigate("map")
-                               }
-                           )
+            RestaurantTile(
+                restaurant = item,
+                modifier = Modifier.selectable(
+                    selected = (index == selectedIndex),
+                    onClick = {
+                        appStateViewModel.setSelectionLiveData(index)
+                        navController?.navigate("map")
+                    }
+                )
             )
         }
     }
@@ -85,7 +89,8 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
 
 @Composable
 fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
-    Row(modifier = modifier,
+    Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ImageView(
@@ -99,22 +104,28 @@ fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            restaurant.title?.let { Text(
-                text = it,
-                style = typography.subtitle2
-            ) }
-            Row(modifier = Modifier.fillMaxWidth(),
+            restaurant.title?.let {
+                Text(
+                    text = it,
+                    style = typography.subtitle2
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = formatRating(restaurant.rating, restaurant.voteCount),
-                     style = typography.body1
+                Text(
+                    text = formatRating(restaurant.rating, restaurant.voteCount),
+                    style = typography.body1
                 )
-                Text(text = stringResource(R.string.restaurant_type, restaurant.cuisine.toString()),
-                     style = typography.body1
+                Text(
+                    text = stringResource(R.string.restaurant_type, restaurant.cuisine.toString()),
+                    style = typography.body1
                 )
-                Text(text = formatPriceRange(restaurant.priceRange),
-                     style = typography.body1
+                Text(
+                    text = formatPriceRange(restaurant.priceRange),
+                    style = typography.body1
                 )
             }
             Spacer(modifier = Modifier.preferredHeight(2.dp))
@@ -122,8 +133,8 @@ fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
                 Text(
                     text = it,
                     style = typography.body2
-            )  }
+                )
+            }
         }
     }
 }
-

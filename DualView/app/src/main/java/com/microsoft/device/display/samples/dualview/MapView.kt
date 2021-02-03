@@ -37,7 +37,7 @@ fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
     if (selectedIndex > -1) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
     }
-    
+
     Box(modifier = modifier.then(Modifier.clip(RectangleShape))) {
         ScalableImageView(imageId = selectedMapId)
     }

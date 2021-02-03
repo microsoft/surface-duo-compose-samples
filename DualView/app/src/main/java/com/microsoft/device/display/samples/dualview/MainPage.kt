@@ -112,11 +112,14 @@ fun ListMapView() {
                 .wrapContentWidth()
                 .weight(1f),
             navController = null,
-            appStateViewModel = appStateViewModel)
-        MapView(modifier = Modifier
+            appStateViewModel = appStateViewModel
+        )
+        MapView(
+            modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-                appStateViewModel = appStateViewModel)
+            appStateViewModel = appStateViewModel
+        )
     }
 }
 
@@ -136,8 +139,9 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
                     )
                 },
                 actions = {
-                    IconButton(onClick = {
-                        navController.navigate("map")
+                    IconButton(
+                        onClick = {
+                            navController.navigate("map")
                         }
                     ) {
                         val image = loadVectorResource(id = R.drawable.ic_map)
@@ -153,9 +157,10 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
             )
         },
         bodyContent = {
-            RestaurantsView(modifier = Modifier.wrapContentSize(),
-                            navController = navController,
-                            appStateViewModel = appStateViewModel
+            RestaurantsView(
+                modifier = Modifier.wrapContentSize(),
+                navController = navController,
+                appStateViewModel = appStateViewModel
             )
         }
     )
@@ -177,9 +182,11 @@ fun MapViewWithTopBar(navController: NavController, appStateViewModel: AppStateV
                     )
                 },
                 actions = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
                         val image = loadVectorResource(id = R.drawable.ic_list)
                         image.resource.resource?.let {
                             Icon(
@@ -193,8 +200,9 @@ fun MapViewWithTopBar(navController: NavController, appStateViewModel: AppStateV
             )
         },
         bodyContent = {
-            MapView(modifier = Modifier.wrapContentSize(),
-                    appStateViewModel = appStateViewModel
+            MapView(
+                modifier = Modifier.wrapContentSize(),
+                appStateViewModel = appStateViewModel
             )
         }
     )
