@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
+        appStateViewModel.setSelectionLiveData(-1)
 
         super.onCreate(savedInstanceState)
         setContent {

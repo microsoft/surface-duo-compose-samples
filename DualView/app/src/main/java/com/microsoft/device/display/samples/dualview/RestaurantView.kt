@@ -11,6 +11,7 @@ package com.microsoft.device.display.samples.dualview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -37,6 +38,8 @@ import com.microsoft.device.display.samples.contentcontext.util.formatRating
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants
+import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody1
+import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody2
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
 
 private val outlinePadding = 25.dp
@@ -61,7 +64,6 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
                 style = typography.subtitle1
             )
             RestaurantListView(navController, appStateViewModel)
-            Spacer(modifier = Modifier.preferredHeight(10.dp))
         }
     }
 }
@@ -71,24 +73,30 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
 
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(outlinePadding),
+        contentPadding = PaddingValues(bottom = outlinePadding)
+    ) {
         itemsIndexed(restaurants) { index, item ->
+            val isSelected = index == selectedIndex
             RestaurantTile(
                 restaurant = item,
                 modifier = Modifier.selectable(
-                    selected = (index == selectedIndex),
+                    selected = isSelected,
+                    enabled = true,
                     onClick = {
                         appStateViewModel.setSelectionLiveData(index)
                         navController?.navigate("map")
                     }
-                )
+                ),
+                isSelected = isSelected
             )
         }
     }
 }
 
 @Composable
-fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
+fun RestaurantTile(restaurant: Restaurant, modifier: Modifier, isSelected: Boolean) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -117,22 +125,22 @@ fun RestaurantTile(restaurant: Restaurant, modifier: Modifier) {
             ) {
                 Text(
                     text = formatRating(restaurant.rating, restaurant.voteCount),
-                    style = typography.body1
+                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
                 )
                 Text(
                     text = stringResource(R.string.restaurant_type, restaurant.cuisine.toString()),
-                    style = typography.body1
+                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
                 )
                 Text(
                     text = formatPriceRange(restaurant.priceRange),
-                    style = typography.body1
+                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
                 )
             }
             Spacer(modifier = Modifier.preferredHeight(2.dp))
             restaurant.description?.let {
                 Text(
                     text = it,
-                    style = typography.body2
+                    style = if (isSelected) { selectedBody2 } else { typography.body2 }
                 )
             }
         }

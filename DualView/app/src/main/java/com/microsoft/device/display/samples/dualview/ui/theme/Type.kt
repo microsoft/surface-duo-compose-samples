@@ -34,3 +34,16 @@ val typography = Typography(
         letterSpacing = 0.01.sp
     )
 )
+
+val selectedBody1 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 14.sp,
+    letterSpacing = 0.01.sp
+)
+
+val selectedBody2 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontSize = 14.sp,
+    letterSpacing = 0.01.sp
+)
