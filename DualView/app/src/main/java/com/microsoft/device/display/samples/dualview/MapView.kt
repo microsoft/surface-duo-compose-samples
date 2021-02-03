@@ -1,4 +1,12 @@
-package com.microsoft.device.display.samples.dualview.components
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *  *
+ *
+ */
+
+package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.zoomable
@@ -18,7 +26,6 @@ import androidx.compose.ui.gesture.rawDragGestureFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.imageResource
-import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 

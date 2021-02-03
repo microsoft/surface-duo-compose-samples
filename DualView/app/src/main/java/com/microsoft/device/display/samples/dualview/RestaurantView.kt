@@ -1,4 +1,12 @@
-package com.microsoft.device.display.samples.dualview.components
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *  *
+ *
+ */
+
+package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
@@ -27,8 +34,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.microsoft.device.display.samples.contentcontext.util.formatPriceRange
 import com.microsoft.device.display.samples.contentcontext.util.formatRating
-import com.microsoft.device.display.samples.dualview.ImageView
-import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants

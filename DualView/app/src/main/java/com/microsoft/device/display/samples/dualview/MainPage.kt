@@ -1,3 +1,11 @@
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *  *
+ *
+ */
+
 package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.foundation.Image
@@ -28,8 +36,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.display.samples.dualview.components.MapView
-import com.microsoft.device.display.samples.dualview.components.RestaurantsView
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
