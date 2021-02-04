@@ -16,6 +16,7 @@ class AppStateViewModel : ViewModel() {
 
     private val isScreenSpannedLiveData = MutableLiveData<Boolean>() // observe the screen spanning mode
     private val selectionLiveData = MutableLiveData<Int>() // observe the image selection change
+    private val isScreenPortraitLiveData = MutableLiveData<Boolean>() // observe the screen Portrait/Landscape mode
 
     fun getSelectionLiveData(): LiveData<Int> {
         return this.selectionLiveData
@@ -31,5 +32,13 @@ class AppStateViewModel : ViewModel() {
 
     fun setIsScreenSpannedLiveData(isScreenSpanned: Boolean) {
         isScreenSpannedLiveData.value = isScreenSpanned
+    }
+
+    fun getIsScreenPortraitLiveData(): LiveData<Boolean> {
+        return this.isScreenPortraitLiveData
+    }
+
+    fun setIsScreenPortraitLiveData(IsScreenPortrait: Boolean) {
+        isScreenPortraitLiveData.value = IsScreenPortrait
     }
 }

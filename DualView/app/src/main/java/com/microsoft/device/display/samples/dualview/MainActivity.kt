@@ -8,6 +8,7 @@
 
 package com.microsoft.device.display.samples.dualview
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
         appStateViewModel.setSelectionLiveData(-1)
+        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,6 +40,13 @@ class MainActivity : AppCompatActivity() {
                 SetupUI(appStateViewModel)
             }
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
+        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
     }
 
     override fun onAttachedToWindow() {

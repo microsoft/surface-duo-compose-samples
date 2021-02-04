@@ -10,11 +10,10 @@ package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -47,8 +46,11 @@ fun SetupUI(viewModel: AppStateViewModel) {
     val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
     val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
 
+    val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
+    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
+
     if (isScreenSpanned) {
-        DualScreenUI()
+        DualScreenUI(isScreenPortrait)
     } else {
         SingleScreenUI()
     }
@@ -78,7 +80,7 @@ fun SingleScreenUI() {
 }
 
 @Composable
-fun DualScreenUI() {
+fun DualScreenUI(isPortrait: Boolean) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -95,21 +97,24 @@ fun DualScreenUI() {
             )
         },
         bodyContent = {
-            ListMapView()
+            if (isPortrait) {
+                HorizontalListMapView()
+            } else {
+                VerticalListMapView()
+            }
         }
     )
 }
 
 @Composable
-fun ListMapView() {
+fun VerticalListMapView() {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         RestaurantsView(
             modifier = Modifier
-                .fillMaxHeight()
-                .wrapContentWidth()
+                .fillMaxSize()
                 .weight(1f),
             navController = null,
             appStateViewModel = appStateViewModel
@@ -118,6 +123,27 @@ fun ListMapView() {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
+            appStateViewModel = appStateViewModel
+        )
+    }
+}
+
+@Composable
+fun HorizontalListMapView() {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        RestaurantsView(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(.9f),
+            navController = null,
+            appStateViewModel = appStateViewModel
+        )
+        MapView(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.1f),
             appStateViewModel = appStateViewModel
         )
     }
