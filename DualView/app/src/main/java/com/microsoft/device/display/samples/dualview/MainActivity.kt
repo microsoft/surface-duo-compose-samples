@@ -27,10 +27,12 @@ class MainActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
+    private val initialSelection = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
-        appStateViewModel.setSelectionLiveData(-1)
+        appStateViewModel.setSelectionLiveData(initialSelection)
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 

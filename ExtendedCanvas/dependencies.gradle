@@ -5,11 +5,11 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.0-alpha04'
-    kotlinVersion = "1.4.21"
+    gradlePluginVersion = '7.0.0-alpha05'
+    kotlinVersion = "1.4.21-2"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
-    minSdkVersion = compileSdkVersion
+    minSdkVersion = 21
 
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",

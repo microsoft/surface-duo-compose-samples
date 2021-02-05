@@ -29,12 +29,14 @@ import androidx.compose.ui.res.imageResource
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 
+private const val nonSelection = -1
+
 @Composable
 fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
-    val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
+    val selectedIndex = selectionLiveData.observeAsState(initial = nonSelection).value
     var selectedMapId = R.drawable.unselected_map
-    if (selectedIndex > -1) {
+    if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
     }
 

@@ -9,7 +9,7 @@ ext {
     kotlinVersion = "1.4.21-2"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
-    minSdkVersion = compileSdkVersion
+    minSdkVersion = 21
 
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
@@ -45,12 +45,5 @@ ext {
             composeUI         : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling  : "androidx.compose.ui:ui-tooling:$composeVersion",
             navigationCompose : "androidx.navigation:navigation-compose:$navigationComposeVersion"
-    ]
-
-    //Google dependencies
-    materialVersion = "1.1.0"
-
-    googleDependencies = [
-            material: "com.google.android.material:material:$materialVersion"
     ]
 }
