@@ -149,7 +149,6 @@ fun ShowDetailWithList(models: List<ImageModel>) {
                     bitmap = it,
                     contentDescription = null
                 )
-
             }
         }
     }

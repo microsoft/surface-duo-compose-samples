@@ -121,7 +121,8 @@ fun ImageView(imageId: Int, modifier: Modifier) {
     image.resource.resource?.let {
         Image(
             bitmap = it,
-            modifier = modifier
+            modifier = modifier,
+            contentDescription = null
         )
     }
 }
