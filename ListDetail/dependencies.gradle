@@ -6,7 +6,7 @@
 
 ext {
     gradlePluginVersion = '7.0.0-alpha05'
-    kotlinVersion = "1.4.21"
+    kotlinVersion = "1.4.21-2"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 21
@@ -31,8 +31,8 @@ ext {
     viewPager2Version = "1.0.0"
     localBroadcastManagerVersion = "1.0.0"
     preferenceVersion = "1.1.1"
-    composeVersion = "1.0.0-alpha10"
-    windowVersion = "1.0.0-alpha01"
+    composeVersion = "1.0.0-alpha11"
+    windowVersion = "1.0.0-alpha02"
     navigationComposeVersion = "1.0.0-alpha05"
 
     androidxDependencies = [
@@ -45,5 +45,12 @@ ext {
             composeUI         : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling  : "androidx.compose.ui:ui-tooling:$composeVersion",
             navigationCompose : "androidx.navigation:navigation-compose:$navigationComposeVersion"
+    ]
+
+    //Google dependencies
+    materialVersion = "1.1.0"
+
+    googleDependencies = [
+            material: "com.google.android.material:material:$materialVersion"
     ]
 }

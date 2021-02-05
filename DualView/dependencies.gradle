@@ -46,4 +46,11 @@ ext {
             composeUITooling  : "androidx.compose.ui:ui-tooling:$composeVersion",
             navigationCompose : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
+
+    //Google dependencies
+    materialVersion = "1.1.0"
+
+    googleDependencies = [
+            material: "com.google.android.material:material:$materialVersion"
+    ]
 }

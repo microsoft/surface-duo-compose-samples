@@ -78,7 +78,8 @@ fun ImageWithText(id: Int, text: String, imageWidth: Dp, width: Dp) {
         Image(
             bitmap = imageResource(id = id),
             modifier = Modifier.preferredWidth(imageWidth),
-            alignment = Alignment.Center
+            alignment = Alignment.Center,
+            contentDescription = null
         )
         BasicText(
             text = text,
@@ -98,6 +99,7 @@ fun ImagePanel(modifier: Modifier) {
         bitmap = imageResource(R.drawable.full_image),
         modifier = modifier,
         contentScale = ContentScale.Inside,
-        alignment = Alignment.Center
+        alignment = Alignment.Center,
+        contentDescription = null
     )
 }

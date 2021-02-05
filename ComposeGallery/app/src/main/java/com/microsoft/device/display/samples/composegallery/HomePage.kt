@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
@@ -95,7 +96,8 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                 image.resource.resource?.let {
                     Image(
                         bitmap = it,
-                        modifier = Modifier.preferredHeight(100.dp).preferredWidth(150.dp)
+                        modifier = Modifier.preferredHeight(100.dp).preferredWidth(150.dp),
+                        contentDescription = null
                     )
                 }
                 Spacer(Modifier.preferredWidth(16.dp))
@@ -143,7 +145,11 @@ fun ShowDetailWithList(models: List<ImageModel>) {
             )
             val image = loadImageResource(id = selectedImageModel.image)
             image.resource.resource?.let {
-                Image(bitmap = it)
+                Image(
+                    bitmap = it,
+                    contentDescription = null
+                )
+
             }
         }
     }

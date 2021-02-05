@@ -31,8 +31,8 @@ ext {
     viewPager2Version = "1.0.0"
     localBroadcastManagerVersion = "1.0.0"
     preferenceVersion = "1.1.1"
-    composeVersion = "1.0.0-alpha10"
-    windowVersion = "1.0.0-alpha01"
+    composeVersion = "1.0.0-alpha11"
+    windowVersion = "1.0.0-alpha02"
 
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
