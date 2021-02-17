@@ -72,13 +72,15 @@ fun AdjustScale() {
             bitmap = imageResource(R.drawable.dot),
             modifier = Modifier.fillMaxWidth().height(5.dp),
             contentScale = ContentScale.Inside,
-            alignment = Alignment.Center
+            alignment = Alignment.Center,
+            contentDescription = null
         )
         Image(
             bitmap = imageResource(R.drawable.scale_icon),
             modifier = Modifier.fillMaxWidth().height(25.dp),
             contentScale = ContentScale.Inside,
-            alignment = Alignment.Center
+            alignment = Alignment.Center,
+            contentDescription = null
         )
     }
 }
@@ -89,13 +91,34 @@ fun FullIconsPanel() {
         modifier = Modifier.fillMaxWidth().height(25.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Image(bitmap = imageResource(id = R.drawable.filter_icon))
-        Image(bitmap = imageResource(id = R.drawable.hdr_icon))
-        Image(bitmap = imageResource(id = R.drawable.ecllipse_icon))
-        Image(bitmap = imageResource(id = R.drawable.vertical_icon))
-        Image(bitmap = imageResource(id = R.drawable.horizontal_icon))
-        Image(bitmap = imageResource(id = R.drawable.zoom_icon))
-        Image(bitmap = imageResource(id = R.drawable.brightness_icon))
+        Image(
+            bitmap = imageResource(id = R.drawable.filter_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.hdr_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.ecllipse_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.vertical_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.horizontal_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.zoom_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.brightness_icon),
+            contentDescription = null
+        )
     }
 }
 
@@ -105,8 +128,17 @@ fun ShortIconsPanel() {
         modifier = Modifier.width(200.dp).height(25.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Image(bitmap = imageResource(id = R.drawable.ecllipse_icon))
-        Image(bitmap = imageResource(id = R.drawable.vertical_icon))
-        Image(bitmap = imageResource(id = R.drawable.horizontal_icon))
+        Image(
+            bitmap = imageResource(id = R.drawable.ecllipse_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.vertical_icon),
+            contentDescription = null
+        )
+        Image(
+            bitmap = imageResource(id = R.drawable.horizontal_icon),
+            contentDescription = null
+        )
     }
 }

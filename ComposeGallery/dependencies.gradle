@@ -5,11 +5,11 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.0-alpha04'
-    kotlinVersion = "1.4.21"
+    gradlePluginVersion = '7.0.0-alpha05'
+    kotlinVersion = "1.4.21-2"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
-    minSdkVersion = compileSdkVersion
+    minSdkVersion = 21
 
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
@@ -30,8 +30,8 @@ ext {
     viewPager2Version = "1.0.0"
     localBroadcastManagerVersion = "1.0.0"
     preferenceVersion = "1.1.1"
-    composeVersion = "1.0.0-alpha10"
-    windowVersion = "1.0.0-alpha01"
+    composeVersion = "1.0.0-alpha11"
+    windowVersion = "1.0.0-alpha02"
 
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -50,4 +50,5 @@ ext {
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
+
 }

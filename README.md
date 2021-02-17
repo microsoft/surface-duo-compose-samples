@@ -36,6 +36,10 @@ Includes example of building [Extended Canvas](https://docs.microsoft.com/en-us/
 
 Includes example of building [List Detail](https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
 
+### [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView)
+
+Includes example of building [Dual View](https://docs.microsoft.com/en-us/dual-screen/introduction#dual-view) app pattern in Jetpack Compose.
+
 ## Related links
 
 - [App samples](https://github.com/microsoft/surface-duo-app-samples)

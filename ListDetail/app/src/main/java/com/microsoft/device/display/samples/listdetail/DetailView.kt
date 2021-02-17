@@ -51,7 +51,11 @@ fun DetailViewUnspanned(modifier: Modifier, navController: NavController, appSta
                             navController.popBackStack()
                         }
                     ) {
-                        Icon(Icons.Filled.ArrowBack, tint = Color.White)
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            tint = Color.White,
+                            contentDescription = null
+                        )
                     }
                 },
             )

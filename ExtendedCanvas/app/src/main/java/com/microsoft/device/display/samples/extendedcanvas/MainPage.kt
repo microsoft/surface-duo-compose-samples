@@ -45,6 +45,7 @@ fun ScaleImage(isPortrait: Boolean) {
         bitmap = imageResource(R.drawable.mock_map),
         contentScale = scaleValue,
         alignment = Alignment.Center,
+        contentDescription = null,
         modifier = Modifier
             .fillMaxSize()
             .offset { IntOffset(offsetXPosition.value.roundToInt(), offsetYPosition.value.roundToInt()) }
