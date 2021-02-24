@@ -1,2 +1,3 @@
-rootProject.name = "TwoPage-Compose sample"
-include ':app'
+rootProject.name = "ComposeSample"
+include ':TwoPage'
+include ':ListDetail'
