@@ -44,7 +44,11 @@ fun Greeting(name: String) {
     if (openDialog.value) {
         Dialog(onDismissRequest = { openDialog.value = false }) {
             // Draw a rectangle shape with rounded corners inside the dialog
-            Box(Modifier.size(dialogWidth, dialogHeight).background(Color.White)){
+            Box(
+                Modifier
+                    .size(dialogWidth, dialogHeight)
+                    .background(Color.White)
+            ) {
                 Text(text = "Testing")
             }
         }
