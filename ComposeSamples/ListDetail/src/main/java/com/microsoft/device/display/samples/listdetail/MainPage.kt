@@ -118,7 +118,7 @@ fun ListDetailView() {
 @Composable
 fun ImageView(imageId: Int, modifier: Modifier) {
     Image(
-        painterResource(imageId),
+        painter = painterResource(imageId),
         contentDescription = null,
         modifier = modifier
     )
