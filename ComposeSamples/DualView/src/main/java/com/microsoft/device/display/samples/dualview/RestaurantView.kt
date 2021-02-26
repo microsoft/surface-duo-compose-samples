@@ -99,7 +99,7 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
 fun RestaurantTile(restaurant: Restaurant, modifier: Modifier, isSelected: Boolean) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ImageView(
             imageId = restaurant.imageResourceId,
