@@ -1,2 +1,2 @@
 rootProject.name = "ComposeSamples"
-include ':ListDetail', ':CompanionPane'
+include ':ListDetail', ':CompanionPane', ':DualView'
