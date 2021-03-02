@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+#
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
