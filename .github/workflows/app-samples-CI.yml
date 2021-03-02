@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: App samples CI 
+name: Compose samples CI 
 
 on:
   push:
@@ -17,14 +17,8 @@ on:
         required: false
 
 jobs:
-  build:
+  build-test-and-check:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        projects: [CompanionPane, ComposeGallery, ExtendedCanvas, ListDetail, DualView]
-      fail-fast: false
-
     steps:
     - uses: actions/checkout@v2
 
@@ -36,34 +30,29 @@ jobs:
     - name: Cache gradle packages
       uses: actions/cache@v2
       with:
-        path: ${{matrix.projects}}/.gradle/caches
+        path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x ${{matrix.projects}}/gradlew
+      run: chmod +x gradlew
 
     - name: clean
       run: |
-        cd ${{matrix.projects}}
         ./gradlew clean --info
 
     - name: assemble debug
       run: |
-        cd ${{matrix.projects}}
         ./gradlew assembleDebug --info
 
     - name: unit tests
       run: |
-        cd ${{matrix.projects}}
         ./gradlew testDebugUnitTest --info
 
     - name: lint
       run: |
-        cd ${{matrix.projects}}
         ./gradlew lintDebug --info
 
     - name: ktlint
       run: |
-        cd ${{matrix.projects}}
         ./gradlew ktlint --info
