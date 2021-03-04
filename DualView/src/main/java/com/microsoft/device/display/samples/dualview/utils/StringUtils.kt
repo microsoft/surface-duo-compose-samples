@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.contentcontext.util
+package com.microsoft.device.display.samples.dualview.utils
 
 import java.text.DecimalFormat
 import java.text.NumberFormat
