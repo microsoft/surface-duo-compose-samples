@@ -5,8 +5,6 @@
 
 package com.microsoft.device.display.samples.twopage.ui.home
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -53,12 +51,12 @@ fun PageViews() {
     ViewPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()) {
-        when (page) {
-            0 -> FirstPage()
-            1 -> SecondPage()
-            2 -> ThirdPage()
-            3 -> FourthPage()
-        }
+            when (page) {
+                0 -> FirstPage(Modifier.fillMaxSize())
+                1 -> SecondPage(Modifier.fillMaxSize())
+                2 -> ThirdPage(Modifier.fillMaxSize())
+                3 -> FourthPage(Modifier.fillMaxSize())
+            }
     }
 }
 

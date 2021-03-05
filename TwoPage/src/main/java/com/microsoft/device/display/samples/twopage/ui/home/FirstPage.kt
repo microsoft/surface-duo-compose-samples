@@ -7,9 +7,7 @@ package com.microsoft.device.display.samples.twopage.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,44 +21,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.AlignedCaption
+import com.microsoft.device.display.samples.twopage.utils.PageLayout
 
 @Composable
-fun FirstPage() {
-    Column(
+fun FirstPage(modifier: Modifier) {
+    PageLayout(modifier) {
+        FirstPageContent()
+    }
+}
+
+@Composable
+fun FirstPageContent() {
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = stringResource(R.string.article_title),
+        style = typography.h5
+    )
+    Spacer(modifier = Modifier.height(3.dp))
+    Image(
+        painter = painterResource(id = R.drawable.two_page_rome_image),
+        contentDescription = null,
+        contentScale = ContentScale.FillWidth,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(
                 start = HorizontalPadding,
                 end = HorizontalPadding
-            ),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = stringResource(R.string.article_title),
-            style = typography.h5
-        )
-        Spacer(modifier = Modifier.height(3.dp))
-        Image(
-            painter = painterResource(id = R.drawable.two_page_rome_image),
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = HorizontalPadding,
-                         end = HorizontalPadding)
-        )
-        AlignedCaption(
-            text = stringResource(R.string.two_page_image_caption),
-            arrangement = Arrangement.Center
-        )
-        Text(
-            text = stringResource(R.string.two_page_page1_text),
-            style = typography.body1
-        )
-        AlignedCaption(
-            text = stringResource(R.string.two_page_page1_page_number),
-            arrangement = Arrangement.End
-        )
-    }
+            )
+    )
+    AlignedCaption(
+        text = stringResource(R.string.two_page_image_caption),
+        arrangement = Arrangement.Center
+    )
+    Text(
+        text = stringResource(R.string.two_page_page1_text),
+        style = typography.body1
+    )
+    AlignedCaption(
+        text = stringResource(R.string.two_page_page1_page_number),
+        arrangement = Arrangement.End
+    )
 }
