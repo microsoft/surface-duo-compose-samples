@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
+import com.microsoft.device.display.samples.twopage.utils.DualPageContainer
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
 
@@ -37,32 +38,53 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun SingleScreenUI() {
-    PageViews()
+    PageViews(false)
 }
 
 @Composable
 fun DualScreenUI() {
-    PageViews()
+    PageViews(true)
 }
 
 @Composable
-fun PageViews() {
-    val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = 4) }
+fun PageViews(isDual: Boolean) {
+    val pages = if (isDual) DualPages else SinglePages
+    val maxSinglePage = (pages.size - 1).coerceAtLeast(0)
+    val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxSinglePage) }
     ViewPager(
         state = pagerState,
-        modifier = Modifier.fillMaxSize()) {
-            when (page) {
-                0 -> FirstPage(Modifier.fillMaxSize())
-                1 -> SecondPage(Modifier.fillMaxSize())
-                2 -> ThirdPage(Modifier.fillMaxSize())
-                3 -> FourthPage(Modifier.fillMaxSize())
-            }
+        modifier = Modifier.fillMaxSize()
+    ) {
+        pages[page]()
     }
 }
 
-//val SinglePages: List<@Composable () -> Unit> = listOf {
-//    FirstPage(modifier = Modifier.fillMaxSize())
-//    SecondPage(modifier = Modifier.fillMaxSize())
-//    ThirdPage(modifier = Modifier.fillMaxSize())
-//    FourthPage(modifier = Modifier.fillMaxSize())
-//}
+val SinglePages: List<@Composable () -> Unit> = listOf(
+    {
+        FirstPage(modifier = Modifier.fillMaxSize())
+    },
+    {
+        SecondPage(modifier = Modifier.fillMaxSize())
+    },
+    {
+        ThirdPage(modifier = Modifier.fillMaxSize())
+    },
+    {
+        FourthPage(modifier = Modifier.fillMaxSize())
+    }
+)
+
+val DualPages: List<@Composable () -> Unit> = listOf(
+    {
+        DualPageContainer(
+            left = SinglePages[0],
+            right = SinglePages[1]
+        )
+    },
+    {
+        DualPageContainer(
+            left = SinglePages[2],
+            right = SinglePages[3]
+        )
+    }
+)
