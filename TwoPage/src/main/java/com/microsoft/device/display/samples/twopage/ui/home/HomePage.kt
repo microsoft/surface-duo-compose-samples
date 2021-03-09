@@ -49,8 +49,8 @@ fun DualScreenUI() {
 @Composable
 fun PageViews(isDual: Boolean) {
     val pages = if (isDual) DualPages else SinglePages
-    val maxSinglePage = (pages.size - 1).coerceAtLeast(0)
-    val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxSinglePage) }
+    val maxPage = (pages.size - 1).coerceAtLeast(0)
+    val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
     ViewPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()

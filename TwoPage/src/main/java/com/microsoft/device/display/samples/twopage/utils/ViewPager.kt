@@ -73,8 +73,8 @@ class PagerState(
     }
 
     suspend fun selectPage() {
-        currentPage -= currentPageOffset.roundToInt()
-        snapToOffset(0f)
+        currentPage -= updatePage(currentPageOffset)
+        snapToOffset(0.5f)
         selectionState = SelectionState.Selected
     }
 
@@ -87,14 +87,29 @@ class PagerState(
     suspend fun snapToOffset(offset: Float) {
         val max = if (currentPage == minPage) 0f else 1f
         val min = if (currentPage == maxPage) 0f else -1f
+        println("################ snapToOffset: $offset currentPageOffset $currentPageOffset.value currentPage: $currentPage")
+
         _currentPageOffset.snapTo(offset.coerceIn(min, max))
+    }
+
+    private val minimumOffset = 0.1f
+
+    private fun roundOffset(original: Float): Float {
+        return if (original > minimumOffset) original else if (original < -minimumOffset) original else 0f
+    }
+
+    private fun updatePage(offset: Float): Int {
+        return if (offset > minimumOffset) 1 else if (offset < -minimumOffset) -1 else 0
     }
 
     suspend fun fling(velocity: Float) {
         if (velocity < 0 && currentPage == maxPage) return
         if (velocity > 0 && currentPage == minPage) return
 
-        _currentPageOffset.animateTo(currentPageOffset.roundToInt().toFloat())
+        val offset = roundOffset(currentPageOffset)
+        _currentPageOffset.animateTo(offset)
+        println("################ fling: currentPageOffset $currentPageOffset, velocity $velocity")
+
         selectPage()
     }
 
@@ -153,6 +168,8 @@ fun ViewPager(
                         val max = if (currentPage == minPage) 0 else pageSize * offscreenLimit
                         val min = if (currentPage == maxPage) 0 else -pageSize * offscreenLimit
                         val newPos = (pos + dy).coerceIn(min.toFloat(), max.toFloat())
+                        println("################ draggable: newPos " + newPos + " pageSize " + pageSize + " currentPageOffset " + currentPageOffset)
+
                         snapToOffset(newPos / pageSize)
                     }
                 }
