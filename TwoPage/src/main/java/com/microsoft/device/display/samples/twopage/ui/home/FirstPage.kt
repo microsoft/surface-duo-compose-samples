@@ -45,8 +45,8 @@ fun FirstPageContent() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                start = HorizontalPadding,
-                end = HorizontalPadding
+                start = 30.dp,
+                end = 30.dp
             )
     )
     AlignedCaption(

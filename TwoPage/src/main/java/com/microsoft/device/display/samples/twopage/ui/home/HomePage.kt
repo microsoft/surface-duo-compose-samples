@@ -5,23 +5,24 @@
 
 package com.microsoft.device.display.samples.twopage.ui.home
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
-import com.microsoft.device.display.samples.twopage.utils.DualPageContainer
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
 
-private lateinit var appStateViewModel: AppStateViewModel
-val HorizontalPadding = 30.dp
+private lateinit var pageModifier: Modifier
 
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
-    appStateViewModel = viewModel
+    var appStateViewModel = viewModel
 
     val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
     val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
@@ -29,62 +30,40 @@ fun SetupUI(viewModel: AppStateViewModel) {
     val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
     val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
 
-    if (isScreenSpanned && !isScreenPortrait) {
-        DualScreenUI()
-    } else {
-        SingleScreenUI()
-    }
+    val width = appStateViewModel.screenWidth
+    pageModifier = if (width > 0) Modifier.width(width.dp).fillMaxHeight().clipToBounds() else Modifier.fillMaxSize()
+
+    val hingeWidth = appStateViewModel.hingeWidth
+
+    PageViews(isScreenSpanned, hingeWidth)
 }
 
 @Composable
-fun SingleScreenUI() {
-    PageViews(false)
-}
-
-@Composable
-fun DualScreenUI() {
-    PageViews(true)
-}
-
-@Composable
-fun PageViews(isDual: Boolean) {
-    val pages = if (isDual) DualPages else SinglePages
+fun PageViews(isScreenSpanned: Boolean, pagePadding: Int) {
+    val pages = Pages
     val maxPage = (pages.size - 1).coerceAtLeast(0)
     val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
+    pagerState.isDualMode = isScreenSpanned
     ViewPager(
         state = pagerState,
+        pagePadding = pagePadding,
         modifier = Modifier.fillMaxSize()
     ) {
         pages[page]()
     }
 }
 
-val SinglePages: List<@Composable () -> Unit> = listOf(
+private val Pages: List<@Composable () -> Unit> = listOf(
     {
-        FirstPage(modifier = Modifier.fillMaxSize())
+        FirstPage(modifier = pageModifier)
     },
     {
-        SecondPage(modifier = Modifier.fillMaxSize())
+        SecondPage(modifier = pageModifier)
     },
     {
-        ThirdPage(modifier = Modifier.fillMaxSize())
+        ThirdPage(modifier = pageModifier)
     },
     {
-        FourthPage(modifier = Modifier.fillMaxSize())
-    }
-)
-
-val DualPages: List<@Composable () -> Unit> = listOf(
-    {
-        DualPageContainer(
-            left = SinglePages[0],
-            right = SinglePages[1]
-        )
-    },
-    {
-        DualPageContainer(
-            left = SinglePages[2],
-            right = SinglePages[3]
-        )
+        FourthPage(modifier = pageModifier)
     }
 )

@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 /**
- * This comes from the "Pager" implementation from the Compose JetCaster official sample
+ * This is a modified version of the "Pager" from the Compose JetCaster official sample
  * https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/util/Pager.kt
  */
 
@@ -65,6 +65,8 @@ class PagerState(
 
     var selectionState by mutableStateOf(SelectionState.Selected)
 
+    var isDualMode: Boolean = false
+
     suspend inline fun <R> selectPage(block: PagerState.() -> R): R = try {
         selectionState = SelectionState.Undecided
         block()
@@ -74,7 +76,7 @@ class PagerState(
 
     suspend fun selectPage() {
         currentPage -= updatePage(currentPageOffset)
-        snapToOffset(0.5f)
+        snapToOffset(0f)
         selectionState = SelectionState.Selected
     }
 
@@ -86,20 +88,20 @@ class PagerState(
 
     suspend fun snapToOffset(offset: Float) {
         val max = if (currentPage == minPage) 0f else 1f
-        val min = if (currentPage == maxPage) 0f else -1f
-        println("################ snapToOffset: $offset currentPageOffset $currentPageOffset.value currentPage: $currentPage")
+        val lastPage = if (isDualMode) maxPage - 1 else maxPage
+        var min = if (currentPage == lastPage) 0f else -1f
 
         _currentPageOffset.snapTo(offset.coerceIn(min, max))
     }
 
-    private val minimumOffset = 0.1f
+    private val minDragOffset = 0.1f
 
     private fun roundOffset(original: Float): Float {
-        return if (original > minimumOffset) original else if (original < -minimumOffset) original else 0f
+        return if (original > minDragOffset) original else if (original < -minDragOffset) original else 0f
     }
 
     private fun updatePage(offset: Float): Int {
-        return if (offset > minimumOffset) 1 else if (offset < -minimumOffset) -1 else 0
+        return if (offset > minDragOffset) 1 else if (offset < -minDragOffset) -1 else 0
     }
 
     suspend fun fling(velocity: Float) {
@@ -108,7 +110,6 @@ class PagerState(
 
         val offset = roundOffset(currentPageOffset)
         _currentPageOffset.animateTo(offset)
-        println("################ fling: currentPageOffset $currentPageOffset, velocity $velocity")
 
         selectPage()
     }
@@ -130,6 +131,7 @@ fun ViewPager(
     state: PagerState,
     modifier: Modifier = Modifier,
     offscreenLimit: Int = 2, // the amount of non visible screens to be precomputed to either side of the current page
+    pagePadding: Int = 0,
     pageContent: @Composable PagerScope.() -> Unit
 ) {
     var pageSize by remember { mutableStateOf(0) }
@@ -168,8 +170,6 @@ fun ViewPager(
                         val max = if (currentPage == minPage) 0 else pageSize * offscreenLimit
                         val min = if (currentPage == maxPage) 0 else -pageSize * offscreenLimit
                         val newPos = (pos + dy).coerceIn(min.toFloat(), max.toFloat())
-                        println("################ draggable: newPos " + newPos + " pageSize " + pageSize + " currentPageOffset " + currentPageOffset)
-
                         snapToOffset(newPos / pageSize)
                     }
                 }
@@ -188,17 +188,17 @@ fun ViewPager(
                 .forEach { (placeable, page) ->
                     // TODO: current this centers each page. We should investigate reading
                     //  gravity modifiers on the child, or maybe as a param to Pager.
-                    val xCenterOffset = (constraints.maxWidth - placeable.width) / 2
                     val yCenterOffset = (constraints.maxHeight - placeable.height) / 2
 
                     if (currentPage == page) {
                         pageSize = placeable.width
                     }
 
-                    val xItemOffset = ((page + offset - currentPage) * placeable.width).roundToInt()
+                    var padding = if (currentPage < page && state.isDualMode) pagePadding else 0
+                    val xItemOffset = ((page + offset - currentPage) * placeable.width + padding).roundToInt()
 
                     placeable.place(
-                        x = xCenterOffset + xItemOffset,
+                        x = xItemOffset,
                         y = yCenterOffset
                     )
                 }
@@ -207,7 +207,7 @@ fun ViewPager(
 }
 
 /**
- * Scope for [Pager] content.
+ * Scope for [ViewPager] content.
  */
 class PagerScope(
     private val state: PagerState,

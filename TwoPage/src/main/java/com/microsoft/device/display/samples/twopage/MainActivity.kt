@@ -13,7 +13,9 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.ViewModelProvider
+import androidx.window.DisplayFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
 import com.microsoft.device.display.samples.twopage.ui.home.SetupUI
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         windowManager.registerLayoutChangeCallback(
             mainThreadExecutor,
             { windowLayoutInfo ->
-                appStateViewModel.setIsScreenSpannedLiveData(windowLayoutInfo.displayFeatures.size > 0)
+                reserveScreenState(windowLayoutInfo.displayFeatures)
             }
         )
     }
@@ -65,5 +67,20 @@ class MainActivity : AppCompatActivity() {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         windowManager.unregisterLayoutChangeCallback {}
+    }
+
+    private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
+        val featuresSize = displayFeatures.size
+        appStateViewModel.setIsScreenSpannedLiveData(displayFeatures.isNotEmpty())
+        
+        var viewWidth = 0
+        var hingeWidth = 0
+        if (featuresSize > 0) {
+            val width = displayFeatures.first().bounds.left
+            viewWidth = (width / resources.displayMetrics.density).toInt()
+            hingeWidth = displayFeatures.first().bounds.right - displayFeatures.first().bounds.left
+        }
+        appStateViewModel.screenWidth = viewWidth
+        appStateViewModel.hingeWidth = hingeWidth
     }
 }

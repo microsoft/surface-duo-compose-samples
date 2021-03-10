@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -16,7 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.twopage.ui.home.HorizontalPadding
 
 @Composable
 fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
@@ -33,15 +33,17 @@ fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
 
 @Composable
 fun PageLayout(modifier: Modifier, pageContent: @Composable () -> Unit) {
-    Column(
-        modifier = modifier
-            .padding(
-                start = HorizontalPadding,
-                end = HorizontalPadding
-            ),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        pageContent()
+    Box(modifier = modifier){
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(
+                    start = 30.dp,
+                    end = 25.dp
+                ),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            pageContent()
+        }
     }
 }
 
