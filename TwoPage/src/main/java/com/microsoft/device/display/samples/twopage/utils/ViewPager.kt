@@ -65,7 +65,7 @@ class PagerState(
 
     var selectionState by mutableStateOf(SelectionState.Selected)
 
-    var isDualMode: Boolean = false
+    var isDualMode: Boolean = false // support dual-screen mode
 
     suspend inline fun <R> selectPage(block: PagerState.() -> R): R = try {
         selectionState = SelectionState.Undecided
@@ -94,10 +94,10 @@ class PagerState(
         _currentPageOffset.snapTo(offset.coerceIn(min, max))
     }
 
-    private val minDragOffset = 0.1f
+    private val minDragOffset = 0.1f // customize the minimum offset to enhance the dragging gesture
 
     private fun roundOffset(original: Float): Float {
-        return if (original > minDragOffset) original else if (original < -minDragOffset) original else 0f
+        return if (original > minDragOffset) 1f else if (original < -minDragOffset) -1f else 0f // ease the scrolling transition
     }
 
     private fun updatePage(offset: Float): Int {
