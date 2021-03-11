@@ -13,7 +13,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
 import androidx.window.WindowManager
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SurfaceduocomposesamplesTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     SetupUI(viewModel = appStateViewModel)
                 }
@@ -70,15 +68,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
-        val featuresSize = displayFeatures.size
-        appStateViewModel.setIsScreenSpannedLiveData(displayFeatures.isNotEmpty())
-        
+        val isScreenSpanned = displayFeatures.isNotEmpty()
+        appStateViewModel.setIsScreenSpannedLiveData(isScreenSpanned)
+        val isPortrait = appStateViewModel.getIsScreenPortraitLiveData().value
+
         var viewWidth = 0
         var hingeWidth = 0
-        if (featuresSize > 0) {
-            val width = displayFeatures.first().bounds.left
-            viewWidth = (width / resources.displayMetrics.density).toInt()
-            hingeWidth = displayFeatures.first().bounds.right - displayFeatures.first().bounds.left
+        if (isScreenSpanned) {
+            var vWidth = 0
+            isPortrait?.let {
+                if (!it) {
+                    vWidth = displayFeatures.first().bounds.left
+                    hingeWidth = displayFeatures.first().bounds.right - displayFeatures.first().bounds.left
+                }
+            }
+
+            viewWidth = (vWidth / resources.displayMetrics.density).toInt()
         }
         appStateViewModel.screenWidth = viewWidth
         appStateViewModel.hingeWidth = hingeWidth

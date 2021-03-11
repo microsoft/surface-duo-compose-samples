@@ -18,32 +18,29 @@ import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
 
-private lateinit var pageModifier: Modifier
-
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     var appStateViewModel = viewModel
 
     val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
     val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
-
     val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
     val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
+    val isDualMode = isScreenSpanned && !isScreenPortrait
 
-    val width = appStateViewModel.screenWidth
-    pageModifier = if (width > 0) Modifier.width(width.dp).fillMaxHeight().clipToBounds() else Modifier.fillMaxSize()
+    val sWidth = appStateViewModel.screenWidth
+    val pages = setupPages(isDualMode, sWidth)
 
     val hingeWidth = appStateViewModel.hingeWidth
-
-    PageViews(isScreenSpanned, hingeWidth)
+    PageViews(pages, isDualMode, hingeWidth)
 }
 
 @Composable
-fun PageViews(isScreenSpanned: Boolean, pagePadding: Int) {
-    val pages = Pages
+fun PageViews(pages: List<@Composable() () -> Unit>, isDualMode: Boolean, pagePadding: Int) {
+    val pages = pages
     val maxPage = (pages.size - 1).coerceAtLeast(0)
     val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
-    pagerState.isDualMode = isScreenSpanned
+    pagerState.isDualMode = isDualMode
     ViewPager(
         state = pagerState,
         pagePadding = pagePadding,
@@ -53,17 +50,20 @@ fun PageViews(isScreenSpanned: Boolean, pagePadding: Int) {
     }
 }
 
-private val Pages: List<@Composable () -> Unit> = listOf(
-    {
-        FirstPage(modifier = pageModifier)
-    },
-    {
-        SecondPage(modifier = pageModifier)
-    },
-    {
-        ThirdPage(modifier = pageModifier)
-    },
-    {
-        FourthPage(modifier = pageModifier)
-    }
-)
+fun setupPages(isDualMode: Boolean, width: Int): List<@Composable() () -> Unit> {
+    val modifier = if (isDualMode) Modifier.width(width.dp).fillMaxHeight().clipToBounds() else Modifier.fillMaxSize()
+    return listOf<@Composable() () -> Unit>(
+        {
+            FirstPage(modifier = modifier)
+        },
+        {
+            SecondPage(modifier = modifier)
+        },
+        {
+            ThirdPage(modifier = modifier)
+        },
+        {
+            FourthPage(modifier = modifier)
+        }
+    )
+}

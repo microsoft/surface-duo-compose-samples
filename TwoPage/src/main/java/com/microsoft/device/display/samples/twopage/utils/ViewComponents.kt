@@ -33,7 +33,7 @@ fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
 
 @Composable
 fun PageLayout(modifier: Modifier, pageContent: @Composable () -> Unit) {
-    Box(modifier = modifier){
+    Box(modifier = modifier) {
         Column(
             modifier = Modifier.fillMaxSize()
                 .padding(
