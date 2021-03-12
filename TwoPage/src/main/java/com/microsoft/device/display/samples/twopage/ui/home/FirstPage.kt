@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +38,7 @@ fun FirstPageContent() {
         text = stringResource(R.string.article_title),
         style = typography.h5
     )
-    Spacer(modifier = Modifier.height(3.dp))
+    Spacer(modifier = Modifier.requiredHeight(5.dp))
     Image(
         painter = painterResource(id = R.drawable.two_page_rome_image),
         contentDescription = null,
@@ -53,6 +54,7 @@ fun FirstPageContent() {
         text = stringResource(R.string.two_page_image_caption),
         arrangement = Arrangement.Center
     )
+    Spacer(modifier = Modifier.requiredHeight(5.dp))
     Text(
         text = stringResource(R.string.two_page_page1_text),
         style = typography.body1
@@ -61,4 +63,5 @@ fun FirstPageContent() {
         text = stringResource(R.string.two_page_page1_page_number),
         arrangement = Arrangement.End
     )
+    Spacer(modifier = Modifier.height(10.dp))
 }
