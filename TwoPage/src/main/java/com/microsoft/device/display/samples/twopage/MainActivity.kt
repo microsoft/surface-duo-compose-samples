@@ -18,7 +18,7 @@ import androidx.window.DisplayFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
 import com.microsoft.device.display.samples.twopage.ui.home.SetupUI
-import com.microsoft.device.display.samples.twopage.ui.theme.SurfaceduocomposesamplesTheme
+import com.microsoft.device.display.samples.twopage.ui.theme.SurfaceDuoComposeSamplesTheme
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            SurfaceduocomposesamplesTheme {
+            SurfaceDuoComposeSamplesTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     SetupUI(viewModel = appStateViewModel)
                 }
