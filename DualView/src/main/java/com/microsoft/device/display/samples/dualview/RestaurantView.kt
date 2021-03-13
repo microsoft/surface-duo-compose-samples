@@ -30,14 +30,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
-import com.microsoft.device.display.samples.contentcontext.util.formatPriceRange
-import com.microsoft.device.display.samples.contentcontext.util.formatRating
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody1
 import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody2
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
+import com.microsoft.device.display.samples.dualview.utils.formatPriceRange
+import com.microsoft.device.display.samples.dualview.utils.formatRating
 
 private val outlinePadding = 25.dp
 
