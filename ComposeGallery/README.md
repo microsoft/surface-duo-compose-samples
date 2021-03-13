@@ -2,28 +2,13 @@
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
-## Prerequisites - updated
-
-- Jetpack Compose version: 1.0.0-alpha10
-
-- Kotlin version: 1.4.21
-
-- Gradle version: 6.8-rc-5
-
-- Android Gradle plugin version: 7.0.0-alpha04
-
-- Android Studio version: Arctic Fox 3.1 Canary 4
-
-- AndroidX WindowManager version: 1.0.0-alpha01
-
 ## Getting Started
 
 To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
 
-
 ## Features
 
-The sample uses [List-Detail](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern to show a list of image thumbnails in the single screen. When the app is spanned into two screens, it shows the full image in the other screen. To select the image item from the list will show the full image accordingly.
+The sample uses [List-Detail](https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern to show a list of image thumbnails in the single screen. When the app is spanned into two screens, it shows the full image in the other screen. To select the image item from the list will show the full image accordingly.
 
 ![Screenshot](screenshots/Screenshot.png)
 
