@@ -22,11 +22,8 @@ import com.microsoft.device.display.samples.twopage.utils.ViewPager
 fun SetupUI(viewModel: AppStateViewModel) {
     var appStateViewModel = viewModel
 
-    val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
-    val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
-    val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
-    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
-    val isDualMode = isScreenSpanned && !isScreenPortrait
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
 
     val sWidth = appStateViewModel.screenWidth
     val pages = setupPages(isDualMode, sWidth)
@@ -37,7 +34,6 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun PageViews(pages: List<@Composable() () -> Unit>, isDualMode: Boolean, pagePadding: Int) {
-    val pages = pages
     val maxPage = (pages.size - 1).coerceAtLeast(0)
     val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
     pagerState.isDualMode = isDualMode

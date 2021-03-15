@@ -34,7 +34,7 @@ fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
 }
 
 @Composable
-fun PageLayout(modifier: Modifier, pageContent: @Composable () -> Unit) {
+fun PageLayout(modifier: Modifier, content: @Composable () -> Unit) {
     Box(modifier = modifier) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -47,23 +47,23 @@ fun PageLayout(modifier: Modifier, pageContent: @Composable () -> Unit) {
                 ),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            pageContent()
+            content()
         }
     }
 }
 
 @Composable
-fun DualPageContainer(left: @Composable () -> Unit, right: @Composable () -> Unit) {
+fun DualPageContainer(leftContent: @Composable () -> Unit, rightContent: @Composable () -> Unit) {
     Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
         Box(
             Modifier.weight(1f)
         ) {
-            left()
+            leftContent()
         }
         Box(
             Modifier.weight(1f)
         ) {
-            right()
+            rightContent()
         }
     }
 }
