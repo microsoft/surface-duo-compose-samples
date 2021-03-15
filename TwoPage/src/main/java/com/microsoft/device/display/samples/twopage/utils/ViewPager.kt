@@ -89,7 +89,7 @@ class PagerState(
     suspend fun snapToOffset(offset: Float) {
         val max = if (currentPage == minPage) 0f else 1f
         val lastPage = if (isDualMode) maxPage - 1 else maxPage
-        var min = if (currentPage == lastPage) 0f else -1f
+        val min = if (currentPage == lastPage) 0f else -1f
 
         _currentPageOffset.snapTo(offset.coerceIn(min, max))
     }
@@ -194,7 +194,7 @@ fun ViewPager(
                         pageSize = placeable.width
                     }
 
-                    var padding = if (currentPage < page && state.isDualMode) pagePadding else 0
+                    val padding = if (currentPage < page && state.isDualMode) pagePadding else 0
                     val xItemOffset = ((page + offset - currentPage) * placeable.width + padding).roundToInt()
 
                     placeable.place(

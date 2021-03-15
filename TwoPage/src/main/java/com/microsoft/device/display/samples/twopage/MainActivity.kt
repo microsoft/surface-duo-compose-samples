@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.twopage
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,8 +30,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
-        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,13 +39,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
     }
 
     override fun onAttachedToWindow() {
@@ -68,23 +58,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
-        val isScreenSpanned = displayFeatures.isNotEmpty()
-        appStateViewModel.setIsScreenSpannedLiveData(isScreenSpanned)
-        val isPortrait = appStateViewModel.getIsScreenPortraitLiveData().value
-
+        var isDualMode = false
         var viewWidth = 0
         var hingeWidth = 0
-        if (isScreenSpanned) {
-            var vWidth = 0
-            isPortrait?.let {
-                if (!it) {
-                    vWidth = displayFeatures.first().bounds.left
-                    hingeWidth = displayFeatures.first().bounds.right - displayFeatures.first().bounds.left
-                }
-            }
 
-            viewWidth = (vWidth / resources.displayMetrics.density).toInt()
+        val isScreenSpanned = displayFeatures.isNotEmpty()
+        if (isScreenSpanned) {
+            val vWidth = displayFeatures.first().bounds.left
+            val isDualLandscape = vWidth == 0
+            if (!isDualLandscape) {
+                viewWidth = (vWidth / resources.displayMetrics.density).toInt()
+                hingeWidth = displayFeatures.first().bounds.right - displayFeatures.first().bounds.left
+                isDualMode = true
+            }
         }
+
+        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
         appStateViewModel.screenWidth = viewWidth
         appStateViewModel.hingeWidth = hingeWidth
     }
