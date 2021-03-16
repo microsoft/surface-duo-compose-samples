@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.listdetail
+package com.microsoft.device.display.samples.listdetail.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
@@ -35,17 +36,11 @@ private lateinit var appStateViewModel: AppStateViewModel
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
 
-    val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
-    val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
-    val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
-    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
 
-    if (isScreenSpanned) {
-        if (isScreenPortrait) {
-            SingleScreenUI()
-        } else {
-            DualScreenUI()
-        }
+    if (isDualMode) {
+        DualScreenUI()
     } else {
         SingleScreenUI()
     }

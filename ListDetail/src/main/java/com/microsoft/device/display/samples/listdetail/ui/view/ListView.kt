@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.listdetail
+package com.microsoft.device.display.samples.listdetail.ui.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
@@ -19,7 +20,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 
@@ -100,11 +104,12 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                     horizontalArrangement = Arrangement.spacedBy(imagePadding)
                 ) {
                     for ((imageIndex, image) in item.withIndex()) {
-                        var listIndex = 3 * index + imageIndex
-                        var outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
+                        val listIndex = 3 * index + imageIndex
+                        val outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
                         Box(
+                            contentAlignment = Alignment.Center,
                             modifier = Modifier
-                                .fillMaxSize()
+                                .wrapContentSize()
                                 .weight(1f)
                                 .background(color = colorResource(id = R.color.outline_blue))
                                 .padding(
@@ -121,9 +126,7 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
                                             appStateViewModel.setImageSelectionLiveData(listIndex)
-                                            navController?.let {
-                                                it.navigate("detail")
-                                            }
+                                            navController?.navigate("detail")
                                         }
                                     )
                             )
