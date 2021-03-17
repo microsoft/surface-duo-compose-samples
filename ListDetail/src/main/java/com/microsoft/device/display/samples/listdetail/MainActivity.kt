@@ -64,7 +64,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
-
-        println("########## isDualMode: $isDualMode, displayFeatures: $displayFeatures")
     }
 }

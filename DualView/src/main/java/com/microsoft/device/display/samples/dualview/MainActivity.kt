@@ -5,15 +5,19 @@
 
 package com.microsoft.device.display.samples.dualview
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.window.DisplayFeature
+import androidx.window.FoldingFeature
+import androidx.window.FoldingFeature.STATE_FLIPPED
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
+import com.microsoft.device.display.samples.dualview.models.ScreenState
+import com.microsoft.device.display.samples.dualview.ui.home.SetupUI
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewComposeSampleTheme
 import java.util.concurrent.Executor
 
@@ -23,15 +27,12 @@ class MainActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
-
     private val initialSelection = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
         appStateViewModel.setSelectionLiveData(initialSelection)
-        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -41,20 +42,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
-    }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
         windowManager.registerLayoutChangeCallback(
             mainThreadExecutor,
             { windowLayoutInfo ->
-                appStateViewModel.setIsScreenSpannedLiveData(windowLayoutInfo.displayFeatures.size > 0)
+                reserveScreenState(windowLayoutInfo.displayFeatures)
+                windowLayoutInfo.displayFeatures
             }
         )
     }
@@ -62,5 +57,27 @@ class MainActivity : AppCompatActivity() {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         windowManager.unregisterLayoutChangeCallback {}
+    }
+
+    private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
+        var screenState = ScreenState.SingleScreen
+        var viewWidth = 0
+        val isScreenSpanned = displayFeatures.isNotEmpty()
+        if (isScreenSpanned) {
+            val vWidth = displayFeatures.first().bounds.left
+            val isDualLandscape = vWidth == 0
+            if (isDualLandscape) {
+                viewWidth = displayFeatures.first().bounds.right
+                screenState = ScreenState.DualLandscape
+            } else {
+                viewWidth = vWidth
+                screenState = ScreenState.DualPortrait
+            }
+        }
+
+        appStateViewModel.setScreenStateLiveData(screenState)
+        appStateViewModel.viewWidth = viewWidth
+
+        println("########## isScreenSpanned: $isScreenSpanned, screenState: $screenState, displayFeatures: $displayFeatures")
     }
 }

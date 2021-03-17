@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview
+package com.microsoft.device.display.samples.dualview.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -25,14 +25,18 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
+import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import kotlin.math.roundToInt
 
 private const val nonSelection = -1
+private const val wideWidth = 1800
 
 @Composable
 fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
+    val viewWidth = appStateViewModel.viewWidth
+    val isWide = viewWidth > wideWidth
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
     val selectedIndex = selectionLiveData.observeAsState(initial = nonSelection).value
     var selectedMapId = R.drawable.unselected_map
@@ -41,15 +45,16 @@ fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
     }
 
     Box(modifier = modifier.then(Modifier.clipToBounds())) {
-        ScalableImageView(imageId = selectedMapId)
+        ScalableImageView(imageId = selectedMapId, isWide = isWide)
     }
 }
 
 @Composable
-fun ScalableImageView(imageId: Int) {
+fun ScalableImageView(imageId: Int, isWide: Boolean) {
     val minScale = 1f
     val maxScale = 8f
-    var scale by remember { mutableStateOf(3f) }
+    val defaultScale = if (isWide) 5f else 3f
+    var scale by remember { mutableStateOf(defaultScale) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = rememberTransformableState { zoomChange, offsetChange, _ ->
         scale *= zoomChange
