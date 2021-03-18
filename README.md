@@ -22,7 +22,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 - Jetpack Compose version: `1.0.0-beta02`
 
-- AndroidX WindowManager version: `1.0.0-alpha02`
+- AndroidX WindowManager version: `1.0.0-alpha04`
 
 ## Contents
 
