@@ -1,6 +1,7 @@
-# List Detail
+# Two Page
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
+
 
 ## Getting Started
 
@@ -8,15 +9,11 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
+The sample showcases how to build [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
 
-![Single list](screenshots/1.png)
+![Single portrait](screenshots/Single.png)
 
-![Single detail](screenshots/4.png)
-
-![Single landscape](screenshots/2.png)
-
-![Double portrait](screenshots/3.png)
+![Double portrait](screenshots/Dual.png)
 
 ## Contributing
 

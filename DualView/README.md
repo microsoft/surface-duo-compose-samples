@@ -2,28 +2,13 @@
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
-## Prerequisites
-
-- Jetpack Compose version: `1.0.0-alpha11`
-
-- Kotlin version: `1.4.21-2`
-
-- Gradle version: `6.8`
-
-- Android Gradle plugin version: `7.0.0-alpha04`
-
-- Android Studio version: `Arctic Fox 3.1 Canary 5`
-
-- AndroidX WindowManager version: `1.0.0-alpha02`
-
 ## Getting Started
 
 To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
 
-
 ## Features
 
-The sample showcases how to build [Dual View](https://docs.microsoft.com/en-us/dual-screen/introduction#dual-view) app pattern in Jetpack Compose.
+The sample showcases how to build [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose.
 
 ![Single list](screenshots/1.png)
 

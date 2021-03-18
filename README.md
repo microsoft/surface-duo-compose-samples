@@ -18,6 +18,12 @@ This repo contains the samples built in Jetpack Compose for Microsoft Surface Du
 
 To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
 
+## Prerequisites
+
+- Jetpack Compose version: `1.0.0-beta02`
+
+- AndroidX WindowManager version: `1.0.0-alpha04`
+
 ## Contents
 
 ### [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery)
@@ -39,6 +45,10 @@ Includes example of building [List Detail](https://docs.microsoft.com/en-us/dual
 ### [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView)
 
 Includes example of building [Dual View](https://docs.microsoft.com/en-us/dual-screen/introduction#dual-view) app pattern in Jetpack Compose.
+
+### [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage)
+
+Includes example of building [Two Page](https://docs.microsoft.com/en-us/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
 
 ## Related links
 

@@ -2,28 +2,13 @@
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
-## Prerequisites
-
-- Jetpack Compose version: `1.0.0-alpha10`
-
-- Kotlin version: `1.4.21`
-
-- Gradle version: `6.8-rc-5`
-
-- Android Gradle plugin version: `7.0.0-alpha04`
-
-- Android Studio version: `Arctic Fox 3.1 Canary 4`
-
-- AndroidX WindowManager version: `1.0.0-alpha01`
-
 ## Getting Started
 
 To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
 
-
 ## Features
 
-The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 
 ![Single portrait](screenshots/1.png)
 
