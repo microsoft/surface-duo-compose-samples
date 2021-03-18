@@ -8,7 +8,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+The sample showcases how to build [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 
 ![Single portrait](screenshots/1.png)
 

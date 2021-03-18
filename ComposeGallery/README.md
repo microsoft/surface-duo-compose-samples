@@ -8,7 +8,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample uses [List-Detail](https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern to show a list of image thumbnails in the single screen. When the app is spanned into two screens, it shows the full image in the other screen. To select the image item from the list will show the full image accordingly.
+The sample uses [List-Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern to show a list of image thumbnails in the single screen. When the app is spanned into two screens, it shows the full image in the other screen. To select the image item from the list will show the full image accordingly.
 
 ![Screenshot](screenshots/Screenshot.png)
 

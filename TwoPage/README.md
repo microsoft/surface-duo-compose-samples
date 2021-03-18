@@ -9,7 +9,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to build [Two Page](https://docs.microsoft.com/en-us/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
+The sample showcases how to build [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
 
 ![Single portrait](screenshots/Single.png)
 
