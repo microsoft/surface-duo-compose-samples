@@ -4,8 +4,8 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.0-alpha09'
-    kotlinVersion = "1.4.30"
+    gradlePluginVersion = '7.0.0-alpha10'
+    kotlinVersion = "1.4.31"
     compileSdkVersion = 29
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 21
@@ -23,10 +23,10 @@ ext {
     //AndroidX versions
     appCompatVersion = "1.1.0"
     ktxCoreVersion = "1.3.0"
-    composeVersion = "1.0.0-beta01"
+    composeVersion = "1.0.0-beta02"
     windowVersion = "1.0.0-alpha04"
-    activityComposeVersion = "1.3.0-alpha02"
-    navigationComposeVersion = "1.0.0-alpha08"
+    activityComposeVersion = "1.3.0-alpha04"
+    navigationComposeVersion = "1.0.0-alpha09"
 
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
