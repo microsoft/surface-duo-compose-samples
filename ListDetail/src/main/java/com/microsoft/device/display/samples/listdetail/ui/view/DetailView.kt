@@ -3,8 +3,9 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.listdetail
+package com.microsoft.device.display.samples.listdetail.ui.view
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 
@@ -106,7 +109,9 @@ fun DetailView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
 @Composable
 fun ImageInfoTile(modifier: Modifier) {
     Row(
-        modifier = modifier,
+        modifier = modifier.horizontalScroll(
+            rememberScrollState()
+        ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -123,6 +128,7 @@ fun ImageInfoTile(modifier: Modifier) {
         Spacer(modifier = Modifier.width(15.dp))
         CameraInfoTile()
         DeviceInfoTile()
+        Spacer(modifier = Modifier.width(5.dp))
     }
 }
 

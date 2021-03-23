@@ -3,8 +3,9 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview
+package com.microsoft.device.display.samples.dualview.ui.home
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants
@@ -40,6 +43,7 @@ import com.microsoft.device.display.samples.dualview.utils.formatPriceRange
 import com.microsoft.device.display.samples.dualview.utils.formatRating
 
 private val outlinePadding = 25.dp
+private const val narrowWidth = 1000
 
 @Composable
 fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
@@ -69,6 +73,8 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
 fun RestaurantListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
     val selectionLiveData = appStateViewModel.getSelectionLiveData()
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
+    val viewWidth = appStateViewModel.viewWidth
+    val isNarrow = viewWidth < narrowWidth && viewWidth != 0
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(outlinePadding),
@@ -78,6 +84,8 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
             val isSelected = index == selectedIndex
             RestaurantTile(
                 restaurant = item,
+                isSelected = isSelected,
+                isNarrow = isNarrow,
                 modifier = Modifier.selectable(
                     selected = isSelected,
                     enabled = true,
@@ -85,15 +93,15 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
                         appStateViewModel.setSelectionLiveData(index)
                         navController?.navigate("map")
                     }
-                ),
-                isSelected = isSelected
+                )
             )
         }
     }
 }
 
 @Composable
-fun RestaurantTile(restaurant: Restaurant, modifier: Modifier, isSelected: Boolean) {
+fun RestaurantTile(restaurant: Restaurant, isSelected: Boolean, isNarrow: Boolean, modifier: Modifier) {
+    val columnModifier = if (isNarrow) Modifier.fillMaxHeight().horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -105,7 +113,7 @@ fun RestaurantTile(restaurant: Restaurant, modifier: Modifier, isSelected: Boole
                 .wrapContentHeight()
         )
         Column(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -117,8 +125,7 @@ fun RestaurantTile(restaurant: Restaurant, modifier: Modifier, isSelected: Boole
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = formatRating(restaurant.rating, restaurant.voteCount),

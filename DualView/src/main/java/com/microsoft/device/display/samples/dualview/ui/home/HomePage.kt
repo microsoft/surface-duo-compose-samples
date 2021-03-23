@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview
+package com.microsoft.device.display.samples.dualview.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
+import com.microsoft.device.display.samples.dualview.models.ScreenState
 
 private lateinit var appStateViewModel: AppStateViewModel
 
@@ -40,16 +42,11 @@ private lateinit var appStateViewModel: AppStateViewModel
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
 
-    val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
-    val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
-
-    val isScreenPortraitLiveData = appStateViewModel.getIsScreenPortraitLiveData()
-    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
-
-    if (isScreenSpanned) {
-        DualScreenUI(isScreenPortrait)
-    } else {
-        SingleScreenUI()
+    val screenStateLiveData = appStateViewModel.getScreenStateLiveDataLiveData()
+    when (screenStateLiveData.observeAsState(initial = ScreenState.SingleScreen).value) {
+        ScreenState.SingleScreen -> SingleScreenUI()
+        ScreenState.DualPortrait -> DualScreenUI(isDualLandscape = false)
+        ScreenState.DualLandscape -> DualScreenUI(isDualLandscape = true)
     }
 }
 
@@ -77,7 +74,7 @@ fun SingleScreenUI() {
 }
 
 @Composable
-fun DualScreenUI(isPortrait: Boolean) {
+fun DualScreenUI(isDualLandscape: Boolean) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -94,17 +91,17 @@ fun DualScreenUI(isPortrait: Boolean) {
             )
         },
         content = {
-            if (isPortrait) {
-                HorizontalListMapView()
-            } else {
+            if (isDualLandscape) {
                 VerticalListMapView()
+            } else {
+                HorizontalListMapView()
             }
         }
     )
 }
 
 @Composable
-fun VerticalListMapView() {
+fun HorizontalListMapView() {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
@@ -126,7 +123,7 @@ fun VerticalListMapView() {
 }
 
 @Composable
-fun HorizontalListMapView() {
+fun VerticalListMapView() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -151,16 +148,6 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
-                    )
-                },
                 actions = {
                     IconButton(
                         onClick = {
@@ -173,6 +160,16 @@ fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: Ap
                             tint = Color.White
                         )
                     }
+                },
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = TextStyle(
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White
+                        )
+                    )
                 }
             )
         },

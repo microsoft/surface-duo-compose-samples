@@ -5,16 +5,17 @@
 
 package com.microsoft.device.display.samples.listdetail
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.window.DisplayFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
+import com.microsoft.device.display.samples.listdetail.ui.view.SetupUI
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -27,8 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
-        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         windowManager.registerLayoutChangeCallback(
             mainThreadExecutor,
             { windowLayoutInfo ->
-                appStateViewModel.setIsScreenSpannedLiveData(windowLayoutInfo.displayFeatures.size > 0)
+                reserveScreenState(windowLayoutInfo.displayFeatures)
             }
         )
     }
@@ -54,10 +53,16 @@ class MainActivity : AppCompatActivity() {
         windowManager.unregisterLayoutChangeCallback {}
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
+    private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
+        var isDualMode = false
 
-        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
+        val isScreenSpanned = displayFeatures.isNotEmpty()
+        if (isScreenSpanned) {
+            var vWidth = displayFeatures.first().bounds.left
+            val isPortrait = vWidth == 0
+            isDualMode = !isPortrait
+        }
+
+        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
     }
 }

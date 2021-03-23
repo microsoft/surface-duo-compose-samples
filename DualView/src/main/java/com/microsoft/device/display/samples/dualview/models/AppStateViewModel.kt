@@ -9,11 +9,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+enum class ScreenState {
+    SingleScreen,
+    DualPortrait,
+    DualLandscape
+}
+
 class AppStateViewModel : ViewModel() {
 
-    private val isScreenSpannedLiveData = MutableLiveData<Boolean>() // observe the screen spanning mode
+    var viewWidth: Int = 0
+
+    private val screenStateLiveData = MutableLiveData<ScreenState>() // observe the screen state
     private val selectionLiveData = MutableLiveData<Int>() // observe the image selection change
-    private val isScreenPortraitLiveData = MutableLiveData<Boolean>() // observe the screen Portrait/Landscape mode
+
+    fun getScreenStateLiveDataLiveData(): LiveData<ScreenState> {
+        return this.screenStateLiveData
+    }
+
+    fun setScreenStateLiveData(screenState: ScreenState) {
+        screenStateLiveData.value = screenState
+    }
 
     fun getSelectionLiveData(): LiveData<Int> {
         return this.selectionLiveData
@@ -21,21 +36,5 @@ class AppStateViewModel : ViewModel() {
 
     fun setSelectionLiveData(selectedImage: Int) {
         selectionLiveData.value = selectedImage
-    }
-
-    fun getIsScreenSpannedLiveData(): LiveData<Boolean> {
-        return this.isScreenSpannedLiveData
-    }
-
-    fun setIsScreenSpannedLiveData(isScreenSpanned: Boolean) {
-        isScreenSpannedLiveData.value = isScreenSpanned
-    }
-
-    fun getIsScreenPortraitLiveData(): LiveData<Boolean> {
-        return this.isScreenPortraitLiveData
-    }
-
-    fun setIsScreenPortraitLiveData(IsScreenPortrait: Boolean) {
-        isScreenPortraitLiveData.value = IsScreenPortrait
     }
 }
