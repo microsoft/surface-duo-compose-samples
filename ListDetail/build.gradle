@@ -34,12 +34,12 @@ dependencies {
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
-    implementation androidxDependencies.composeUI
-    implementation androidxDependencies.composeRuntime
-    implementation androidxDependencies.composeMaterial
-    implementation androidxDependencies.composeUITooling
-    implementation androidxDependencies.navigationCompose
-    implementation androidxDependencies.activityCompose
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeRuntime
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.navigationCompose
+    implementation composeDependencies.activityCompose
 
     implementation googleDependencies.material
 }

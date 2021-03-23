@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
-            var vWidth = displayFeatures.first().bounds.left
+            val vWidth = displayFeatures.first().bounds.left
             val isPortrait = vWidth == 0
             isDualMode = !isPortrait
         }
