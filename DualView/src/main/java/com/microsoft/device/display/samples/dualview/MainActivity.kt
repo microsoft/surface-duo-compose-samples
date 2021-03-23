@@ -75,7 +75,5 @@ class MainActivity : AppCompatActivity() {
 
         appStateViewModel.setScreenStateLiveData(screenState)
         appStateViewModel.viewWidth = viewWidth
-
-        println("########## isScreenSpanned: $isScreenSpanned, screenState: $screenState, displayFeatures: $displayFeatures")
     }
 }
