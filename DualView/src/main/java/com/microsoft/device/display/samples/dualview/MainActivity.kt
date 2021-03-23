@@ -12,8 +12,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
-import androidx.window.FoldingFeature
-import androidx.window.FoldingFeature.STATE_FLIPPED
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.ScreenState
