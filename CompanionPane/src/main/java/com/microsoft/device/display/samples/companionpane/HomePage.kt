@@ -54,32 +54,32 @@ fun SetupUI(viewModel: AppStateViewModel) {
 @Composable
 fun DualPortraitLayout() {
     Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(50.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(top = 10.dp, bottom = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(50.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(Modifier.height(20.dp))
             ImagePanel(
-                Modifier
-                    .height(380.dp)
-                    .fillMaxWidth()
+                Modifier.padding(top = 20.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
             )
-            Spacer(Modifier.height(25.dp))
             EffectPanel()
         }
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(35.dp)) {
+            Column(
+                modifier = Modifier.padding(top = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(35.dp)) {
                 MagicWandPanel(modifier = Modifier.width(longSlideWidth))
                 DefinitionPanel(modifier = Modifier.width(longSlideWidth))
                 VignettePanel(modifier = Modifier.width(longSlideWidth))
@@ -93,7 +93,7 @@ fun DualPortraitLayout() {
 
 @Composable
 fun DualLandscapeLayout() {
-    Column() {
+    Column {
         Box(
             modifier = Modifier
                 .fillMaxSize()
