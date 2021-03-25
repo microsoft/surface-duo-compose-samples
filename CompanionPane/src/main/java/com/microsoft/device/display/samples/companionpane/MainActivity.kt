@@ -18,12 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.core.util.Consumer
 import androidx.lifecycle.ViewModelProvider
-import androidx.window.WindowLayoutInfo
+import androidx.window.DisplayFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.companionpane.ui.CompanionPaneAppsTheme
 import com.microsoft.device.display.samples.companionpane.viewModels.AppStateViewModel
+import com.microsoft.device.display.samples.companionpane.viewModels.ScreenState
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
-    private val layoutStateChangeCallback = LayoutStateChangeCallback()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
+        val screenState = if (isPortrait) ScreenState.SinglePortrait else ScreenState.SingleLandscape
+        appStateViewModel.setScreenStateLiveData(screenState)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -65,28 +65,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Checks the orientation of the screen
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        val isPortrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
-        appStateViewModel.setIsScreenPortraitLiveData(isPortrait)
-    }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        windowManager.registerLayoutChangeCallback(mainThreadExecutor, layoutStateChangeCallback)
+        windowManager.registerLayoutChangeCallback(
+            mainThreadExecutor,
+            { windowLayoutInfo ->
+                reserveScreenState(windowLayoutInfo.displayFeatures)
+            }
+        )
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        windowManager.unregisterLayoutChangeCallback(layoutStateChangeCallback)
+        windowManager.unregisterLayoutChangeCallback {}
     }
 
-    inner class LayoutStateChangeCallback : Consumer<WindowLayoutInfo> {
-        override fun accept(newLayoutInfo: WindowLayoutInfo) {
-            val isScreenSpanned = newLayoutInfo.displayFeatures.size > 0
-            appStateViewModel.setIsScreenSpannedLiveData(isScreenSpanned)
+    private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
+        val isScreenSpanned = displayFeatures.isNotEmpty()
+        val screenState: ScreenState = if (isScreenSpanned) {
+            val vWidth = displayFeatures.first().bounds.left
+            val isDualLandscape = vWidth == 0
+            if (isDualLandscape) {
+                ScreenState.DualLandscape
+            } else {
+                ScreenState.DualPortrait
+            }
+        } else {
+            val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+            if (isPortrait) {
+                ScreenState.SinglePortrait
+            } else {
+                ScreenState.SingleLandscape
+            }
         }
+        appStateViewModel.setScreenStateLiveData(screenState)
     }
 }

@@ -33,10 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.companionpane.R
 import com.microsoft.device.display.samples.companionpane.ui.Gray
+import kotlin.random.Random
 
 @Composable
 fun SliderControl(modifier: Modifier) {
-    var sliderPosition by remember { mutableStateOf(0f) }
+    val defaultValue = Random.nextInt(0, 100)
+    var sliderPosition by remember { mutableStateOf(defaultValue.toFloat()) }
     Slider(
         value = sliderPosition,
         onValueChange = { sliderPosition = it },

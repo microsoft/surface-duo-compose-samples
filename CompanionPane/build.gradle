@@ -34,16 +34,15 @@ android {
 }
 
 dependencies {
-
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
-    implementation androidxDependencies.composeUI
-    implementation androidxDependencies.composeRuntime
-    implementation androidxDependencies.composeMaterial
-    implementation androidxDependencies.composeUITooling
-    implementation androidxDependencies.activityCompose
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeRuntime
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
 
     implementation googleDependencies.material
 }

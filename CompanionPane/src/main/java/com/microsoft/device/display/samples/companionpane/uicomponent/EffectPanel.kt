@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.companionpane.uicomponent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,11 +32,21 @@ fun EffectPanel() {
         LeftAlignText(title = "Filters")
         Spacer(Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            ImageWithText(R.drawable.gingham, "Gingham", imageWidth, controlWidth)
-            ImageWithText(R.drawable.orignal, "Original", imageWidth, controlWidth)
-            ImageWithText(R.drawable.lark, "Lark", imageWidth, controlWidth)
-            ImageWithText(R.drawable.juno, "Juno", imageWidth, controlWidth)
-            ImageWithText(R.drawable.ludwig, "Ludwig", imageWidth, controlWidth)
+            Box(modifier = Modifier.weight(1f).clipToBounds()) {
+                ImageWithText(R.drawable.gingham, "Gingham", imageWidth, controlWidth)
+            }
+            Box(modifier = Modifier.weight(1f).clipToBounds()) {
+                ImageWithText(R.drawable.orignal, "Original", imageWidth, controlWidth)
+            }
+            Box(modifier = Modifier.weight(1f).clipToBounds()) {
+                ImageWithText(R.drawable.orignal, "Lark", imageWidth, controlWidth)
+            }
+            Box(modifier = Modifier.weight(1f).clipToBounds()) {
+                ImageWithText(R.drawable.orignal, "Juno", imageWidth, controlWidth)
+            }
+            Box(modifier = Modifier.weight(1f).clipToBounds()) {
+                ImageWithText(R.drawable.orignal, "Ludwig", imageWidth, controlWidth)
+            }
         }
     }
 }
@@ -69,19 +81,25 @@ fun FullFilterControl() {
 @Composable
 fun AdjustScale() {
     Column(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Image(
             painter = painterResource(R.drawable.dot),
-            modifier = Modifier.fillMaxWidth().height(5.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp),
             contentScale = ContentScale.Inside,
             alignment = Alignment.Center,
             contentDescription = null
         )
         Image(
             painter = painterResource(R.drawable.scale_icon),
-            modifier = Modifier.fillMaxWidth().height(25.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(25.dp),
             contentScale = ContentScale.Inside,
             alignment = Alignment.Center,
             contentDescription = null
@@ -92,7 +110,9 @@ fun AdjustScale() {
 @Composable
 fun FullIconsPanel() {
     Row(
-        modifier = Modifier.fillMaxWidth().height(25.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(25.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Image(
@@ -129,7 +149,9 @@ fun FullIconsPanel() {
 @Composable
 fun ShortIconsPanel() {
     Row(
-        modifier = Modifier.width(200.dp).height(25.dp),
+        modifier = Modifier
+            .width(200.dp)
+            .height(25.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Image(
