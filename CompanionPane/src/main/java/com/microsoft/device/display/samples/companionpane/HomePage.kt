@@ -79,7 +79,8 @@ fun DualPortraitLayout() {
         ) {
             Column(
                 modifier = Modifier.padding(top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(35.dp)) {
+                verticalArrangement = Arrangement.spacedBy(35.dp)
+            ) {
                 MagicWandPanel(modifier = Modifier.width(longSlideWidth))
                 DefinitionPanel(modifier = Modifier.width(longSlideWidth))
                 VignettePanel(modifier = Modifier.width(longSlideWidth))
