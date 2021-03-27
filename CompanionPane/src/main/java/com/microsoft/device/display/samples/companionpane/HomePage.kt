@@ -98,12 +98,12 @@ fun DualLandscapeLayout() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, end = 10.dp)
+                .padding(start = 10.dp, end = 10.dp, top = 30.dp, bottom = 30.dp)
                 .clipToBounds()
-                .weight(.8f),
+                .weight(.9f),
             contentAlignment = Alignment.Center
         ) {
-            ImagePanel(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 10.dp))
+            ImagePanel(modifier = Modifier.padding(start = 10.dp, end = 10.dp))
         }
         Column(
             modifier = Modifier

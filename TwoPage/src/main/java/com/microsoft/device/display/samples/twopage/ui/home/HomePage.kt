@@ -37,8 +37,8 @@ fun PageViews(pages: List<@Composable () -> Unit>, isDualMode: Boolean, pagePadd
     pagerState.isDualMode = isDualMode
     ViewPager(
         state = pagerState,
-        modifier = Modifier.fillMaxSize(),
-        pagePadding = pagePadding
+        pagePadding = pagePadding,
+        modifier = Modifier.fillMaxSize()
     ) {
         pages[page]()
     }
