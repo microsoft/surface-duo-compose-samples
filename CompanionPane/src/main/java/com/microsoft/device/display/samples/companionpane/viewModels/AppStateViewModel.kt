@@ -19,8 +19,6 @@ enum class ScreenState {
 class AppStateViewModel : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData<ScreenState>() // observe the screen state
-    private val isScreenSpannedLiveData = MutableLiveData<Boolean>() // observe the screen spanning mode
-    private val isScreenPortraitLiveData = MutableLiveData<Boolean>() // observe the screen Portrait/Landscape mode
 
     fun getScreenStateLiveData(): LiveData<ScreenState> {
         return this.screenStateLiveData
@@ -28,21 +26,5 @@ class AppStateViewModel : ViewModel() {
 
     fun setScreenStateLiveData(screenState: ScreenState) {
         screenStateLiveData.value = screenState
-    }
-
-    fun getIsScreenSpannedLiveData(): LiveData<Boolean> {
-        return this.isScreenSpannedLiveData
-    }
-
-    fun setIsScreenSpannedLiveData(isScreenSpanned: Boolean) {
-        isScreenSpannedLiveData.value = isScreenSpanned
-    }
-
-    fun getIsScreenPortraitLiveData(): LiveData<Boolean> {
-        return this.isScreenPortraitLiveData
-    }
-
-    fun setIsScreenPortraitLiveData(IsScreenPortrait: Boolean) {
-        isScreenPortraitLiveData.value = IsScreenPortrait
     }
 }
