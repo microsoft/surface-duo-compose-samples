@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.listdetail
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +13,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
+import androidx.window.FoldingFeature
+import androidx.window.FoldingFeature.ORIENTATION_VERTICAL
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
@@ -58,9 +61,9 @@ class MainActivity : AppCompatActivity() {
 
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
-            val vWidth = displayFeatures.first().bounds.left
-            val isPortrait = vWidth == 0
-            isDualMode = !isPortrait
+            val foldingFeature = displayFeatures.first() as FoldingFeature
+            val isVertical = foldingFeature.orientation == ORIENTATION_VERTICAL
+            isDualMode = isVertical
         }
 
         appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)

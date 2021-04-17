@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
+import androidx.window.FoldingFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.companionpane.ui.CompanionPaneAppsTheme
 import com.microsoft.device.display.samples.companionpane.viewModels.AppStateViewModel
@@ -83,12 +84,12 @@ class MainActivity : AppCompatActivity() {
     private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
         val isScreenSpanned = displayFeatures.isNotEmpty()
         val screenState: ScreenState = if (isScreenSpanned) {
-            val vWidth = displayFeatures.first().bounds.left
-            val isDualLandscape = vWidth == 0
-            if (isDualLandscape) {
-                ScreenState.DualLandscape
-            } else {
+            val foldingFeature = displayFeatures.first() as FoldingFeature
+            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
+            if (isVertical) {
                 ScreenState.DualPortrait
+            } else {
+                ScreenState.DualLandscape
             }
         } else {
             val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT

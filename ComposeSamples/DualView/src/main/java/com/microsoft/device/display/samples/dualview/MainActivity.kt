@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
+import androidx.window.FoldingFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.ScreenState
@@ -62,14 +63,13 @@ class MainActivity : AppCompatActivity() {
         var viewWidth = 0
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
-            val vWidth = displayFeatures.first().bounds.left
-            val isDualLandscape = vWidth == 0
-            if (isDualLandscape) {
-                viewWidth = displayFeatures.first().bounds.right
-                screenState = ScreenState.DualLandscape
+            val foldingFeature = displayFeatures.first() as FoldingFeature
+            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
+            viewWidth = foldingFeature.bounds.left
+            screenState = if (isVertical) {
+                ScreenState.DualPortrait
             } else {
-                viewWidth = vWidth
-                screenState = ScreenState.DualPortrait
+                ScreenState.DualLandscape
             }
         }
 
