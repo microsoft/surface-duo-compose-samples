@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.listdetail
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
