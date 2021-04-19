@@ -33,8 +33,6 @@ android {
 
 dependencies {
 
-
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0'
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
@@ -48,5 +46,4 @@ dependencies {
     implementation composeDependencies.constraintlayoutCompose
 
     implementation googleDependencies.material
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
 }
