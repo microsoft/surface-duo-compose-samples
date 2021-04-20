@@ -53,24 +53,6 @@ fun MainPage() {
     }
 }
 
-@Composable
-fun ScreenStateProvider() {
-    val context = LocalContext.current
-    val windowManager = WindowManager(context)
-    val handler = Handler(Looper.getMainLooper())
-    val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
-    windowManager.registerLayoutChangeCallback(
-        mainThreadExecutor,
-        { windowLayoutInfo ->
-            reserveScreenState(windowLayoutInfo.displayFeatures)
-        }
-    )
-}
 
-private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
-    val isScreenSpanned = displayFeatures.isNotEmpty()
-    if (isScreenSpanned) {
-        val foldingFeature = displayFeatures.first() as FoldingFeature
 
-    }
-}
+
