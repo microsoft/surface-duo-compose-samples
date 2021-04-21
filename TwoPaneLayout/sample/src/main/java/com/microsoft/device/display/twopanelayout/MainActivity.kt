@@ -1,22 +1,18 @@
-package com.microsoft.device.display.twopanelayout.sample
+package com.microsoft.device.display.twopanelayout
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.window.DisplayFeature
-import androidx.window.FoldingFeature
-import androidx.window.WindowManager
+import androidx.compose.ui.Modifier
 import com.microsoft.device.display.twopanelayout.sample.ui.theme.TwoPaneLayoutTheme
-import java.util.concurrent.Executor
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +22,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     MainPage()
+
                 }
             }
         }
@@ -34,22 +31,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainPage() {
-    println("############### MainPage")
-    SideEffect {
-        println("############### SideEffect")
-    }
-    LaunchedEffect(true) {
-        println("############### LaunchedEffect")
-    }
-
-    DisposableEffect(true) {
-        // Add callback to the backDispatcher
-        println("############### DisposableEffect")
-
-        // When the effect leaves the Composition, remove the callback
-        onDispose {
-            println("############### DisposableEffect: onDispose")
-        }
+    println("########## MainPage")
+    TwoPaneLayout(modifier = Modifier.fillMaxSize()) {
+        Text("One pane.....")
+        Text("Two pane.....")
     }
 }
 

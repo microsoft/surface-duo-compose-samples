@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-//    implementation project(path: ':bottomnavigation:bottomnavigation-library')
+    implementation project(path: ':library')
 
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
