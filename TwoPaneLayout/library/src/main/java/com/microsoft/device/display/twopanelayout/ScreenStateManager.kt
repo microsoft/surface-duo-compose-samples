@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
@@ -24,14 +23,17 @@ enum class LayoutOrientation {
     Vertical
 }
 
+enum class LayoutState {
+    Open,
+    Fold
+}
+
 data class ScreenState(
-    val isSpanned: Boolean,
+    val layoutState: LayoutState,
     val isTablet: Boolean,
     val orientation: LayoutOrientation,
     val featureBounds: Rect
 )
-
-val LocalScreenState = compositionLocalOf<ScreenState> { error("ScreenState hasn't been set up yet!") }
 
 class ScreenStateViewModel : ViewModel() {
     private val screenStateLiveData = MutableLiveData<ScreenState>() // observe the dual-screen mode
@@ -61,17 +63,17 @@ fun SetupScreenState(context: Context, viewModel: ScreenStateViewModel) {
     val layoutChangeCallback = remember {
         Consumer<WindowLayoutInfo> { newLayoutInfo ->
             var featureBounds = Rect()
-            var isSeparating = false
+            var layoutState = LayoutState.Fold
             var orientation = LayoutOrientation.Vertical
             if (newLayoutInfo.displayFeatures.isNotEmpty()) {
                 val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
                 featureBounds = foldingFeature.bounds
-                isSeparating = foldingFeature.isSeparating
+                layoutState = if(foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
                 orientation = orientationMapping(foldingFeature.orientation)
             }
             val screenState = ScreenState(
                 featureBounds = featureBounds,
-                isSpanned = isSeparating,
+                layoutState = layoutState,
                 isTablet = isTablet,
                 orientation = orientation
             )
