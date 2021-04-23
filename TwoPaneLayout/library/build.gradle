@@ -47,6 +47,7 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+    implementation composeDependencies.viewModelCompose
 
     implementation googleDependencies.material
 }

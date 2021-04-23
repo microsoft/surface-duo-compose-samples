@@ -10,42 +10,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.util.Consumer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.window.FoldingFeature
 import androidx.window.WindowLayoutInfo
 import androidx.window.WindowManager
+import com.microsoft.device.display.twopanelayout.screenState.model.LayoutOrientation
+import com.microsoft.device.display.twopanelayout.screenState.model.LayoutState
+import com.microsoft.device.display.twopanelayout.screenState.model.ScreenStateViewModel
 import java.util.concurrent.Executor
-
-enum class LayoutOrientation {
-    Horizontal,
-    Vertical
-}
-
-enum class LayoutState {
-    Open,
-    Fold
-}
-
-data class ScreenState(
-    val layoutState: LayoutState,
-    val isTablet: Boolean,
-    val orientation: LayoutOrientation,
-    val featureBounds: Rect
-)
-
-class ScreenStateViewModel : ViewModel() {
-    private val screenStateLiveData = MutableLiveData<ScreenState>() // observe the dual-screen mode
-
-    fun getScreenStateLiveData(): LiveData<ScreenState> {
-        return this.screenStateLiveData
-    }
-
-    fun setScreenStateLiveData(screenState: ScreenState) {
-        screenStateLiveData.value = screenState
-    }
-}
 
 @Composable
 fun SetupScreenState(context: Context, viewModel: ScreenStateViewModel) {
@@ -71,13 +42,20 @@ fun SetupScreenState(context: Context, viewModel: ScreenStateViewModel) {
                 layoutState = if(foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
                 orientation = orientationMapping(foldingFeature.orientation)
             }
-            val screenState = ScreenState(
-                featureBounds = featureBounds,
-                layoutState = layoutState,
-                isTablet = isTablet,
-                orientation = orientation
-            )
-            viewModel.setScreenStateLiveData(screenState)
+            with(viewModel) {
+                if (newLayoutInfo.displayFeatures.isNotEmpty()) {
+                    val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
+                    featureBounds = foldingFeature.bounds
+                    layoutState = if(foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
+                    orientation = orientationMapping(foldingFeature.orientation)
+                }
+                setScreenState(
+                    isTablet = isTablet,
+                    featureBounds = featureBounds,
+                    layoutState = layoutState,
+                    orientation = orientation
+                )
+            }
         }
     }
 
