@@ -11,6 +11,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
@@ -19,9 +20,10 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.microsoft.device.display.twopanelayout.screenState.model.LayoutOrientation
-import com.microsoft.device.display.twopanelayout.screenState.model.LayoutState
-import com.microsoft.device.display.twopanelayout.screenState.model.ScreenStateViewModel
+import com.microsoft.device.display.twopanelayout.screenState.ConfigScreenState
+import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
+import com.microsoft.device.display.twopanelayout.screenState.LayoutState
+import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewModel
 
 @Composable
 inline fun TwoPaneLayout(
@@ -30,23 +32,18 @@ inline fun TwoPaneLayout(
 ) {
     val context = LocalContext.current
     val viewModel:ScreenStateViewModel = viewModel()
-    SetupScreenState(context = context, viewModel = viewModel)
+    ConfigScreenState(context = context, viewModel = viewModel)
 
-    val screenState by viewModel.screenState.observeAsState()
+    val screenState by viewModel.screenStateLiveData.observeAsState()
     screenState?.let { state ->
-        val screenFeatureBounds = state.featureBounds
         val orientation = state.orientation
-        val isVerticalOrientation = state.orientation == LayoutOrientation.Vertical
-        val screenWidth = if (isVerticalOrientation) screenFeatureBounds.left else screenFeatureBounds.width()
-        val screenHeight = if (isVerticalOrientation) screenFeatureBounds.height() else screenFeatureBounds.top
         val layoutState = state.layoutState
-        val arrangementSpacing = if (isVerticalOrientation) screenFeatureBounds.width() else screenFeatureBounds.height()
-
+        val paneSizes = state.paneSizes
+        val arrangementSpacing = state.hingeWidth
         val measurePolicy = twoPaneMeasurePolicy(
             layoutState = layoutState,
             orientation = orientation,
-            screenWidth = screenWidth,
-            screenHeight = screenHeight,
+            paneSizes = paneSizes,
             arrangementSpacing = arrangementSpacing)
         Layout(
             content = { content() },
@@ -71,8 +68,7 @@ internal object TwoPaneScopeInstance : TwoPaneScope {
 internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
     orientation: LayoutOrientation,
-    screenWidth: Int,
-    screenHeight: Int,
+    paneSizes: List<Size>,
     arrangementSpacing: Int
 ): MeasurePolicy {
     return object : MeasurePolicy {
@@ -97,21 +93,28 @@ internal fun twoPaneMeasurePolicy(
                         placeable.place(x = 0, y = 0)
                     }
                 }
+
+                // TODO: layout according to the weight
                 LayoutState.Open -> {
+                    val paneWidth = paneSizes.first().width.toInt()
+                    val paneHeight = paneSizes.first().height.toInt()
+
+                    println("#############paneWidth: $paneWidth, paneHeight: $paneHeight, orientation:$orientation")
+
                     if (orientation == LayoutOrientation.Vertical) {
                         layout(constraints.maxWidth, constraints.maxHeight) {
                             var xPosition = 0
                             placeables.forEach { placeable ->
                                 placeable.place(x = xPosition, y = 0)
-                                xPosition += screenWidth + arrangementSpacing
+                                xPosition += paneWidth + arrangementSpacing
                             }
                         }
                     } else {
-                        layout(constraints.maxWidth, constraints.maxHeight) {
+                        layout(paneWidth, paneHeight) {
                             var yPosition = 0
                             placeables.forEach { placeable ->
                                 placeable.place(x = 0, y = yPosition)
-                                yPosition += screenHeight + arrangementSpacing
+                                yPosition += paneHeight + arrangementSpacing
                             }
                         }
                     }
