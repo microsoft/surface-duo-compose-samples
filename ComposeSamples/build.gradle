@@ -12,7 +12,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath config.gradlePlugin
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath config.kotlinGradlePlugin
     }
 }
