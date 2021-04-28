@@ -5,8 +5,6 @@
 
 package com.microsoft.device.display.twopanelayout
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -25,14 +23,12 @@ import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.display.twopanelayout.screenState.LayoutState
 import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewModel
 
-@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 inline fun TwoPaneLayout(
     modifier: Modifier,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val topSpacing = LocalView.current.rootWindowInsets.systemWindowInsetTop
     val viewModel:ScreenStateViewModel = viewModel()
     ConfigScreenState(context = context, viewModel = viewModel)
     val screenState by viewModel.screenStateLiveData.observeAsState()
@@ -45,8 +41,7 @@ inline fun TwoPaneLayout(
             layoutState = layoutState,
             orientation = orientation,
             paneSizes = paneSizes,
-            arrangementSpacing = arrangementSpacing,
-            horizontalTopSpacing = topSpacing
+            arrangementSpacing = arrangementSpacing
         )
         Layout(
             content = { content() },
@@ -72,8 +67,7 @@ internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
     orientation: LayoutOrientation,
     paneSizes: List<Size>,
-    arrangementSpacing: Int,
-    horizontalTopSpacing: Int
+    arrangementSpacing: Int
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
         val paneWidth = paneSizes.first().width.toInt()
@@ -115,9 +109,14 @@ internal fun twoPaneMeasurePolicy(
                 } else {
                     layout(constraints.maxWidth, constraints.maxHeight) {
                         var yPosition = 0
-                        placeables.forEach { placeable ->
-                            placeable.place(x = 0, y = yPosition)
-                            yPosition += paneHeight + arrangementSpacing - horizontalTopSpacing
+                        for (i in placeables.indices) {
+                            // calculate the first pane differently, due to the potential status bar and top app bar
+                            var updatedPaneHeight = paneHeight
+                            if (i == 0) {
+                                updatedPaneHeight = constraints.maxHeight - paneHeight * (placeables.count() - 1) - arrangementSpacing * (placeables.count() - 1)
+                            }
+                            placeables[i].place(x = 0, y = yPosition)
+                            yPosition += updatedPaneHeight + arrangementSpacing
                         }
                     }
                 }
