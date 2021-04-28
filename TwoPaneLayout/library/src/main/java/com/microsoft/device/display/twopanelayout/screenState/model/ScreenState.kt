@@ -32,12 +32,12 @@ class ScreenState(
     var paneSizes: List<Size> = emptyList()
         get() {
             // TODO: calculate size by weight
-            if (deviceType == DeviceType.Big) { // TODO: split into 2 panes for tablet for now
+            if (deviceType == DeviceType.Big) { // TODO: split into only 2 panes for tablet for now
                 return if (orientation == LayoutOrientation.Vertical) {
                     val paneSize = Size(width = screenSize.width/2, height = screenSize.height)
                     listOf(paneSize, paneSize)
                 } else {
-                    val paneSize = Size(width = screenSize.height, height = screenSize.width/2)
+                    val paneSize = Size(width = screenSize.width, height = screenSize.height/2)
                     listOf(paneSize, paneSize)
                 }
             } else if (deviceType == DeviceType.Multiple) { // TODO: only support dual-screen for now

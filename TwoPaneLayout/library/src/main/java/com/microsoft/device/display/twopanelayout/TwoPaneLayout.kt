@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.twopanelayout
 
+import android.graphics.Rect
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasurePolicy
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,20 +28,23 @@ inline fun TwoPaneLayout(
     modifier: Modifier,
     content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
+    val windowInsets = LocalView.current.rootWindowInsets
+    val paddingBounds = Rect()
+    paddingBounds.left = windowInsets.systemWindowInsetLeft
+    paddingBounds.right = windowInsets.systemWindowInsetRight
+    paddingBounds.top = windowInsets.systemWindowInsetTop
+    paddingBounds.bottom = windowInsets.systemWindowInsetBottom
+
     val viewModel:ScreenStateViewModel = viewModel()
-    ConfigScreenState(context = context, viewModel = viewModel)
+    ConfigScreenState(viewModel = viewModel)
     val screenState by viewModel.screenStateLiveData.observeAsState()
     screenState?.let { state ->
-        val orientation = state.orientation
-        val layoutState = state.layoutState
-        val paneSizes = state.paneSizes
-        val arrangementSpacing = state.hingeWidth
-        val measurePolicy = twoPaneMeasurePolicy(
-            layoutState = layoutState,
-            orientation = orientation,
-            paneSizes = paneSizes,
-            arrangementSpacing = arrangementSpacing
+            val measurePolicy = twoPaneMeasurePolicy(
+            layoutState = state.layoutState,
+            orientation = state.orientation,
+            paneSizes = state.paneSizes,
+            arrangementSpacing = state.hingeWidth,
+            paddingBounds = paddingBounds
         )
         Layout(
             content = { content() },
@@ -67,7 +70,8 @@ internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
     orientation: LayoutOrientation,
     paneSizes: List<Size>,
-    arrangementSpacing: Int
+    arrangementSpacing: Int,
+    paddingBounds: Rect
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
         val paneWidth = paneSizes.first().width.toInt()
@@ -76,11 +80,9 @@ internal fun twoPaneMeasurePolicy(
         var minHeight = constraints.minHeight
         minWidth = minWidth.coerceAtMost(paneWidth)
         minHeight = minHeight.coerceAtMost(paneHeight)
-        val newConstraints = Constraints(minWidth = minWidth, minHeight = minHeight, maxWidth = minWidth, maxHeight = minHeight)
+        val childConstraints = Constraints(minWidth = minWidth, minHeight = minHeight, maxWidth = minWidth, maxHeight = minHeight)
 
-        val placeables = measurables.map { measurable ->
-            measurable.measure(newConstraints)
-        }
+        val placeables = measurables.map { it.measure(childConstraints) }
 
         // TODO: limit the number of pane to 2 for now
         val childrenCount = placeables.count()
@@ -101,22 +103,32 @@ internal fun twoPaneMeasurePolicy(
                 if (orientation == LayoutOrientation.Vertical) {
                     layout(constraints.maxWidth, constraints.maxHeight) {
                         var xPosition = 0
-                        placeables.forEach { placeable ->
-                            placeable.place(x = xPosition, y = 0)
-                            xPosition += paneWidth + arrangementSpacing
+                        for (i in placeables.indices) {
+                            var lastPaneWidth = paneWidth - paddingBounds.right
+                            var firstPaneWidth = constraints.maxWidth - lastPaneWidth
+
+                            placeables[i].placeRelative(x = xPosition, y = 0)
+                            xPosition += if (i == 0) {
+                                firstPaneWidth
+                            } else { // for the second pane
+                                paneHeight + arrangementSpacing
+                            }
                         }
                     }
                 } else {
+                    // calculate the first pane differently, due to the potential status bar, top app bar and bottom navigation bar
                     layout(constraints.maxWidth, constraints.maxHeight) {
                         var yPosition = 0
                         for (i in placeables.indices) {
-                            // calculate the first pane differently, due to the potential status bar and top app bar
-                            var updatedPaneHeight = paneHeight
-                            if (i == 0) {
-                                updatedPaneHeight = constraints.maxHeight - paneHeight * (placeables.count() - 1) - arrangementSpacing * (placeables.count() - 1)
+                            var lastPaneHeight = paneHeight - paddingBounds.bottom
+                            var firstPaneHeight = constraints.maxHeight - lastPaneHeight
+
+                            placeables[i].placeRelative(x = 0, y = yPosition)
+                            yPosition += if (i == 0) {
+                                firstPaneHeight
+                            } else { // for the second pane
+                                paneHeight + arrangementSpacing
                             }
-                            placeables[i].place(x = 0, y = yPosition)
-                            yPosition += updatedPaneHeight + arrangementSpacing
                         }
                     }
                 }

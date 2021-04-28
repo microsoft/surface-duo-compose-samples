@@ -1,6 +1,5 @@
 package com.microsoft.device.display.twopanelayout.screenState
 
-import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Rect
 import android.os.Handler
@@ -10,6 +9,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.core.util.Consumer
@@ -21,7 +21,8 @@ import java.util.concurrent.Executor
 const val SmallestTabletScreenWidthDp = 585
 
 @Composable
-fun ConfigScreenState(context: Context, viewModel: ScreenStateViewModel) {
+fun ConfigScreenState(viewModel: ScreenStateViewModel) {
+    val context = LocalContext.current
     val windowManager = WindowManager(context)
     val handler = Handler(Looper.getMainLooper())
     val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
