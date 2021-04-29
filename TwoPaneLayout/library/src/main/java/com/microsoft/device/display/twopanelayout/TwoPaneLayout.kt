@@ -9,24 +9,21 @@ import android.graphics.Rect
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.microsoft.device.display.twopanelayout.screenState.ConfigScreenState
-import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.display.twopanelayout.screenState.LayoutState
 import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewModel
 
 @Composable
 inline fun TwoPaneLayout(
     modifier: Modifier,
-    content: @Composable () -> Unit
+    content: @Composable TwoPaneScope.() -> Unit
 ) {
     val windowInsets = LocalView.current.rootWindowInsets
     val paddingBounds = Rect()
@@ -42,12 +39,12 @@ inline fun TwoPaneLayout(
             val measurePolicy = twoPaneMeasurePolicy(
             layoutState = state.layoutState,
             orientation = state.orientation,
-            paneSizes = state.paneSizes,
+            paneSize = state.paneSize,
             arrangementSpacing = state.hingeWidth,
             paddingBounds = paddingBounds
         )
         Layout(
-            content = { content() },
+            content = { TwoPaneScopeInstance.content() },
             measurePolicy = measurePolicy,
             modifier = modifier
         )
@@ -57,82 +54,25 @@ inline fun TwoPaneLayout(
 @LayoutScopeMarker
 @Immutable
 interface TwoPaneScope {
-
+    @Stable
+    fun Modifier.weight(
+        weight: Float,
+    ): Modifier
 }
 
 internal object TwoPaneScopeInstance : TwoPaneScope {
-
-}
-
-@PublishedApi
-@Composable
-internal fun twoPaneMeasurePolicy(
-    layoutState: LayoutState,
-    orientation: LayoutOrientation,
-    paneSizes: List<Size>,
-    arrangementSpacing: Int,
-    paddingBounds: Rect
-): MeasurePolicy {
-    return MeasurePolicy { measurables, constraints ->
-        val paneWidth = paneSizes.first().width.toInt()
-        val paneHeight = paneSizes.first().height.toInt()
-        var minWidth = constraints.minWidth
-        var minHeight = constraints.minHeight
-        minWidth = minWidth.coerceAtMost(paneWidth)
-        minHeight = minHeight.coerceAtMost(paneHeight)
-        val childConstraints = Constraints(minWidth = minWidth, minHeight = minHeight, maxWidth = minWidth, maxHeight = minHeight)
-
-        val placeables = measurables.map { it.measure(childConstraints) }
-
-        // TODO: limit the number of pane to 2 for now
-        val childrenCount = placeables.count()
-        if (childrenCount > 2 || childrenCount < 0) {
-            error("TwoPaneLayout requires 1 or 2 child elements")
-        }
-
-        when (layoutState) {
-            LayoutState.Fold -> { // only layout the first pane
-                layout(constraints.maxWidth, constraints.maxHeight) {
-                    val placeable = placeables.first()
-                    placeable.place(x = 0, y = 0)
+    @Stable
+    override fun Modifier.weight(weight: Float): Modifier {
+        require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
+        return this.then(
+            LayoutWeightImpl(
+                weight = weight,
+                inspectorInfo = debugInspectorInfo {
+                    name = "weight"
+                    value = weight
+                    properties["weight"] = weight
                 }
-            }
-
-            // TODO: layout according to the weight
-            LayoutState.Open -> {
-                if (orientation == LayoutOrientation.Vertical) {
-                    layout(constraints.maxWidth, constraints.maxHeight) {
-                        var xPosition = 0
-                        for (i in placeables.indices) {
-                            var lastPaneWidth = paneWidth - paddingBounds.right
-                            var firstPaneWidth = constraints.maxWidth - lastPaneWidth
-
-                            placeables[i].placeRelative(x = xPosition, y = 0)
-                            xPosition += if (i == 0) {
-                                firstPaneWidth
-                            } else { // for the second pane
-                                paneHeight + arrangementSpacing
-                            }
-                        }
-                    }
-                } else {
-                    // calculate the first pane differently, due to the potential status bar, top app bar and bottom navigation bar
-                    layout(constraints.maxWidth, constraints.maxHeight) {
-                        var yPosition = 0
-                        for (i in placeables.indices) {
-                            var lastPaneHeight = paneHeight - paddingBounds.bottom
-                            var firstPaneHeight = constraints.maxHeight - lastPaneHeight
-
-                            placeables[i].placeRelative(x = 0, y = yPosition)
-                            yPosition += if (i == 0) {
-                                firstPaneHeight
-                            } else { // for the second pane
-                                paneHeight + arrangementSpacing
-                            }
-                        }
-                    }
-                }
-            }
-        }
+            )
+        )
     }
 }

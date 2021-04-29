@@ -33,7 +33,7 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
     var layoutState = if (isTablet) LayoutState.Open else LayoutState.Fold
     val screenHeight = LocalConfiguration.current.screenHeightDp * LocalDensity.current.density
     val screenWidth = LocalConfiguration.current.screenWidthDp * LocalDensity.current.density
-    var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation, isTablet = isTablet)
+    var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation)
 
     if (!LocalView.current.isAttachedToWindow) {
         return
@@ -79,21 +79,13 @@ private fun orientationMappingFromFoldingFeature(original: Int): LayoutOrientati
     }
 }
 
-// For tablet
+// For tablet or single-screen device
 // Portrait orientation will dual-landscape mode, which is treated as using horizontal hinge
 // Landscape orientation will be dual-portrait mode, which is treated as using vertical hinge
-private fun orientationMappingFromScreen(original: Int, isTablet: Boolean): LayoutOrientation {
-    return if (isTablet) {
-        if (original == ORIENTATION_PORTRAIT) {
-            LayoutOrientation.Horizontal
-        } else {
-            LayoutOrientation.Vertical
-        }
+private fun orientationMappingFromScreen(original: Int): LayoutOrientation {
+    return if (original == ORIENTATION_PORTRAIT) {
+        LayoutOrientation.Horizontal
     } else {
-        if (original == ORIENTATION_PORTRAIT) { // for single-screen mode
-            LayoutOrientation.Vertical
-        } else {
-            LayoutOrientation.Horizontal
-        }
+        LayoutOrientation.Vertical
     }
 }

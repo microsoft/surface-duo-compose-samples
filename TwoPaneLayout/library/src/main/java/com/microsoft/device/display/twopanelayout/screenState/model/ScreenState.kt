@@ -29,33 +29,28 @@ class ScreenState(
     var orientation: LayoutOrientation,
     var layoutState: LayoutState
 ) {
-    var paneSizes: List<Size> = emptyList()
+    var paneSize: Size = Size.Zero
         get() {
-            // TODO: calculate size by weight
-            if (deviceType == DeviceType.Big) { // TODO: split into only 2 panes for tablet for now
+            if (deviceType == DeviceType.Big) {
                 return if (orientation == LayoutOrientation.Vertical) {
-                    val paneSize = Size(width = screenSize.width/2, height = screenSize.height)
-                    listOf(paneSize, paneSize)
+                    Size(width = screenSize.width/2, height = screenSize.height)
                 } else {
-                    val paneSize = Size(width = screenSize.width, height = screenSize.height/2)
-                    listOf(paneSize, paneSize)
+                    Size(width = screenSize.width, height = screenSize.height/2)
                 }
-            } else if (deviceType == DeviceType.Multiple) { // TODO: only support dual-screen for now
+            } else if (deviceType == DeviceType.Multiple) {
                 return if (orientation == LayoutOrientation.Vertical) {
-                    val paneSize = Size(
+                    Size(
                         width = hingeBounds.left.toFloat(),
                         height = hingeBounds.height().toFloat()
                     )
-                    listOf(paneSize, paneSize)
                 } else {
-                    val paneSize = Size(
+                    Size(
                         width = hingeBounds.width().toFloat(),
                         height = hingeBounds.top.toFloat()
                     )
-                    listOf(paneSize, paneSize)
                 }
             }
-            return listOf(screenSize)
+            return screenSize
         }
 
     var hingeWidth: Int = 0
