@@ -1,18 +1,8 @@
----
-page_type: sample
-name: Surface Duo - Jetpack Compose samples
-languages:
-- kotlin
-products:
-- surface-duo
-description: "Samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns."
-urlFragment: all
----
-# Surface Duo Jetpack Compose samples
+![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
 
-This repo contains the samples built in Jetpack Compose for Microsoft Surface Duo. These samples demonstrate [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) with the new UI framework.
+# Surface Duo Jetpack Compose
 
-![Jetpack Compose samples CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
+This repo contains the samples and components built in Jetpack Compose for Microsoft Surface Duo.
 
 ## Getting Started
 
@@ -26,29 +16,8 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Contents
 
-### [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery)
+### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
 
-A simple sample uses List-Detail app pattern to show a list of image thumbnails in the single screen. The sample uses List-Detail app pattern to show a list of image thumbnails in the single screen.
-
-### [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane)
-
-Includes example of building [Companion Pane](https://docs.microsoft.com/en-us/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
-
-### [ExtendedCanvas](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ExtendedCanvas)
-
-Includes example of building [Extended Canvas](https://docs.microsoft.com/en-us/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
-
-### [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ListDetail)
-
-Includes example of building [List Detail](https://docs.microsoft.com/en-us/dual-screen/introduction#list-detail) app pattern in Jetpack Compose.
-
-### [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView)
-
-Includes example of building [Dual View](https://docs.microsoft.com/en-us/dual-screen/introduction#dual-view) app pattern in Jetpack Compose.
-
-### [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage)
-
-Includes example of building [Two Page](https://docs.microsoft.com/en-us/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
 
 ## Related links
 
