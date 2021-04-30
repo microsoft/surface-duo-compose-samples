@@ -6,7 +6,7 @@ This repo contains the samples and components built in Jetpack Compose for Micro
 
 ## Getting Started
 
-To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
+To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo).
 
 ## Prerequisites
 
@@ -17,7 +17,13 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 ## Contents
 
 ### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
+Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
 
+## Social links
+
+- [blog：Jetpack Compose on Microsoft Surface Duo](https://github.com/microsoft/surface-duo-app-samples)
+- [blog: Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples)
+- [video: Jetpack Compose samples Twitch](https://www.youtube.com/watch?v=m8bMjFhBbN8)
 
 ## Related links
 
