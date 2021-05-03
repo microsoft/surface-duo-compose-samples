@@ -45,7 +45,7 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
             if (newLayoutInfo.displayFeatures.isNotEmpty()) {
                 val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
                 featureBounds = foldingFeature.bounds
-                layoutState = if(foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
+                layoutState = if (foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
                 orientation = orientationMappingFromFoldingFeature(foldingFeature.orientation)
                 deviceType = DeviceType.Multiple
             }

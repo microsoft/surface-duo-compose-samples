@@ -32,15 +32,14 @@ inline fun TwoPaneLayout(
     paddingBounds.top = windowInsets.systemWindowInsetTop
     paddingBounds.bottom = windowInsets.systemWindowInsetBottom
 
-    val viewModel:ScreenStateViewModel = viewModel()
+    val viewModel: ScreenStateViewModel = viewModel()
     ConfigScreenState(viewModel = viewModel)
     val screenState by viewModel.screenStateLiveData.observeAsState()
     screenState?.let { state ->
-            val measurePolicy = twoPaneMeasurePolicy(
+        val measurePolicy = twoPaneMeasurePolicy(
             layoutState = state.layoutState,
             orientation = state.orientation,
             paneSize = state.paneSize,
-            arrangementSpacing = state.hingeWidth,
             paddingBounds = paddingBounds
         )
         Layout(
