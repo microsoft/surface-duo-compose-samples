@@ -46,6 +46,14 @@ ext {
             viewModelCompose        : "androidx.lifecycle:lifecycle-viewmodel-compose:$viewModelComposeVersion"
     ]
 
+    androixTestVersion = "1.3.0"
+    composeTestDependencies = [
+            composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
+            androixTestRules        : "androidx.test:rules:$androixTestVersion",
+            androixTestRunner       : "androidx.test:runner:$androixTestVersion",
+    ]
+
+
     //Google dependencies
     materialVersion = "1.2.1"
 
