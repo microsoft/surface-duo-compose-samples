@@ -20,9 +20,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.microsoft.device.display.twopanelayout.screenState.ConfigScreenState
 import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewModel
 
+/**
+ * A layout component that places its children in one or two panes vertically or horizontally to
+ * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
+ * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
+ * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
+ * The tablet or wide screen devices will display two-pane layout by default.
+ *
+ * The [TwoPane] layout is able to assign children widths or heights according to their weights
+ * provided using the [TwoPaneScope.weight] modifier. If all the children have not provided a weight,
+ * they will be layout equally, with the potential padding in-between based on the
+ * physical hinge between two screens.
+ *
+ * @param modifier The modifier to be applied to the TwoPane.
+ */
+
 @Composable
 inline fun TwoPaneLayout(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable TwoPaneScope.() -> Unit
 ) {
     val windowInsets = LocalView.current.rootWindowInsets

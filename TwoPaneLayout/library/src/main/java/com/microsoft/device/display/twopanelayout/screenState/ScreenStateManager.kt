@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.twopanelayout.screenState
 
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -18,7 +23,7 @@ import androidx.window.WindowLayoutInfo
 import androidx.window.WindowManager
 import java.util.concurrent.Executor
 
-const val SmallestTabletScreenWidthDp = 585
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
 fun ConfigScreenState(viewModel: ScreenStateViewModel) {
@@ -28,7 +33,7 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
     val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
-    val isTablet = smallestScreenWidthDp > SmallestTabletScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     var deviceType = if (isTablet) DeviceType.Big else DeviceType.Single
     var layoutState = if (isTablet) LayoutState.Open else LayoutState.Fold
     val screenHeight = LocalConfiguration.current.screenHeightDp * LocalDensity.current.density
@@ -57,7 +62,7 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
                 orientation = orientation,
                 layoutState = layoutState
             )
-            viewModel.setScreenState(screenState)
+            viewModel.screenStateLiveData.value = screenState
         }
     }
 
@@ -79,9 +84,11 @@ private fun orientationMappingFromFoldingFeature(original: Int): LayoutOrientati
     }
 }
 
-// For tablet or single-screen device
-// Portrait orientation will dual-landscape mode, which is treated as using horizontal hinge
-// Landscape orientation will be dual-portrait mode, which is treated as using vertical hinge
+/**
+ * For tablet or single-screen device
+ * Portrait orientation will dual-landscape mode, which is treated as using horizontal hinge
+ * Landscape orientation will be dual-portrait mode, which is treated as using vertical hinge
+ */
 private fun orientationMappingFromScreen(original: Int): LayoutOrientation {
     return if (original == ORIENTATION_PORTRAIT) {
         LayoutOrientation.Horizontal

@@ -65,6 +65,6 @@ class MainActivity : AppCompatActivity() {
             isDualMode = isVertical
         }
 
-        appStateViewModel.setIsDualModeLiveData(isDualMode)
+        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
     }
 }

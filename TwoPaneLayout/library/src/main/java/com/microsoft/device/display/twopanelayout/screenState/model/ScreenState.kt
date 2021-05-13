@@ -16,7 +16,7 @@ enum class LayoutOrientation {
 /**
  * LayoutState
  * Open,        multiple layout display, it is always "Open" for big-screen device
- * Fold         ingle layout display, including single-screen phone, foldable device in folding mode and app in un-spanned mode
+ * Fold         single layout display, including single-screen phone, foldable device in folding mode and app in un-spanned mode
  */
 enum class LayoutState {
     Open,

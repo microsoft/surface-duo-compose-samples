@@ -14,11 +14,11 @@ class AppStateViewModel : ViewModel() {
     private val imageSelectionLiveData = MutableLiveData<Int>() // observe the image selection change
     private val isDualModeLiveData = MutableLiveData<Boolean>() // observe the dual-screen mode
 
-    fun getIsDualModeLiveData(): LiveData<Boolean> {
+    fun getIsDualModeLiveDataLiveData(): LiveData<Boolean> {
         return this.isDualModeLiveData
     }
 
-    fun setIsDualModeLiveData(isDualMode: Boolean) {
+    fun setIsDualModeLiveDataLiveData(isDualMode: Boolean) {
         isDualModeLiveData.value = isDualMode
     }
 

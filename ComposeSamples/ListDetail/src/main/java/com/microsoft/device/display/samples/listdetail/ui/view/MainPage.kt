@@ -36,7 +36,7 @@ private lateinit var appStateViewModel: AppStateViewModel
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
 
-    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveData()
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
 
     if (isDualMode) {

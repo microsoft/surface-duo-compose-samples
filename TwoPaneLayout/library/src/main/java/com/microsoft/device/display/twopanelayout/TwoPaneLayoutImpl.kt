@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.twopanelayout
 
 import android.graphics.Rect
@@ -126,7 +131,10 @@ internal fun twoPaneMeasurePolicy(
     }
 }
 
-// measure the pane for single-screen, or dual-screen without weight, or dual-screen with two equal weight
+/*
+ * to measure the pane for single-screen, or dual-screen without weight,
+ * or dual-screen with two equal weight
+ */
 private fun measureTwoPaneEqually(
     constraints: Constraints,
     paneWidth: Int,
@@ -147,7 +155,9 @@ private fun measureTwoPaneEqually(
     return placeables
 }
 
-// measure the pane for dual-screen with two non-equal weight
+/*
+ * to measure the pane for dual-screen with two non-equal weight
+ */
 private fun measureTwoPaneProportionally(
     constraints: Constraints,
     measurables: List<Measurable>,
