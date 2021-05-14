@@ -66,7 +66,7 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
         }
     }
 
-    DisposableEffect(windowManager) {
+    DisposableEffect(viewModel) {
         windowManager.registerLayoutChangeCallback(mainThreadExecutor, layoutChangeCallback)
 
         // When the effect leaves the Composition, remove the callback

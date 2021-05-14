@@ -27,7 +27,7 @@ import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewMod
  * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
  * The tablet or wide screen devices will display two-pane layout by default.
  *
- * The [TwoPane] layout is able to assign children widths or heights according to their weights
+ * The [TwoPaneLayout] layout is able to assign children widths or heights according to their weights
  * provided using the [TwoPaneScope.weight] modifier. If all the children have not provided a weight,
  * they will be layout equally, with the potential padding in-between based on the
  * physical hinge between two screens.
