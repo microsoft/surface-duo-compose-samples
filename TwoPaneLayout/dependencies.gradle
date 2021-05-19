@@ -53,11 +53,11 @@ ext {
             androixTestRunner       : "androidx.test:runner:$androixTestVersion",
     ]
 
-
     //Google dependencies
     materialVersion = "1.2.1"
 
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
+
 }

@@ -50,4 +50,6 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+
+    implementation googleDependencies.material
 }

@@ -54,11 +54,7 @@ dependencies {
     implementation composeDependencies.activityCompose
     implementation composeDependencies.viewModelCompose
 
-    implementation googleDependencies.material
-
     androidTestImplementation(composeTestDependencies.composeJunit)
     androidTestImplementation(composeTestDependencies.androixTestRules)
     androidTestImplementation(composeTestDependencies.androixTestRunner)
-
-
 }
