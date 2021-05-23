@@ -27,9 +27,16 @@ internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
     orientation: LayoutOrientation,
     paneSize: Size,
-    paddingBounds: Rect
+    paddingBounds: Rect,
+    mockConstraints: Constraints = Constraints(0, 0, 0, 0)
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
+        val childrenConstraints =
+            if (mockConstraints == Constraints(0, 0, 0, 0))
+                constraints
+            else
+                mockConstraints
+
         val twoPaneParentData = Array(measurables.size) { measurables[it].data }
         val placeables: List<Placeable>
         var totalWeight = 0f
@@ -48,16 +55,16 @@ internal fun twoPaneMeasurePolicy(
         }
 
         if (layoutState == LayoutState.Fold) {
-            placeables = measurables.map { it.measure(constraints) }
+            placeables = measurables.map { it.measure(childrenConstraints) }
         } else if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
             placeables = measureTwoPaneEqually(
-                constraints = constraints,
+                constraints = childrenConstraints,
                 paneSize = paneSize,
                 measurables = measurables
             )
         } else {
             placeables = measureTwoPaneProportionally(
-                constraints = constraints,
+                constraints = childrenConstraints,
                 measurables = measurables,
                 totalWeight = totalWeight,
                 orientation = orientation,
@@ -67,7 +74,7 @@ internal fun twoPaneMeasurePolicy(
 
         when (layoutState) {
             LayoutState.Fold -> { // single pane(screen)
-                layout(constraints.maxWidth, constraints.maxHeight) {
+                layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                     if (maxWeight == 0f) { // only layout the first pane if no weight specified
                         val placeable = placeables.first()
                         placeable.place(x = 0, y = 0)
@@ -86,7 +93,7 @@ internal fun twoPaneMeasurePolicy(
 
             LayoutState.Open -> {
                 if (maxWeight == 0f || (maxWeight * 2 == totalWeight)) { // no weight will be layout equally by default
-                    layout(constraints.maxWidth, constraints.maxHeight) {
+                    layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                         placeables.forEachIndexed { index, placeable ->
                             placeTwoPaneEqually(
                                 orientation = orientation,
@@ -94,13 +101,13 @@ internal fun twoPaneMeasurePolicy(
                                 index = index,
                                 paneSize = paneSize,
                                 paddingBounds = paddingBounds,
-                                constraints = constraints
+                                constraints = childrenConstraints
                             )
                         }
                     }
                 } else {
                     if (maxWeight == totalWeight) { // only one pane with weight
-                        layout(constraints.maxWidth, constraints.maxHeight) {
+                        layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                             for (i in placeables.indices) {
                                 val parentData = twoPaneParentData[i]
                                 val weight = parentData.weight
@@ -111,14 +118,14 @@ internal fun twoPaneMeasurePolicy(
                             }
                         }
                     } else { // two panes with different weight
-                        layout(constraints.maxWidth, constraints.maxHeight) {
+                        layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                             placeables.forEachIndexed { index, placeable ->
                                 placeTwoPaneProportionally(
                                     orientation = orientation,
                                     placeable = placeable,
                                     index = index,
                                     twoPaneParentData = twoPaneParentData,
-                                    constraints = constraints,
+                                    constraints = childrenConstraints,
                                     totalWeight = totalWeight
                                 )
                             }
@@ -131,7 +138,7 @@ internal fun twoPaneMeasurePolicy(
 }
 
 /*
- * to measure the pane for single-screen, or dual-screen without weight,
+ * to measure the pane for dual-screen without weight,
  * or dual-screen with two equal weight
  */
 private fun measureTwoPaneEqually(

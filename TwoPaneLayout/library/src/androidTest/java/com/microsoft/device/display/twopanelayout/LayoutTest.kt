@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.constrain
 import com.microsoft.device.display.twopanelayout.screenState.ScreenState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -65,20 +66,25 @@ open class LayoutTest {
     @Composable
     internal fun Container(
         modifier: Modifier = Modifier,
-        constraints: Constraints = Constraints(),
+        width: Int = 0,
+        height: Int = 0,
         content: @Composable () -> Unit
     ) {
         Layout(content, modifier) { measurables, incomingConstraints ->
-            layout(incomingConstraints.maxWidth, incomingConstraints.maxHeight) {
+            val containerConstraints = Constraints(
+                minWidth = if (width == 0) incomingConstraints.minWidth else width,
+                maxWidth = if (width == 0) incomingConstraints.maxWidth else width,
+                minHeight = if (height == 0) incomingConstraints.minHeight else height,
+                maxHeight = if (height == 0) incomingConstraints.maxHeight else height
+            )
+            layout(containerConstraints.maxWidth, containerConstraints.maxHeight) {
                 val placeables = measurables.map { measurable ->
-                    measurable.measure(incomingConstraints)
+                    measurable.measure(containerConstraints)
                 }
                 placeables.forEach { placeable ->
-//                    placeable.place(x = 0, y = 0)
-
                     val position = Alignment.Center.align(
                         IntSize(placeable.width, placeable.height),
-                        IntSize(incomingConstraints.maxWidth, incomingConstraints.maxHeight),
+                        IntSize(containerConstraints.maxWidth, containerConstraints.maxHeight),
                         layoutDirection
                     )
                     placeable.place(
@@ -91,20 +97,21 @@ open class LayoutTest {
 
     @Composable
     internal fun MockTwoPaneLayout(
-        modifier: Modifier = Modifier,
         screenState: ScreenState,
         paddingBounds: Rect,
+        constraints: Constraints,
         content: @Composable TwoPaneScope.() -> Unit) {
         val measurePolicy = twoPaneMeasurePolicy(
             layoutState = screenState.layoutState,
             orientation = screenState.orientation,
             paneSize = screenState.paneSize,
-            paddingBounds = paddingBounds
+            paddingBounds = paddingBounds,
+            mockConstraints = constraints
         )
         Layout(
             content = { TwoPaneScopeInstance.content() },
             measurePolicy = measurePolicy,
-            modifier = modifier
+            modifier = Modifier
         )
     }
 
