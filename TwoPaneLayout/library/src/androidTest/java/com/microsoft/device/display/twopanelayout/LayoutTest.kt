@@ -23,9 +23,7 @@ import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Recomposer
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -35,10 +33,7 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.constrain
 import com.microsoft.device.display.twopanelayout.screenState.ScreenState
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -88,7 +83,7 @@ open class LayoutTest {
                         layoutDirection
                     )
                     placeable.place(
-                        position.x,position.y
+                        position.x, position.y
                     )
                 }
             }
@@ -100,7 +95,8 @@ open class LayoutTest {
         screenState: ScreenState,
         paddingBounds: Rect,
         constraints: Constraints,
-        content: @Composable TwoPaneScope.() -> Unit) {
+        content: @Composable TwoPaneScope.() -> Unit
+    ) {
         val measurePolicy = twoPaneMeasurePolicy(
             layoutState = screenState.layoutState,
             orientation = screenState.orientation,

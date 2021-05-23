@@ -6,19 +6,14 @@
 package com.microsoft.device.display.twopanelayout
 
 import android.graphics.Rect
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.microsoft.device.display.twopanelayout.screenState.DeviceType
 import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
@@ -35,7 +30,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 @RunWith(AndroidJUnit4::class)
-class TwoPaneTestTest: LayoutTest() {
+class TwoPaneTestTest : LayoutTest() {
 
     @Before
     fun before() {
@@ -137,7 +132,7 @@ class TwoPaneTestTest: LayoutTest() {
                             }
                     ) {
                     }
-             }
+                }
             }
         }
         assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
