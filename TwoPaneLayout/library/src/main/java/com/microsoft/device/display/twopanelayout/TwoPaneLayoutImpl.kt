@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.display.twopanelayout.screenState.LayoutState
+import kotlin.math.roundToInt
 
 @PublishedApi
 @Composable
@@ -29,10 +30,8 @@ internal fun twoPaneMeasurePolicy(
     paddingBounds: Rect
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
-        val paneWidth = paneSize.width.toInt()
-        val paneHeight = paneSize.height.toInt()
         val twoPaneParentData = Array(measurables.size) { measurables[it].data }
-        var placeables: List<Placeable>
+        val placeables: List<Placeable>
         var totalWeight = 0f
         var maxWeight = 0f
 
@@ -48,11 +47,12 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
-        if (maxWeight == 0f || maxWeight * 2 == totalWeight || layoutState == LayoutState.Fold) {
+        if (layoutState == LayoutState.Fold) {
+            placeables = measurables.map { it.measure(constraints) }
+        } else if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
             placeables = measureTwoPaneEqually(
                 constraints = constraints,
-                paneWidth = paneWidth,
-                paneHeight = paneHeight,
+                paneSize = paneSize,
                 measurables = measurables
             )
         } else {
@@ -92,8 +92,7 @@ internal fun twoPaneMeasurePolicy(
                                 orientation = orientation,
                                 placeable = placeable,
                                 index = index,
-                                paneWidth = paneWidth,
-                                paneHeight = paneHeight,
+                                paneSize = paneSize,
                                 paddingBounds = paddingBounds,
                                 constraints = constraints
                             )
@@ -137,19 +136,16 @@ internal fun twoPaneMeasurePolicy(
  */
 private fun measureTwoPaneEqually(
     constraints: Constraints,
-    paneWidth: Int,
-    paneHeight: Int,
+    paneSize: Size,
     measurables: List<Measurable>
 ): List<Placeable> {
-    var minWidth = constraints.minWidth
-    var minHeight = constraints.minHeight
-    var maxWidth = constraints.maxWidth
-    var maxHeight = constraints.maxHeight
+    var paneWidth = paneSize.width.toInt()
+    var paneHeight = paneSize.height.toInt()
     val childConstraints = Constraints(
-        minWidth = minWidth.coerceAtMost(paneWidth),
-        minHeight = minHeight.coerceAtMost(paneHeight),
-        maxWidth = maxWidth.coerceAtMost(paneWidth),
-        maxHeight = maxHeight.coerceAtMost(paneHeight)
+        minWidth = constraints.minWidth.coerceAtMost(paneWidth),
+        minHeight = constraints.minHeight.coerceAtMost(paneHeight),
+        maxWidth = constraints.maxWidth.coerceAtMost(paneWidth),
+        maxHeight = constraints.maxHeight.coerceAtMost(paneHeight)
     )
     var placeables = measurables.map { it.measure(childConstraints) }
     return placeables
@@ -165,10 +161,10 @@ private fun measureTwoPaneProportionally(
     orientation: LayoutOrientation,
     twoPaneParentData: Array<TwoPaneParentData?>
 ): List<Placeable> {
-    var minWidth = constraints.minWidth
-    var minHeight = constraints.minHeight
-    var maxWidth = constraints.maxWidth
-    var maxHeight = constraints.maxHeight
+    val minWidth = constraints.minWidth
+    val minHeight = constraints.minHeight
+    val maxWidth = constraints.maxWidth
+    val maxHeight = constraints.maxHeight
 
     val placeables = emptyList<Placeable>().toMutableList()
     for (i in measurables.indices) {
@@ -178,17 +174,17 @@ private fun measureTwoPaneProportionally(
         val ratio = weight / totalWeight
         childConstraints = if (orientation == LayoutOrientation.Vertical) {
             Constraints(
-                minWidth = (minWidth * ratio).toInt(),
+                minWidth = (minWidth * ratio).roundToInt(),
                 minHeight = minHeight,
-                maxWidth = (maxWidth * ratio).toInt(),
+                maxWidth = (maxWidth * ratio).roundToInt(),
                 maxHeight = maxHeight
             )
         } else {
             Constraints(
                 minWidth = minWidth,
-                minHeight = (minHeight * ratio).toInt(),
+                minHeight = (minHeight * ratio).roundToInt(),
                 maxWidth = maxWidth,
-                maxHeight = (maxHeight * ratio).toInt()
+                maxHeight = (maxHeight * ratio).roundToInt()
             )
         }
 
@@ -202,27 +198,26 @@ private fun Placeable.PlacementScope.placeTwoPaneEqually(
     orientation: LayoutOrientation,
     placeable: Placeable,
     index: Int,
-    paneWidth: Int,
-    paneHeight: Int,
+    paneSize: Size,
     paddingBounds: Rect,
     constraints: Constraints
 ) {
     if (orientation == LayoutOrientation.Vertical) {
         var xPosition = 0 // for the first pane
         if (index != 0) { // for the second pane
-            var lastPaneWidth = paneWidth - paddingBounds.right
-            var firstPaneWidth = constraints.maxWidth - lastPaneWidth
+            val lastPaneWidth = paneSize.width.toInt() - paddingBounds.right
+            val firstPaneWidth = constraints.maxWidth - lastPaneWidth
             xPosition += firstPaneWidth
         }
-        placeable.placeRelative(x = xPosition, y = 0)
+        placeable.place(x = xPosition, y = 0)
     } else {
         var yPosition = 0
         if (index != 0) {
-            var lastPaneHeight = paneHeight - paddingBounds.bottom
-            var firstPaneHeight = constraints.maxHeight - lastPaneHeight
+            val lastPaneHeight = paneSize.height.toInt() - paddingBounds.bottom
+            val firstPaneHeight = constraints.maxHeight - lastPaneHeight
             yPosition += firstPaneHeight
         }
-        placeable.placeRelative(x = 0, y = yPosition)
+        placeable.place(x = 0, y = yPosition)
     }
 }
 
@@ -240,20 +235,20 @@ private fun Placeable.PlacementScope.placeTwoPaneProportionally(
             val parentData = twoPaneParentData[index]
             val weight = parentData.weight
             val ratio = 1f - (weight / totalWeight)
-            var firstPaneWidth = (constraints.maxWidth * ratio).toInt()
+            val firstPaneWidth = (constraints.maxWidth * ratio).roundToInt()
             xPosition += firstPaneWidth
         }
-        placeable.placeRelative(x = xPosition, y = 0)
+        placeable.place(x = xPosition, y = 0)
     } else {
         var yPosition = 0
         if (index != 0) {
             val parentData = twoPaneParentData[index]
             val weight = parentData.weight
             val ratio = 1f - (weight / totalWeight)
-            var firstPaneHeight = (constraints.maxHeight * ratio).toInt()
+            val firstPaneHeight = (constraints.maxHeight * ratio).roundToInt()
             yPosition += firstPaneHeight
         }
-        placeable.placeRelative(x = 0, y = yPosition)
+        placeable.place(x = 0, y = yPosition)
     }
 }
 
