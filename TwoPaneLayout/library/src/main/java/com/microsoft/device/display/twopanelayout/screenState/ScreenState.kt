@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.twopanelayout.screenState
 
 import android.graphics.Rect
@@ -64,16 +69,5 @@ class ScreenState(
                 }
             }
             return screenSize
-        }
-
-    var hingeWidth: Int = 0
-        get() {
-            if (deviceType == DeviceType.Multiple) {
-                return when (orientation) {
-                    LayoutOrientation.Vertical -> hingeBounds.width()
-                    LayoutOrientation.Horizontal -> hingeBounds.height()
-                }
-            }
-            return 0
         }
 }

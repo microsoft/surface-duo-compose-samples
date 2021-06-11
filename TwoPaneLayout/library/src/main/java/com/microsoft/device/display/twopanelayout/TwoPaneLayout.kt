@@ -11,14 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.microsoft.device.display.twopanelayout.screenState.ConfigScreenState
-import com.microsoft.device.display.twopanelayout.screenState.ScreenStateViewModel
+import com.microsoft.device.display.twopanelayout.screenState.DeviceType
+import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
+import com.microsoft.device.display.twopanelayout.screenState.LayoutState
+import com.microsoft.device.display.twopanelayout.screenState.ScreenState
 
 /**
  * A layout component that places its children in one or two panes vertically or horizontally to
@@ -40,29 +45,43 @@ inline fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     content: @Composable TwoPaneScope.() -> Unit
 ) {
-    val windowInsets = LocalView.current.rootWindowInsets
+    val currentView = LocalView.current
+    val windowInsets by remember {
+        mutableStateOf(
+            currentView.rootWindowInsets
+        )
+    }
     val paddingBounds = Rect()
     paddingBounds.left = windowInsets.systemWindowInsetLeft
     paddingBounds.right = windowInsets.systemWindowInsetRight
     paddingBounds.top = windowInsets.systemWindowInsetTop
     paddingBounds.bottom = windowInsets.systemWindowInsetBottom
 
-    val viewModel: ScreenStateViewModel = viewModel()
-    ConfigScreenState(viewModel = viewModel)
-    val screenState by viewModel.screenStateLiveData.observeAsState()
-    screenState?.let { state ->
-        val measurePolicy = twoPaneMeasurePolicy(
-            layoutState = state.layoutState,
-            orientation = state.orientation,
-            paneSize = state.paneSize,
-            paddingBounds = paddingBounds
-        )
-        Layout(
-            content = { TwoPaneScopeInstance.content() },
-            measurePolicy = measurePolicy,
-            modifier = modifier
+    var screenState by remember {
+        mutableStateOf(
+            ScreenState(
+                deviceType = DeviceType.Single,
+                screenSize = Size.Zero,
+                hingeBounds = Rect(),
+                orientation = LayoutOrientation.Horizontal,
+                layoutState = LayoutState.Fold
+            )
         )
     }
+
+    ConfigScreenState(onStateChange = { screenState = it })
+
+    val measurePolicy = twoPaneMeasurePolicy(
+        layoutState = screenState.layoutState,
+        orientation = screenState.orientation,
+        paneSize = screenState.paneSize,
+        paddingBounds = paddingBounds
+    )
+    Layout(
+        content = { TwoPaneScopeInstance.content() },
+        measurePolicy = measurePolicy,
+        modifier = modifier
+    )
 }
 
 @LayoutScopeMarker

@@ -16,7 +16,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.core.util.Consumer
 import androidx.window.FoldingFeature
 import androidx.window.WindowLayoutInfo
@@ -26,7 +25,7 @@ import java.util.concurrent.Executor
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun ConfigScreenState(viewModel: ScreenStateViewModel) {
+fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     val context = LocalContext.current
     val windowManager = WindowManager(context)
     val handler = Handler(Looper.getMainLooper())
@@ -39,10 +38,6 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
     val screenHeight = LocalConfiguration.current.screenHeightDp * LocalDensity.current.density
     val screenWidth = LocalConfiguration.current.screenWidthDp * LocalDensity.current.density
     var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation)
-
-    if (!LocalView.current.isAttachedToWindow) {
-        return
-    }
 
     val layoutChangeCallback = remember {
         Consumer<WindowLayoutInfo> { newLayoutInfo ->
@@ -62,11 +57,11 @@ fun ConfigScreenState(viewModel: ScreenStateViewModel) {
                 orientation = orientation,
                 layoutState = layoutState
             )
-            viewModel.screenStateLiveData.value = screenState
+            onStateChange(screenState)
         }
     }
 
-    DisposableEffect(viewModel) {
+    DisposableEffect(context) {
         windowManager.registerLayoutChangeCallback(mainThreadExecutor, layoutChangeCallback)
 
         // When the effect leaves the Composition, remove the callback
