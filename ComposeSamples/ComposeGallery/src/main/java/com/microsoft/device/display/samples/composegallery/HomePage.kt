@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.composegallery
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -147,15 +149,17 @@ fun ShowDetailWithList(models: List<ImageModel>) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 20.dp)
         ) {
-            Crossfade(targetState = selectedImageModel, animationSpec = tween(800)) {
-                BasicText(
-                    text = it.id,
-                    style = TextStyle(fontSize = 50.sp)
-                )
-                Image(
-                    painter = painterResource(id = it.image),
-                    contentDescription = null
-                )
+            Crossfade(targetState = selectedImageModel, animationSpec = tween(600)) {
+                Column{
+                    BasicText(
+                        text = it.id,
+                        style = TextStyle(fontSize = 50.sp)
+                    )
+                    Image(
+                        painter = painterResource(id = it.image),
+                        contentDescription = null
+                    )
+                }
             }
         }
     }
