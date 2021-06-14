@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
