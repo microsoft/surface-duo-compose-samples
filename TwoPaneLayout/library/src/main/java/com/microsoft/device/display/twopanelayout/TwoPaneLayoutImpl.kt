@@ -21,7 +21,6 @@ import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.display.twopanelayout.screenState.LayoutState
 import kotlin.math.roundToInt
 
-@PublishedApi
 @Composable
 internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
@@ -55,7 +54,18 @@ internal fun twoPaneMeasurePolicy(
         }
 
         if (layoutState == LayoutState.Fold) {
-            placeables = measurables.map { it.measure(childrenConstraints) }
+            var measurable = measurables.first() // only measure the first pane if no weight specified
+
+            if (maxWeight != 0f) { // layout the (first) pane with the highest weight
+                for (i in measurables.indices) {
+                    val parentData = twoPaneParentData[i]
+                    val weight = parentData.weight
+                    if (weight == maxWeight) {
+                        measurable = measurables[i]
+                    }
+                }
+            }
+            placeables = listOf(measurable.measure(childrenConstraints))
         } else if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
             placeables = measureTwoPaneEqually(
                 constraints = childrenConstraints,
@@ -73,21 +83,10 @@ internal fun twoPaneMeasurePolicy(
         }
 
         when (layoutState) {
-            LayoutState.Fold -> { // single pane(screen)
+            LayoutState.Fold -> { // single pane(screen), only one placeable for Fold
                 layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                    if (maxWeight == 0f) { // only layout the first pane if no weight specified
-                        val placeable = placeables.first()
-                        placeable.place(x = 0, y = 0)
-                    } else { // layout the (first) pane with the highest weight
-                        for (i in placeables.indices) {
-                            val parentData = twoPaneParentData[i]
-                            val weight = parentData.weight
-                            if (weight == maxWeight) {
-                                placeables[i].place(x = 0, y = 0)
-                                return@layout
-                            }
-                        }
-                    }
+                    val placeable = placeables.first()
+                    placeable.place(x = 0, y = 0)
                 }
             }
 

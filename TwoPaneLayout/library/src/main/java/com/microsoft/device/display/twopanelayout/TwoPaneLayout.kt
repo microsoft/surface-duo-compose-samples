@@ -41,17 +41,16 @@ import com.microsoft.device.display.twopanelayout.screenState.ScreenState
  */
 
 @Composable
-inline fun TwoPaneLayout(
+fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     content: @Composable TwoPaneScope.() -> Unit
 ) {
-    val currentView = LocalView.current
-    val windowInsets by remember {
+    val windowInsets = LocalView.current.rootWindowInsets
+    val paddingBounds by remember {
         mutableStateOf(
-            currentView.rootWindowInsets
+            Rect()
         )
     }
-    val paddingBounds = Rect()
     paddingBounds.left = windowInsets.systemWindowInsetLeft
     paddingBounds.right = windowInsets.systemWindowInsetRight
     paddingBounds.top = windowInsets.systemWindowInsetTop
@@ -68,7 +67,6 @@ inline fun TwoPaneLayout(
             )
         )
     }
-
     ConfigScreenState(onStateChange = { screenState = it })
 
     val measurePolicy = twoPaneMeasurePolicy(

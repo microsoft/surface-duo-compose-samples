@@ -7,8 +7,6 @@ package com.microsoft.device.display.twopanelayout.screenState
 
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Rect
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -20,7 +18,6 @@ import androidx.core.util.Consumer
 import androidx.window.FoldingFeature
 import androidx.window.WindowLayoutInfo
 import androidx.window.WindowManager
-import java.util.concurrent.Executor
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
@@ -28,8 +25,6 @@ const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     val context = LocalContext.current
     val windowManager = WindowManager(context)
-    val handler = Handler(Looper.getMainLooper())
-    val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
@@ -62,7 +57,7 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     }
 
     DisposableEffect(context) {
-        windowManager.registerLayoutChangeCallback(mainThreadExecutor, layoutChangeCallback)
+        windowManager.registerLayoutChangeCallback({ command -> command?.run() }, layoutChangeCallback)
 
         // When the effect leaves the Composition, remove the callback
         onDispose {
