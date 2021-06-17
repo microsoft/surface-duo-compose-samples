@@ -5,6 +5,8 @@
 
 package com.microsoft.device.display.samples.composegallery
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -145,14 +147,21 @@ fun ShowDetailWithList(models: List<ImageModel>) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(space = 20.dp)
         ) {
-            BasicText(
-                text = selectedImageModel.id,
-                style = TextStyle(fontSize = 50.sp)
-            )
-            Image(
-                painter = painterResource(id = selectedImageModel.image),
-                contentDescription = null
-            )
+            Crossfade(
+                targetState = selectedImageModel,
+                animationSpec = tween(600)
+            ){
+                Column{
+                    BasicText(
+                        text = it.id,
+                        style = TextStyle(fontSize = 50.sp)
+                    )
+                    Image(
+                        painter = painterResource(id = it.image),
+                        contentDescription = null
+                    )
+                }
+            }
         }
     }
 }
