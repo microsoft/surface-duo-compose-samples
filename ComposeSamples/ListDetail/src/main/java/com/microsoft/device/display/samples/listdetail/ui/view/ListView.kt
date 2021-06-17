@@ -142,20 +142,20 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
 @Composable
 fun DecorativeBox(
     modifier: Modifier = Modifier,
-    listIndex:Int,
+    listIndex: Int,
     appStateViewModel: AppStateViewModel,
     content: @Composable () -> Unit,
-){
+) {
     val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
-            .border(3.dp, if(listIndex == selectedIndex) colorResource(
-                id = R.color.outline_blue
-            ) else Color.Transparent),
+            .border(
+                width = 3.dp,
+                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         content()
     }
 }
