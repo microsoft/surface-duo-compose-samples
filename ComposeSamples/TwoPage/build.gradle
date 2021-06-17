@@ -43,7 +43,6 @@ dependencies {
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.navigationCompose
     implementation composeDependencies.activityCompose
-    implementation composeDependencies.constraintlayoutCompose
 
     implementation googleDependencies.material
 }

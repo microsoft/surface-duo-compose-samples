@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
 import androidx.window.FoldingFeature
-import androidx.window.FoldingFeature.ORIENTATION_VERTICAL
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
             val foldingFeature = displayFeatures.first() as FoldingFeature
-            val isVertical = foldingFeature.orientation == ORIENTATION_VERTICAL
+            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
             isDualMode = isVertical
         }
 
