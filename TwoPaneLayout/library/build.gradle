@@ -51,9 +51,8 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
-    implementation composeDependencies.viewModelCompose
 
     androidTestImplementation(composeTestDependencies.composeJunit)
-    androidTestImplementation(composeTestDependencies.androixTestRules)
-    androidTestImplementation(composeTestDependencies.androixTestRunner)
+    androidTestImplementation(composeTestDependencies.androidxTestRules)
+    androidTestImplementation(composeTestDependencies.androidxTestRunner)
 }
