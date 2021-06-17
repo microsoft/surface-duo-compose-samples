@@ -153,7 +153,8 @@ fun DecorativeBox(
             .clip(RoundedCornerShape(5.dp))
             .border(
                 width = 3.dp,
-                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent),
+                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent
+            ),
         contentAlignment = Alignment.Center
     ) {
         content()
