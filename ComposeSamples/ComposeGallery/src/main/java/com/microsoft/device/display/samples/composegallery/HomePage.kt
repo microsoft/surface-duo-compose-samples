@@ -150,7 +150,7 @@ fun ShowDetailWithList(models: List<ImageModel>) {
             Crossfade(
                 targetState = selectedImageModel,
                 animationSpec = tween(600)
-            ){
+            ) {
                 Column {
                     BasicText(
                         text = it.id,
