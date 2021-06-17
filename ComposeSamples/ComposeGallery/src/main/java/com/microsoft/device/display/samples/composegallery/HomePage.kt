@@ -151,7 +151,7 @@ fun ShowDetailWithList(models: List<ImageModel>) {
                 targetState = selectedImageModel,
                 animationSpec = tween(600)
             ){
-                Column{
+                Column {
                     BasicText(
                         text = it.id,
                         style = TextStyle(fontSize = 50.sp)
