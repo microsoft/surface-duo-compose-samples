@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.listdetail.ui.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -22,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -104,8 +107,7 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                     for ((imageIndex, image) in item.withIndex()) {
                         val listIndex = 3 * index + imageIndex
                         val outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
-                        Box(
-                            contentAlignment = Alignment.Center,
+                        DecorativeBox(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .weight(1f)
@@ -115,7 +117,8 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                                     bottom = outlineWidth,
                                     start = outlineWidth,
                                     end = outlineWidth
-                                )
+                                ),
+                            listIndex, appStateViewModel
                         ) {
                             ImageView(
                                 imageId = image,
@@ -133,5 +136,27 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                 }
             }
         }
+    }
+}
+
+@Composable
+fun DecorativeBox(
+    modifier: Modifier = Modifier,
+    listIndex: Int,
+    appStateViewModel: AppStateViewModel,
+    content: @Composable () -> Unit,
+) {
+    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(5.dp))
+            .border(
+                width = 3.dp,
+                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        content()
     }
 }
