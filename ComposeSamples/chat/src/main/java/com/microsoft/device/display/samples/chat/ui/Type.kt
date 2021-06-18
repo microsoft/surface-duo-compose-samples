@@ -1,4 +1,4 @@
-package com.microsoft.device.display.samples.chat.ui.theme
+package com.microsoft.device.display.samples.chat.ui
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

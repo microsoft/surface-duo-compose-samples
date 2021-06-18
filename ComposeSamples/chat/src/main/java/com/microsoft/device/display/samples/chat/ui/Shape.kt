@@ -1,4 +1,4 @@
-package com.microsoft.device.display.samples.chat.ui.theme
+package com.microsoft.device.display.samples.chat.ui
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
