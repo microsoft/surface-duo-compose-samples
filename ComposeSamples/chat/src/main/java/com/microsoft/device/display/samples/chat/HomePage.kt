@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
@@ -32,8 +33,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.microsoft.device.display.samples.chat.models.ContactModel
+import com.microsoft.device.display.samples.chat.models.DataProvider
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
-
 
 private lateinit var appStateViewModel: AppStateViewModel
 
@@ -43,16 +45,19 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+    val models = DataProvider.contactModels
 
     if (isDualMode) {
-        DualScreenUI()
+        DualScreenUI(models)
     } else {
         SingleScreenUI()
     }
 }
 
 @Composable
-fun DualScreenUI() {
+fun DualScreenUI(
+    models: List<ContactModel>
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,7 +73,7 @@ fun DualScreenUI() {
             Box(
                 modifier = Modifier.weight(1f)
             ) {
-                ContactList()
+                ContactList(models)
             }
             Box(
                 modifier = Modifier.weight(1f)
@@ -85,75 +90,86 @@ fun SingleScreenUI() {
 }
 
 @Composable
-fun ContactList() {
+fun ContactList(
+    models: List<ContactModel>
+) {
     LazyColumn() {
-        item {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .clickable {}
-                    .padding(8.dp)
-                    .padding(horizontal = 10.dp)
+        itemsIndexed(models) { index, item ->
+            ContactListItem(imageId = item.imageId, contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 12)
+        }
+    }
+}
+
+@Composable
+fun ContactListItem(
+    imageId: Int,
+    contactName: String,
+    lastMessage: String,
+    unreadMessageNum: Int
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .clickable {}
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .size(45.dp)
+        ) {
+            Image(
+                painterResource(id = imageId),
+                contentDescription = null
+            )
+        }
+        Column(
+            modifier = Modifier.padding(start = 12.dp)
+        ) {
+            Row {
+                Text(
+                    text = contactName,
+                    fontWeight = FontWeight.W700
+                )
+                Spacer(Modifier.padding(horizontal = 3.dp))
+                Icon(painterResource(id = R.drawable.verified), null, tint = Color(0xFF1DA1F2))
+            }
+            CompositionLocalProvider(
+                LocalContentAlpha provides ContentAlpha.medium
             ) {
-                Surface(
-                    modifier = Modifier
-                        .size(45.dp)
-                ) {
-                    Image(
-                        painterResource(id = R.drawable.logo),
-                        contentDescription = null
+                Text(
+                    text = lastMessage,
+                    style = MaterialTheme.typography.body2
+                )
+            }
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            Surface(
+                color = Color.Red,
+                shape = CircleShape
+            ) {
+                Text(
+                    text = unreadMessageNum.toString(),
+                    color = Color.White,
+                    modifier = Modifier.padding(
+                        start = 6.dp,
+                        end = 6.dp,
+                        top = 2.dp,
+                        bottom = 2.dp
+                    ),
+                    style = TextStyle(
+                        fontWeight = FontWeight.W900,
+                        fontSize = 12.sp,
+                        letterSpacing = 0.15.sp,
+                        color = Color.White
                     )
-                }
-                Column(
-                    modifier = Modifier.padding(start = 12.dp)
-                ) {
-                    Row {
-                        Text(
-                            text = stringResource(id = R.string.logo_name),
-                            fontWeight = FontWeight.W700
-                        )
-                        Spacer(Modifier.padding(horizontal = 3.dp))
-                        Icon(painterResource(id = R.drawable.verified), null, tint = Color(0xFF1DA1F2))
-                    }
-                    CompositionLocalProvider(
-                        LocalContentAlpha provides ContentAlpha.medium
-                    ) {
-                        Text(
-                            text = "Welcome to the Surface Duo!",
-                            style = MaterialTheme.typography.body2
-                        )
-                    }
-                }
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    Surface(
-                        modifier = Modifier
-                            .size(20.dp),
-                        color = Color.Red,
-                        shape = CircleShape
-                    ) {
-                        Text(
-                            text = "1223",
-                            color = Color.White,
-                            modifier = Modifier.padding(
-                                start = 6.dp,
-                                end = 6.dp,
-                                top = 2.dp,
-                                bottom = 2.dp
-                            ),
-                            style = TextStyle(
-                                fontWeight = FontWeight.W900,
-                                fontSize = 12.sp,
-                                letterSpacing = 0.15.sp,
-                                color = Color.White
-                            )
-                        )
-                    }
-                }
+                )
             }
         }
     }
