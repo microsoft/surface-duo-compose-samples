@@ -3,12 +3,10 @@ package com.microsoft.device.display.samples.chat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.chat.models.ContactModel
-import com.microsoft.device.display.samples.chat.utils.TriangleEdgeShape
+import com.microsoft.device.display.samples.chat.utils.ChatBubbleLeftArrowShape
 
 @Composable
 fun ChatDetails(
@@ -70,24 +68,25 @@ fun ChatDetails(
                         contentDescription = null,
                         modifier = Modifier.size(35.dp)
                     )
-                    Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-                    Row(Modifier.height(IntrinsicSize.Max)) {
+                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Surface(
-                            shape = RoundedCornerShape(4.dp,4.dp,0.dp,4.dp),
-                            color = Color.White
+                            modifier = Modifier
+                                .background(color = Color.Gray, shape = ChatBubbleLeftArrowShape())
+                                .width(8.dp)
+                        ) { }
+                        Surface(
+                            shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
+                            color = Color.Gray
                         ) {
                             Text(
-                                text = "Welcome to Surface Duo",
+                                text = "Welcome to Surface Duo\nWelcome to Surface Duo\nWelcome to Surface Duo\nWelcome to Surface Duo",
                                 modifier = Modifier
                                     .padding(8.dp),
                             )
                         }
-                        Box(
-                            modifier = Modifier
-                                .background(color = Color.White, shape = TriangleEdgeShape(125))
-                                .width(18.dp)
-                                .fillMaxHeight()
-                        ) { }
                     }
                 }
             }
