@@ -19,21 +19,28 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.chat.models.ContactModel
 import com.microsoft.device.display.samples.chat.utils.ChatBubbleLeftArrowShape
+import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 @Composable
 fun ChatDetails(
     models: List<ContactModel>,
-    index: Int
+    index: Int,
+    appStateViewModel: AppStateViewModel
 ) {
     val listState = rememberLazyListState()
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,39 +58,39 @@ fun ChatDetails(
                         style = MaterialTheme.typography.subtitle2,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 5.dp),
+                            .padding(top = 8.dp),
                         textAlign = TextAlign.Center
                     )
                 }
-                Spacer(Modifier.padding(vertical = 12.dp))
+                Spacer(Modifier.padding(vertical = 8.dp))
             }
             item {
                 Row(
-                    modifier = Modifier.padding(start = 25.dp),
+                    modifier = Modifier.padding(start = if(isDualMode) 25.dp else 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         painter = painterResource(id = models[index].imageId),
                         contentDescription = null,
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier.size(30.dp)
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row {
                         Surface(
                             modifier = Modifier
-                                .background(color = Color.Gray, shape = ChatBubbleLeftArrowShape())
+                                .background(color = Color.White, shape = ChatBubbleLeftArrowShape())
                                 .width(8.dp)
                         ) { }
                         Surface(
                             shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
-                            color = Color.Gray
+                            color = Color.White
                         ) {
                             Text(
                                 text = "Welcome to Surface Duo",
                                 modifier = Modifier
                                     .padding(8.dp),
+                                style = MaterialTheme.typography.body2,
+                                fontWeight = FontWeight.W600
                             )
                         }
                     }

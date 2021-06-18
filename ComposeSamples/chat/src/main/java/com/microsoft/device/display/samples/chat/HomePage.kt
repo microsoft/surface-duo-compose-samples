@@ -1,6 +1,7 @@
 package com.microsoft.device.display.samples.chat
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
@@ -40,6 +42,7 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
 
+@ExperimentalAnimationApi
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
@@ -62,7 +65,7 @@ fun SetupUI(viewModel: AppStateViewModel) {
         if (isDualMode) {
             DualScreenUI(models, appStateViewModel)
         } else {
-            SingleScreenUI(models)
+            SingleScreenUI(models, appStateViewModel)
         }
     }
 }
@@ -81,18 +84,21 @@ fun DualScreenUI(
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            Crossfade(targetState = appStateViewModel.selectedIndex) {
-                ChatDetails(models, it)
-            }
+            ChatDetails(models, appStateViewModel.selectedIndex, appStateViewModel)
         }
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun SingleScreenUI(
-    models: List<ContactModel>
+    models: List<ContactModel>,
+    appStateViewModel: AppStateViewModel
 ) {
     ContactList(models, appStateViewModel)
+    AnimatedVisibility(visible = true) {
+        ChatDetails(models, appStateViewModel.selectedIndex, appStateViewModel)
+    }
 }
 
 @Composable
@@ -100,14 +106,17 @@ fun ContactList(
     models: List<ContactModel>,
     appStateViewModel: AppStateViewModel
 ) {
-    LazyColumn() {
+    LazyColumn {
         itemsIndexed(models) { index, item ->
-            ContactListItem(contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 5, index, appStateViewModel) {
-                Image(
-                    painterResource(id = item.imageId),
-                    contentDescription = null
-                )
-            }
+            ContactListItem(
+                contactName = item.name,
+                lastMessage = "Welcome to Surface Duo",
+                unreadMessageNum = 5,
+                index = index,
+                appStateViewModel = appStateViewModel,
+                logoId = item.imageId
+            )
+            if(index != models.size - 1) Divider(Modifier.padding(start = 70.dp), thickness = (0.5).dp)
         }
     }
 }
@@ -119,7 +128,7 @@ fun ContactListItem(
     unreadMessageNum: Int,
     index: Int,
     appStateViewModel: AppStateViewModel,
-    logo: @Composable () -> Unit
+    logoId: Int
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -133,14 +142,19 @@ fun ContactListItem(
     ) {
         Surface(
             modifier = Modifier
-                .size(40.dp)
+                .size(35.dp)
         ) {
-            logo()
+            Image(
+                painterResource(id = logoId),
+                contentDescription = null
+            )
         }
         Column(
-            modifier = Modifier.padding(start = 12.dp)
+            modifier = Modifier.padding(start = 15.dp)
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = contactName,
                     fontWeight = FontWeight.W700
@@ -150,7 +164,7 @@ fun ContactListItem(
                     painterResource(id = R.drawable.verified),
                     contentDescription = null,
                     tint = Color(0xFF1DA1F2),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(18.dp)
                 )
             }
             CompositionLocalProvider(
@@ -164,8 +178,7 @@ fun ContactListItem(
         }
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
+                .fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {
             Surface(
@@ -175,12 +188,7 @@ fun ContactListItem(
                 Text(
                     text = unreadMessageNum.toString(),
                     color = Color.White,
-                    modifier = Modifier.padding(
-                        start = 6.dp,
-                        end = 6.dp,
-                        top = 2.dp,
-                        bottom = 2.dp
-                    ),
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                     style = TextStyle(
                         fontWeight = FontWeight.W900,
                         fontSize = 12.sp,

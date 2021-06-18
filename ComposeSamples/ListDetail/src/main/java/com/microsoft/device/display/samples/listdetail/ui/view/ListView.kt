@@ -111,7 +111,6 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                             modifier = Modifier
                                 .wrapContentSize()
                                 .weight(1f)
-                                .background(color = colorResource(id = R.color.outline_blue))
                                 .padding(
                                     top = outlineWidth,
                                     bottom = outlineWidth,
