@@ -7,8 +7,9 @@ object DataProvider {
     val contactModels: ArrayList<ContactModel>
         get() {
             val items = ArrayList<ContactModel>()
-            items.add(ContactModel(name = "Microsoft", imageId = R.drawable.logo))
+            items.add(ContactModel(name = "Microsoft", imageId = R.drawable.microsoft))
             items.add(ContactModel(name = "Twitter", imageId = R.drawable.twitter))
+            items.add(ContactModel(name = "Google", imageId = R.drawable.google))
             return items
         }
 }

@@ -99,14 +99,7 @@ fun ContactList(
     LazyColumn() {
         itemsIndexed(models) { index, item ->
             ContactListItem(contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 5) {
-                if(item.name == "Twitter") {
-                    Icon(
-                        painterResource(id = item.imageId),
-                        contentDescription = null,
-                        tint = Color(0xFF1DA1F2)
-                    )
-                }
-                else Image(
+                Image(
                     painterResource(id = item.imageId),
                     contentDescription = null
                 )
