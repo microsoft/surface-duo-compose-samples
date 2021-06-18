@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.chat
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -60,7 +60,7 @@ fun SetupUI(viewModel: AppStateViewModel) {
         backgroundColor = Color(0xFFF8F8F8)
     ) {
         if (isDualMode) {
-            DualScreenUI(models)
+            DualScreenUI(models, appStateViewModel)
         } else {
             SingleScreenUI(models)
         }
@@ -69,18 +69,21 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun DualScreenUI(
-    models: List<ContactModel>
+    models: List<ContactModel>,
+    appStateViewModel: AppStateViewModel
 ) {
-    Row() {
+    Row {
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            ContactList(models)
+            ContactList(models, appStateViewModel)
         }
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            ChatDetails()
+            Crossfade(targetState = appStateViewModel.selectedIndex) {
+                ChatDetails(models, it)
+            }
         }
     }
 }
@@ -89,16 +92,17 @@ fun DualScreenUI(
 fun SingleScreenUI(
     models: List<ContactModel>
 ) {
-    ContactList(models)
+    ContactList(models, appStateViewModel)
 }
 
 @Composable
 fun ContactList(
-    models: List<ContactModel>
+    models: List<ContactModel>,
+    appStateViewModel: AppStateViewModel
 ) {
     LazyColumn() {
         itemsIndexed(models) { index, item ->
-            ContactListItem(contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 5) {
+            ContactListItem(contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 5, index, appStateViewModel) {
                 Image(
                     painterResource(id = item.imageId),
                     contentDescription = null
@@ -113,6 +117,8 @@ fun ContactListItem(
     contactName: String,
     lastMessage: String,
     unreadMessageNum: Int,
+    index: Int,
+    appStateViewModel: AppStateViewModel,
     logo: @Composable () -> Unit
 ) {
     Row(
@@ -120,7 +126,9 @@ fun ContactListItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .clickable {}
+            .clickable {
+                appStateViewModel.selectedIndex = index
+            }
             .padding(horizontal = 20.dp, vertical = 10.dp)
     ) {
         Surface(
@@ -183,13 +191,4 @@ fun ContactListItem(
             }
         }
     }
-}
-
-@Composable
-fun ChatDetails() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF8F8F8))
-    ) {}
 }
