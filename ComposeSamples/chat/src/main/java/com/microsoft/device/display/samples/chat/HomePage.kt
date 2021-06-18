@@ -1,7 +1,5 @@
 package com.microsoft.device.display.samples.chat
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,7 +40,7 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
 
-@ExperimentalAnimationApi
+
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
@@ -89,16 +87,12 @@ fun DualScreenUI(
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun SingleScreenUI(
     models: List<ContactModel>,
     appStateViewModel: AppStateViewModel
 ) {
     ContactList(models, appStateViewModel)
-    AnimatedVisibility(visible = true) {
-        ChatDetails(models, appStateViewModel.selectedIndex, appStateViewModel)
-    }
 }
 
 @Composable
