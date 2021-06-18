@@ -3,9 +3,9 @@ package com.microsoft.device.display.samples.chat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,9 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
+
 
 private lateinit var appStateViewModel: AppStateViewModel
 
@@ -124,7 +127,8 @@ fun ContactList() {
                     }
                 }
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
                 ) {
                     Surface(
                         modifier = Modifier
@@ -133,8 +137,20 @@ fun ContactList() {
                         shape = CircleShape
                     ) {
                         Text(
-                            text = "1",
-                            color = Color.White
+                            text = "1223",
+                            color = Color.White,
+                            modifier = Modifier.padding(
+                                start = 6.dp,
+                                end = 6.dp,
+                                top = 2.dp,
+                                bottom = 2.dp
+                            ),
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900,
+                                fontSize = 12.sp,
+                                letterSpacing = 0.15.sp,
+                                color = Color.White
+                            )
                         )
                     }
                 }
