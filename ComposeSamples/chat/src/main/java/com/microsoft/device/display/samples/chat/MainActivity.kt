@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
 import androidx.window.FoldingFeature
@@ -22,7 +21,6 @@ class MainActivity : ComponentActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
