@@ -18,8 +18,6 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Prerequisites
 
-- [Android Studio Canary](https://developer.android.com/studio/preview)
-
 - Jetpack Compose version: `1.0.0-beta09`
 
 - AndroidX WindowManager version: `1.0.0-alpha08`
