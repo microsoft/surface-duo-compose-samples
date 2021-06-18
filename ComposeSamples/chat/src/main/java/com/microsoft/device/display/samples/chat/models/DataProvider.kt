@@ -8,6 +8,7 @@ object DataProvider {
         get() {
             val items = ArrayList<ContactModel>()
             items.add(ContactModel(name = "Microsoft", imageId = R.drawable.logo))
+            items.add(ContactModel(name = "Twitter", imageId = R.drawable.twitter))
             return items
         }
 }

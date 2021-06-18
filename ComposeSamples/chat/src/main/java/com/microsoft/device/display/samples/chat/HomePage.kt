@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,17 +48,6 @@ fun SetupUI(viewModel: AppStateViewModel) {
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     val models = DataProvider.contactModels
 
-    if (isDualMode) {
-        DualScreenUI(models)
-    } else {
-        SingleScreenUI()
-    }
-}
-
-@Composable
-fun DualScreenUI(
-    models: List<ContactModel>
-) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -69,24 +59,37 @@ fun DualScreenUI(
         },
         backgroundColor = Color(0xFFF8F8F8)
     ) {
-        Row() {
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                ContactList(models)
-            }
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("HEllo")
-            }
+        if (isDualMode) {
+            DualScreenUI(models)
+        } else {
+            SingleScreenUI(models)
         }
     }
 }
 
 @Composable
-fun SingleScreenUI() {
-    Text("Hi")
+fun DualScreenUI(
+    models: List<ContactModel>
+) {
+    Row() {
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            ContactList(models)
+        }
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            ChatDetails()
+        }
+    }
+}
+
+@Composable
+fun SingleScreenUI(
+    models: List<ContactModel>
+) {
+    ContactList(models)
 }
 
 @Composable
@@ -95,17 +98,29 @@ fun ContactList(
 ) {
     LazyColumn() {
         itemsIndexed(models) { index, item ->
-            ContactListItem(imageId = item.imageId, contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 12)
+            ContactListItem(contactName = item.name, lastMessage = "Welcome to Surface Duo", unreadMessageNum = 5) {
+                if(item.name == "Twitter") {
+                    Icon(
+                        painterResource(id = item.imageId),
+                        contentDescription = null,
+                        tint = Color(0xFF1DA1F2)
+                    )
+                }
+                else Image(
+                    painterResource(id = item.imageId),
+                    contentDescription = null
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ContactListItem(
-    imageId: Int,
     contactName: String,
     lastMessage: String,
-    unreadMessageNum: Int
+    unreadMessageNum: Int,
+    logo: @Composable () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -117,12 +132,9 @@ fun ContactListItem(
     ) {
         Surface(
             modifier = Modifier
-                .size(45.dp)
+                .size(40.dp)
         ) {
-            Image(
-                painterResource(id = imageId),
-                contentDescription = null
-            )
+            logo()
         }
         Column(
             modifier = Modifier.padding(start = 12.dp)
@@ -133,7 +145,12 @@ fun ContactListItem(
                     fontWeight = FontWeight.W700
                 )
                 Spacer(Modifier.padding(horizontal = 3.dp))
-                Icon(painterResource(id = R.drawable.verified), null, tint = Color(0xFF1DA1F2))
+                Icon(
+                    painterResource(id = R.drawable.verified),
+                    contentDescription = null,
+                    tint = Color(0xFF1DA1F2),
+                    modifier = Modifier.size(20.dp)
+                )
             }
             CompositionLocalProvider(
                 LocalContentAlpha provides ContentAlpha.medium
@@ -173,4 +190,13 @@ fun ContactListItem(
             }
         }
     }
+}
+
+@Composable
+fun ChatDetails() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF8F8F8))
+    ) {}
 }
