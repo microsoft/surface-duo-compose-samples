@@ -57,7 +57,7 @@ fun ChatDetails(
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     var text by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
-
+    
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +123,8 @@ fun ChatDetails(
                 }
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BasicTextField(
@@ -157,18 +158,20 @@ fun ChatDetails(
                     },
                 )
                 Spacer(Modifier.padding(horizontal = 6.dp))
-                Surface(
-                    color = Color(0xFF0079D3),
-                    shape = CircleShape
-                ) {
-                    Icon(
-                        Icons.Filled.Send,
-                        null,
-                        tint = Color.White,
-                        modifier = Modifier
-                            .clickable { }
-                            .padding(6.dp)
-                    )
+                if (text != "") {
+                    Surface(
+                        color = Color(0xFF0079D3),
+                        shape = CircleShape
+                    ) {
+                        Icon(
+                            Icons.Filled.Send,
+                            null,
+                            tint = Color.White,
+                            modifier = Modifier
+                                .clickable { }
+                                .padding(6.dp)
+                        )
+                    }
                 }
             }
         }
