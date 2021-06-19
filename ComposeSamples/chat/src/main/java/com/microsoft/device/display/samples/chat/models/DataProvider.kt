@@ -8,7 +8,7 @@ object DataProvider {
     val contactModels: ArrayList<Conversation>
         get() {
             val items = ArrayList<Conversation>()
-            val friends:ArrayList<User> = arrayListOf(
+            val friends: ArrayList<User> = arrayListOf(
                 User(
                     imageId = R.drawable.microsoft,
                     name = "Microsoft"

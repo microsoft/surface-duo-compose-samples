@@ -13,7 +13,7 @@ data class User(
     val name: String
 )
 
-data class Message (
+data class Message(
     val sender: User,
     val text: String
 )
