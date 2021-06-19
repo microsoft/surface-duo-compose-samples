@@ -131,43 +131,6 @@ fun ChatList(
                 }
                 Spacer(Modifier.padding(vertical = 8.dp))
             }
-            /*
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = models[index].imageId),
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                    Row {
-                        Surface(
-                            modifier = Modifier
-                                .background(
-                                    color = Color.White,
-                                    shape = ChatBubbleLeftArrowShape()
-                                )
-                                .width(8.dp)
-                        ) { }
-                        Surface(
-                            shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
-                            color = Color.White
-                        ) {
-                            Text(
-                                text = "Welcome to Surface Duo + $index",
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                style = MaterialTheme.typography.body2,
-                                fontWeight = FontWeight.W600
-                            )
-                        }
-                    }
-                }
-            }
-
-             */
             items(
                 models[index].message.size
             ) { message ->

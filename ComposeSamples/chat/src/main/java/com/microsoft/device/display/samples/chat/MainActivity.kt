@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
