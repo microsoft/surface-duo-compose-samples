@@ -5,11 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
 import androidx.window.FoldingFeature
 import androidx.window.WindowManager
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.microsoft.device.display.samples.chat.models.DataProvider
 import com.microsoft.device.display.samples.chat.ui.ChatComposeSamplesTheme
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
@@ -30,9 +34,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChatComposeSamplesTheme {
+                val systemUiController = rememberSystemUiController()
                 val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
                 val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
                 val models = DataProvider.contactModels
+                SideEffect {
+                    systemUiController.setStatusBarColor(
+                        color = Color.White,
+                    )
+                    systemUiController.setNavigationBarColor(
+                        color = Color(0xFFF8F8F8)
+                    )
+                }
                 SetupUI(viewModel = appStateViewModel)
                 if (!isDualMode) {
                     ChatDetails(models, appStateViewModel)

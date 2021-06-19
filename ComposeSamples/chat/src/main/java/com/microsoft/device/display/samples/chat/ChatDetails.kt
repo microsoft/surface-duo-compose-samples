@@ -74,7 +74,9 @@ fun ChatDetails(
                 TopAppBar(
                     title = { },
                     navigationIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            appStateViewModel.displayChatDetails = false
+                        }) {
                             Icon(Icons.Filled.ArrowBack, null)
                         }
                     },

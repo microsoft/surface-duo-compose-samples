@@ -40,4 +40,5 @@ dependencies {
     implementation composeDependencies.activityCompose
 
     implementation googleDependencies.material
+    implementation googleDependencies.systemUIControlle
 }
