@@ -21,11 +21,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -56,13 +60,34 @@ fun ChatDetails(
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     val percentOffsetX = animateFloatAsState(if (appStateViewModel.displayChatDetails && !isDualMode) 0f else 1f)
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .percentOffsetX(if(isDualMode) 0f else percentOffsetX.value)
-            .background(Color.Gray)
-    ) {
-        ChatList(models, appStateViewModel)
+    if (isDualMode) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF8F8F8))
+        ) {
+            ChatList(models, appStateViewModel)
+        }
+    } else {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { },
+                    navigationIcon = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(Icons.Filled.ArrowBack, null)
+                        }
+                    },
+                    backgroundColor = Color.White
+                )
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .percentOffsetX(percentOffsetX.value),
+            backgroundColor = Color(0xFFF8F8F8)
+        ) {
+            ChatList(models, appStateViewModel)
+        }
     }
 }
 
