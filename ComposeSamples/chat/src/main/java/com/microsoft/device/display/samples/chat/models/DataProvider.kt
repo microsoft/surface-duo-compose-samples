@@ -4,12 +4,42 @@ import com.microsoft.device.display.samples.chat.R
 import java.util.ArrayList
 
 object DataProvider {
+
     val contactModels: ArrayList<ContactModel>
         get() {
             val items = ArrayList<ContactModel>()
-            items.add(ContactModel(name = "Microsoft", imageId = R.drawable.microsoft))
-            items.add(ContactModel(name = "Twitter", imageId = R.drawable.twitter))
-            items.add(ContactModel(name = "Google", imageId = R.drawable.google))
+            items.add(
+                ContactModel(
+                    name = "Microsoft",
+                    imageId = R.drawable.microsoft,
+                    message = arrayListOf(
+                        "Hi, this is Microsoft",
+                        "Do you like Surface Duo?",
+                        "Welcome to Surface Duo, Have fun!"
+                    )
+                )
+            )
+            items.add(
+                ContactModel(
+                    name = "Twitter",
+                    imageId = R.drawable.twitter,
+                    message = arrayListOf(
+                        "Hi, Im Twitter",
+                        "Welcome to Surface Duo! nice to meet you"
+                    )
+                )
+            )
+            items.add(
+                ContactModel(
+                    name = "Google",
+                    imageId = R.drawable.google,
+                    message = arrayListOf(
+                        "Hi, this is Google",
+                        "Welcome to Surface Duo!"
+                    )
+                )
+            )
+
             return items
         }
 }

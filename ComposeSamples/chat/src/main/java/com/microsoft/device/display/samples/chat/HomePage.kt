@@ -110,8 +110,8 @@ fun ContactList(
         itemsIndexed(models) { index, item ->
             ContactListItem(
                 contactName = item.name,
-                lastMessage = "Welcome to Surface Duo + $index",
-                unreadMessageNum = 1,
+                lastMessage = item.message[item.message.size - 1],
+                unreadMessageNum = item.message.size,
                 index = index,
                 appStateViewModel = appStateViewModel,
                 logoId = item.imageId

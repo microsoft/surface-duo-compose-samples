@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,9 +75,11 @@ fun ChatDetails(
                 TopAppBar(
                     title = { },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            appStateViewModel.displayChatDetails = false
-                        }) {
+                        IconButton(
+                            onClick = {
+                                appStateViewModel.displayChatDetails = false
+                            }
+                        ) {
                             Icon(Icons.Filled.ArrowBack, null)
                         }
                     },
@@ -129,6 +132,7 @@ fun ChatList(
                 }
                 Spacer(Modifier.padding(vertical = 8.dp))
             }
+            /*
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -162,6 +166,45 @@ fun ChatList(
                         }
                     }
                 }
+            }
+
+             */
+            items(
+                models[index].message.size
+            ) { message ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = models[index].imageId),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                    Row {
+                        Surface(
+                            modifier = Modifier
+                                .background(
+                                    color = Color.White,
+                                    shape = ChatBubbleLeftArrowShape()
+                                )
+                                .width(8.dp)
+                        ) { }
+                        Surface(
+                            shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
+                            color = Color.White
+                        ) {
+                            Text(
+                                text = models[index].message[message],
+                                modifier = Modifier
+                                    .padding(8.dp),
+                                style = MaterialTheme.typography.body2,
+                                fontWeight = FontWeight.W600
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.padding(vertical = 5.dp))
             }
         }
         Row(
