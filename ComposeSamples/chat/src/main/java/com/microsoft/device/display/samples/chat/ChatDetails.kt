@@ -55,8 +55,8 @@ fun ChatDetails(
     val listState = rememberLazyListState()
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
-    var text by remember{ mutableStateOf("")}
-    var isFocused by remember{ mutableStateOf(false)}
+    var text by remember { mutableStateOf("") }
+    var isFocused by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -145,7 +145,7 @@ fun ChatDetails(
                             NoRippleIconButton(onClick = { /*TODO*/ }) {
                                 Icon(painterResource(id = R.drawable.mood), null)
                             }
-                            if(!isFocused) {
+                            if (!isFocused) {
                                 CompositionLocalProvider(
                                     LocalContentAlpha provides ContentAlpha.medium
                                 ) {

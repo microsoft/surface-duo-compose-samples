@@ -40,7 +40,6 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 private lateinit var appStateViewModel: AppStateViewModel
 
-
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
@@ -110,7 +109,7 @@ fun ContactList(
                 appStateViewModel = appStateViewModel,
                 logoId = item.imageId
             )
-            if(index != models.size - 1) Divider(Modifier.padding(start = 70.dp), thickness = (0.5).dp)
+            if (index != models.size - 1) Divider(Modifier.padding(start = 70.dp), thickness = (0.5).dp)
         }
     }
 }
