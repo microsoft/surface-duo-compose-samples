@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.chat
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,7 @@ private lateinit var appStateViewModel: AppStateViewModel
 
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
+
     appStateViewModel = viewModel
 
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
@@ -81,7 +83,7 @@ fun DualScreenUI(
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            ChatDetails(models, appStateViewModel.selectedIndex, appStateViewModel)
+            ChatDetails(models, appStateViewModel)
         }
     }
 }
@@ -91,7 +93,12 @@ fun SingleScreenUI(
     models: List<ContactModel>,
     appStateViewModel: AppStateViewModel
 ) {
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     ContactList(models, appStateViewModel)
+    BackHandler(appStateViewModel.displayChatDetails && !isDualMode) {
+        appStateViewModel.displayChatDetails = false
+    }
 }
 
 @Composable
@@ -103,8 +110,8 @@ fun ContactList(
         itemsIndexed(models) { index, item ->
             ContactListItem(
                 contactName = item.name,
-                lastMessage = "Welcome to Surface Duo",
-                unreadMessageNum = 5,
+                lastMessage = "Welcome to Surface Duo + $index",
+                unreadMessageNum = 1,
                 index = index,
                 appStateViewModel = appStateViewModel,
                 logoId = item.imageId
@@ -130,6 +137,7 @@ fun ContactListItem(
             .background(Color.White)
             .clickable {
                 appStateViewModel.selectedIndex = index
+                appStateViewModel.displayChatDetails = true
             }
             .padding(horizontal = 20.dp, vertical = 10.dp)
     ) {

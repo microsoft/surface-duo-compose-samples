@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.chat
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,133 +45,147 @@ import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.chat.models.ContactModel
 import com.microsoft.device.display.samples.chat.utils.ChatBubbleLeftArrowShape
 import com.microsoft.device.display.samples.chat.utils.NoRippleIconButton
+import com.microsoft.device.display.samples.chat.utils.percentOffsetX
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 @Composable
 fun ChatDetails(
     models: List<ContactModel>,
-    index: Int,
     appStateViewModel: AppStateViewModel
 ) {
-    val listState = rememberLazyListState()
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
-    var text by remember { mutableStateOf("") }
-    var isFocused by remember { mutableStateOf(false) }
+    val percentOffsetX = animateFloatAsState(if (appStateViewModel.displayChatDetails && !isDualMode) 0f else 1f)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF8F8F8))
+            .percentOffsetX(if(isDualMode) 0f else percentOffsetX.value)
+            .background(Color.Gray)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = if (isDualMode) 25.dp else 12.dp, vertical = 5.dp)
+        ChatList(models, appStateViewModel)
+    }
+}
+
+@Composable
+fun ChatList(
+    models: List<ContactModel>,
+    appStateViewModel: AppStateViewModel
+) {
+    val listState = rememberLazyListState()
+    val index = appStateViewModel.selectedIndex
+    val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+    var isFocused by remember { mutableStateOf(false) }
+    var text by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = if (isDualMode) 25.dp else 12.dp, vertical = 5.dp)
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.weight(1f)
         ) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.weight(1f)
-            ) {
-                item {
-                    CompositionLocalProvider(
-                        LocalContentAlpha provides ContentAlpha.medium
-                    ) {
-                        Text(
-                            text = "16:00",
-                            style = MaterialTheme.typography.subtitle2,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 8.dp),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Spacer(Modifier.padding(vertical = 8.dp))
+            item {
+                CompositionLocalProvider(
+                    LocalContentAlpha provides ContentAlpha.medium
+                ) {
+                    Text(
+                        text = "16:00",
+                        style = MaterialTheme.typography.subtitle2,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 8.dp),
+                        textAlign = TextAlign.Center
+                    )
                 }
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(id = models[index].imageId),
-                            contentDescription = null,
-                            modifier = Modifier.size(30.dp)
-                        )
-                        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                        Row {
-                            Surface(
-                                modifier = Modifier
-                                    .background(
-                                        color = Color.White,
-                                        shape = ChatBubbleLeftArrowShape()
-                                    )
-                                    .width(8.dp)
-                            ) { }
-                            Surface(
-                                shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
-                                color = Color.White
-                            ) {
-                                Text(
-                                    text = "Welcome to Surface Duo",
-                                    modifier = Modifier
-                                        .padding(8.dp),
-                                    style = MaterialTheme.typography.body2,
-                                    fontWeight = FontWeight.W600
+                Spacer(Modifier.padding(vertical = 8.dp))
+            }
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = models[index].imageId),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                    Row {
+                        Surface(
+                            modifier = Modifier
+                                .background(
+                                    color = Color.White,
+                                    shape = ChatBubbleLeftArrowShape()
                                 )
-                            }
+                                .width(8.dp)
+                        ) { }
+                        Surface(
+                            shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
+                            color = Color.White
+                        ) {
+                            Text(
+                                text = "Welcome to Surface Duo + $index",
+                                modifier = Modifier
+                                    .padding(8.dp),
+                                style = MaterialTheme.typography.body2,
+                                fontWeight = FontWeight.W600
+                            )
                         }
                     }
                 }
             }
-            Row(
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BasicTextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                },
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                BasicTextField(
-                    value = text,
-                    onValueChange = {
-                        text = it
-                    },
-                    modifier = Modifier
-                        .background(Color.White, CircleShape)
-                        .weight(1f)
-                        .onFocusChanged {
-                            isFocused = it.isFocused
-                        }
-                        .height(35.dp),
-                    decorationBox = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            NoRippleIconButton(onClick = { /*TODO*/ }) {
-                                Icon(painterResource(id = R.drawable.mood), null)
-                            }
-                            if (!isFocused) {
-                                CompositionLocalProvider(
-                                    LocalContentAlpha provides ContentAlpha.medium
-                                ) {
-                                    Text("Type a Message")
-                                }
-                            }
-                            it()
-                        }
-                    },
-                )
-                Spacer(Modifier.padding(horizontal = 6.dp))
-                if (text != "") {
-                    Surface(
-                        color = Color(0xFF0079D3),
-                        shape = CircleShape
-                    ) {
-                        Icon(
-                            Icons.Filled.Send,
-                            null,
-                            tint = Color.White,
-                            modifier = Modifier
-                                .clickable { }
-                                .padding(6.dp)
-                        )
+                    .background(Color.White, CircleShape)
+                    .weight(1f)
+                    .onFocusChanged {
+                        isFocused = it.isFocused
                     }
+                    .height(35.dp),
+                decorationBox = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        NoRippleIconButton(onClick = { /*TODO*/ }) {
+                            Icon(painterResource(id = R.drawable.mood), null)
+                        }
+                        if (!isFocused && text == "") {
+                            CompositionLocalProvider(
+                                LocalContentAlpha provides ContentAlpha.medium
+                            ) {
+                                Text("Type a Message")
+                            }
+                        }
+                        it()
+                    }
+                },
+            )
+            if (text != "") {
+                Spacer(Modifier.padding(horizontal = 6.dp))
+                Surface(
+                    color = Color(0xFF0079D3),
+                    shape = CircleShape
+                ) {
+                    Icon(
+                        Icons.Filled.Send,
+                        null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .clickable { }
+                            .padding(8.dp)
+                    )
                 }
             }
         }

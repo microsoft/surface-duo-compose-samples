@@ -16,6 +16,7 @@ class AppStateViewModel : ViewModel() {
 
     private val isDualModeLiveData = MutableLiveData<Boolean>() // observe the dual-screen mode
     var selectedIndex by mutableStateOf(0)
+    var displayChatDetails by mutableStateOf(false)
 
     fun getIsDualModeLiveDataLiveData(): LiveData<Boolean> {
         return this.isDualModeLiveData

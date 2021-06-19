@@ -5,10 +5,12 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
 import androidx.window.FoldingFeature
 import androidx.window.WindowManager
+import com.microsoft.device.display.samples.chat.models.DataProvider
 import com.microsoft.device.display.samples.chat.ui.ChatComposeSamplesTheme
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 import java.util.concurrent.Executor
@@ -28,7 +30,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChatComposeSamplesTheme {
+                val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
+                val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+                val models = DataProvider.contactModels
                 SetupUI(viewModel = appStateViewModel)
+                if (!isDualMode) {
+                    ChatDetails(models, appStateViewModel)
+                }
             }
         }
     }
