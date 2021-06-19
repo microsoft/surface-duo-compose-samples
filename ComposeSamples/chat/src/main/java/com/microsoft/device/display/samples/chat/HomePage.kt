@@ -35,7 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.microsoft.device.display.samples.chat.models.ContactModel
+import com.microsoft.device.display.samples.chat.models.Conversation
 import com.microsoft.device.display.samples.chat.models.DataProvider
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
@@ -71,7 +71,7 @@ fun SetupUI(viewModel: AppStateViewModel) {
 
 @Composable
 fun DualScreenUI(
-    models: List<ContactModel>,
+    models: List<Conversation>,
     appStateViewModel: AppStateViewModel
 ) {
     Row {
@@ -90,7 +90,7 @@ fun DualScreenUI(
 
 @Composable
 fun SingleScreenUI(
-    models: List<ContactModel>,
+    models: List<Conversation>,
     appStateViewModel: AppStateViewModel
 ) {
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
@@ -103,18 +103,18 @@ fun SingleScreenUI(
 
 @Composable
 fun ContactList(
-    models: List<ContactModel>,
+    models: List<Conversation>,
     appStateViewModel: AppStateViewModel
 ) {
     LazyColumn {
         itemsIndexed(models) { index, item ->
             ContactListItem(
-                contactName = item.name,
-                lastMessage = item.message[item.message.size - 1],
+                contactName = item.target.name,
+                lastMessage = item.message[item.message.size - 1].text,
                 unreadMessageNum = item.message.size,
                 index = index,
                 appStateViewModel = appStateViewModel,
-                logoId = item.imageId
+                logoId = item.target.imageId
             )
             if (index != models.size - 1) Divider(Modifier.padding(start = 70.dp), thickness = (0.5).dp)
         }

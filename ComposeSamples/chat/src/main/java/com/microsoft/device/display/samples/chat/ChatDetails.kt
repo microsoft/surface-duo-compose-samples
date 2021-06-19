@@ -46,7 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.chat.models.ContactModel
+import com.microsoft.device.display.samples.chat.models.Conversation
 import com.microsoft.device.display.samples.chat.utils.ChatBubbleLeftArrowShape
 import com.microsoft.device.display.samples.chat.utils.NoRippleIconButton
 import com.microsoft.device.display.samples.chat.utils.percentOffsetX
@@ -54,7 +54,7 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 @Composable
 fun ChatDetails(
-    models: List<ContactModel>,
+    models: List<Conversation>,
     appStateViewModel: AppStateViewModel
 ) {
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
@@ -97,7 +97,7 @@ fun ChatDetails(
 
 @Composable
 fun ChatList(
-    models: List<ContactModel>,
+    models: List<Conversation>,
     appStateViewModel: AppStateViewModel
 ) {
     val listState = rememberLazyListState()
@@ -138,7 +138,7 @@ fun ChatList(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = models[index].imageId),
+                        painter = painterResource(id = models[index].target.imageId),
                         contentDescription = null,
                         modifier = Modifier.size(30.dp)
                     )
@@ -157,7 +157,7 @@ fun ChatList(
                             color = Color.White
                         ) {
                             Text(
-                                text = models[index].message[message],
+                                text = models[index].message[message].text,
                                 modifier = Modifier
                                     .padding(8.dp),
                                 style = MaterialTheme.typography.body2,

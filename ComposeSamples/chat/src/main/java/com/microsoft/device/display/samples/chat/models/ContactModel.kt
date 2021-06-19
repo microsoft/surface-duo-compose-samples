@@ -1,7 +1,19 @@
 package com.microsoft.device.display.samples.chat.models
 
-data class ContactModel(
-    val name: String,
-    val imageId: Int = 0,
-    val message: ArrayList<String>
+import java.util.ArrayList
+
+data class Conversation(
+    val target: User,
+    val message: ArrayList<Message>,
+    val inputText: String = ""
+)
+
+data class User(
+    val imageId: Int,
+    val name: String
+)
+
+data class Message (
+    val sender: User,
+    val text: String
 )
