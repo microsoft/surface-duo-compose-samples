@@ -57,7 +57,6 @@ fun ChatDetails(
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     var text by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
-    
     Box(
         modifier = Modifier
             .fillMaxSize()
