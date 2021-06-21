@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TwoPaneLayoutSample</string>
+    <string name="first_pane_text">First pane: Dual screens give you more opportunity to display content in several different patterns. Depending on the pattern you choose, the BLUE margins near the hinge are meant to be optional. For example, if you follow the List-Detail pattern, you might have to keep in mind the BLUE margins. However, if you follow the Extended Canvas pattern, then your content can flow across the hinge without having to worry about the BLUE margins near the hinge.</string>
+    <string name="second_pane_text">Second pane: The list-detail pattern has a main pane (usually with a list view) and a details pane for content. When an item in the list is selected, the details pane is updated. This pattern is naturally good for when you have a wider viewing area. It is frequently used for email and address books. Taking advantage of the two distinct screens and snapping to the natural boundary, you could use one screen to show the "items" list and the other to show details of the selected item.</string>
+</resources>
