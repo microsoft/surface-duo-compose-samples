@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.listdetail.ui.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -111,7 +110,6 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                             modifier = Modifier
                                 .wrapContentSize()
                                 .weight(1f)
-                                .background(color = colorResource(id = R.color.outline_blue))
                                 .padding(
                                     top = outlineWidth,
                                     bottom = outlineWidth,
