@@ -11,11 +11,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AppStateViewModel : ViewModel() {
+@HiltViewModel
+class AppStateViewModel @Inject constructor()
+: ViewModel() {
 
     private val isDualModeLiveData = MutableLiveData<Boolean>() // observe the dual-screen mode
-    var selectedIndex by mutableStateOf(0)
     var displayChatDetails by mutableStateOf(false)
 
     fun getIsDualModeLiveDataLiveData(): LiveData<Boolean> {

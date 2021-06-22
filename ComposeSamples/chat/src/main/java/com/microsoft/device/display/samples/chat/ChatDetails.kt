@@ -21,18 +21,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -46,66 +44,59 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.chat.models.Conversation
 import com.microsoft.device.display.samples.chat.utils.ChatBubbleLeftArrowShape
 import com.microsoft.device.display.samples.chat.utils.NoRippleIconButton
-import com.microsoft.device.display.samples.chat.utils.percentOffsetX
 import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.microsoft.device.display.samples.chat.models.UserViewModel
+import com.microsoft.device.display.samples.chat.utils.percentOffsetX
+import kotlinx.coroutines.launch
 
 @Composable
-fun ChatDetails(
-    models: List<Conversation>,
-    appStateViewModel: AppStateViewModel
-) {
+fun ChatDetails() {
+    val appStateViewModel = hiltViewModel<AppStateViewModel>()
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
     val percentOffsetX = animateFloatAsState(if (appStateViewModel.displayChatDetails && !isDualMode) 0f else 1f)
+
     if (isDualMode) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF8F8F8))
         ) {
-            ChatList(models, appStateViewModel)
+            ChatList()
         }
     } else {
         Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                appStateViewModel.displayChatDetails = false
-                            }
-                        ) {
-                            Icon(Icons.Filled.ArrowBack, null)
-                        }
-                    },
-                    backgroundColor = Color.White
-                )
-            },
+            backgroundColor = Color(0xFFF8F8F8),
             modifier = Modifier
                 .fillMaxSize()
-                .percentOffsetX(percentOffsetX.value),
-            backgroundColor = Color(0xFFF8F8F8)
+                .percentOffsetX(percentOffsetX.value)
         ) {
-            ChatList(models, appStateViewModel)
+            ChatList()
         }
     }
 }
 
 @Composable
-fun ChatList(
-    models: List<Conversation>,
-    appStateViewModel: AppStateViewModel
-) {
+fun ChatList() {
+    val appStateViewModel = hiltViewModel<AppStateViewModel>()
+    val userViewModel = hiltViewModel<UserViewModel>()
+
     val listState = rememberLazyListState()
-    val index = appStateViewModel.selectedIndex
     val isDualModeLiveDataLiveData = appStateViewModel.getIsDualModeLiveDataLiveData()
     val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+    val scope = rememberCoroutineScope()
     var isFocused by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf("") }
+
+    val conversation by remember { userViewModel.activeConversation }
+    if(conversation == null)
+        return
+    val message = conversation!!.messages
 
     Column(
         modifier = Modifier
@@ -132,13 +123,13 @@ fun ChatList(
                 Spacer(Modifier.padding(vertical = 8.dp))
             }
             items(
-                models[index].message.size
-            ) { message ->
+                message.size
+            ) { index ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = models[index].target.imageId),
+                        painter = painterResource(id = conversation!!.target.value.avatar.value!!),
                         contentDescription = null,
                         modifier = Modifier.size(30.dp)
                     )
@@ -157,7 +148,7 @@ fun ChatList(
                             color = Color.White
                         ) {
                             Text(
-                                text = models[index].message[message].text,
+                                text = message[index].content.value,
                                 modifier = Modifier
                                     .padding(8.dp),
                                 style = MaterialTheme.typography.body2,
@@ -174,10 +165,16 @@ fun ChatList(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            var text by remember { mutableStateOf(TextFieldValue(text = "")) }
+            LaunchedEffect(conversation) {
+                val abc = conversation?.contentToSend?.value ?: ""
+                text = TextFieldValue(text = abc, selection = TextRange(abc.length))
+            }
             BasicTextField(
                 value = text,
                 onValueChange = {
                     text = it
+                    conversation?.contentToSend?.value = text.text
                 },
                 modifier = Modifier
                     .background(Color.White, CircleShape)
@@ -190,10 +187,12 @@ fun ChatList(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        NoRippleIconButton(onClick = { /*TODO*/ }) {
+                        NoRippleIconButton(
+                            onClick = { }
+                        ) {
                             Icon(painterResource(id = R.drawable.mood), null)
                         }
-                        if (!isFocused && text == "") {
+                        if (!isFocused && text.text == "") {
                             CompositionLocalProvider(
                                 LocalContentAlpha provides ContentAlpha.medium
                             ) {
@@ -202,9 +201,9 @@ fun ChatList(
                         }
                         it()
                     }
-                },
+                }
             )
-            if (text != "") {
+            if (text.text != "") {
                 Spacer(Modifier.padding(horizontal = 6.dp))
                 Surface(
                     color = Color(0xFF0079D3),
@@ -215,7 +214,12 @@ fun ChatList(
                         null,
                         tint = Color.White,
                         modifier = Modifier
-                            .clickable { }
+                            .clickable {
+                                userViewModel.sendMessage(text.text)
+                                scope.launch {
+                                    listState.animateScrollToItem(message.size)
+                                }
+                            }
                             .padding(8.dp)
                     )
                 }
