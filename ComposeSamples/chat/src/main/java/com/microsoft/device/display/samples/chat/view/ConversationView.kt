@@ -46,6 +46,7 @@ fun DualScreenUI() {
         ) {
             ConversationView()
         }
+
         Box(
             modifier = Modifier.weight(1f)
         ) {
