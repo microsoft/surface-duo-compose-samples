@@ -12,7 +12,7 @@ ext {
     // 1.0.0-beta1, if you want to publish a new version you will have to increase in one the
     //twoPaneLayoutVersionCode and to bump the twoPaneLayoutVersionName.
 
-    // TwoPaneLayout library version code.
+    // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
     twoPaneLayoutVersionCode = 1
 
