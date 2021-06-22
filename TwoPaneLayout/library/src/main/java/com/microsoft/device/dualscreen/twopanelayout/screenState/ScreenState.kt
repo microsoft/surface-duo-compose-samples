@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.twopanelayout.screenState
+package com.microsoft.device.dualscreen.twopanelayout.screenState
 
 import android.graphics.Rect
 import androidx.compose.ui.geometry.Size

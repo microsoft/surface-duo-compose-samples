@@ -5,6 +5,6 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.microsoft.device.display.twopanelayout">
+    package="com.microsoft.device.dualscreen.twopanelayout">
 
 </manifest>

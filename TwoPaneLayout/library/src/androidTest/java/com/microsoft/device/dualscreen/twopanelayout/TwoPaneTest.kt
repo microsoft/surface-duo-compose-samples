@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import android.graphics.Rect
 import androidx.compose.ui.Modifier
@@ -15,10 +15,10 @@ import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.microsoft.device.display.twopanelayout.screenState.DeviceType
-import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.display.twopanelayout.screenState.LayoutState
-import com.microsoft.device.display.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

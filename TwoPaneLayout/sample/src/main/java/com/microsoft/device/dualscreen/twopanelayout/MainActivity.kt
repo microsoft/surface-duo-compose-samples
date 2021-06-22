@@ -1,4 +1,4 @@
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.microsoft.device.display.twopanelayout.sample.ui.theme.TwoPaneLayoutTheme
+import com.microsoft.device.dualscreen.twopanelayout.sample.ui.theme.TwoPaneLayoutTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

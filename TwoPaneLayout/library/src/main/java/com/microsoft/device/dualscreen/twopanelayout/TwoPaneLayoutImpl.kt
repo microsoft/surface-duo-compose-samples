@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import android.graphics.Rect
 import androidx.compose.runtime.Composable
@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
-import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.display.twopanelayout.screenState.LayoutState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import kotlin.math.roundToInt
 
 @Composable

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import android.graphics.Rect
 import androidx.compose.foundation.layout.LayoutScopeMarker
@@ -19,11 +19,11 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
-import com.microsoft.device.display.twopanelayout.screenState.ConfigScreenState
-import com.microsoft.device.display.twopanelayout.screenState.DeviceType
-import com.microsoft.device.display.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.display.twopanelayout.screenState.LayoutState
-import com.microsoft.device.display.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.ConfigScreenState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
+import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 
 /**
  * A layout component that places its children in one or two panes vertically or horizontally to

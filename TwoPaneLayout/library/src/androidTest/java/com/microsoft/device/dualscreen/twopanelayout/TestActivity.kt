@@ -1,4 +1,4 @@
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import androidx.activity.ComponentActivity
 import java.util.concurrent.CountDownLatch
