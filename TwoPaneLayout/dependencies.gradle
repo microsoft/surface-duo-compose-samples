@@ -4,6 +4,24 @@
  */
 
 ext {
+
+    //---- Important -------------------
+    // We have to update following versionName and versionCode groups in order to
+    // publish correctly a new version of each of our libraries.
+    // e.g. twopanelayout library, you could have as a current version
+    // 1.0.0-beta1, if you want to publish a new version you will have to increase in one the
+    //twoPaneLayoutVersionCode and to bump the twoPaneLayoutVersionName.
+
+    // TwoPaneLayout library version code:
+    // If you want to publish a new version, bump in one (1) the specific line(s)
+    twoPaneLayoutVersionCode = 1
+
+    // TwoPaneLayout library version name:
+    // If you want to publish a new version, bump the specific line
+    twoPaneLayoutVersionName = '1.0.0-alpha01'
+
+    // ----------------------------------
+
     gradlePluginVersion = '7.0.0-beta04'
     kotlinVersion = "1.5.10"
     compileSdkVersion = 29
