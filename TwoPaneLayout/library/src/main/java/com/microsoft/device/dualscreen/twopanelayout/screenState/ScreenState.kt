@@ -31,8 +31,8 @@ enum class LayoutState {
 /**
  * DeviceType
  *     Single,    // regular single-screen device, such as single-screen phone
- *     Multiple,  // dual-screen/foldable/rollable device, such as Surface Duo device, Samsung Galaxy Fold 2
- *     Big        // big-screen device, such as tablet
+ *     Multiple,  // dual-screen/foldable device, such as Surface Duo device, Samsung Galaxy Fold 2
+ *     Big        // large-screen device, such as tablet
  */
 enum class DeviceType {
     Single,
@@ -47,7 +47,7 @@ class ScreenState(
     var orientation: LayoutOrientation,
     var layoutState: LayoutState
 ) {
-    var paneSize: Size = Size.Zero
+    val paneSize: Size
         get() {
             if (deviceType == DeviceType.Big) {
                 return if (orientation == LayoutOrientation.Vertical) {

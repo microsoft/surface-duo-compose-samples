@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.microsoft.device.dualscreen.twopanelayout.sample.ui.theme.TwoPaneLayoutTheme
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ fun MainPage() {
             )
         },
         content = {
-            TwoPaneLayout() {
+            TwoPaneLayout {
                 Text(
                     text = stringResource(R.string.first_pane_text),
                     modifier = Modifier.fillMaxSize().background(color = Color.Cyan) // .weight(.3f)

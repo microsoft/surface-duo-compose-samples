@@ -145,16 +145,15 @@ private fun measureTwoPaneEqually(
     paneSize: Size,
     measurables: List<Measurable>
 ): List<Placeable> {
-    var paneWidth = paneSize.width.toInt()
-    var paneHeight = paneSize.height.toInt()
+    val paneWidth = paneSize.width.toInt()
+    val paneHeight = paneSize.height.toInt()
     val childConstraints = Constraints(
         minWidth = constraints.minWidth.coerceAtMost(paneWidth),
         minHeight = constraints.minHeight.coerceAtMost(paneHeight),
         maxWidth = constraints.maxWidth.coerceAtMost(paneWidth),
         maxHeight = constraints.maxHeight.coerceAtMost(paneHeight)
     )
-    var placeables = measurables.map { it.measure(childConstraints) }
-    return placeables
+    return measurables.map { it.measure(childConstraints) }
 }
 
 /*
