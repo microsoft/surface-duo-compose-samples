@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.microsoft.device.display.twopanelayout.sample"
+        applicationId "com.microsoft.device.dualscreen.twopanelayout.sample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 

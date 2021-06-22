@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.microsoft.device.display.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
 import android.graphics.Rect
@@ -33,7 +33,7 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import com.microsoft.device.display.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue

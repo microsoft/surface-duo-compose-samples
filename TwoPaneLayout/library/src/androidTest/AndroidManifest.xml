@@ -20,7 +20,7 @@
         tools:replace="android:debuggable">
 
         <activity
-            android:name="com.microsoft.device.display.twopanelayout.TestActivity">
+            android:name="com.microsoft.device.dualscreen.twopanelayout.TestActivity">
         </activity>
     </application>
 </manifest>
