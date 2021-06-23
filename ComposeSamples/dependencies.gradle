@@ -14,7 +14,6 @@ ext {
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
             kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
-            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
             hilt                     : "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     ]
 
