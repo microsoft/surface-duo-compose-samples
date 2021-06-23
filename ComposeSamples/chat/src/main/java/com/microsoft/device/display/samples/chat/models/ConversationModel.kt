@@ -133,7 +133,7 @@ class UserViewModel @Inject constructor(
     private var _state: UserState = UserState(userRepos.getUser())
     private val _activeConversation: MutableState<ConversationState?> = mutableStateOf(null)
 
-    private val me by lazy { _state.info }
+    val me by lazy { _state.info }
     val conversations by lazy { _state.conversations }
     val activeConversation = _activeConversation
 

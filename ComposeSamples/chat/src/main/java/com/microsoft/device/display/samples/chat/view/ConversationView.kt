@@ -1,5 +1,7 @@
 package com.microsoft.device.display.samples.chat.view
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,11 +17,19 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,28 +48,75 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 import androidx.compose.ui.text.style.TextOverflow
 import com.microsoft.device.display.samples.chat.ChatDetails
 import com.microsoft.device.display.samples.chat.models.UserViewModel
+import com.microsoft.device.display.samples.chat.utils.NoRippleIconButton
 
 @Composable
 fun DualScreenUI() {
-    Row {
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-            ConversationView()
-        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(id = R.string.app_name))
+                },
+                backgroundColor = Color.White
+            )
+        },
+        backgroundColor = Color(0xFFF8F8F8)
+    ) {
+        Row {
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                ConversationView()
+            }
 
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-            ChatDetails()
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                ChatDetails()
+            }
         }
     }
 }
 
 @Composable
 fun SingleScreenUI() {
-    ConversationView()
-    ChatDetails()
+    val appStateViewModel = hiltViewModel<AppStateViewModel>()
+    val userViewModel = hiltViewModel<UserViewModel>()
+
+    Log.d(TAG, "value is ${userViewModel.me.value.name}")
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (appStateViewModel.displayChatDetails) {
+                        Text(userViewModel.activeConversation.value!!.target.value.name.value)
+                    }
+                    else Text(stringResource(id = R.string.app_name))
+                },
+                backgroundColor = Color.White,
+                navigationIcon = {
+                    if (appStateViewModel.displayChatDetails) {
+                        IconButton(
+                            onClick = { appStateViewModel.displayChatDetails = false }
+                        ) {
+                            Icon(Icons.Filled.ArrowBack, null)
+                        }
+                    } else {
+                        NoRippleIconButton(onClick = {  }
+                        ) {
+                            Icon(Icons.Filled.Home, null)
+                        }
+                    }
+                }
+            )
+        },
+        backgroundColor = Color(0xFFF8F8F8)
+    ) {
+        ConversationView()
+        ChatDetails()
+    }
 }
 
 @Composable

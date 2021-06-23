@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,8 +52,11 @@ import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.microsoft.device.display.samples.chat.models.Contact
 import com.microsoft.device.display.samples.chat.models.UserViewModel
+import com.microsoft.device.display.samples.chat.utils.ChatBubbleRightArrowShape
 import com.microsoft.device.display.samples.chat.utils.percentOffsetX
 import kotlinx.coroutines.launch
 
@@ -97,7 +102,6 @@ fun ChatList() {
     if(conversation == null)
         return
     val message = conversation!!.messages
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -125,38 +129,9 @@ fun ChatList() {
             items(
                 message.size
             ) { index ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = conversation!!.target.value.avatar.value!!),
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                    Row {
-                        Surface(
-                            modifier = Modifier
-                                .background(
-                                    color = Color.White,
-                                    shape = ChatBubbleLeftArrowShape()
-                                )
-                                .width(8.dp)
-                        ) { }
-                        Surface(
-                            shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
-                            color = Color.White
-                        ) {
-                            Text(
-                                text = message[index].content.value,
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                style = MaterialTheme.typography.body2,
-                                fontWeight = FontWeight.W600
-                            )
-                        }
-                    }
-                }
+                if (message[index].sender.value.name.value != userViewModel.me.value.name) {
+                    ContactBubble(imageId = conversation!!.target.value.avatar.value!!, content = message[index].content.value)
+                } else MyBubble(content = message[index].content.value)
                 Spacer(Modifier.padding(vertical = 5.dp))
             }
         }
@@ -216,6 +191,8 @@ fun ChatList() {
                         modifier = Modifier
                             .clickable {
                                 userViewModel.sendMessage(text.text)
+                                text = TextFieldValue(text = "", selection = TextRange(0))
+                                conversation?.contentToSend?.value = ""
                                 scope.launch {
                                     listState.animateScrollToItem(message.size)
                                 }
@@ -224,6 +201,81 @@ fun ChatList() {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ContactBubble(
+    imageId: Int,
+    content: String
+) {
+    Row(
+        verticalAlignment = Alignment.Top
+    ) {
+        Image(
+            painter = painterResource(id = imageId),
+            contentDescription = null,
+            modifier = Modifier.size(30.dp)
+        )
+        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+        Row {
+            Surface(
+                modifier = Modifier
+                    .background(
+                        color = Color.White,
+                        shape = ChatBubbleLeftArrowShape()
+                    )
+                    .width(8.dp)
+            ) { }
+            Surface(
+                shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
+                color = Color.White
+            ) {
+                Text(
+                    text = content,
+                    modifier = Modifier
+                        .padding(8.dp),
+                    style = MaterialTheme.typography.body2,
+                    fontWeight = FontWeight.W600
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MyBubble(
+    content: String
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(-(10).dp)
+        ) {
+            Surface(
+                shape = RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp),
+                color = Color(0xFF12B7F5),
+            ) {
+                Text(
+                    text = content,
+                    modifier = Modifier
+                        .padding(8.dp),
+                    style = MaterialTheme.typography.body2,
+                    fontWeight = FontWeight.W600,
+                    color = Color.White
+                )
+            }
+            Surface(
+                modifier = Modifier
+                    .background(
+                        color = Color(0xFF12B7F5),
+                        shape = ChatBubbleRightArrowShape()
+                    )
+                    .width(8.dp)
+            ) { }
         }
     }
 }

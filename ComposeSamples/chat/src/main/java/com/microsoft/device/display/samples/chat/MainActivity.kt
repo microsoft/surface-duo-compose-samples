@@ -26,8 +26,7 @@ class Chat: Application() { }
 class MainActivity : ComponentActivity() {
 
     private lateinit var windowManager: WindowManager
-
-    lateinit var appStateViewModel: AppStateViewModel
+    private lateinit var appStateViewModel: AppStateViewModel
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
