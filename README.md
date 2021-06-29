@@ -13,6 +13,9 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 ### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
 Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
 
+### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout)
+A UI component that help you build two-pane layout for dual-screen, foldable and large-screen devices.
+
 ## Social links
 
 - [blog: Jetpack Compose on Microsoft Surface Duo](https://devblogs.microsoft.com/surface-duo/jetpack-compose-dual-screen-sample/)
