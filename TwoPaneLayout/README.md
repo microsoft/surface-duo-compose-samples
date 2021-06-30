@@ -1,18 +1,42 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-TwoPaneLayout is a UI component built in Jetpack Compose which contains the layouts that help you create UI for dual-screen, foldable and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The two panes can be horizontal or vertical, based on the orientation of the device. TwoPaneLayout supports the use of the layout parameter layout_weight on child views to determine how to divide two panes to cover the whole display area.
+**TwoPaneLayout** is a UI component built in Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The two panes can be horizontal or vertical, based on the orientation of the device. TwoPaneLayout supports the use of the layout parameter layout_weight on child views to determine how to divide two panes to cover the whole display area.
 
 Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) to learn some common use case for the two panes.
 
-## Getting Started
+## 
 
-To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
+## Add to your project
 
-## Prerequisites
+1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
 
-- Jetpack Compose version: `1.0.0-beta09`
+    ```gradle
+    allprojects {
+        repositories {
+            google()
+            mavenCentral()
+         }
+    }
+    ```
 
-- AndroidX WindowManager version: `1.0.0-alpha08`
+2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
+    ```gradle
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha01"
+    ```
+
+3. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout/sample) for more details.
+
+- Dual-screen device(Surface Duo device, 1:1)
+
+![surfaceduo](screenshots/surfaceduo.png)
+
+- Foldabe device(1:1)
+
+![foldable](screenshots/foldable.png)
+
+- Tablet device(3:7)
+
+![tablet](screenshots/tablet.png)
 
 ## Contributing
 
