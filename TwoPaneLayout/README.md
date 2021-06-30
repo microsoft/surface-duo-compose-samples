@@ -8,7 +8,7 @@ Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen
 
 ## Add to your project
 
-1. Make sure you have **jcenter()** repository in your top level **build.gradle** file:
+1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
 
     ```gradle
     allprojects {

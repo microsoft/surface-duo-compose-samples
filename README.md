@@ -4,6 +4,8 @@
 
 This repo contains the samples and components built in Jetpack Compose for Microsoft Surface Duo.
 
+Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md).
+
 ## Getting Started
 
 To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo).
