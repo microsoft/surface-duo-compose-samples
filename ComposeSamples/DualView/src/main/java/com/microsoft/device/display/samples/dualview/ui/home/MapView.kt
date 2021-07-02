@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import com.microsoft.device.display.samples.dualview.R
@@ -31,13 +32,10 @@ import com.microsoft.device.display.samples.dualview.models.restaurants
 import kotlin.math.roundToInt
 
 private const val nonSelection = -1
-private const val wideWidth = 1800
 
 @Composable
 fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    val viewWidth = appStateViewModel.viewWidth
-    val isWide = viewWidth > wideWidth
-    val selectionLiveData = appStateViewModel.getSelectionLiveData()
+    val selectionLiveData = appStateViewModel.selectionLiveData
     val selectedIndex = selectionLiveData.observeAsState(initial = nonSelection).value
     var selectedMapId = R.drawable.unselected_map
     if (selectedIndex > nonSelection) {
@@ -45,15 +43,15 @@ fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
     }
 
     Box(modifier = modifier.then(Modifier.clipToBounds())) {
-        ScalableImageView(imageId = selectedMapId, isWide = isWide)
+        ScalableImageView(imageId = selectedMapId)
     }
 }
 
 @Composable
-fun ScalableImageView(imageId: Int, isWide: Boolean) {
+fun ScalableImageView(imageId: Int) {
     val minScale = 1f
     val maxScale = 8f
-    val defaultScale = if (isWide) 5f else 3f
+    val defaultScale = 2f
     var scale by remember { mutableStateOf(defaultScale) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = rememberTransformableState { zoomChange, offsetChange, _ ->
@@ -63,6 +61,7 @@ fun ScalableImageView(imageId: Int, isWide: Boolean) {
     Image(
         painter = painterResource(id = imageId),
         contentDescription = null,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
                 scaleX = maxOf(minScale, minOf(maxScale, scale)),

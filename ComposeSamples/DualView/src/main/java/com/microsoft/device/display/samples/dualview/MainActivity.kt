@@ -15,7 +15,6 @@ import androidx.window.DisplayFeature
 import androidx.window.FoldingFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
-import com.microsoft.device.display.samples.dualview.models.ScreenState
 import com.microsoft.device.display.samples.dualview.ui.home.SetupUI
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewComposeSampleTheme
 import java.util.concurrent.Executor
@@ -26,12 +25,10 @@ class MainActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
-    private val initialSelection = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
-        appStateViewModel.setSelectionLiveData(initialSelection)
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -59,21 +56,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
-        var screenState = ScreenState.SingleScreen
         var viewWidth = 0
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
             val foldingFeature = displayFeatures.first() as FoldingFeature
-            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
             viewWidth = foldingFeature.bounds.left
-            screenState = if (isVertical) {
-                ScreenState.DualPortrait
-            } else {
-                ScreenState.DualLandscape
-            }
         }
-
-        appStateViewModel.setScreenStateLiveData(screenState)
         appStateViewModel.viewWidth = viewWidth
+        appStateViewModel.isDualScreenLiveData.value = displayFeatures.isNotEmpty()
     }
 }

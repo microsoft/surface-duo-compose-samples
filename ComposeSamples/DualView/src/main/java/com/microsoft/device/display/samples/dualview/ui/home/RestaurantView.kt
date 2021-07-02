@@ -41,8 +41,8 @@ import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.utils.formatPriceRange
 import com.microsoft.device.display.samples.dualview.utils.formatRating
 
-private val outlinePadding = 25.dp
-private const val narrowWidth = 1000
+const val outlinePadding = 25
+const val narrowWidth = 1100
 
 @Composable
 fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
@@ -50,9 +50,9 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = outlinePadding,
-                start = outlinePadding,
-                end = outlinePadding
+                top = outlinePadding.dp,
+                start = outlinePadding.dp,
+                end = outlinePadding.dp
             )
             .then(modifier)
     ) {
@@ -70,26 +70,27 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
 
 @Composable
 fun RestaurantListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
-    val selectionLiveData = appStateViewModel.getSelectionLiveData()
+    val selectionLiveData = appStateViewModel.selectionLiveData
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
+
     val viewWidth = appStateViewModel.viewWidth
-    val isNarrow = viewWidth < narrowWidth && viewWidth != 0
+    val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
 
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(outlinePadding),
-        contentPadding = PaddingValues(bottom = outlinePadding)
+        verticalArrangement = Arrangement.spacedBy(outlinePadding.dp),
+        contentPadding = PaddingValues(bottom = outlinePadding.dp)
     ) {
         itemsIndexed(restaurants) { index, item ->
             val isSelected = index == selectedIndex
             RestaurantTile(
                 restaurant = item,
                 isSelected = isSelected,
-                isNarrow = isNarrow,
+                isSmallScreen = isSmallScreen,
                 modifier = Modifier.selectable(
                     selected = isSelected,
                     enabled = true,
                     onClick = {
-                        appStateViewModel.setSelectionLiveData(index)
+                        appStateViewModel.selectionLiveData.value = index
                         navController?.navigate("map")
                     }
                 )
@@ -99,8 +100,10 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
 }
 
 @Composable
-fun RestaurantTile(restaurant: Restaurant, isSelected: Boolean, isNarrow: Boolean, modifier: Modifier) {
-    val columnModifier = if (isNarrow) Modifier.fillMaxHeight().horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
+fun RestaurantTile(restaurant: Restaurant, isSelected: Boolean, isSmallScreen: Boolean, modifier: Modifier) {
+    val columnModifier = if (isSmallScreen) Modifier.fillMaxHeight().horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
+    val smallArrangement = if (isSmallScreen) Arrangement.spacedBy(5.dp) else Arrangement.SpaceBetween
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -124,7 +127,7 @@ fun RestaurantTile(restaurant: Restaurant, isSelected: Boolean, isNarrow: Boolea
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = smallArrangement
             ) {
                 Text(
                     text = formatRating(restaurant.rating, restaurant.voteCount),
