@@ -20,7 +20,7 @@ import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.Executor
 
 @HiltAndroidApp
-class Chat: Application() { }
+class Chat : Application()
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

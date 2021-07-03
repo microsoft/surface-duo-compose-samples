@@ -1,7 +1,5 @@
 package com.microsoft.device.display.samples.chat.view
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +15,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
@@ -27,7 +24,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
@@ -40,15 +36,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.microsoft.device.display.samples.chat.R
-import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
-import androidx.compose.ui.text.style.TextOverflow
 import com.microsoft.device.display.samples.chat.ChatDetails
+import com.microsoft.device.display.samples.chat.R
 import com.microsoft.device.display.samples.chat.models.UserViewModel
 import com.microsoft.device.display.samples.chat.utils.NoRippleIconButton
+import com.microsoft.device.display.samples.chat.viewModels.AppStateViewModel
 
 @Composable
 fun DualScreenUI() {
@@ -84,8 +80,6 @@ fun SingleScreenUI() {
     val appStateViewModel = hiltViewModel<AppStateViewModel>()
     val userViewModel = hiltViewModel<UserViewModel>()
 
-    Log.d(TAG, "value is ${userViewModel.me.value.name}")
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -103,8 +97,10 @@ fun SingleScreenUI() {
                         ) {
                             Icon(Icons.Filled.ArrowBack, null)
                         }
-                    } else {
-                        NoRippleIconButton(onClick = {  }
+                    }
+                    else {
+                        NoRippleIconButton(
+                            onClick = {  }
                         ) {
                             Icon(Icons.Filled.Home, null)
                         }
