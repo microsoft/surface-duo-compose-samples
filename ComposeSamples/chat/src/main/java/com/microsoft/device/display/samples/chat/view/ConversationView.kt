@@ -86,8 +86,7 @@ fun SingleScreenUI() {
                 title = {
                     if (appStateViewModel.displayChatDetails) {
                         Text(userViewModel.activeConversation.value!!.target.value.name.value)
-                    }
-                    else Text(stringResource(id = R.string.app_name))
+                    } else Text(stringResource(id = R.string.app_name))
                 },
                 backgroundColor = Color.White,
                 navigationIcon = {
@@ -97,10 +96,9 @@ fun SingleScreenUI() {
                         ) {
                             Icon(Icons.Filled.ArrowBack, null)
                         }
-                    }
-                    else {
+                    } else {
                         NoRippleIconButton(
-                            onClick = {  }
+                            onClick = { }
                         ) {
                             Icon(Icons.Filled.Home, null)
                         }

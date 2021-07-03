@@ -15,8 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AppStateViewModel @Inject constructor()
-: ViewModel() {
+class AppStateViewModel @Inject constructor() : ViewModel() {
 
     private val isDualModeLiveData = MutableLiveData<Boolean>() // observe the dual-screen mode
     var displayChatDetails by mutableStateOf(false)
