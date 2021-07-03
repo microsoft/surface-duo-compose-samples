@@ -66,8 +66,8 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     }
 }
 
-private fun orientationMappingFromFoldingFeature(original: Int): LayoutOrientation {
-    return if (original == FoldingFeature.ORIENTATION_VERTICAL) {
+private fun orientationMappingFromFoldingFeature(original: FoldingFeature.Orientation): LayoutOrientation {
+    return if (original == FoldingFeature.Orientation.VERTICAL) {
         LayoutOrientation.Vertical
     } else {
         LayoutOrientation.Horizontal
