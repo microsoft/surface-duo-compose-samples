@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private val mainThreadExecutor = Executor { r: Runnable -> handler.post(r) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         windowManager = WindowManager(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
