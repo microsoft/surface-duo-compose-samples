@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             hingeWidth = foldingFeature.bounds.width()
         }
 
-        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
+        appStateViewModel.setIsDualModeLiveData(isDualMode)
         appStateViewModel.screenWidth = viewWidth
         appStateViewModel.hingeWidth = hingeWidth
     }
