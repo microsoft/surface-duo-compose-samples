@@ -19,7 +19,7 @@ on:
         required: false
 
 jobs:
-  publish-dualscreenSDK:
+  publish-TwoPaneLayout-MavenCentral:
     runs-on: ubuntu-latest
     defaults:
       run:

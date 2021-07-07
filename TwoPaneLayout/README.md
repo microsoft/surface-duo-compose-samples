@@ -21,10 +21,22 @@ Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen
 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha01"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha02"
+    ```
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 30 or newer in the module-level build.gradle file 
+
+    ```
+    android { 
+        compileSdkVersion 30
+        
+        defaultConfig { 
+            targetSdkVersion 30 
+        } 
+        ... 
+    }
     ```
 
-3. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout/sample) for more details.
+4. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout/sample) for more details.
 
 - Dual-screen device(Surface Duo device, 1:1)
 
