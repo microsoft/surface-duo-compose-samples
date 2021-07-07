@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         val isScreenSpanned = displayFeatures.isNotEmpty()
         val screenState: ScreenState = if (isScreenSpanned) {
             val foldingFeature = displayFeatures.first() as FoldingFeature
-            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
+            val isVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
             if (isVertical) {
                 ScreenState.DualPortrait
             } else {

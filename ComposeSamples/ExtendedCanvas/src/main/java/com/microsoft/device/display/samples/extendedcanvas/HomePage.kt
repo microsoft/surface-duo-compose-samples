@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,19 +23,15 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
-import com.microsoft.device.display.samples.extendedcanvas.viewmodel.AppStateViewModel
 import kotlin.math.roundToInt
 
 @Composable
-fun MainPage(viewModel: AppStateViewModel) {
-    val isScreenPortraitLiveData = viewModel.getIsScreenPortraitLiveData()
-    val isScreenPortrait = isScreenPortraitLiveData.observeAsState(initial = true).value
-    ScaleImage(isScreenPortrait)
+fun MainPage() {
+    ScaleImage()
 }
 
 @Composable
-fun ScaleImage(isPortrait: Boolean) {
-    val scaleValue: ContentScale = if (isPortrait) ContentScale.FillHeight else ContentScale.FillWidth
+fun ScaleImage() {
     val minScale = 0.8f
     val maxScale = 6f
     var scale by remember { mutableStateOf(1.5f) }
@@ -48,7 +43,7 @@ fun ScaleImage(isPortrait: Boolean) {
     Image(
         painter = painterResource(id = R.drawable.mock_map),
         contentDescription = null,
-        contentScale = scaleValue,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
                 scaleX = maxOf(minScale, minOf(maxScale, scale)),
