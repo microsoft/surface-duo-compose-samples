@@ -22,7 +22,7 @@ ext {
 
     // ----------------------------------
 
-    gradlePluginVersion = '7.0.0-beta04'
+    gradlePluginVersion = '7.0.0-beta05'
     kotlinVersion = "1.5.10"
     compileSdkVersion = 30
     targetSdkVersion = compileSdkVersion
