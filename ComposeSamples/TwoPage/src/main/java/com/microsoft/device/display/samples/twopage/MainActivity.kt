@@ -66,13 +66,13 @@ class MainActivity : AppCompatActivity() {
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
             val foldingFeature = displayFeatures.first() as FoldingFeature
-            isDualMode = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
+            isDualMode = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
             val vWidth = foldingFeature.bounds.left
             viewWidth = (vWidth / resources.displayMetrics.density).toInt()
             hingeWidth = foldingFeature.bounds.width()
         }
 
-        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
+        appStateViewModel.setIsDualModeLiveData(isDualMode)
         appStateViewModel.screenWidth = viewWidth
         appStateViewModel.hingeWidth = hingeWidth
     }

@@ -15,11 +15,11 @@ class AppStateViewModel : ViewModel() {
     var screenWidth: Int = 0
     var hingeWidth: Int = 0
 
-    fun getIsDualModeLiveDataLiveData(): LiveData<Boolean> {
+    fun getIsDualModeLiveData(): LiveData<Boolean> {
         return this.isDualModeLiveData
     }
 
-    fun setIsDualModeLiveDataLiveData(isDualMode: Boolean) {
+    fun setIsDualModeLiveData(isDualMode: Boolean) {
         isDualModeLiveData.value = isDualMode
     }
 }

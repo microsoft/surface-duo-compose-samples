@@ -6,9 +6,6 @@
 package com.microsoft.device.display.samples.dualview.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Icon
@@ -21,11 +18,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -33,19 +30,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
-import com.microsoft.device.display.samples.dualview.models.ScreenState
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 
 private lateinit var appStateViewModel: AppStateViewModel
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
 
-    val screenStateLiveData = appStateViewModel.getScreenStateLiveDataLiveData()
-    when (screenStateLiveData.observeAsState(initial = ScreenState.SingleScreen).value) {
-        ScreenState.SingleScreen -> SingleScreenUI()
-        ScreenState.DualPortrait -> DualScreenUI(isDualLandscape = false)
-        ScreenState.DualLandscape -> DualScreenUI(isDualLandscape = true)
+    val isDualScreenLiveData = appStateViewModel.isDualScreenLiveData
+    val isDualScreen = isDualScreenLiveData.observeAsState(initial = false).value
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+
+    if (isDualScreen || isTablet) {
+        DualScreenUI()
+    } else {
+        SingleScreenUI()
     }
 }
 
@@ -73,7 +75,7 @@ fun SingleScreenUI() {
 }
 
 @Composable
-fun DualScreenUI(isDualLandscape: Boolean) {
+fun DualScreenUI() {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -90,56 +92,19 @@ fun DualScreenUI(isDualLandscape: Boolean) {
             )
         },
         content = {
-            if (isDualLandscape) {
-                VerticalListMapView()
-            } else {
-                HorizontalListMapView()
+            TwoPaneLayout() {
+                RestaurantsView(
+                    modifier = Modifier.fillMaxSize(),
+                    navController = null,
+                    appStateViewModel = appStateViewModel
+                )
+                MapView(
+                    modifier = Modifier.fillMaxSize(),
+                    appStateViewModel = appStateViewModel
+                )
             }
         }
     )
-}
-
-@Composable
-fun HorizontalListMapView() {
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        RestaurantsView(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            navController = null,
-            appStateViewModel = appStateViewModel
-        )
-        MapView(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            appStateViewModel = appStateViewModel
-        )
-    }
-}
-
-@Composable
-fun VerticalListMapView() {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        RestaurantsView(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(.9f),
-            navController = null,
-            appStateViewModel = appStateViewModel
-        )
-        MapView(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1.1f),
-            appStateViewModel = appStateViewModel
-        )
-    }
 }
 
 @Composable

@@ -20,8 +20,8 @@ import com.microsoft.device.display.samples.twopage.utils.ViewPager
 
 @Composable
 fun SetupUI(viewModel: AppStateViewModel) {
-    val isDualModeLiveDataLiveData = viewModel.getIsDualModeLiveDataLiveData()
-    val isDualMode = isDualModeLiveDataLiveData.observeAsState(initial = false).value
+    val isDualModeLiveData = viewModel.getIsDualModeLiveData()
+    val isDualMode = isDualModeLiveData.observeAsState(initial = false).value
 
     val sWidth = viewModel.screenWidth
     val pages = setupPages(isDualMode, sWidth)

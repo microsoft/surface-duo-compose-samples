@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity() {
         val isScreenSpanned = displayFeatures.isNotEmpty()
         if (isScreenSpanned) {
             val foldingFeature = displayFeatures.first() as FoldingFeature
-            val isVertical = foldingFeature.orientation == FoldingFeature.ORIENTATION_VERTICAL
+            val isVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
             isDualMode = isVertical
         }
 
-        appStateViewModel.setIsDualModeLiveDataLiveData(isDualMode)
+        appStateViewModel.setIsDualModeLiveData(isDualMode)
     }
 }
