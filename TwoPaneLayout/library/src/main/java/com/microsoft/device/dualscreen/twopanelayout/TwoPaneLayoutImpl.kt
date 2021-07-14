@@ -24,6 +24,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
+    paneMode: TwoPaneMode,
     orientation: LayoutOrientation,
     paneSize: Size,
     paddingBounds: Rect,
@@ -53,19 +54,15 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
-        if (layoutState == LayoutState.Fold) {
-            var measurable = measurables.first() // only measure the first pane if no weight specified
-
-            if (maxWeight != 0f) { // layout the (first) pane with the highest weight
-                for (i in measurables.indices) {
-                    val parentData = twoPaneParentData[i]
-                    val weight = parentData.weight
-                    if (weight == maxWeight) {
-                        measurable = measurables[i]
-                    }
-                }
-            }
-            placeables = listOf(measurable.measure(childrenConstraints))
+        if (layoutState == LayoutState.Fold
+            || (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical)
+            || (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)) {
+            placeables = measureSinglePane(
+                constraints = childrenConstraints,
+                maxWeight = maxWeight,
+                measurables = measurables,
+                twoPaneParentData = twoPaneParentData
+            )
         } else if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
             placeables = measureTwoPaneEqually(
                 constraints = childrenConstraints,
@@ -82,58 +79,79 @@ internal fun twoPaneMeasurePolicy(
             )
         }
 
-        when (layoutState) {
-            LayoutState.Fold -> { // single pane(screen), only one placeable for Fold
+        if (layoutState == LayoutState.Fold
+            || (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical)
+            || (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)) { // single pane(screen), only one placeable for Fold
                 layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                     val placeable = placeables.first()
                     placeable.place(x = 0, y = 0)
                 }
-            }
-
-            LayoutState.Open -> {
-                if (maxWeight == 0f || (maxWeight * 2 == totalWeight)) { // no weight will be layout equally by default
-                    layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                        placeables.forEachIndexed { index, placeable ->
-                            placeTwoPaneEqually(
-                                orientation = orientation,
-                                placeable = placeable,
-                                index = index,
-                                paneSize = paneSize,
-                                paddingBounds = paddingBounds,
-                                constraints = childrenConstraints
-                            )
+        } else {
+            if (maxWeight == 0f || (maxWeight * 2 == totalWeight)) { // no weight will be layout equally by default
+                layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
+                    placeables.forEachIndexed { index, placeable ->
+                        placeTwoPaneEqually(
+                            orientation = orientation,
+                            placeable = placeable,
+                            index = index,
+                            paneSize = paneSize,
+                            paddingBounds = paddingBounds,
+                            constraints = childrenConstraints
+                        )
+                    }
+                }
+            } else if (maxWeight == totalWeight) { // only one pane with weight
+                layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
+                    for (i in placeables.indices) {
+                        val parentData = twoPaneParentData[i]
+                        val weight = parentData.weight
+                        if (weight == maxWeight) {
+                            placeables[i].place(x = 0, y = 0)
+                            return@layout
                         }
                     }
-                } else {
-                    if (maxWeight == totalWeight) { // only one pane with weight
-                        layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                            for (i in placeables.indices) {
-                                val parentData = twoPaneParentData[i]
-                                val weight = parentData.weight
-                                if (weight == maxWeight) {
-                                    placeables[i].place(x = 0, y = 0)
-                                    return@layout
-                                }
-                            }
-                        }
-                    } else { // two panes with different weight
-                        layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                            placeables.forEachIndexed { index, placeable ->
-                                placeTwoPaneProportionally(
-                                    orientation = orientation,
-                                    placeable = placeable,
-                                    index = index,
-                                    twoPaneParentData = twoPaneParentData,
-                                    constraints = childrenConstraints,
-                                    totalWeight = totalWeight
-                                )
-                            }
-                        }
+                }
+            } else { // two panes with different weight
+                layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
+                    placeables.forEachIndexed { index, placeable ->
+                        placeTwoPaneProportionally(
+                            orientation = orientation,
+                            placeable = placeable,
+                            index = index,
+                            twoPaneParentData = twoPaneParentData,
+                            constraints = childrenConstraints,
+                            totalWeight = totalWeight
+                        )
                     }
                 }
             }
         }
     }
+}
+
+/*
+ * to measure single pane for single-screen or single pane in dual-screen mode,
+ * or dual-screen with two equal weight
+ */
+private fun measureSinglePane(
+    constraints: Constraints,
+    maxWeight: Float,
+    measurables: List<Measurable>,
+    twoPaneParentData: Array<TwoPaneParentData?>
+): List<Placeable> {
+    var measurable = measurables.first() // only measure the first pane if no weight specified
+
+    if (maxWeight != 0f) { // layout the (first) pane with the highest weight
+        for (i in measurables.indices) {
+            val parentData = twoPaneParentData[i]
+            val weight = parentData.weight
+            if (weight == maxWeight) {
+                measurable = measurables[i]
+            }
+        }
+    }
+
+    return listOf(measurable.measure(constraints))
 }
 
 /*

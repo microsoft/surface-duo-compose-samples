@@ -10,8 +10,8 @@ import androidx.compose.ui.geometry.Size
 
 /**
  * LayoutOrientation
- *     Horizontal,  the width of pane is bigger than the height
- *     Vertical     the height of pane is bigger than the width
+ *     Horizontal,  the width of pane is bigger than the height, left/right
+ *     Vertical     the height of pane is bigger than the width, top/bottom
  */
 enum class LayoutOrientation {
     Horizontal,
