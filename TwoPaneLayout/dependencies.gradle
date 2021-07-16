@@ -49,7 +49,7 @@ ext {
             window            : "androidx.window:window:$windowVersion",
     ]
 
-    composeVersion = "1.0.0-rc01"
+    composeVersion = "1.0.0-rc02"
     activityComposeVersion = "1.3.0-rc01"
 
     composeDependencies = [
