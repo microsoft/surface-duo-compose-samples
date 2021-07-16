@@ -54,9 +54,10 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
-        if (layoutState == LayoutState.Fold
-            || (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical)
-            || (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)) {
+        if (layoutState == LayoutState.Fold ||
+            (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical) ||
+            (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)
+        ) {
             placeables = measureSinglePane(
                 constraints = childrenConstraints,
                 maxWeight = maxWeight,
@@ -79,13 +80,14 @@ internal fun twoPaneMeasurePolicy(
             )
         }
 
-        if (layoutState == LayoutState.Fold
-            || (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical)
-            || (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)) { // single pane(screen), only one placeable for Fold
-                layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                    val placeable = placeables.first()
-                    placeable.place(x = 0, y = 0)
-                }
+        if (layoutState == LayoutState.Fold ||
+            (paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical) ||
+            (paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal)
+        ) { // single pane(screen), only one placeable for Fold
+            layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
+                val placeable = placeables.first()
+                placeable.place(x = 0, y = 0)
+            }
         } else {
             if (maxWeight == 0f || (maxWeight * 2 == totalWeight)) { // no weight will be layout equally by default
                 layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
