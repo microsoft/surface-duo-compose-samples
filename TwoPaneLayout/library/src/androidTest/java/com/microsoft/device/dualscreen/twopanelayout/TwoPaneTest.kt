@@ -21,6 +21,7 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -106,7 +107,6 @@ class TwoPaneTestTest : LayoutTest() {
         val drawLatch = CountDownLatch(2)
         val childSize = arrayOfNulls<IntSize>(2)
         val childPosition = arrayOfNulls<Offset>(2)
-
         activityTestRule.setContent {
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
@@ -204,5 +204,63 @@ class TwoPaneTestTest : LayoutTest() {
         assertEquals(IntSize(width = width, height = (height * .6f).roundToInt()), childSize[1])
         assertEquals(Offset(0f, 0f), childPosition[0])
         assertEquals(Offset(0f, height * .4f), childPosition[1])
+    }
+
+    @Test
+    fun testTwoPane_withDualSinglePaneMode() {
+        val width = 800
+        val height = 600
+        val hingeBounds = Rect()
+        val paddingBounds = Rect()
+        val constraints = Constraints(width, width, height, height)
+        val screenState = ScreenState(
+            deviceType = DeviceType.Multiple,
+            screenSize = Size(width.toFloat(), height.toFloat()),
+            hingeBounds = hingeBounds,
+            orientation = LayoutOrientation.Vertical,
+            layoutState = LayoutState.Open
+        )
+
+        val drawLatch = CountDownLatch(1)
+        val childSize = arrayOfNulls<IntSize>(2)
+        val childPosition = arrayOfNulls<Offset>(2)
+        activityTestRule.setContent {
+            Container(width = width, height = height) {
+                MockTwoPaneLayout(
+                    screenState = screenState,
+                    paneMode = TwoPaneMode.VerticalSingle,
+                    paddingBounds = paddingBounds,
+                    constraints = constraints
+                ) {
+                    Container(
+                        Modifier
+                            .onGloballyPositioned { coordinates ->
+                                childSize[0] = coordinates.size
+                                childPosition[0] = coordinates.positionInRoot()
+                                drawLatch.countDown()
+                            }
+                    ) {
+                    }
+                    Container(
+                        Modifier
+                            .onGloballyPositioned { coordinates ->
+                                childSize[1] = coordinates.size
+                                childPosition[1] = coordinates.positionInRoot()
+                                drawLatch.countDown()
+                            }
+                    ) {
+                    }
+                }
+            }
+        }
+        assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
+
+        val root = findComposeView()
+        waitForDraw(root)
+
+        assertEquals(IntSize(root.width, root.height), childSize[0])
+        assertEquals(Offset(0f, 0f), childPosition[0])
+        assertNull(childSize[1])
+        assertNull(childPosition[1])
     }
 }
