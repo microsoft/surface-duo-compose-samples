@@ -30,8 +30,6 @@ android {
 }
 
 dependencies {
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha02"
-
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
@@ -44,4 +42,5 @@ dependencies {
     implementation composeDependencies.navigationCompose
 
     implementation googleDependencies.material
+    implementation microsoftDependencies.twoPaneLayout
 }

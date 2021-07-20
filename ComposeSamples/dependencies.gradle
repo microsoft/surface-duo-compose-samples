@@ -31,7 +31,7 @@ ext {
             window            : "androidx.window:window:$windowVersion",
     ]
 
-    composeVersion = "1.0.0-rc01"
+    composeVersion = "1.0.0-rc02"
     activityComposeVersion = "1.3.0-rc01"
     navigationComposeVersion = "2.4.0-alpha04"
 
@@ -49,5 +49,11 @@ ext {
 
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
+    ]
+
+    twoPaneLayoutVersion = "1.0.0-alpha02"
+
+    microsoftDependencies = [
+            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion"
     ]
 }

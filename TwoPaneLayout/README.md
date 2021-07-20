@@ -50,6 +50,14 @@ Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen
 
 ![tablet](screenshots/tablet.png)
 
+- VerticalSingle on Foldable
+
+![verticalSingle](screenshots/single-vertical.png)
+
+- HorizontalSingle on Dual-screen device
+
+![horizontal](screenshots/single-horizontal.png)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

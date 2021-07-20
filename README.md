@@ -1,4 +1,4 @@
-![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg)
+![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.0%20rc02-brightgreen)
 
 # Surface Duo Jetpack Compose
 
@@ -12,17 +12,19 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Contents
 
-### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
-Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
-
 ### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout)
 A UI component that help you build two-pane layout for dual-screen, foldable and large-screen devices.
 
+### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
+Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
+
 ## Social links
 
-- [blog: Jetpack Compose on Microsoft Surface Duo](https://devblogs.microsoft.com/surface-duo/jetpack-compose-dual-screen-sample/)
-- [blog: Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples)
+- [video: TwoPaneLayout Compose library Twitch](https://www.twitch.tv/videos/1088662335)
+- [blog: New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/)
 - [video: Jetpack Compose samples Twitch](https://www.youtube.com/watch?v=m8bMjFhBbN8)
+- [blog: Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples)
+- [blog: Jetpack Compose on Microsoft Surface Duo](https://devblogs.microsoft.com/surface-duo/jetpack-compose-dual-screen-sample/)
 
 ## Related links
 
