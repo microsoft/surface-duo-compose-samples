@@ -52,7 +52,7 @@ fun MainPage() {
             )
         },
         content = {
-            TwoPaneLayout {
+            TwoPaneLayout(paneMode = TwoPaneMode.HorizontalSingle) {
                 Text(
                     text = stringResource(R.string.first_pane_text),
                     modifier = Modifier.fillMaxSize().background(color = Color.Cyan).weight(.3f)
