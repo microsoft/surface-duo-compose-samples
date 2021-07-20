@@ -93,12 +93,14 @@ open class LayoutTest {
     @Composable
     internal fun MockTwoPaneLayout(
         screenState: ScreenState,
+        paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
         paddingBounds: Rect,
         constraints: Constraints,
         content: @Composable TwoPaneScope.() -> Unit
     ) {
         val measurePolicy = twoPaneMeasurePolicy(
             layoutState = screenState.layoutState,
+            paneMode = paneMode,
             orientation = screenState.orientation,
             paneSize = screenState.paneSize,
             paddingBounds = paddingBounds,

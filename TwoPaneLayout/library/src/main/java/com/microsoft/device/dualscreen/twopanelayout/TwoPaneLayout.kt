@@ -43,6 +43,7 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     content: @Composable TwoPaneScope.() -> Unit
 ) {
     val windowInsets = LocalView.current.rootWindowInsets
@@ -71,6 +72,7 @@ fun TwoPaneLayout(
 
     val measurePolicy = twoPaneMeasurePolicy(
         layoutState = screenState.layoutState,
+        paneMode = paneMode,
         orientation = screenState.orientation,
         paneSize = screenState.paneSize,
         paddingBounds = paddingBounds
@@ -80,6 +82,18 @@ fun TwoPaneLayout(
         measurePolicy = measurePolicy,
         modifier = modifier
     )
+}
+
+/**
+ * TwoPaneMode
+ * TwoPane,          always shows two panes, regardless the orientation, by default
+ * HorizontalSingle  shows big single pane in horizontal orientation layout(top/bottom)
+ * VerticalSingle    shows big single pane in vertical orientation layout(left/right)
+ */
+enum class TwoPaneMode {
+    TwoPane,
+    HorizontalSingle,
+    VerticalSingle
 }
 
 @LayoutScopeMarker
