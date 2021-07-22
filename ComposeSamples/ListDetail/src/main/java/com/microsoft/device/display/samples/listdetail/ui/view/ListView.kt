@@ -42,9 +42,8 @@ private val horizontalPadding = 15.dp
 private val imageMargin = 3.dp
 
 @Composable
-fun ListViewSpanned(modifier: Modifier, appStateViewModel: AppStateViewModel) {
+fun ListViewSpanned(appStateViewModel: AppStateViewModel) {
     ListView(
-        modifier = modifier,
         navController = null,
         appStateViewModel = appStateViewModel
     )
@@ -68,33 +67,27 @@ fun ListViewUnspanned(navController: NavController?, appStateViewModel: AppState
             )
         },
         content = {
-            ListView(
-                modifier = Modifier.fillMaxSize(),
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
+            ListView(navController = navController, appStateViewModel = appStateViewModel)
         }
     )
 }
 
 @Composable
-fun ListView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+fun ListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val imageList = images
     val subImageList = imageList.chunked(3)
 
     Box(
-        modifier = modifier.then(
-            Modifier
-                .fillMaxSize()
-                .padding(
-                    top = verticalPadding,
-                    bottom = verticalPadding,
-                    start = horizontalPadding,
-                    end = horizontalPadding
-                )
-        )
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = verticalPadding,
+                bottom = verticalPadding,
+                start = horizontalPadding,
+                end = horizontalPadding
+            )
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(imagePadding)
@@ -124,7 +117,7 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                                     .selectable(
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
-                                            appStateViewModel.setImageSelectionLiveData(listIndex)
+                                            appStateViewModel.imageSelectionLiveData.value = listIndex
                                             navController?.navigate("detail")
                                         }
                                     )
@@ -144,7 +137,7 @@ fun DecorativeBox(
     appStateViewModel: AppStateViewModel,
     content: @Composable () -> Unit,
 ) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     Box(
         modifier = modifier

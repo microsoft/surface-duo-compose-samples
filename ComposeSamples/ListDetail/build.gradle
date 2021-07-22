@@ -42,4 +42,5 @@ dependencies {
     implementation composeDependencies.activityCompose
 
     implementation googleDependencies.material
+    implementation microsoftDependencies.twoPaneLayout
 }

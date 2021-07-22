@@ -44,7 +44,7 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewUnspanned(modifier: Modifier, navController: NavController, appStateViewModel: AppStateViewModel) {
+fun DetailViewUnspanned(navController: NavController, appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -67,21 +67,18 @@ fun DetailViewUnspanned(modifier: Modifier, navController: NavController, appSta
             )
         },
         content = {
-            DetailView(
-                modifier = modifier,
-                appStateViewModel = appStateViewModel
-            )
+            DetailView(appStateViewModel = appStateViewModel)
         }
     )
 }
 
 @Composable
-fun DetailView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+fun DetailView(appStateViewModel: AppStateViewModel) {
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val selectedImageId = images[selectedIndex]
 
-    Column(modifier = modifier) {
+    Column() {
         Box(
             modifier = Modifier
                 .fillMaxSize()

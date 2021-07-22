@@ -12,7 +12,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.DisplayFeature
-import androidx.window.FoldingFeature
 import androidx.window.WindowManager
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
@@ -38,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
+    override fun onStart() {
+        super.onStart()
 
         windowManager.registerLayoutChangeCallback(
             mainThreadExecutor,
@@ -49,21 +48,13 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
+    override fun onStop() {
+        super.onStop()
         windowManager.unregisterLayoutChangeCallback {}
     }
 
     private fun reserveScreenState(displayFeatures: List<DisplayFeature>) {
-        var isDualMode = false
-
-        val isScreenSpanned = displayFeatures.isNotEmpty()
-        if (isScreenSpanned) {
-            val foldingFeature = displayFeatures.first() as FoldingFeature
-            val isVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
-            isDualMode = isVertical
-        }
-
-        appStateViewModel.setIsDualModeLiveData(isDualMode)
+        val isAppSpanned = displayFeatures.isNotEmpty()
+        appStateViewModel.isAppSpannedLiveData.value = isAppSpanned
     }
 }
