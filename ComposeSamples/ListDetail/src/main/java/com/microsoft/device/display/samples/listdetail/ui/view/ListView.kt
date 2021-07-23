@@ -39,7 +39,7 @@ import com.microsoft.device.display.samples.listdetail.models.images
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
-private val imageMargin = 3.dp
+private val imageMargin = 1.dp
 
 @Composable
 fun ListViewSpanned(appStateViewModel: AppStateViewModel) {
@@ -98,7 +98,8 @@ fun ListView(navController: NavController?, appStateViewModel: AppStateViewModel
                 ) {
                     for ((imageIndex, image) in item.withIndex()) {
                         val listIndex = 3 * index + imageIndex
-                        val outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
+                        val isSelected = (listIndex == selectedIndex)
+                        val outlineWidth = if (isSelected) imageMargin else 0.dp
                         DecorativeBox(
                             modifier = Modifier
                                 .wrapContentSize()
@@ -109,7 +110,7 @@ fun ListView(navController: NavController?, appStateViewModel: AppStateViewModel
                                     start = outlineWidth,
                                     end = outlineWidth
                                 ),
-                            listIndex, appStateViewModel
+                            isSelected
                         ) {
                             ImageView(
                                 imageId = image,
@@ -133,18 +134,15 @@ fun ListView(navController: NavController?, appStateViewModel: AppStateViewModel
 @Composable
 fun DecorativeBox(
     modifier: Modifier = Modifier,
-    listIndex: Int,
-    appStateViewModel: AppStateViewModel,
+    isSelected: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .border(
                 width = 3.dp,
-                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent
+                color = if (isSelected) colorResource(id = R.color.outline_blue) else Color.Transparent
             ),
         contentAlignment = Alignment.Center
     ) {
