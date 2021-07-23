@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.MaterialTheme
@@ -57,13 +58,20 @@ fun MainPage() {
                 firstPane = {
                     Text(
                         text = stringResource(R.string.first_pane_text),
-                        modifier = Modifier.fillMaxSize().background(color = Color.Cyan)//.weight(.3f)
+                        modifier = Modifier.fillMaxSize().background(color = Color.Cyan)
+                            .clickable {
+                                navigateToSecondPane()
+                            }//.weight(.3f)
                     )
                 },
                 secondPane = {
                     Text(
                         text = stringResource(R.string.second_pane_text),
-                        modifier = Modifier.fillMaxSize().background(color = Color.Magenta)//.weight(.7f)
+                        modifier = Modifier.fillMaxSize().background(color = Color.Magenta)
+                            .clickable {
+                                navigationToFirstPane()
+                            }
+                            //.weight(.7f)
                     )
                 }
             )

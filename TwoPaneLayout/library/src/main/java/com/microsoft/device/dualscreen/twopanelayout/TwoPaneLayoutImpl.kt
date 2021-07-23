@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun twoPaneMeasurePolicy(
     layoutState: LayoutState,
-    paneMode: TwoPaneMode,
+    isSinglePane: Boolean,
     orientation: LayoutOrientation,
     paneSize: Size,
     paddingBounds: Rect,
@@ -43,7 +43,7 @@ internal fun twoPaneMeasurePolicy(
         var maxWeight = 0f
 
         val childrenCount = measurables.count()
-        require(childrenCount in 1..2) { "TwoPaneLayout requires at least 1 or 2 child elements" }
+        require(childrenCount == 2) { "TwoPaneLayout requires 2 child elements in the two pane mode" }
 
         for (i in measurables.indices) {
             val parentData = twoPaneParentData[i]
@@ -54,12 +54,7 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
-        if (isSinglePane(
-                layoutState = layoutState,
-                paneMode = paneMode,
-                orientation = orientation
-            )
-        ) {
+        if (isSinglePane) {
             placeables = measureSinglePane(
                 constraints = childrenConstraints,
                 maxWeight = maxWeight,
@@ -82,12 +77,7 @@ internal fun twoPaneMeasurePolicy(
             )
         }
 
-        if (isSinglePane(
-                layoutState = layoutState,
-                paneMode = paneMode,
-                orientation = orientation
-            )
-        ) { // single pane(screen), only one placeable for Fold
+        if (isSinglePane) { // single pane(screen), only one placeable for Fold
             layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                 val placeable = placeables.first()
                 placeable.place(x = 0, y = 0)
@@ -279,16 +269,6 @@ private fun Placeable.PlacementScope.placeTwoPaneProportionally(
         }
         placeable.place(x = 0, y = yPosition)
     }
-}
-
-private fun isSinglePane(
-    layoutState: LayoutState,
-    paneMode: TwoPaneMode,
-    orientation: LayoutOrientation
-): Boolean {
-    return layoutState == LayoutState.Fold ||
-        paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical ||
-        paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal
 }
 
 private val IntrinsicMeasurable.data: TwoPaneParentData?

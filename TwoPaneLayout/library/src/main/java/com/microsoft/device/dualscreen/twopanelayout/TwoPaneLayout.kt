@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -19,7 +20,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +29,9 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
+
+private lateinit var navController: NavHostController
+private var isSinglePane: Boolean = true
 
 /**
  * A layout component that places its children in one or two panes vertically or horizontally to
@@ -52,17 +55,6 @@ fun TwoPaneLayout(
     firstPane: @Composable TwoPaneScope.() -> Unit,
     secondPane: @Composable TwoPaneScope.() -> Unit
 ) {
-    val windowInsets = LocalView.current.rootWindowInsets
-    val paddingBounds by remember {
-        mutableStateOf(
-            Rect()
-        )
-    }
-    paddingBounds.left = windowInsets.systemWindowInsetLeft
-    paddingBounds.right = windowInsets.systemWindowInsetRight
-    paddingBounds.top = windowInsets.systemWindowInsetTop
-    paddingBounds.bottom = windowInsets.systemWindowInsetBottom
-
     var screenState by remember {
         mutableStateOf(
             ScreenState(
@@ -76,9 +68,62 @@ fun TwoPaneLayout(
     }
     ConfigScreenState(onStateChange = { screenState = it })
 
-    val measurePolicy = twoPaneMeasurePolicy(
+    isSinglePane = isSinglePaneLayout(
         layoutState = screenState.layoutState,
         paneMode = paneMode,
+        orientation = screenState.orientation
+    )
+
+    if (isSinglePane) {
+        SinglePaneContainer(
+            firstPane = firstPane,
+            secondPane = secondPane
+        )
+    } else {
+        TwoPaneContainer(
+            screenState = screenState,
+            paneMode = paneMode,
+            modifier = modifier,
+            firstPane = firstPane,
+            secondPane = secondPane
+        )
+    }
+}
+
+fun navigateToSecondPane() {
+    require(isSinglePane) { "Navigation can be activated only in the single pane mode" }
+
+    navController.navigate("second")
+}
+
+fun navigationToFirstPane() {
+    require(isSinglePane) { "Navigation can be activated only in the single pane mode" }
+
+    navController.popBackStack()
+}
+
+@Composable
+private fun TwoPaneContainer(
+    screenState: ScreenState,
+    paneMode: TwoPaneMode,
+    modifier: Modifier,
+    firstPane: @Composable TwoPaneScope.() -> Unit,
+    secondPane: @Composable TwoPaneScope.() -> Unit
+) {
+    val windowInsets = LocalView.current.rootWindowInsets
+    val paddingBounds by remember {
+        mutableStateOf(
+            Rect()
+        )
+    }
+    paddingBounds.left = windowInsets.systemWindowInsetLeft
+    paddingBounds.right = windowInsets.systemWindowInsetRight
+    paddingBounds.top = windowInsets.systemWindowInsetTop
+    paddingBounds.bottom = windowInsets.systemWindowInsetBottom
+
+    val measurePolicy = twoPaneMeasurePolicy(
+        layoutState = screenState.layoutState,
+        isSinglePane = isSinglePane,
         orientation = screenState.orientation,
         paneSize = screenState.paneSize,
         paddingBounds = paddingBounds
@@ -90,6 +135,32 @@ fun TwoPaneLayout(
         measurePolicy = measurePolicy,
         modifier = modifier
     )
+}
+
+@Composable
+private fun SinglePaneContainer(
+    firstPane: @Composable TwoPaneScope.() -> Unit,
+    secondPane: @Composable TwoPaneScope.() -> Unit
+) {
+    navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "first"
+    ) {
+        composable("first") {
+            TwoPaneScopeInstance.firstPane()
+        }
+        composable("second") {
+            TwoPaneScopeInstance.secondPane()
+        }
+    }
+}
+
+private fun isSinglePaneLayout(layoutState: LayoutState, paneMode: TwoPaneMode, orientation: LayoutOrientation): Boolean {
+    return layoutState == LayoutState.Fold ||
+            paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical ||
+            paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal
 }
 
 /**
