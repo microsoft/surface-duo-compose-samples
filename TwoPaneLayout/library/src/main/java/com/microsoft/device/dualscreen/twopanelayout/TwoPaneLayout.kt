@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,7 +19,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,8 +28,17 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientati
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 
-private lateinit var navController: NavHostController
-private var isSinglePane: Boolean = true
+/**
+ * TwoPaneMode
+ * TwoPane,          always shows two panes, regardless the orientation, by default
+ * HorizontalSingle  shows big single pane in horizontal orientation layout(top/bottom)
+ * VerticalSingle    shows big single pane in vertical orientation layout(left/right)
+ */
+enum class TwoPaneMode {
+    TwoPane,
+    HorizontalSingle,
+    VerticalSingle
+}
 
 /**
  * A layout component that places its children in one or two panes vertically or horizontally to
@@ -68,7 +75,7 @@ fun TwoPaneLayout(
     }
     ConfigScreenState(onStateChange = { screenState = it })
 
-    isSinglePane = isSinglePaneLayout(
+    val isSinglePane = isSinglePaneLayout(
         layoutState = screenState.layoutState,
         paneMode = paneMode,
         orientation = screenState.orientation
@@ -82,7 +89,6 @@ fun TwoPaneLayout(
     } else {
         TwoPaneContainer(
             screenState = screenState,
-            paneMode = paneMode,
             modifier = modifier,
             firstPane = firstPane,
             secondPane = secondPane
@@ -90,22 +96,65 @@ fun TwoPaneLayout(
     }
 }
 
+/**
+ * Navigation to the second pane
+ */
 fun navigateToSecondPane() {
-    require(isSinglePane) { "Navigation can be activated only in the single pane mode" }
-
-    navController.navigate("second")
+    navigateDownHandler()
 }
 
+/**
+ * Navigation to the first pane
+ */
 fun navigationToFirstPane() {
-    require(isSinglePane) { "Navigation can be activated only in the single pane mode" }
-
-    navController.popBackStack()
+    navigateUpHandler()
 }
 
+private lateinit var navigateDownHandler: () -> Unit
+private lateinit var navigateUpHandler: () -> Unit
+
+private sealed class Screen(val route: String) {
+    object First : Screen("firstPane")
+    object Second : Screen("secondPane")
+}
+
+/*
+ * The container to hold single pane for single-screen or single pane in dual-screen mode
+ */
+@Composable
+private fun SinglePaneContainer(
+    firstPane: @Composable TwoPaneScope.() -> Unit,
+    secondPane: @Composable TwoPaneScope.() -> Unit
+) {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = Screen.First.route
+    ) {
+        composable(Screen.First.route) {
+            TwoPaneScopeInstance.firstPane()
+        }
+        composable(Screen.Second.route) {
+            TwoPaneScopeInstance.secondPane()
+        }
+    }
+
+    navigateUpHandler = {
+        navController.popBackStack()
+    }
+
+    navigateDownHandler = {
+        navController.navigate(Screen.Second.route)
+    }
+}
+
+/*
+ * The container to hold the two panes for dual-screen/foldable/large-screen
+ */
 @Composable
 private fun TwoPaneContainer(
     screenState: ScreenState,
-    paneMode: TwoPaneMode,
     modifier: Modifier,
     firstPane: @Composable TwoPaneScope.() -> Unit,
     secondPane: @Composable TwoPaneScope.() -> Unit
@@ -122,8 +171,6 @@ private fun TwoPaneContainer(
     paddingBounds.bottom = windowInsets.systemWindowInsetBottom
 
     val measurePolicy = twoPaneMeasurePolicy(
-        layoutState = screenState.layoutState,
-        isSinglePane = isSinglePane,
         orientation = screenState.orientation,
         paneSize = screenState.paneSize,
         paddingBounds = paddingBounds
@@ -131,48 +178,21 @@ private fun TwoPaneContainer(
     Layout(
         content = {
             TwoPaneScopeInstance.firstPane()
-            TwoPaneScopeInstance.secondPane() },
+            TwoPaneScopeInstance.secondPane()
+        },
         measurePolicy = measurePolicy,
         modifier = modifier
     )
 }
 
-@Composable
-private fun SinglePaneContainer(
-    firstPane: @Composable TwoPaneScope.() -> Unit,
-    secondPane: @Composable TwoPaneScope.() -> Unit
-) {
-    navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "first"
-    ) {
-        composable("first") {
-            TwoPaneScopeInstance.firstPane()
-        }
-        composable("second") {
-            TwoPaneScopeInstance.secondPane()
-        }
-    }
-}
-
-private fun isSinglePaneLayout(layoutState: LayoutState, paneMode: TwoPaneMode, orientation: LayoutOrientation): Boolean {
+private fun isSinglePaneLayout(
+    layoutState: LayoutState,
+    paneMode: TwoPaneMode,
+    orientation: LayoutOrientation
+): Boolean {
     return layoutState == LayoutState.Fold ||
-            paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical ||
-            paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal
-}
-
-/**
- * TwoPaneMode
- * TwoPane,          always shows two panes, regardless the orientation, by default
- * HorizontalSingle  shows big single pane in horizontal orientation layout(top/bottom)
- * VerticalSingle    shows big single pane in vertical orientation layout(left/right)
- */
-enum class TwoPaneMode {
-    TwoPane,
-    HorizontalSingle,
-    VerticalSingle
+        paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical ||
+        paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal
 }
 
 @LayoutScopeMarker
