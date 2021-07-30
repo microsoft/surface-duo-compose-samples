@@ -51,6 +51,7 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
+        // no weight or equal weight
         placeables = if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
             measureTwoPaneEqually(
                 constraints = childrenConstraints,
@@ -78,17 +79,6 @@ internal fun twoPaneMeasurePolicy(
                         paddingBounds = paddingBounds,
                         constraints = childrenConstraints
                     )
-                }
-            }
-        } else if (maxWeight == totalWeight) { // only one pane with weight
-            layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
-                for (i in placeables.indices) {
-                    val parentData = twoPaneParentData[i]
-                    val weight = parentData.weight
-                    if (weight == maxWeight) {
-                        placeables[i].place(x = 0, y = 0)
-                        return@layout
-                    }
                 }
             }
         } else { // two panes with different weight
@@ -233,13 +223,13 @@ private val IntrinsicMeasurable.data: TwoPaneParentData?
     get() = parentData as? TwoPaneParentData
 
 private val TwoPaneParentData?.weight: Float
-    get() = this?.weight ?: 0f
+    get() = this?.weight ?: 1f // set weight as 1.f by default to avoid the unintentional single pane
 
 /**
  * Parent data associated with children.
  */
 internal data class TwoPaneParentData(
-    var weight: Float = 0f,
+    var weight: Float = 1f
 )
 
 internal class LayoutWeightImpl(

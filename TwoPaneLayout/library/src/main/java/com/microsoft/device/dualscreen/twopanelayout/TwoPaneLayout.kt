@@ -97,14 +97,14 @@ fun TwoPaneLayout(
 }
 
 /**
- * Navigation to the second pane
+ * Navigation to the second pane in the single-pane mode
  */
 fun navigateToSecondPane() {
     navigateDownHandler()
 }
 
 /**
- * Navigation to the first pane
+ * Navigation to the first pane in the single-pane mode
  */
 fun navigationToFirstPane() {
     navigateUpHandler()
