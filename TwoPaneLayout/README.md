@@ -1,8 +1,19 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-**TwoPaneLayout** is a UI component built in Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The two panes can be horizontal or vertical, based on the orientation of the device. TwoPaneLayout supports the use of the layout parameter layout_weight on child views to determine how to divide two panes to cover the whole display area.
+**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side on dual-screen, foldable and large-screen devices and one pane only on regular single-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured.
 
-Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) to learn some common use case for the two panes.
+The elements will be layout based on the order, which means the first element will be placed in the first pane and the second element will be placed in the second pane. The TwoPaneLayout is able to assign children widths according to their weights provided using the `TwoPaneScope.weight` modifier.
+
+```
+@Composable
+fun TwoPaneLayout(
+    modifier: Modifier = Modifier,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    content: TwoPaneScope.() -> Unit
+)
+```
+
+Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) to learn about some common use case for the two panes.
 
 ## 
 
@@ -21,7 +32,7 @@ Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen
 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha02"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha04"
     ```
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 30 or newer in the module-level build.gradle file 
 
