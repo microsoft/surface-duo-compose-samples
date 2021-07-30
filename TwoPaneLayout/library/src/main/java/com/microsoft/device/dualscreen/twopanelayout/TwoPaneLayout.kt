@@ -19,6 +19,11 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ConfigScreenState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
@@ -44,7 +49,8 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    content: @Composable TwoPaneScope.() -> Unit
+    firstPane: @Composable TwoPaneScope.() -> Unit,
+    secondPane: @Composable TwoPaneScope.() -> Unit
 ) {
     val windowInsets = LocalView.current.rootWindowInsets
     val paddingBounds by remember {
@@ -78,7 +84,9 @@ fun TwoPaneLayout(
         paddingBounds = paddingBounds
     )
     Layout(
-        content = { TwoPaneScopeInstance.content() },
+        content = {
+            TwoPaneScopeInstance.firstPane()
+            TwoPaneScopeInstance.secondPane() },
         measurePolicy = measurePolicy,
         modifier = modifier
     )

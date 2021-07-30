@@ -52,16 +52,21 @@ fun MainPage() {
             )
         },
         content = {
-            TwoPaneLayout(paneMode = TwoPaneMode.HorizontalSingle) {
-                Text(
-                    text = stringResource(R.string.first_pane_text),
-                    modifier = Modifier.fillMaxSize().background(color = Color.Cyan).weight(.3f)
-                )
-                Text(
-                    text = stringResource(R.string.second_pane_text),
-                    modifier = Modifier.fillMaxSize().background(color = Color.Magenta).weight(.7f)
-                )
-            }
+            TwoPaneLayout(
+                paneMode = TwoPaneMode.HorizontalSingle,
+                firstPane = {
+                    Text(
+                        text = stringResource(R.string.first_pane_text),
+                        modifier = Modifier.fillMaxSize().background(color = Color.Cyan)//.weight(.3f)
+                    )
+                },
+                secondPane = {
+                    Text(
+                        text = stringResource(R.string.second_pane_text),
+                        modifier = Modifier.fillMaxSize().background(color = Color.Magenta)//.weight(.7f)
+                    )
+                }
+            )
         }
     )
 }
