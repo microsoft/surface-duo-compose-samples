@@ -97,21 +97,22 @@ fun TwoPaneLayout(
 }
 
 /**
- * Navigation to the second pane in the single-pane mode
- */
-fun navigateToSecondPane() {
-    navigateDownHandler()
-}
-
-/**
  * Navigation to the first pane in the single-pane mode
  */
 fun navigationToFirstPane() {
-    navigateUpHandler()
+    navigateToFirstHandler()
 }
 
-private lateinit var navigateDownHandler: () -> Unit
-private lateinit var navigateUpHandler: () -> Unit
+/**
+ * Navigation to the second pane in the single-pane mode
+ */
+fun navigateToSecondPane() {
+    navigateToSecondHandler()
+}
+
+private lateinit var navigateToFirstHandler: () -> Unit
+private lateinit var navigateToSecondHandler: () -> Unit
+private var currentSinglePane = Screen.First.route
 
 private sealed class Screen(val route: String) {
     object First : Screen("firstPane")
@@ -130,7 +131,7 @@ private fun SinglePaneContainer(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.First.route
+        startDestination = currentSinglePane
     ) {
         composable(Screen.First.route) {
             TwoPaneScopeInstance.firstPane()
@@ -140,12 +141,14 @@ private fun SinglePaneContainer(
         }
     }
 
-    navigateUpHandler = {
-        navController.popBackStack()
+    navigateToFirstHandler = {
+        navController.navigate(Screen.First.route)
+        currentSinglePane = Screen.First.route
     }
 
-    navigateDownHandler = {
+    navigateToSecondHandler = {
         navController.navigate(Screen.Second.route)
+        currentSinglePane = Screen.Second.route
     }
 }
 
