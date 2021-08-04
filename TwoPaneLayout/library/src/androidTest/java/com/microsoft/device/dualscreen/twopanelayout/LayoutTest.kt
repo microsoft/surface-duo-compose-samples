@@ -91,23 +91,31 @@ open class LayoutTest {
     }
 
     @Composable
+    internal fun MockSinglePaneLayout(
+        firstPane: @Composable TwoPaneScope.() -> Unit,
+        secondPane: @Composable TwoPaneScope.() -> Unit
+    ) {
+        SinglePaneContainer(firstPane, secondPane)
+    }
+
+    @Composable
     internal fun MockTwoPaneLayout(
         screenState: ScreenState,
-        paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
         paddingBounds: Rect,
         constraints: Constraints,
-        content: @Composable TwoPaneScope.() -> Unit
+        firstPane: @Composable TwoPaneScope.() -> Unit,
+        secondPane: @Composable TwoPaneScope.() -> Unit
     ) {
         val measurePolicy = twoPaneMeasurePolicy(
-            layoutState = screenState.layoutState,
-            paneMode = paneMode,
             orientation = screenState.orientation,
             paneSize = screenState.paneSize,
             paddingBounds = paddingBounds,
             mockConstraints = constraints
         )
         Layout(
-            content = { TwoPaneScopeInstance.content() },
+            content = {
+                TwoPaneScopeInstance.firstPane()
+                TwoPaneScopeInstance.secondPane() },
             measurePolicy = measurePolicy,
             modifier = Modifier
         )
@@ -139,17 +147,11 @@ open class LayoutTest {
 
     internal fun waitForDraw(view: View) {
         val viewDrawLatch = CountDownLatch(1)
-        val listener = object : ViewTreeObserver.OnDrawListener {
-            override fun onDraw() {
-                viewDrawLatch.countDown()
-            }
+        val listener = ViewTreeObserver.OnDrawListener { viewDrawLatch.countDown() }
+        view.post {
+            view.viewTreeObserver.addOnDrawListener(listener)
+            view.invalidate()
         }
-        view.post(object : Runnable {
-            override fun run() {
-                view.viewTreeObserver.addOnDrawListener(listener)
-                view.invalidate()
-            }
-        })
         assertTrue(viewDrawLatch.await(1, TimeUnit.SECONDS))
     }
 

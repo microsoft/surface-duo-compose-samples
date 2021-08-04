@@ -11,7 +11,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,11 +18,7 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Before
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
@@ -33,41 +28,45 @@ import kotlin.math.roundToInt
 @RunWith(AndroidJUnit4::class)
 class TwoPaneTestTest : LayoutTest() {
 
-    @Before
-    fun before() {
-        isDebugInspectorInfoEnabled = true
-    }
-
-    @After
-    fun after() {
-        isDebugInspectorInfoEnabled = false
+    @Test
+    fun testIsSinglePaneCheckWithSinglePane() {
+        val layoutState = LayoutState.Fold
+        val paneMode = TwoPaneMode.TwoPane
+        val orientation = LayoutOrientation.Horizontal
+        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
+        assertTrue(isSinglePane)
     }
 
     @Test
-    fun testTwoPane_withChild() {
+    fun testIsSinglePaneCheckWithHorizontalSingleMode() {
+        val layoutState = LayoutState.Open
+        val paneMode = TwoPaneMode.HorizontalSingle
+        val orientation = LayoutOrientation.Horizontal
+        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
+        assertTrue(isSinglePane)
+    }
+
+    @Test
+    fun testIsSinglePaneCheckWithDualPane() {
+        val layoutState = LayoutState.Open
+        val paneMode = TwoPaneMode.VerticalSingle
+        val orientation = LayoutOrientation.Horizontal
+        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
+        assertTrue(!isSinglePane)
+    }
+
+    @Test
+    fun testSinglePane() {
         val width = 400
         val height = 600
-        val hingeBounds = Rect()
-        val constraints = Constraints(width, width, height, height)
-        val paddingBounds = Rect()
-        val screenState = ScreenState(
-            deviceType = DeviceType.Single,
-            screenSize = Size(width.toFloat(), height.toFloat()),
-            hingeBounds = hingeBounds,
-            orientation = LayoutOrientation.Vertical,
-            layoutState = LayoutState.Fold
-        )
 
         val drawLatch = CountDownLatch(1)
-        val childSize = arrayOfNulls<IntSize>(1)
-        val childPosition = arrayOfNulls<Offset>(1)
+        val childSize = arrayOfNulls<IntSize>(2)
+        val childPosition = arrayOfNulls<Offset>(2)
         activityTestRule.setContent {
             Container(width = width, height = height) {
-                MockTwoPaneLayout(
-                    screenState = screenState,
-                    paddingBounds = paddingBounds,
-                    constraints = constraints
-                ) {
+                MockSinglePaneLayout(firstPane =
+                {
                     Container(
                         Modifier
                             .onGloballyPositioned { coordinates ->
@@ -77,7 +76,19 @@ class TwoPaneTestTest : LayoutTest() {
                             }
                     ) {
                     }
-                }
+                },
+                secondPane =
+                {
+                    Container(
+                        Modifier
+                            .onGloballyPositioned { coordinates ->
+                                childSize[1] = coordinates.size
+                                childPosition[1] = coordinates.positionInRoot()
+                                drawLatch.countDown()
+                            }
+                    ) {
+                    }
+                })
             }
         }
         assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
@@ -87,17 +98,19 @@ class TwoPaneTestTest : LayoutTest() {
 
         assertEquals(IntSize(root.width, root.height), childSize[0])
         assertEquals(Offset(0f, 0f), childPosition[0])
+        assertNull(childSize[1])
+        assertNull(childPosition[1])
     }
 
     @Test
-    fun testTwoPane_withTwoChildrenWithoutWeight() {
+    fun testTwoPaneWithoutWeight() {
         val width = 800
         val height = 600
         val hingeBounds = Rect(390, 0, 410, 600)
         val paddingBounds = Rect()
         val constraints = Constraints(width, width, height, height)
         val screenState = ScreenState(
-            deviceType = DeviceType.Multiple,
+            deviceType = DeviceType.Dual,
             screenSize = Size(width.toFloat(), height.toFloat()),
             hingeBounds = hingeBounds,
             orientation = LayoutOrientation.Vertical,
@@ -112,27 +125,28 @@ class TwoPaneTestTest : LayoutTest() {
                 MockTwoPaneLayout(
                     screenState = screenState,
                     paddingBounds = paddingBounds,
-                    constraints = constraints
-                ) {
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[0] = coordinates.size
-                                childPosition[0] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
+                    constraints = constraints,
+                    firstPane = {
+                        Container(
+                            Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[0] = coordinates.size
+                                    childPosition[0] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    },
+                    secondPane = {
+                        Container(
+                            Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[1] = coordinates.size
+                                    childPosition[1] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
                     }
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[1] = coordinates.size
-                                childPosition[1] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
-                    }
-                }
+                )
             }
         }
         assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
@@ -140,15 +154,15 @@ class TwoPaneTestTest : LayoutTest() {
         val root = findComposeView()
         waitForDraw(root)
 
-        assertEquals(IntSize(width, height), IntSize(root.width, height = root.height))
+        assertEquals(IntSize(width, height), IntSize(root.width, root.height))
         assertEquals(IntSize(hingeBounds.left, root.height), childSize[0])
-        assertEquals(IntSize(hingeBounds.left, height = root.height), childSize[1])
+        assertEquals(IntSize(hingeBounds.left, root.height), childSize[1])
         assertEquals(Offset(0f, 0f), childPosition[0])
         assertEquals(Offset(hingeBounds.right.toFloat(), 0f), childPosition[1])
     }
 
     @Test
-    fun testTwoPane_onTabletWithTwoChildrenWithWeight() {
+    fun testTabletWithWeight() {
         val width = 800
         val height = 1200
         val hingeBounds = Rect()
@@ -170,29 +184,30 @@ class TwoPaneTestTest : LayoutTest() {
                 MockTwoPaneLayout(
                     screenState = screenState,
                     paddingBounds = paddingBounds,
-                    constraints = constraints
-                ) {
-                    Container(
-                        Modifier
-                            .weight(.4f)
-                            .onGloballyPositioned { coordinates ->
-                                childSize[0] = coordinates.size
-                                childPosition[0] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
+                    constraints = constraints,
+                    firstPane = {
+                        Container(
+                            Modifier
+                                .weight(.4f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[0] = coordinates.size
+                                    childPosition[0] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    },
+                    secondPane = {
+                        Container(
+                            Modifier
+                                .weight(.6f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[1] = coordinates.size
+                                    childPosition[1] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
                     }
-                    Container(
-                        Modifier
-                            .weight(.6f)
-                            .onGloballyPositioned { coordinates ->
-                                childSize[1] = coordinates.size
-                                childPosition[1] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
-                    }
-                }
+                )
             }
         }
         assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
@@ -204,63 +219,5 @@ class TwoPaneTestTest : LayoutTest() {
         assertEquals(IntSize(width = width, height = (height * .6f).roundToInt()), childSize[1])
         assertEquals(Offset(0f, 0f), childPosition[0])
         assertEquals(Offset(0f, height * .4f), childPosition[1])
-    }
-
-    @Test
-    fun testTwoPane_withDualSinglePaneMode() {
-        val width = 800
-        val height = 600
-        val hingeBounds = Rect()
-        val paddingBounds = Rect()
-        val constraints = Constraints(width, width, height, height)
-        val screenState = ScreenState(
-            deviceType = DeviceType.Multiple,
-            screenSize = Size(width.toFloat(), height.toFloat()),
-            hingeBounds = hingeBounds,
-            orientation = LayoutOrientation.Vertical,
-            layoutState = LayoutState.Open
-        )
-
-        val drawLatch = CountDownLatch(1)
-        val childSize = arrayOfNulls<IntSize>(2)
-        val childPosition = arrayOfNulls<Offset>(2)
-        activityTestRule.setContent {
-            Container(width = width, height = height) {
-                MockTwoPaneLayout(
-                    screenState = screenState,
-                    paneMode = TwoPaneMode.VerticalSingle,
-                    paddingBounds = paddingBounds,
-                    constraints = constraints
-                ) {
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[0] = coordinates.size
-                                childPosition[0] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
-                    }
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[1] = coordinates.size
-                                childPosition[1] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
-                    }
-                }
-            }
-        }
-        assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
-
-        val root = findComposeView()
-        waitForDraw(root)
-
-        assertEquals(IntSize(root.width, root.height), childSize[0])
-        assertEquals(Offset(0f, 0f), childPosition[0])
-        assertNull(childSize[1])
-        assertNull(childPosition[1])
     }
 }

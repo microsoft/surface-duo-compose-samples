@@ -123,7 +123,7 @@ private sealed class Screen(val route: String) {
  * The container to hold single pane for single-screen or single pane in dual-screen mode
  */
 @Composable
-private fun SinglePaneContainer(
+internal fun SinglePaneContainer(
     firstPane: @Composable TwoPaneScope.() -> Unit,
     secondPane: @Composable TwoPaneScope.() -> Unit
 ) {
@@ -188,7 +188,7 @@ private fun TwoPaneContainer(
     )
 }
 
-private fun isSinglePaneLayout(
+internal fun isSinglePaneLayout(
     layoutState: LayoutState,
     paneMode: TwoPaneMode,
     orientation: LayoutOrientation
