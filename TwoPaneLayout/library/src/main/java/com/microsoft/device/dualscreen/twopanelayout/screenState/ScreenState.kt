@@ -20,7 +20,7 @@ enum class LayoutOrientation {
 
 /**
  * LayoutState
- * Open,        multiple layout display, it is always "Open" for big-screen device
+ * Open,        two-pane layout display, it is always "Open" for big-screen device
  * Fold         single layout display, including single-screen phone, foldable device in folding mode and app in un-spanned mode
  */
 enum class LayoutState {
@@ -31,12 +31,12 @@ enum class LayoutState {
 /**
  * DeviceType
  *     Single,    // regular single-screen device, such as single-screen phone
- *     Multiple,  // dual-screen/foldable device, such as Surface Duo device, Samsung Galaxy Fold 2
+ *     Dual,  // dual-screen/foldable device, such as Surface Duo device, Samsung Galaxy Fold 2
  *     Big        // large-screen device, such as tablet
  */
 enum class DeviceType {
     Single,
-    Multiple,
+    Dual,
     Big
 }
 
@@ -55,7 +55,7 @@ class ScreenState(
                 } else {
                     Size(width = screenSize.width, height = screenSize.height / 2)
                 }
-            } else if (deviceType == DeviceType.Multiple) {
+            } else if (deviceType == DeviceType.Dual) {
                 return if (orientation == LayoutOrientation.Vertical) {
                     Size(
                         width = hingeBounds.left.toFloat(),
