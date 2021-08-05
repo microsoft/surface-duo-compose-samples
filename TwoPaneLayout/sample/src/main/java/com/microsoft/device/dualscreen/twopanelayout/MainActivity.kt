@@ -61,7 +61,7 @@ fun MainPage() {
                         modifier = Modifier.fillMaxSize().background(color = Color.Cyan)
                             .clickable {
                                 navigateToSecondPane()
-                            } // .weight(.3f)
+                            }.weight(.3f)
                     )
                 },
                 secondPane = {
@@ -70,7 +70,7 @@ fun MainPage() {
                         modifier = Modifier.fillMaxSize().background(color = Color.Magenta)
                             .clickable {
                                 navigationToFirstPane()
-                            } // .weight(.7f)
+                            }.weight(.7f)
                     )
                 }
             )

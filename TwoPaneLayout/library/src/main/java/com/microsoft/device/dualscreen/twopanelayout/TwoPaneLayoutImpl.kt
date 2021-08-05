@@ -223,7 +223,7 @@ private val IntrinsicMeasurable.data: TwoPaneParentData?
     get() = parentData as? TwoPaneParentData
 
 private val TwoPaneParentData?.weight: Float
-    get() = this?.weight ?: 1f // set weight as 1.f by default to avoid the unintentional single pane
+    get() = this?.weight ?: 1f // set weight as 1 by default to avoid the unintentional single pane
 
 /**
  * Parent data associated with children.
