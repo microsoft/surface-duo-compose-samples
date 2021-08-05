@@ -18,7 +18,9 @@ import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
 import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
 import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
@@ -65,30 +67,30 @@ class TwoPaneTestTest : LayoutTest() {
         val childPosition = arrayOfNulls<Offset>(2)
         activityTestRule.setContent {
             Container(width = width, height = height) {
-                MockSinglePaneLayout(firstPane =
-                {
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[0] = coordinates.size
-                                childPosition[0] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
+                MockSinglePaneLayout(
+                    firstPane =
+                    {
+                        Container(
+                            Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[0] = coordinates.size
+                                    childPosition[0] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    },
+                    secondPane =
+                    {
+                        Container(
+                            Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[1] = coordinates.size
+                                    childPosition[1] = coordinates.positionInRoot()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
                     }
-                },
-                secondPane =
-                {
-                    Container(
-                        Modifier
-                            .onGloballyPositioned { coordinates ->
-                                childSize[1] = coordinates.size
-                                childPosition[1] = coordinates.positionInRoot()
-                                drawLatch.countDown()
-                            }
-                    ) {
-                    }
-                })
+                )
             }
         }
         assertTrue(drawLatch.await(1, TimeUnit.SECONDS))

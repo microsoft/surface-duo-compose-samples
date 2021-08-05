@@ -23,7 +23,7 @@ ext {
     // ----------------------------------
 
     gradlePluginVersion = '7.0.0'
-    kotlinVersion = "1.5.10"
+    kotlinVersion = "1.5.21"
     compileSdkVersion = 30
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
@@ -49,7 +49,7 @@ ext {
             window            : "androidx.window:window:$windowVersion",
     ]
 
-    composeVersion = "1.0.0"
+    composeVersion = "1.0.1"
     activityComposeVersion = "1.3.0"
     navigationComposeVersion = "2.4.0-alpha05"
 

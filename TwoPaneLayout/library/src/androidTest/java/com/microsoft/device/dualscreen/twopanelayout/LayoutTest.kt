@@ -115,7 +115,8 @@ open class LayoutTest {
         Layout(
             content = {
                 TwoPaneScopeInstance.firstPane()
-                TwoPaneScopeInstance.secondPane() },
+                TwoPaneScopeInstance.secondPane()
+            },
             measurePolicy = measurePolicy,
             modifier = Modifier
         )
