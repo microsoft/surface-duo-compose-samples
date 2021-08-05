@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 class TwoPaneTestTest : LayoutTest() {
 
     @Test
-    fun testIsSinglePaneCheckWithSinglePane() {
+    fun isSinglePaneCheck_withSinglePane() {
         val layoutState = LayoutState.Fold
         val paneMode = TwoPaneMode.TwoPane
         val orientation = LayoutOrientation.Horizontal
@@ -40,7 +40,7 @@ class TwoPaneTestTest : LayoutTest() {
     }
 
     @Test
-    fun testIsSinglePaneCheckWithHorizontalSingleMode() {
+    fun isSinglePaneCheck_withHorizontalSingleMode() {
         val layoutState = LayoutState.Open
         val paneMode = TwoPaneMode.HorizontalSingle
         val orientation = LayoutOrientation.Horizontal
@@ -49,7 +49,7 @@ class TwoPaneTestTest : LayoutTest() {
     }
 
     @Test
-    fun testIsSinglePaneCheckWithDualPane() {
+    fun isSinglePaneCheck_withDualPane() {
         val layoutState = LayoutState.Open
         val paneMode = TwoPaneMode.VerticalSingle
         val orientation = LayoutOrientation.Horizontal
@@ -58,7 +58,7 @@ class TwoPaneTestTest : LayoutTest() {
     }
 
     @Test
-    fun testSinglePane() {
+    fun singlePane_layout() {
         val width = 400
         val height = 600
 
@@ -105,7 +105,7 @@ class TwoPaneTestTest : LayoutTest() {
     }
 
     @Test
-    fun testTwoPaneWithoutWeight() {
+    fun twoPane_withoutWeight() {
         val width = 800
         val height = 600
         val hingeBounds = Rect(390, 0, 410, 600)
@@ -164,7 +164,7 @@ class TwoPaneTestTest : LayoutTest() {
     }
 
     @Test
-    fun testTabletWithWeight() {
+    fun tablet_withWeight() {
         val width = 800
         val height = 1200
         val hingeBounds = Rect()
