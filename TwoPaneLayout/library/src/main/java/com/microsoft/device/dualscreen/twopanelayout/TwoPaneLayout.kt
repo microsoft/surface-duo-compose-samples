@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -162,21 +161,9 @@ private fun TwoPaneContainer(
     firstPane: @Composable TwoPaneScope.() -> Unit,
     secondPane: @Composable TwoPaneScope.() -> Unit
 ) {
-    val windowInsets = LocalView.current.rootWindowInsets
-    val paddingBounds by remember {
-        mutableStateOf(
-            Rect()
-        )
-    }
-    paddingBounds.left = windowInsets.systemWindowInsetLeft
-    paddingBounds.right = windowInsets.systemWindowInsetRight
-    paddingBounds.top = windowInsets.systemWindowInsetTop
-    paddingBounds.bottom = windowInsets.systemWindowInsetBottom
-
     val measurePolicy = twoPaneMeasurePolicy(
         orientation = screenState.orientation,
         paneSize = screenState.paneSize,
-        paddingBounds = paddingBounds
     )
     Layout(
         content = {

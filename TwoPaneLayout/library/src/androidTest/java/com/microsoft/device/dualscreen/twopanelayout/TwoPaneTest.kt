@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 @RunWith(AndroidJUnit4::class)
-class TwoPaneTestTest : LayoutTest() {
+class TwoPaneTest : LayoutTest() {
 
     @Test
     fun isSinglePaneCheck_withSinglePane() {
@@ -109,7 +109,6 @@ class TwoPaneTestTest : LayoutTest() {
         val width = 800
         val height = 600
         val hingeBounds = Rect(390, 0, 410, 600)
-        val paddingBounds = Rect()
         val constraints = Constraints(width, width, height, height)
         val screenState = ScreenState(
             deviceType = DeviceType.Dual,
@@ -126,7 +125,6 @@ class TwoPaneTestTest : LayoutTest() {
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
                     screenState = screenState,
-                    paddingBounds = paddingBounds,
                     constraints = constraints,
                     firstPane = {
                         Container(
@@ -168,7 +166,6 @@ class TwoPaneTestTest : LayoutTest() {
         val width = 800
         val height = 1200
         val hingeBounds = Rect()
-        val paddingBounds = Rect()
         val constraints = Constraints(width, width, height, height)
         val screenState = ScreenState(
             deviceType = DeviceType.Big,
@@ -185,7 +182,6 @@ class TwoPaneTestTest : LayoutTest() {
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
                     screenState = screenState,
-                    paddingBounds = paddingBounds,
                     constraints = constraints,
                     firstPane = {
                         Container(

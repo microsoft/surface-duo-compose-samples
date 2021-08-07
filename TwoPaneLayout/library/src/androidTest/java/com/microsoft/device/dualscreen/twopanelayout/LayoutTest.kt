@@ -17,7 +17,6 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
-import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -101,7 +100,6 @@ open class LayoutTest {
     @Composable
     internal fun MockTwoPaneLayout(
         screenState: ScreenState,
-        paddingBounds: Rect,
         constraints: Constraints,
         firstPane: @Composable TwoPaneScope.() -> Unit,
         secondPane: @Composable TwoPaneScope.() -> Unit
@@ -109,7 +107,6 @@ open class LayoutTest {
         val measurePolicy = twoPaneMeasurePolicy(
             orientation = screenState.orientation,
             paneSize = screenState.paneSize,
-            paddingBounds = paddingBounds,
             mockConstraints = constraints
         )
         Layout(

@@ -5,7 +5,6 @@
 
 package com.microsoft.device.dualscreen.twopanelayout
 
-import android.graphics.Rect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.IntrinsicMeasurable
@@ -24,7 +23,6 @@ import kotlin.math.roundToInt
 internal fun twoPaneMeasurePolicy(
     orientation: LayoutOrientation,
     paneSize: Size,
-    paddingBounds: Rect,
     mockConstraints: Constraints = Constraints(0, 0, 0, 0)
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
@@ -76,7 +74,6 @@ internal fun twoPaneMeasurePolicy(
                         placeable = placeable,
                         index = index,
                         paneSize = paneSize,
-                        paddingBounds = paddingBounds,
                         constraints = childrenConstraints
                     )
                 }
@@ -166,13 +163,12 @@ private fun Placeable.PlacementScope.placeTwoPaneEqually(
     placeable: Placeable,
     index: Int,
     paneSize: Size,
-    paddingBounds: Rect,
     constraints: Constraints
 ) {
     if (orientation == LayoutOrientation.Vertical) {
         var xPosition = 0 // for the first pane
         if (index != 0) { // for the second pane
-            val lastPaneWidth = paneSize.width.toInt() - paddingBounds.right
+            val lastPaneWidth = paneSize.width.toInt()
             val firstPaneWidth = constraints.maxWidth - lastPaneWidth
             xPosition += firstPaneWidth
         }
@@ -180,7 +176,7 @@ private fun Placeable.PlacementScope.placeTwoPaneEqually(
     } else {
         var yPosition = 0
         if (index != 0) {
-            val lastPaneHeight = paneSize.height.toInt() - paddingBounds.bottom
+            val lastPaneHeight = paneSize.height.toInt()
             val firstPaneHeight = constraints.maxHeight - lastPaneHeight
             yPosition += firstPaneHeight
         }
