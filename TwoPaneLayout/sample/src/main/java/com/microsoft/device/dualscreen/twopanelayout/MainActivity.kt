@@ -61,7 +61,7 @@ fun MainPage() {
                         modifier = Modifier.fillMaxSize().background(color = Color.Cyan)
                             .clickable {
                                 navigateToSecondPane()
-                            }.weight(.3f)
+                            }
                     )
                 },
                 secondPane = {
@@ -69,8 +69,8 @@ fun MainPage() {
                         text = stringResource(R.string.second_pane_text),
                         modifier = Modifier.fillMaxSize().background(color = Color.Magenta)
                             .clickable {
-                                navigationToFirstPane()
-                            }.weight(.7f)
+                                navigateToFirstPane()
+                            }
                     )
                 }
             )

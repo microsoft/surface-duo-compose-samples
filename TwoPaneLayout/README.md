@@ -1,8 +1,11 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side on dual-screen, foldable and large-screen devices and one pane only on regular single-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured.
+**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured. 
 
-The elements will be layout based on the order, which means the first element will be placed in the first pane and the second element will be placed in the second pane. The TwoPaneLayout is able to assign children widths according to their weights provided using the `TwoPaneScope.weight` modifier.
+When the app is spanned across a vertical hinge or fold, or when the width is larger than height of screen on large-screen device, the first pane will be placed on the left, while the second pane will be on the right. If the device rotates, the app is spanned across a horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, the first pane will be placed on the top and the second will be on the bottom. The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. If no weight is provided, the two panes will be displayed equally.
+
+If running on regular single-screen device, there will be only one pane visible. The other pane will be overlayed and navigation will be available to switch between two panes.
+
 
 ```
 @Composable
@@ -12,9 +15,14 @@ fun TwoPaneLayout(
     firstPane: @Composable TwoPaneScope.() -> Unit,
     secondPane: @Composable TwoPaneScope.() -> Unit
 )
+
+fun navigateToFirstPane()
+
+fun navigateToSecondPane() 
 ```
 
-Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) to learn about some common use case for the two panes.
+Please refer to [TwoPaneLayout](https://docs.microsoft.com/dual-screen/android/jetpack/compose/two-pane-layout) on Microsoft Dual-screen document for more details.
+About some common use case for the two panes, please check out [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns).
 
 ## 
 
@@ -33,7 +41,7 @@ Please refer to [user interface patterns](https://docs.microsoft.com/dual-screen
 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha04"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha05"
     ```
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 30 or newer in the module-level build.gradle file 
 

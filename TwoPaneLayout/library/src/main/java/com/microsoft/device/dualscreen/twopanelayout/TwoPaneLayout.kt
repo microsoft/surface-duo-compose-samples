@@ -98,7 +98,7 @@ fun TwoPaneLayout(
 /**
  * Navigation to the first pane in the single-pane mode
  */
-fun navigationToFirstPane() {
+fun navigateToFirstPane() {
     navigateToFirstHandler()
 }
 
