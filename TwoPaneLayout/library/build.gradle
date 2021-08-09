@@ -69,6 +69,7 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+    implementation composeDependencies.navigationCompose
 
     androidTestImplementation(composeTestDependencies.composeJunit)
     androidTestImplementation(composeTestDependencies.androidxTestRules)

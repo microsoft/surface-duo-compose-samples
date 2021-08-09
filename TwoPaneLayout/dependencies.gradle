@@ -14,16 +14,16 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 4
+    twoPaneLayoutVersionCode = 5
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0-alpha04'
+    twoPaneLayoutVersionName = '1.0.0-alpha05'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.0.0'
-    kotlinVersion = "1.5.10"
+    kotlinVersion = "1.5.21"
     compileSdkVersion = 30
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
@@ -49,15 +49,16 @@ ext {
             window            : "androidx.window:window:$windowVersion",
     ]
 
-    composeVersion = "1.0.0"
+    composeVersion = "1.0.1"
     activityComposeVersion = "1.3.0"
-    navigationComposeVersion = "2.4.0-alpha05"
+    navigationComposeVersion = "2.4.0-alpha06"
 
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
             activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
+            navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
 
     androidxTestVersion = "1.3.0"

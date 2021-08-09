@@ -17,7 +17,6 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
-import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -27,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -46,8 +44,8 @@ import java.util.concurrent.TimeUnit
 open class LayoutTest {
     @get:Rule
     val activityTestRule = createAndroidComposeRule<TestActivity>()
-    lateinit var activity: TestActivity
-    lateinit var handler: Handler
+    private lateinit var activity: TestActivity
+    private lateinit var handler: Handler
 
     @Before
     fun setup() {
@@ -91,23 +89,30 @@ open class LayoutTest {
     }
 
     @Composable
+    internal fun MockSinglePaneLayout(
+        firstPane: @Composable TwoPaneScope.() -> Unit,
+        secondPane: @Composable TwoPaneScope.() -> Unit
+    ) {
+        SinglePaneContainer(firstPane, secondPane)
+    }
+
+    @Composable
     internal fun MockTwoPaneLayout(
         screenState: ScreenState,
-        paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-        paddingBounds: Rect,
         constraints: Constraints,
-        content: @Composable TwoPaneScope.() -> Unit
+        firstPane: @Composable TwoPaneScope.() -> Unit,
+        secondPane: @Composable TwoPaneScope.() -> Unit
     ) {
         val measurePolicy = twoPaneMeasurePolicy(
-            layoutState = screenState.layoutState,
-            paneMode = paneMode,
             orientation = screenState.orientation,
             paneSize = screenState.paneSize,
-            paddingBounds = paddingBounds,
             mockConstraints = constraints
         )
         Layout(
-            content = { TwoPaneScopeInstance.content() },
+            content = {
+                TwoPaneScopeInstance.firstPane()
+                TwoPaneScopeInstance.secondPane()
+            },
             measurePolicy = measurePolicy,
             modifier = Modifier
         )
@@ -139,44 +144,12 @@ open class LayoutTest {
 
     internal fun waitForDraw(view: View) {
         val viewDrawLatch = CountDownLatch(1)
-        val listener = object : ViewTreeObserver.OnDrawListener {
-            override fun onDraw() {
-                viewDrawLatch.countDown()
-            }
+        val listener = ViewTreeObserver.OnDrawListener { viewDrawLatch.countDown() }
+        view.post {
+            view.viewTreeObserver.addOnDrawListener(listener)
+            view.invalidate()
         }
-        view.post(object : Runnable {
-            override fun run() {
-                view.viewTreeObserver.addOnDrawListener(listener)
-                view.invalidate()
-            }
-        })
         assertTrue(viewDrawLatch.await(1, TimeUnit.SECONDS))
-    }
-
-    internal fun assertEquals(expected: Size?, actual: Size?) {
-        assertNotNull("Null expected size", expected)
-        expected as Size
-        assertNotNull("Null actual size", actual)
-        actual as Size
-
-        assertEquals(
-            "Expected width ${expected.width} but obtained ${actual.width}",
-            expected.width,
-            actual.width,
-            0f
-        )
-        assertEquals(
-            "Expected height ${expected.height} but obtained ${actual.height}",
-            expected.height,
-            actual.height,
-            0f
-        )
-        if (actual.width != actual.width.toInt().toFloat()) {
-            fail("Expected integer width")
-        }
-        if (actual.height != actual.height.toInt().toFloat()) {
-            fail("Expected integer height")
-        }
     }
 
     internal fun assertEquals(expected: Offset?, actual: Offset?) {
@@ -203,14 +176,5 @@ open class LayoutTest {
         if (actual.y != actual.y.toInt().toFloat()) {
             fail("Expected integer y coordinate")
         }
-    }
-
-    internal fun assertEquals(expected: Int, actual: Int) {
-        assertEquals(
-            "Expected $expected but obtained $actual",
-            expected.toFloat(),
-            actual.toFloat(),
-            0f
-        )
     }
 }
