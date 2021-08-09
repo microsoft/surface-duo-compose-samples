@@ -1,4 +1,4 @@
-![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.0-brightgreen)
+![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.1-brightgreen)
 
 # Surface Duo Jetpack Compose
 
@@ -8,7 +8,9 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Getting Started
 
-To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo).
+To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo). 
+
+Please check out [Microsoft Dual-screen document](https://docs.microsoft.com/dual-screen/android/jetpack/compose/) for more details.
 
 ## Contents
 

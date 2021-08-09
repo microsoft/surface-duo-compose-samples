@@ -9,7 +9,8 @@ The elements will be layout based on the order, which means the first element wi
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    content: TwoPaneScope.() -> Unit
+    firstPane: @Composable TwoPaneScope.() -> Unit,
+    secondPane: @Composable TwoPaneScope.() -> Unit
 )
 ```
 
