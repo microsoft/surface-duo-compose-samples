@@ -58,8 +58,8 @@ enum class TwoPaneMode {
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    firstPane: @Composable TwoPaneScope.() -> Unit,
-    secondPane: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     var screenState by remember {
         mutableStateOf(
@@ -82,15 +82,15 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
-            firstPane = firstPane,
-            secondPane = secondPane
+            pane1 = pane1,
+            pane2 = pane2
         )
     } else {
         TwoPaneContainer(
             screenState = screenState,
             modifier = modifier,
-            firstPane = firstPane,
-            secondPane = secondPane
+            pane1 = pane1,
+            pane2 = pane2
         )
     }
 }
@@ -98,24 +98,24 @@ fun TwoPaneLayout(
 /**
  * Navigation to the first pane in the single-pane mode
  */
-fun navigateToFirstPane() {
-    navigateToFirstHandler()
+fun navigateToPane1() {
+    navigateToPane1Handler()
 }
 
 /**
  * Navigation to the second pane in the single-pane mode
  */
-fun navigateToSecondPane() {
-    navigateToSecondHandler()
+fun navigateToPane2() {
+    navigateToPane2Handler()
 }
 
-private lateinit var navigateToFirstHandler: () -> Unit
-private lateinit var navigateToSecondHandler: () -> Unit
-private var currentSinglePane = Screen.First.route
+private lateinit var navigateToPane1Handler: () -> Unit
+private lateinit var navigateToPane2Handler: () -> Unit
+private var currentSinglePane = Screen.Pane1.route
 
 private sealed class Screen(val route: String) {
-    object First : Screen("firstPane")
-    object Second : Screen("secondPane")
+    object Pane1 : Screen("pane1")
+    object Pane2 : Screen("pane2")
 }
 
 /*
@@ -123,8 +123,8 @@ private sealed class Screen(val route: String) {
  */
 @Composable
 internal fun SinglePaneContainer(
-    firstPane: @Composable TwoPaneScope.() -> Unit,
-    secondPane: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -132,22 +132,22 @@ internal fun SinglePaneContainer(
         navController = navController,
         startDestination = currentSinglePane
     ) {
-        composable(Screen.First.route) {
-            TwoPaneScopeInstance.firstPane()
+        composable(Screen.Pane1.route) {
+            TwoPaneScopeInstance.pane1()
         }
-        composable(Screen.Second.route) {
-            TwoPaneScopeInstance.secondPane()
+        composable(Screen.Pane2.route) {
+            TwoPaneScopeInstance.pane2()
         }
     }
 
-    navigateToFirstHandler = {
-        navController.navigate(Screen.First.route)
-        currentSinglePane = Screen.First.route
+    navigateToPane1Handler = {
+        navController.navigate(Screen.Pane1.route)
+        currentSinglePane = Screen.Pane1.route
     }
 
-    navigateToSecondHandler = {
-        navController.navigate(Screen.Second.route)
-        currentSinglePane = Screen.Second.route
+    navigateToPane2Handler = {
+        navController.navigate(Screen.Pane2.route)
+        currentSinglePane = Screen.Pane2.route
     }
 }
 
@@ -158,8 +158,8 @@ internal fun SinglePaneContainer(
 private fun TwoPaneContainer(
     screenState: ScreenState,
     modifier: Modifier,
-    firstPane: @Composable TwoPaneScope.() -> Unit,
-    secondPane: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val measurePolicy = twoPaneMeasurePolicy(
         orientation = screenState.orientation,
@@ -167,8 +167,8 @@ private fun TwoPaneContainer(
     )
     Layout(
         content = {
-            TwoPaneScopeInstance.firstPane()
-            TwoPaneScopeInstance.secondPane()
+            TwoPaneScopeInstance.pane1()
+            TwoPaneScopeInstance.pane2()
         },
         measurePolicy = measurePolicy,
         modifier = modifier
