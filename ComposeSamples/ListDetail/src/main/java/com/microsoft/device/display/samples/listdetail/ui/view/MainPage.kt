@@ -30,12 +30,7 @@ fun DualScreenUI(isAppSpanned: Boolean) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = { ListViewWithTopBar(appStateViewModel = appStateViewModel) },
-        pane2 = {
-            if (isAppSpanned)
-                DetailViewSpanned(appStateViewModel = appStateViewModel)
-            else
-                DetailViewUnspanned(appStateViewModel = appStateViewModel)
-        }
+        pane2 = { DetailViewWithTopBar(isAppSpanned = isAppSpanned, appStateViewModel = appStateViewModel) }
     )
 }
 

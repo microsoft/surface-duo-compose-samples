@@ -44,6 +44,27 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
+fun DetailViewWithTopBar(isAppSpanned: Boolean, appStateViewModel: AppStateViewModel) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    if (isAppSpanned)
+                        null
+                    else {
+                        DetailViewTopBar()
+                    }
+                }
+            )
+        },
+        content = {
+            DetailView(appStateViewModel = appStateViewModel)
+        }
+    )
+}
+
+@Composable
 fun DetailViewTopBar() {
     IconButton(
         onClick = {
@@ -56,35 +77,6 @@ fun DetailViewTopBar() {
             contentDescription = null
         )
     }
-}
-
-@Composable
-fun DetailViewUnspanned(appStateViewModel: AppStateViewModel) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = { DetailViewTopBar() }
-            )
-        },
-        content = {
-            DetailView(appStateViewModel = appStateViewModel)
-        }
-    )
-}
-
-@Composable
-fun DetailViewSpanned(appStateViewModel: AppStateViewModel) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { }
-            )
-        },
-        content = {
-            DetailView(appStateViewModel = appStateViewModel)
-        }
-    )
 }
 
 @Composable
