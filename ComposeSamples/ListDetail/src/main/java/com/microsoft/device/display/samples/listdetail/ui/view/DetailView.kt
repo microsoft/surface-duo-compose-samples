@@ -34,36 +34,51 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 private val imageSize = 25.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewUnspanned(navController: NavController, appStateViewModel: AppStateViewModel) {
+fun DetailViewTopBar() {
+    IconButton(
+        onClick = {
+            navigateToPane1()
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
+            tint = Color.White,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun DetailViewUnspanned(appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    BasicText(text = "")
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            tint = Color.White,
-                            contentDescription = null
-                        )
-                    }
-                },
+                title = { },
+                navigationIcon = { DetailViewTopBar() }
+            )
+        },
+        content = {
+            DetailView(appStateViewModel = appStateViewModel)
+        }
+    )
+}
+
+@Composable
+fun DetailViewSpanned(appStateViewModel: AppStateViewModel) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { }
             )
         },
         content = {
