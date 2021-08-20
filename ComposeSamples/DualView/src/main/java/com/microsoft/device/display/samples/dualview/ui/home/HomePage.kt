@@ -92,17 +92,21 @@ fun DualScreenUI() {
             )
         },
         content = {
-            TwoPaneLayout() {
-                RestaurantsView(
-                    modifier = Modifier.fillMaxSize(),
-                    navController = null,
-                    appStateViewModel = appStateViewModel
-                )
-                MapView(
-                    modifier = Modifier.fillMaxSize(),
-                    appStateViewModel = appStateViewModel
-                )
-            }
+            TwoPaneLayout(
+                pane1 = {
+                    RestaurantsView(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = null,
+                        appStateViewModel = appStateViewModel
+                    )
+                },
+                pane2 = {
+                    MapView(
+                        modifier = Modifier.fillMaxSize(),
+                        appStateViewModel = appStateViewModel
+                    )
+                }
+            )
         }
     )
 }
