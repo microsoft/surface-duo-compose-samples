@@ -5,10 +5,12 @@
 
 package com.microsoft.device.display.samples.listdetail.ui.view
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
@@ -21,16 +23,17 @@ fun SetupUI(viewModel: AppStateViewModel) {
     appStateViewModel = viewModel
     val isAppSpannedLiveData = appStateViewModel.isAppSpannedLiveData
     val isAppSpanned = isAppSpannedLiveData.observeAsState(initial = false).value
-
-    DualScreenUI(isAppSpanned)
+    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    val isDualScreen = isAppSpanned && !isPortrait
+    DualScreenUI(isDualScreen)
 }
 
 @Composable
-fun DualScreenUI(isAppSpanned: Boolean) {
+fun DualScreenUI(isDualScreen: Boolean) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = { ListViewWithTopBar(appStateViewModel = appStateViewModel) },
-        pane2 = { DetailViewWithTopBar(isAppSpanned = isAppSpanned, appStateViewModel = appStateViewModel) }
+        pane2 = { DetailViewWithTopBar(isAppSpanned = isDualScreen, appStateViewModel = appStateViewModel) }
     )
 }
 

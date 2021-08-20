@@ -16,10 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -50,9 +50,7 @@ fun DetailViewWithTopBar(isAppSpanned: Boolean, appStateViewModel: AppStateViewM
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    if (isAppSpanned)
-                        null
-                    else {
+                    if (!isAppSpanned) {
                         DetailViewTopBar()
                     }
                 }
@@ -85,7 +83,7 @@ fun DetailView(appStateViewModel: AppStateViewModel) {
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val selectedImageId = images[selectedIndex]
 
-    Column() {
+    Column {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -146,7 +144,7 @@ fun CameraInfoTile() {
     )
     Spacer(modifier = Modifier.width(20.dp))
     Column(modifier = Modifier.wrapContentWidth()) {
-        BasicText(
+        Text(
             text = stringResource(R.string.camera),
             style = TextStyle(
                 fontSize = 13.sp,
@@ -155,7 +153,7 @@ fun CameraInfoTile() {
             )
         )
         Spacer(modifier = Modifier.width(3.dp))
-        BasicText(
+        Text(
             modifier = Modifier.wrapContentWidth(),
             text = stringResource(R.string.camera_info),
             style = TextStyle(
@@ -177,7 +175,7 @@ fun DeviceInfoTile() {
     )
     Spacer(modifier = Modifier.width(20.dp))
     Column(modifier = Modifier.wrapContentWidth()) {
-        BasicText(
+        Text(
             text = stringResource(R.string.device),
             style = TextStyle(
                 fontSize = 13.sp,
@@ -186,7 +184,7 @@ fun DeviceInfoTile() {
             )
         )
         Spacer(modifier = Modifier.height(3.dp))
-        BasicText(
+        Text(
             modifier = Modifier.wrapContentWidth(),
             text = stringResource(R.string.device_info),
             style = TextStyle(
