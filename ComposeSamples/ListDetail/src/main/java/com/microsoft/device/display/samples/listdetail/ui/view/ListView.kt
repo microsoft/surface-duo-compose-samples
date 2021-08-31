@@ -16,8 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -31,32 +31,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
-private val imageMargin = 3.dp
+private val imageMargin = 1.dp
 
 @Composable
-fun ListViewSpanned(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    ListView(
-        modifier = modifier,
-        navController = null,
-        appStateViewModel = appStateViewModel
-    )
-}
-
-@Composable
-fun ListViewUnspanned(navController: NavController?, appStateViewModel: AppStateViewModel) {
+fun ListViewWithTopBar(appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    BasicText(
+                    Text(
                         text = stringResource(R.string.app_name),
                         style = TextStyle(
                             fontSize = 18.sp,
@@ -68,33 +59,27 @@ fun ListViewUnspanned(navController: NavController?, appStateViewModel: AppState
             )
         },
         content = {
-            ListView(
-                modifier = Modifier.fillMaxSize(),
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
+            ListView(appStateViewModel)
         }
     )
 }
 
 @Composable
-fun ListView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+fun ListView(appStateViewModel: AppStateViewModel) {
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val imageList = images
     val subImageList = imageList.chunked(3)
 
     Box(
-        modifier = modifier.then(
-            Modifier
-                .fillMaxSize()
-                .padding(
-                    top = verticalPadding,
-                    bottom = verticalPadding,
-                    start = horizontalPadding,
-                    end = horizontalPadding
-                )
-        )
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = verticalPadding,
+                bottom = verticalPadding,
+                start = horizontalPadding,
+                end = horizontalPadding
+            )
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(imagePadding)
@@ -105,7 +90,8 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                 ) {
                     for ((imageIndex, image) in item.withIndex()) {
                         val listIndex = 3 * index + imageIndex
-                        val outlineWidth = if (listIndex == selectedIndex) imageMargin else 0.dp
+                        val isSelected = (listIndex == selectedIndex)
+                        val outlineWidth = if (isSelected) imageMargin else 0.dp
                         DecorativeBox(
                             modifier = Modifier
                                 .wrapContentSize()
@@ -116,7 +102,7 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                                     start = outlineWidth,
                                     end = outlineWidth
                                 ),
-                            listIndex, appStateViewModel
+                            isSelected
                         ) {
                             ImageView(
                                 imageId = image,
@@ -124,8 +110,8 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
                                     .selectable(
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
-                                            appStateViewModel.setImageSelectionLiveData(listIndex)
-                                            navController?.navigate("detail")
+                                            appStateViewModel.imageSelectionLiveData.value = listIndex
+                                            navigateToPane2()
                                         }
                                     )
                             )
@@ -140,18 +126,15 @@ fun ListView(modifier: Modifier, navController: NavController?, appStateViewMode
 @Composable
 fun DecorativeBox(
     modifier: Modifier = Modifier,
-    listIndex: Int,
-    appStateViewModel: AppStateViewModel,
+    isSelected: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .border(
                 width = 3.dp,
-                color = if (listIndex == selectedIndex) colorResource(id = R.color.outline_blue) else Color.Transparent
+                color = if (isSelected) colorResource(id = R.color.outline_blue) else Color.Transparent
             ),
         contentAlignment = Alignment.Center
     ) {

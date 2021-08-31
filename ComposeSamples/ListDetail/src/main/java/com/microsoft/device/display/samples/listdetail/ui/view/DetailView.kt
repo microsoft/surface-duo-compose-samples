@@ -16,10 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -34,54 +34,56 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 private val imageSize = 25.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewUnspanned(modifier: Modifier, navController: NavController, appStateViewModel: AppStateViewModel) {
+fun DetailViewWithTopBar(isAppSpanned: Boolean, appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    BasicText(text = "")
-                },
+                title = { },
                 navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            tint = Color.White,
-                            contentDescription = null
-                        )
+                    if (!isAppSpanned) {
+                        DetailViewTopBar()
                     }
-                },
+                }
             )
         },
         content = {
-            DetailView(
-                modifier = modifier,
-                appStateViewModel = appStateViewModel
-            )
+            DetailView(appStateViewModel = appStateViewModel)
         }
     )
 }
 
 @Composable
-fun DetailView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+fun DetailViewTopBar() {
+    IconButton(
+        onClick = {
+            navigateToPane1()
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
+            tint = Color.White,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun DetailView(appStateViewModel: AppStateViewModel) {
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val selectedImageId = images[selectedIndex]
 
-    Column(modifier = modifier) {
+    Column {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -142,7 +144,7 @@ fun CameraInfoTile() {
     )
     Spacer(modifier = Modifier.width(20.dp))
     Column(modifier = Modifier.wrapContentWidth()) {
-        BasicText(
+        Text(
             text = stringResource(R.string.camera),
             style = TextStyle(
                 fontSize = 13.sp,
@@ -151,7 +153,7 @@ fun CameraInfoTile() {
             )
         )
         Spacer(modifier = Modifier.width(3.dp))
-        BasicText(
+        Text(
             modifier = Modifier.wrapContentWidth(),
             text = stringResource(R.string.camera_info),
             style = TextStyle(
@@ -173,7 +175,7 @@ fun DeviceInfoTile() {
     )
     Spacer(modifier = Modifier.width(20.dp))
     Column(modifier = Modifier.wrapContentWidth()) {
-        BasicText(
+        Text(
             text = stringResource(R.string.device),
             style = TextStyle(
                 fontSize = 13.sp,
@@ -182,7 +184,7 @@ fun DeviceInfoTile() {
             )
         )
         Spacer(modifier = Modifier.height(3.dp))
-        BasicText(
+        Text(
             modifier = Modifier.wrapContentWidth(),
             text = stringResource(R.string.device_info),
             style = TextStyle(
