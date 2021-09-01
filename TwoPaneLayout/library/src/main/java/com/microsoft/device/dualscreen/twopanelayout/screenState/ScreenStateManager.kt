@@ -23,7 +23,7 @@ const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 @Composable
 fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     val activity = LocalContext.current as Activity
-    var windowInfoRep = activity.windowInfoRepository()
+    val windowInfoRep = activity.windowInfoRepository()
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
@@ -37,24 +37,24 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
             .collect { newLayoutInfo ->
-            var featureBounds = Rect()
-            if (newLayoutInfo.displayFeatures.isNotEmpty()) {
-                val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
-                featureBounds = foldingFeature.bounds
-                layoutState = if (foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
-                orientation = orientationMappingFromFoldingFeature(foldingFeature.orientation)
-                deviceType = DeviceType.Dual
-            }
+                var featureBounds = Rect()
+                if (newLayoutInfo.displayFeatures.isNotEmpty()) {
+                    val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
+                    featureBounds = foldingFeature.bounds
+                    layoutState = if (foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
+                    orientation = orientationMappingFromFoldingFeature(foldingFeature.orientation)
+                    deviceType = DeviceType.Dual
+                }
 
-            val screenState = ScreenState(
-                deviceType = deviceType,
-                screenSize = Size(width = screenWidth, height = screenHeight),
-                hingeBounds = featureBounds,
-                orientation = orientation,
-                layoutState = layoutState
-            )
-            onStateChange(screenState)
-        }
+                val screenState = ScreenState(
+                    deviceType = deviceType,
+                    screenSize = Size(width = screenWidth, height = screenHeight),
+                    hingeBounds = featureBounds,
+                    orientation = orientation,
+                    layoutState = layoutState
+                )
+                onStateChange(screenState)
+            }
     }
 }
 
