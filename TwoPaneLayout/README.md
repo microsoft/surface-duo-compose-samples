@@ -41,16 +41,16 @@ About some common use case for the two panes, please check out [user interface p
 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha06"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha07"
     ```
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 30 or newer in the module-level build.gradle file 
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
 
     ```
     android { 
-        compileSdkVersion 30
+        compileSdkVersion 31
         
         defaultConfig { 
-            targetSdkVersion 30 
+            targetSdkVersion 31
         } 
         ... 
     }

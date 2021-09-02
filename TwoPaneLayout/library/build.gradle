@@ -71,7 +71,11 @@ dependencies {
     implementation composeDependencies.activityCompose
     implementation composeDependencies.navigationCompose
 
-    androidTestImplementation(composeTestDependencies.composeJunit)
-    androidTestImplementation(composeTestDependencies.androidxTestRules)
-    androidTestImplementation(composeTestDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+
+    debugImplementation(testDependencies.composeUITestManifest)
 }

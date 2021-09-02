@@ -5,26 +5,25 @@
 
 package com.microsoft.device.dualscreen.twopanelayout.screenState
 
+import android.app.Activity
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Rect
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.core.util.Consumer
-import androidx.window.FoldingFeature
-import androidx.window.WindowLayoutInfo
-import androidx.window.WindowManager
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
 fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
-    val context = LocalContext.current
-    val windowManager = WindowManager(context)
+    val activity = LocalContext.current as Activity
+    val windowInfoRep = activity.windowInfoRepository()
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
@@ -34,35 +33,27 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     val screenWidth = LocalConfiguration.current.screenWidthDp * LocalDensity.current.density
     var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation)
 
-    val layoutChangeCallback = remember {
-        Consumer<WindowLayoutInfo> { newLayoutInfo ->
-            var featureBounds = Rect()
-            if (newLayoutInfo.displayFeatures.isNotEmpty()) {
-                val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
-                featureBounds = foldingFeature.bounds
-                layoutState = if (foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
-                orientation = orientationMappingFromFoldingFeature(foldingFeature.orientation)
-                deviceType = DeviceType.Dual
+    LaunchedEffect(windowInfoRep) {
+        windowInfoRep.windowLayoutInfo
+            .collect { newLayoutInfo ->
+                var featureBounds = Rect()
+                if (newLayoutInfo.displayFeatures.isNotEmpty()) {
+                    val foldingFeature = newLayoutInfo.displayFeatures.first() as FoldingFeature
+                    featureBounds = foldingFeature.bounds
+                    layoutState = if (foldingFeature.isSeparating) LayoutState.Open else LayoutState.Fold
+                    orientation = orientationMappingFromFoldingFeature(foldingFeature.orientation)
+                    deviceType = DeviceType.Dual
+                }
+
+                val screenState = ScreenState(
+                    deviceType = deviceType,
+                    screenSize = Size(width = screenWidth, height = screenHeight),
+                    hingeBounds = featureBounds,
+                    orientation = orientation,
+                    layoutState = layoutState
+                )
+                onStateChange(screenState)
             }
-
-            val screenState = ScreenState(
-                deviceType = deviceType,
-                screenSize = Size(width = screenWidth, height = screenHeight),
-                hingeBounds = featureBounds,
-                orientation = orientation,
-                layoutState = layoutState
-            )
-            onStateChange(screenState)
-        }
-    }
-
-    DisposableEffect(context) {
-        windowManager.registerLayoutChangeCallback({ command -> command?.run() }, layoutChangeCallback)
-
-        // When the effect leaves the Composition, remove the callback
-        onDispose {
-            windowManager.unregisterLayoutChangeCallback(layoutChangeCallback)
-        }
     }
 }
 
