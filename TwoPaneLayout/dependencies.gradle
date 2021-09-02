@@ -22,7 +22,7 @@ ext {
 
     // ----------------------------------
 
-    gradlePluginVersion = '7.0.1'
+    gradlePluginVersion = '7.0.2'
     kotlinVersion = "1.5.21"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
@@ -41,7 +41,7 @@ ext {
     //AndroidX versions
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
-    windowVersion = "1.0.0-beta01"
+    windowVersion = "1.0.0-beta02"
 
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
