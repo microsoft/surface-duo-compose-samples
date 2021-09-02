@@ -22,7 +22,7 @@ ext {
 
     // ----------------------------------
 
-    gradlePluginVersion = '7.0.0'
+    gradlePluginVersion = '7.0.1'
     kotlinVersion = "1.5.21"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
@@ -42,7 +42,6 @@ ext {
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
     windowVersion = "1.0.0-beta01"
-    lifecycleVersion = "2.4.0-alpha03"
 
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -62,11 +61,14 @@ ext {
             navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
 
-    androidxTestVersion = "1.3.0"
-    composeTestDependencies = [
+    androidxTestVersion = "1.4.0"
+    testDependencies = [
+            androidxTestCore        : "androidx.test:core:$androidxTestVersion",
+            androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
-            androidxTestRules        : "androidx.test:rules:$androidxTestVersion",
-            androidxTestRunner       : "androidx.test:runner:$androidxTestVersion",
+            composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
     ]
 
     //Google dependencies

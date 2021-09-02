@@ -57,5 +57,11 @@ dependencies {
 
     implementation googleDependencies.material
 
-    androidTestImplementation(composeTestDependencies.composeJunit)
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+
+    debugImplementation(testDependencies.composeUITestManifest)
 }

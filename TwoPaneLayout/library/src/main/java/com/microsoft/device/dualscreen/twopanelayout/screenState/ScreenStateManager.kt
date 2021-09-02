@@ -33,7 +33,6 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     val screenWidth = LocalConfiguration.current.screenWidthDp * LocalDensity.current.density
     var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation)
 
-    // Create a new coroutine since repeatOnLifecycle is a suspend function
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
             .collect { newLayoutInfo ->
