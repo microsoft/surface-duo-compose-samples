@@ -16,6 +16,7 @@
         android:theme="@style/Theme.ComposeGallery">
         <activity
             android:name="com.microsoft.device.display.samples.composegallery.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeGallery">
             <intent-filter>

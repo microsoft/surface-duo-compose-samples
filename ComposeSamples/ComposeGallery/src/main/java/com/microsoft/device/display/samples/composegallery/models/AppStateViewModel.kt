@@ -3,13 +3,11 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview.models
+package com.microsoft.device.display.samples.composegallery.models
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class AppStateViewModel : ViewModel() {
-
-    var viewWidth: Int = 0
-    var selectionLiveData = MutableLiveData<Int>(-1) // observe the image selection change
+    var imageSelectionLiveData = MutableLiveData<Int>() // observe the image selection change
 }

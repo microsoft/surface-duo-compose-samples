@@ -25,41 +25,53 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.window.layout.WindowInfoRepository
+import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
-import com.microsoft.device.display.samples.composegallery.viewModels.AppStateViewModel
+import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
-
-@Preview
-@Composable
-fun HomePreview() {
-    SetupUI()
-}
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun Home(viewModel: AppStateViewModel) {
+fun Home(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
     appStateViewModel = viewModel
-    SetupUI()
+    var isAppSpanned by remember { mutableStateOf(false) }
+
+    LaunchedEffect(windowInfoRep) {
+        windowInfoRep.windowLayoutInfo
+            .collect { newLayoutInfo ->
+                isAppSpanned = newLayoutInfo.displayFeatures.isNotEmpty()
+            }
+    }
+
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+    val isDualMode = isAppSpanned || isTablet
+    SetupUI(isDualMode)
 }
 
 @Composable
-fun SetupUI() {
+fun SetupUI(isDualMode: Boolean) {
     val models = DataProvider.imageModels
-    val isScreenSpannedLiveData = appStateViewModel.getIsScreenSpannedLiveData()
-    val isScreenSpanned = isScreenSpannedLiveData.observeAsState(initial = false).value
 
-    if (isScreenSpanned) {
+    if (isDualMode) {
         ShowDetailWithList(models)
     } else {
         ShowList(models)
@@ -73,7 +85,7 @@ private fun ShowList(models: List<ImageModel>) {
 
 @Composable
 private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
     LazyColumn(
@@ -84,7 +96,7 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                 modifier = Modifier.selectable(
                     selected = (index == selectedIndex),
                     onClick = {
-                        appStateViewModel.setImageSelectionLiveData(index)
+                        appStateViewModel.imageSelectionLiveData.value = index
                     }
                 ) then Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -123,7 +135,7 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
 
 @Composable
 fun ShowDetailWithList(models: List<ImageModel>) {
-    val imageSelectionLiveData = appStateViewModel.getImageSelectionLiveData()
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
     val selectedImageModel = models[selectedIndex]
 
