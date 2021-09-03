@@ -38,7 +38,11 @@ fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
                 var viewWidth = 0
                 if (isAppSpanned) {
                     val foldingFeature = displayFeatures.first() as FoldingFeature
-                    viewWidth = foldingFeature.bounds.left
+                    viewWidth = if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                        foldingFeature.bounds.left
+                    } else {
+                        foldingFeature.bounds.top
+                    }
                 }
                 appStateViewModel.viewWidth = viewWidth
             }

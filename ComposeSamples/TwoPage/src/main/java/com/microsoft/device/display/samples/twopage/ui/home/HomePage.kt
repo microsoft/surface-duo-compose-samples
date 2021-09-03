@@ -5,36 +5,72 @@
 
 package com.microsoft.device.display.samples.twopage.ui.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.twopage.models.AppStateViewModel
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
+import kotlinx.coroutines.flow.collect
+
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun SetupUI(viewModel: AppStateViewModel) {
-    val isDualModeLiveData = viewModel.getIsDualModeLiveData()
-    val isDualMode = isDualModeLiveData.observeAsState(initial = false).value
+fun SetupUI(windowInfoRep: WindowInfoRepository) {
+    val density = LocalDensity.current.density
+    var isAppSpanned by remember { mutableStateOf(false) }
+    var viewWidth by remember { mutableStateOf(0) }
+    var hingeWidth by remember { mutableStateOf(0) }
 
-    val sWidth = viewModel.screenWidth
-    val pages = setupPages(isDualMode, sWidth)
+    LaunchedEffect(windowInfoRep) {
+        windowInfoRep.windowLayoutInfo
+            .collect { newLayoutInfo ->
+                val displayFeatures = newLayoutInfo.displayFeatures
+                isAppSpanned = displayFeatures.isNotEmpty()
+                if (isAppSpanned) {
+                    val foldingFeature = displayFeatures.first() as FoldingFeature
+                    val vWidth = if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                        foldingFeature.bounds.left
+                    } else {
+                        foldingFeature.bounds.top
+                    }
+                    viewWidth = (vWidth / density).toInt()
+                    hingeWidth = foldingFeature.bounds.width()
+                }
+            }
+    }
 
-    val hingeWidth = viewModel.hingeWidth
-    PageViews(pages, isDualMode, hingeWidth)
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val isTabletDualMode = isTablet && isLandscape
+    if (isTabletDualMode) {
+        viewWidth = LocalConfiguration.current.screenWidthDp / 2
+    }
+
+    val isDualScreen = isAppSpanned || isTabletDualMode
+    val pages = setupPages(viewWidth)
+    PageViews(pages, isDualScreen, hingeWidth)
 }
 
 @Composable
-fun PageViews(pages: List<@Composable () -> Unit>, isDualMode: Boolean, pagePadding: Int) {
+fun PageViews(pages: List<@Composable () -> Unit>, isDualScreen: Boolean, pagePadding: Int) {
     val maxPage = (pages.size - 1).coerceAtLeast(0)
     val pagerState: PagerState = remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
-    pagerState.isDualMode = isDualMode
+    pagerState.isDualMode = isDualScreen
     ViewPager(
         state = pagerState,
         pagePadding = pagePadding,
@@ -44,8 +80,11 @@ fun PageViews(pages: List<@Composable () -> Unit>, isDualMode: Boolean, pagePadd
     }
 }
 
-fun setupPages(isDualMode: Boolean, width: Int): List<@Composable () -> Unit> {
-    val modifier = if (isDualMode) Modifier.width(width.dp).fillMaxHeight().clipToBounds() else Modifier.fillMaxSize()
+fun setupPages(width: Int): List<@Composable () -> Unit> {
+    val modifier = if (width != 0) Modifier
+        .width(width.dp)
+        .fillMaxHeight()
+        .clipToBounds() else Modifier.fillMaxSize()
     return listOf<@Composable () -> Unit>(
         {
             FirstPage(modifier = modifier)
