@@ -23,6 +23,7 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
 fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
@@ -39,7 +40,9 @@ fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
     appStateViewModel = viewModel
 
     val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-    val isDualScreen = isAppSpanned && !isPortrait
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+    val isDualScreen = (isAppSpanned || isTablet) && !isPortrait
     DualScreenUI(isDualScreen)
 }
 

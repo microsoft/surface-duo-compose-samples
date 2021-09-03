@@ -19,18 +19,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
@@ -40,12 +49,59 @@ import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody2
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.utils.formatPriceRange
 import com.microsoft.device.display.samples.dualview.utils.formatRating
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 const val outlinePadding = 25
 const val narrowWidth = 1100
 
 @Composable
-fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateViewModel: AppStateViewModel) {
+fun RestaurantViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                actions = {
+                    if (!isDualScreen) {
+                        RestaurantActionButton()
+                    }
+                },
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = TextStyle(
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White
+                        )
+                    )
+                }
+            )
+        },
+        content = {
+            RestaurantsView(
+                modifier = Modifier.wrapContentSize(),
+                appStateViewModel = appStateViewModel
+            )
+        }
+    )
+}
+
+@Composable
+fun RestaurantActionButton() {
+    IconButton(
+        onClick = {
+            navigateToPane2()
+        }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_map),
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+}
+
+@Composable
+fun RestaurantsView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,13 +119,13 @@ fun RestaurantsView(modifier: Modifier, navController: NavController?, appStateV
                 text = stringResource(id = R.string.list_title),
                 style = typography.subtitle1
             )
-            RestaurantListView(navController, appStateViewModel)
+            RestaurantListView(appStateViewModel)
         }
     }
 }
 
 @Composable
-fun RestaurantListView(navController: NavController?, appStateViewModel: AppStateViewModel) {
+fun RestaurantListView(appStateViewModel: AppStateViewModel) {
     val selectionLiveData = appStateViewModel.selectionLiveData
     val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
 
@@ -91,7 +147,7 @@ fun RestaurantListView(navController: NavController?, appStateViewModel: AppStat
                     enabled = true,
                     onClick = {
                         appStateViewModel.selectionLiveData.value = index
-                        navController?.navigate("map")
+                        navigateToPane2()
                     }
                 )
             )
