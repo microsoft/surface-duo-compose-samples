@@ -19,7 +19,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun SurfaceDuoComposeSamplesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun TwoPageComposeSamplesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

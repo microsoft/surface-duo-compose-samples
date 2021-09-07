@@ -11,5 +11,4 @@ import androidx.lifecycle.ViewModel
 class AppStateViewModel : ViewModel() {
 
     val imageSelectionLiveData = MutableLiveData<Int>() // observe the image selection change
-    val isAppSpannedLiveData = MutableLiveData<Boolean>() // observe the dual-screen mode
 }

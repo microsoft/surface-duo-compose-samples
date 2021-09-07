@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.companionpane
 
+import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,11 +22,18 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.companionpane.uicomponent.BrightnessPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.DefinitionPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.EffectPanel
@@ -34,16 +42,58 @@ import com.microsoft.device.display.samples.companionpane.uicomponent.ImagePanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.MagicWandPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.ShortFilterControl
 import com.microsoft.device.display.samples.companionpane.uicomponent.VignettePanel
-import com.microsoft.device.display.samples.companionpane.viewModels.AppStateViewModel
-import com.microsoft.device.display.samples.companionpane.viewModels.ScreenState
+import kotlinx.coroutines.flow.collect
 
 private val shortSlideWidth = 200.dp
 private val longSlideWidth = 350.dp
+const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
+
+enum class ScreenState {
+    SinglePortrait,
+    SingleLandscape,
+    DualPortrait,
+    DualLandscape
+}
 
 @Composable
-fun SetupUI(viewModel: AppStateViewModel) {
-    val screenStateLiveData = viewModel.getScreenStateLiveData()
-    when (screenStateLiveData.observeAsState(initial = ScreenState.SinglePortrait).value) {
+fun SetupUI(windowInfoRep: WindowInfoRepository) {
+    var screenState by remember { mutableStateOf(ScreenState.SinglePortrait) }
+
+    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    screenState = if (isPortrait) {
+        ScreenState.SinglePortrait
+    } else {
+        ScreenState.SingleLandscape
+    }
+
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+    if (isTablet) {
+        screenState = if (isPortrait) {
+            ScreenState.DualLandscape
+        } else {
+            ScreenState.DualPortrait
+        }
+    }
+
+    LaunchedEffect(windowInfoRep) {
+        windowInfoRep.windowLayoutInfo
+            .collect { newLayoutInfo ->
+                val displayFeatures = newLayoutInfo.displayFeatures
+                val isScreenSpanned = displayFeatures.isNotEmpty()
+                if (isScreenSpanned) {
+                    val foldingFeature = displayFeatures.first() as FoldingFeature
+                    val isVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
+                    screenState = if (isVertical) {
+                        ScreenState.DualPortrait
+                    } else {
+                        ScreenState.DualLandscape
+                    }
+                }
+            }
+    }
+
+    when (screenState) {
         ScreenState.SinglePortrait -> PortraitLayout()
         ScreenState.SingleLandscape -> LandscapeLayout()
         ScreenState.DualPortrait -> DualPortraitLayout()

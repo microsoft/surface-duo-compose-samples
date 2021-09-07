@@ -6,187 +6,59 @@
 package com.microsoft.device.display.samples.dualview.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.display.samples.dualview.R
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun SetupUI(viewModel: AppStateViewModel) {
+fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
     appStateViewModel = viewModel
 
-    val isDualScreenLiveData = appStateViewModel.isDualScreenLiveData
-    val isDualScreen = isDualScreenLiveData.observeAsState(initial = false).value
+    var isAppSpanned by remember { mutableStateOf(false) }
+    LaunchedEffect(windowInfoRep) {
+        windowInfoRep.windowLayoutInfo
+            .collect { newLayoutInfo ->
+                val displayFeatures = newLayoutInfo.displayFeatures
+                isAppSpanned = displayFeatures.isNotEmpty()
+                var viewWidth = 0
+                if (isAppSpanned) {
+                    val foldingFeature = displayFeatures.first() as FoldingFeature
+                    viewWidth = if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                        foldingFeature.bounds.left
+                    } else {
+                        foldingFeature.bounds.top
+                    }
+                }
+                appStateViewModel.viewWidth = viewWidth
+            }
+    }
+
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
-
-    if (isDualScreen || isTablet) {
-        DualScreenUI()
-    } else {
-        SingleScreenUI()
-    }
+    val isDualScreen = isAppSpanned || isTablet
+    DualScreenUI(isDualScreen)
 }
 
 @Composable
-fun SingleScreenUI() {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "list"
-    ) {
-        composable("list") {
-            RestaurantViewWithTopBar(
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
-        }
-        composable("map") {
-            MapViewWithTopBar(
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
-        }
-    }
-}
-
-@Composable
-fun DualScreenUI() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
-                    )
-                }
-            )
-        },
-        content = {
-            TwoPaneLayout(
-                pane1 = {
-                    RestaurantsView(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = null,
-                        appStateViewModel = appStateViewModel
-                    )
-                },
-                pane2 = {
-                    MapView(
-                        modifier = Modifier.fillMaxSize(),
-                        appStateViewModel = appStateViewModel
-                    )
-                }
-            )
-        }
-    )
-}
-
-@Composable
-fun RestaurantViewWithTopBar(navController: NavController, appStateViewModel: AppStateViewModel) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController.navigate("map")
-                        }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_map),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
-                    )
-                }
-            )
-        },
-        content = {
-            RestaurantsView(
-                modifier = Modifier.wrapContentSize(),
-                navController = navController,
-                appStateViewModel = appStateViewModel
-            )
-        }
-    )
-}
-
-@Composable
-fun MapViewWithTopBar(navController: NavController, appStateViewModel: AppStateViewModel) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_list),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                }
-            )
-        },
-        content = {
-            MapView(
-                modifier = Modifier.wrapContentSize(),
-                appStateViewModel = appStateViewModel
-            )
-        }
+fun DualScreenUI(isDualScreen: Boolean) {
+    TwoPaneLayout(
+        pane1 = { RestaurantViewWithTopBar(isDualScreen = isDualScreen, appStateViewModel = appStateViewModel) },
+        pane2 = { MapViewWithTopBar(isDualScreen = isDualScreen, appStateViewModel = appStateViewModel) }
     )
 }
 

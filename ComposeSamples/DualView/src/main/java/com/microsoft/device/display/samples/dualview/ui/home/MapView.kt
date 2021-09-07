@@ -12,6 +12,12 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -21,17 +27,71 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import kotlin.math.roundToInt
 
 private const val nonSelection = -1
+
+@Composable
+fun MapViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
+    Scaffold(
+        topBar = {
+            MapTopBar(isDualScreen)
+        },
+        content = {
+            MapView(
+                modifier = Modifier.wrapContentSize(),
+                appStateViewModel = appStateViewModel
+            )
+        }
+    )
+}
+
+@Composable
+fun MapTopBar(isDualScreen: Boolean) {
+    TopAppBar(
+        title = {
+            if (!isDualScreen) {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = TextStyle(
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                )
+            }
+        },
+        actions = {
+            if (!isDualScreen) {
+                IconButton(
+                    onClick = {
+                        navigateToPane1()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_list),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+    )
+}
 
 @Composable
 fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
