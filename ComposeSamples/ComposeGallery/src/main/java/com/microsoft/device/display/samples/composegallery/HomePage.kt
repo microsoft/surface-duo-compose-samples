@@ -44,6 +44,8 @@ import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
@@ -70,17 +72,23 @@ fun Home(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
 @Composable
 fun SetupUI(isDualMode: Boolean) {
     val models = DataProvider.imageModels
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
+    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
-    if (isDualMode) {
-        ShowDetailWithList(models)
-    } else {
-        ShowList(models)
-    }
+    TwoPaneLayout(
+        paneMode = TwoPaneMode.TwoPane,
+        pane1 = { ShowList(models) },
+        pane2 = {
+            Crossfade(targetState = selectedIndex) { index: Int ->
+                ShowDetail(models, index)
+            }
+        }
+    )
 }
 
 @Composable
 private fun ShowList(models: List<ImageModel>) {
-    ShowListColumn(models, Modifier.fillMaxHeight() then Modifier.fillMaxWidth())
+    ShowListColumn(models, Modifier.fillMaxSize())
 }
 
 @Composable
@@ -139,48 +147,32 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
 }
 
 @Composable
-fun ShowDetailWithList(models: List<ImageModel>) {
-    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
+fun ShowDetail(models: List<ImageModel>, selectedIndex: Int) {
     val selectedImageModel = models[selectedIndex]
 
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
+            .wrapContentSize(Alignment.Center),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(space = 20.dp),
     ) {
-        ShowListColumn(
-            models,
-            Modifier
-                .fillMaxHeight()
-                .wrapContentSize(Alignment.Center)
-                .weight(1f)
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .wrapContentSize(Alignment.Center)
-                .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(space = 20.dp)
+        Crossfade(
+            targetState = selectedImageModel,
+            animationSpec = tween(600)
         ) {
-            Crossfade(
-                targetState = selectedImageModel,
-                animationSpec = tween(600)
-            ) {
-                Column {
-                    BasicText(
-                        text = it.id,
-                        style = TextStyle(
-                            fontSize = 50.sp,
-                            color = MaterialTheme.colors.onSurface,
-                        )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                BasicText(
+                    text = it.id,
+                    style = TextStyle(
+                        fontSize = 50.sp,
+                        color = MaterialTheme.colors.onSurface,
                     )
-                    Image(
-                        painter = painterResource(id = it.image),
-                        contentDescription = null
-                    )
-                }
+                )
+                Image(
+                    painter = painterResource(id = it.image),
+                    contentDescription = it.subtitle,
+                )
             }
         }
     }
