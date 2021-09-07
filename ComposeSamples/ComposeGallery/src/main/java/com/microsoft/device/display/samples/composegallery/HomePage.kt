@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -117,18 +117,23 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                             .wrapContentSize(Alignment.Center),
                         style = TextStyle(
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onSurface,
                         )
                     )
                     BasicText(
                         text = item.title,
                         modifier = Modifier
                             .fillMaxHeight()
-                            .wrapContentSize(Alignment.Center)
+                            .wrapContentSize(Alignment.Center),
+                        style = TextStyle(
+                            color = MaterialTheme.colors.onSurface,
+                        )
                     )
                 }
             }
-            Divider(color = Color.LightGray)
+
+            Divider(color = MaterialTheme.colors.onSurface)
         }
     }
 }
@@ -166,7 +171,10 @@ fun ShowDetailWithList(models: List<ImageModel>) {
                 Column {
                     BasicText(
                         text = it.id,
-                        style = TextStyle(fontSize = 50.sp)
+                        style = TextStyle(
+                            fontSize = 50.sp,
+                            color = MaterialTheme.colors.onSurface,
+                        )
                     )
                     Image(
                         painter = painterResource(id = it.image),
