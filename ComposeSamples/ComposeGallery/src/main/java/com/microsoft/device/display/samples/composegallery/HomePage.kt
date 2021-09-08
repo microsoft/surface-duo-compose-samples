@@ -25,6 +25,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -77,7 +80,7 @@ fun SetupUI(isDualMode: Boolean) {
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.TwoPane,
-        pane1 = { ShowList(models) },
+        pane1 = { ShowListWithAppBar(models) },
         pane2 = {
             Crossfade(targetState = selectedIndex) { index: Int ->
                 ShowDetail(models, index)
@@ -87,8 +90,28 @@ fun SetupUI(isDualMode: Boolean) {
 }
 
 @Composable
-private fun ShowList(models: List<ImageModel>) {
-    ShowListColumn(models, Modifier.fillMaxSize())
+private fun ShowListWithAppBar(models: List<ImageModel>) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    BasicText(
+                        text = stringResource(R.string.app_name),
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onPrimary
+                        )
+                    )
+                },
+                backgroundColor = MaterialTheme.colors.primary,
+                elevation = 10.dp
+            )
+        },
+        content = {
+            ShowListColumn(models, Modifier.fillMaxSize())
+        }
+    )
 }
 
 @Composable
