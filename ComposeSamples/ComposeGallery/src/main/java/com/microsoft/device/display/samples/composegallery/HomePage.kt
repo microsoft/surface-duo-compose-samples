@@ -24,6 +24,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -49,6 +51,8 @@ import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
@@ -80,23 +84,19 @@ fun SetupUI(isDualMode: Boolean) {
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.TwoPane,
-        pane1 = { ShowListWithAppBar(models) },
-        pane2 = {
-            Crossfade(targetState = selectedIndex) { index: Int ->
-                ShowDetail(models, index)
-            }
-        }
+        pane1 = { ShowList(models, isDualMode) },
+        pane2 = { ShowDetail(models, isDualMode, selectedIndex) }
     )
 }
 
 @Composable
-private fun ShowListWithAppBar(models: List<ImageModel>) {
+private fun ShowWithTopBar(content: @Composable () -> Unit, actions: @Composable () -> Unit, title: String) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     BasicText(
-                        text = stringResource(R.string.app_name),
+                        text = title,
                         style = TextStyle(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
@@ -105,13 +105,58 @@ private fun ShowListWithAppBar(models: List<ImageModel>) {
                     )
                 },
                 backgroundColor = MaterialTheme.colors.primary,
-                elevation = 10.dp
+                elevation = 10.dp,
+                actions = { actions() }
             )
         },
-        content = {
-            ShowListColumn(models, Modifier.fillMaxSize())
-        }
+        content = { content() }
     )
+}
+
+@Composable
+private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
+    ShowWithTopBar(
+        content = { ShowListColumn(models = models, modifier = Modifier.fillMaxSize()) },
+        actions = { if (!isDualMode) ListActions() },
+        title = stringResource(R.string.app_name),
+    )
+}
+
+@Composable
+private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
+    if (!isDualMode) {
+        ShowWithTopBar(
+            content = { ShowDetail(models = models, selectedIndex = selectedIndex) },
+            actions = { DetailActions() },
+            title = stringResource(R.string.app_name),
+        )
+    } else {
+        Crossfade(targetState = selectedIndex) { index: Int ->
+            ShowDetail(models = models, selectedIndex = index)
+        }
+    }
+}
+
+@Composable
+private fun ListActions() {
+    IconButton(onClick = { navigateToPane2() }) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_photo_24),
+            tint = MaterialTheme.colors.onPrimary,
+            contentDescription = "Switch to picture detail viewing mode",
+        )
+    }
+}
+
+@Composable
+private fun DetailActions() {
+    IconButton(onClick = { navigateToPane1() }) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_view_list_24),
+            tint = MaterialTheme.colors.onPrimary,
+            contentDescription = "Switch to list viewing mode",
+        )
+    }
 }
 
 @Composable
