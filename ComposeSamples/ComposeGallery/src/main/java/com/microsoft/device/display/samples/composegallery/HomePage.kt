@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -74,12 +73,11 @@ fun Home(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualMode = isAppSpanned || isTablet
-    val isRotated = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-    SetupUI(isDualMode, isRotated)
+    SetupUI(isDualMode)
 }
 
 @Composable
-fun SetupUI(isDualMode: Boolean, isRotated: Boolean) {
+fun SetupUI(isDualMode: Boolean) {
     val models = DataProvider.imageModels
     val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
@@ -87,7 +85,7 @@ fun SetupUI(isDualMode: Boolean, isRotated: Boolean) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.TwoPane,
         pane1 = { ShowList(models, isDualMode) },
-        pane2 = { ShowDetail(models, isDualMode, selectedIndex, isRotated) }
+        pane2 = { ShowDetail(models, isDualMode, selectedIndex) }
     )
 }
 
@@ -125,17 +123,12 @@ private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
 }
 
 @Composable
-private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int, isRotated: Boolean) {
-    if (isDualMode && isRotated) {
-        // Don't show app bar when spanned/rotated
-        ShowDetailImage(models = models, selectedIndex = selectedIndex)
-    } else {
-        ShowWithTopBar(
-            content = { ShowDetailImage(models = models, selectedIndex = selectedIndex) },
-            actions = { if (!isDualMode) DetailActions() },
-            title = if (!isDualMode) stringResource(R.string.app_name) else "",
-        )
-    }
+private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
+    ShowWithTopBar(
+        content = { ShowDetailImage(models = models, selectedIndex = selectedIndex) },
+        actions = { if (!isDualMode) DetailActions() },
+        title = if (!isDualMode) stringResource(R.string.app_name) else "",
+    )
 }
 
 @Composable
