@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.composegallery
 
+import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -73,11 +74,12 @@ fun Home(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualMode = isAppSpanned || isTablet
-    SetupUI(isDualMode)
+    val isRotated = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    SetupUI(isDualMode, isRotated)
 }
 
 @Composable
-fun SetupUI(isDualMode: Boolean) {
+fun SetupUI(isDualMode: Boolean, isRotated: Boolean) {
     val models = DataProvider.imageModels
     val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
@@ -85,7 +87,7 @@ fun SetupUI(isDualMode: Boolean) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.TwoPane,
         pane1 = { ShowList(models, isDualMode) },
-        pane2 = { ShowDetail(models, isDualMode, selectedIndex) }
+        pane2 = { ShowDetail(models, isDualMode, selectedIndex, isRotated) }
     )
 }
 
@@ -123,17 +125,16 @@ private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
 }
 
 @Composable
-private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
-    if (!isDualMode) {
-        ShowWithTopBar(
-            content = { ShowDetail(models = models, selectedIndex = selectedIndex) },
-            actions = { DetailActions() },
-            title = stringResource(R.string.app_name),
-        )
+private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int, isRotated: Boolean) {
+    if (isDualMode && isRotated) {
+        // Don't show app bar when spanned/rotated
+        ShowDetailImage(models = models, selectedIndex = selectedIndex)
     } else {
-        Crossfade(targetState = selectedIndex) { index: Int ->
-            ShowDetail(models = models, selectedIndex = index)
-        }
+        ShowWithTopBar(
+            content = { ShowDetailImage(models = models, selectedIndex = selectedIndex) },
+            actions = { if (!isDualMode) DetailActions() },
+            title = if (!isDualMode) stringResource(R.string.app_name) else "",
+        )
     }
 }
 
@@ -215,33 +216,29 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
 }
 
 @Composable
-fun ShowDetail(models: List<ImageModel>, selectedIndex: Int) {
+fun ShowDetailImage(models: List<ImageModel>, selectedIndex: Int) {
     val selectedImageModel = models[selectedIndex]
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(space = 20.dp),
+    Crossfade(
+        targetState = selectedImageModel,
+        animationSpec = tween(600)
     ) {
-        Crossfade(
-            targetState = selectedImageModel,
-            animationSpec = tween(600)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                BasicText(
-                    text = it.id,
-                    style = TextStyle(
-                        fontSize = 50.sp,
-                        color = MaterialTheme.colors.onSurface,
-                    )
+            BasicText(
+                text = it.id,
+                style = TextStyle(
+                    fontSize = 50.sp,
+                    color = MaterialTheme.colors.onSurface,
                 )
-                Image(
-                    painter = painterResource(id = it.image),
-                    contentDescription = it.subtitle,
-                )
-            }
+            )
+            Image(
+                painter = painterResource(id = it.image),
+                contentDescription = it.subtitle,
+            )
         }
     }
 }
