@@ -50,7 +50,6 @@ import com.microsoft.device.display.samples.composegallery.models.AppStateViewMo
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
-import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import kotlinx.coroutines.flow.collect
@@ -83,7 +82,6 @@ fun SetupUI(isDualMode: Boolean) {
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
     TwoPaneLayout(
-        paneMode = TwoPaneMode.TwoPane,
         pane1 = { ShowList(models, isDualMode) },
         pane2 = { ShowDetail(models, isDualMode, selectedIndex) }
     )
@@ -116,7 +114,7 @@ private fun ShowWithTopBar(content: @Composable () -> Unit, actions: @Composable
 @Composable
 private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
     ShowWithTopBar(
-        content = { ShowListColumn(models = models, modifier = Modifier.fillMaxSize()) },
+        content = { ShowListColumn(models, Modifier.fillMaxSize(), isDualMode) },
         actions = { if (!isDualMode) ListActions() },
         title = stringResource(R.string.app_name),
     )
@@ -125,7 +123,7 @@ private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
 @Composable
 private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
     ShowWithTopBar(
-        content = { ShowDetailImage(models = models, selectedIndex = selectedIndex) },
+        content = { ShowDetailImage(models, selectedIndex) },
         actions = { if (!isDualMode) DetailActions() },
         title = if (!isDualMode) stringResource(R.string.app_name) else "",
     )
@@ -154,7 +152,7 @@ private fun DetailActions() {
 }
 
 @Composable
-private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
+private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier, isDualMode: Boolean) {
     val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
@@ -167,6 +165,9 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                     selected = (index == selectedIndex),
                     onClick = {
                         appStateViewModel.imageSelectionLiveData.value = index
+                        if (!isDualMode) {
+                            navigateToPane2()
+                        }
                     }
                 ) then Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
