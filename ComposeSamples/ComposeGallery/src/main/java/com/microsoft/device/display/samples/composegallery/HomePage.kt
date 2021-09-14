@@ -24,6 +24,11 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,9 +38,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,6 +49,9 @@ import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import kotlinx.coroutines.flow.collect
 
 private lateinit var appStateViewModel: AppStateViewModel
@@ -70,21 +78,81 @@ fun Home(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
 @Composable
 fun SetupUI(isDualMode: Boolean) {
     val models = DataProvider.imageModels
+    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
+    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
-    if (isDualMode) {
-        ShowDetailWithList(models)
-    } else {
-        ShowList(models)
+    TwoPaneLayout(
+        pane1 = { ShowList(models, isDualMode) },
+        pane2 = { ShowDetail(models, isDualMode, selectedIndex) }
+    )
+}
+
+@Composable
+private fun ShowWithTopBar(content: @Composable () -> Unit, actions: @Composable () -> Unit, title: String) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    BasicText(
+                        text = title,
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onPrimary
+                        )
+                    )
+                },
+                backgroundColor = MaterialTheme.colors.primary,
+                elevation = 10.dp,
+                actions = { actions() }
+            )
+        },
+        content = { content() }
+    )
+}
+
+@Composable
+private fun ShowList(models: List<ImageModel>, isDualMode: Boolean) {
+    ShowWithTopBar(
+        content = { ShowListColumn(models, Modifier.fillMaxSize(), isDualMode) },
+        actions = { if (!isDualMode) ListActions() },
+        title = stringResource(R.string.app_name),
+    )
+}
+
+@Composable
+private fun ShowDetail(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
+    ShowWithTopBar(
+        content = { ShowDetailImage(models, selectedIndex) },
+        actions = { if (!isDualMode) DetailActions() },
+        title = if (!isDualMode) stringResource(R.string.app_name) else "",
+    )
+}
+
+@Composable
+private fun ListActions() {
+    IconButton(onClick = { navigateToPane2() }) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_photo_24),
+            tint = MaterialTheme.colors.onPrimary,
+            contentDescription = "Switch to picture detail viewing mode",
+        )
     }
 }
 
 @Composable
-private fun ShowList(models: List<ImageModel>) {
-    ShowListColumn(models, Modifier.fillMaxHeight() then Modifier.fillMaxWidth())
+private fun DetailActions() {
+    IconButton(onClick = { navigateToPane1() }) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_view_list_24),
+            tint = MaterialTheme.colors.onPrimary,
+            contentDescription = "Switch to list viewing mode",
+        )
+    }
 }
 
 @Composable
-private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
+private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier, isDualMode: Boolean) {
     val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
@@ -97,6 +165,9 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                     selected = (index == selectedIndex),
                     onClick = {
                         appStateViewModel.imageSelectionLiveData.value = index
+                        if (!isDualMode) {
+                            navigateToPane2()
+                        }
                     }
                 ) then Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -117,63 +188,51 @@ private fun ShowListColumn(models: List<ImageModel>, modifier: Modifier) {
                             .wrapContentSize(Alignment.Center),
                         style = TextStyle(
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onSurface,
                         )
                     )
                     BasicText(
                         text = item.title,
                         modifier = Modifier
                             .fillMaxHeight()
-                            .wrapContentSize(Alignment.Center)
+                            .wrapContentSize(Alignment.Center),
+                        style = TextStyle(
+                            color = MaterialTheme.colors.onSurface,
+                        )
                     )
                 }
             }
-            Divider(color = Color.LightGray)
+
+            Divider(color = MaterialTheme.colors.onSurface)
         }
     }
 }
 
 @Composable
-fun ShowDetailWithList(models: List<ImageModel>) {
-    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
+fun ShowDetailImage(models: List<ImageModel>, selectedIndex: Int) {
     val selectedImageModel = models[selectedIndex]
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
+    Crossfade(
+        targetState = selectedImageModel,
+        animationSpec = tween(600)
     ) {
-        ShowListColumn(
-            models,
-            Modifier
-                .fillMaxHeight()
-                .wrapContentSize(Alignment.Center)
-                .weight(1f)
-        )
         Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .wrapContentSize(Alignment.Center)
-                .weight(1f),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(space = 20.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)
         ) {
-            Crossfade(
-                targetState = selectedImageModel,
-                animationSpec = tween(600)
-            ) {
-                Column {
-                    BasicText(
-                        text = it.id,
-                        style = TextStyle(fontSize = 50.sp)
-                    )
-                    Image(
-                        painter = painterResource(id = it.image),
-                        contentDescription = null
-                    )
-                }
-            }
+            BasicText(
+                text = it.id,
+                style = TextStyle(
+                    fontSize = 50.sp,
+                    color = MaterialTheme.colors.onSurface,
+                )
+            )
+            Image(
+                painter = painterResource(id = it.image),
+                contentDescription = it.subtitle,
+            )
         }
     }
 }

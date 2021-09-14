@@ -39,6 +39,7 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+    implementation microsoftDependencies.twoPaneLayout
 
     implementation googleDependencies.material
 }
