@@ -164,7 +164,7 @@ fun DualPortraitPane1(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        ImagePanel(Modifier.padding(horizontal = 40.dp))
+        ImagePanel(Modifier.padding(horizontal = 30.dp))
         EffectPanel()
     }
 }
