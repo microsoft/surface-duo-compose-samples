@@ -15,10 +15,16 @@ Please check out [Microsoft Dual-screen document](https://docs.microsoft.com/dua
 ## Contents
 
 ### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout)
+
 A UI component that help you build two-pane layout for dual-screen, foldable and large-screen devices.
 
 ### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
+
 Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
+
+> [!TIP]
+> When importing the code samples into Android Studio, use the **ComposeSamples** folder as the base directory of the project.
+> This lets you access and run all of the samples from within the same project.
 
 ## Social links
 
