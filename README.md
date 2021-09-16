@@ -8,7 +8,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Getting Started
 
-When importing the code samples into Android Studio, use the **ComposeSamples** folder as the base directory of the project. This lets you access and run all of the samples from within the same project.
+To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo). 
 
 Please check out [Microsoft Dual-screen document](https://docs.microsoft.com/dual-screen/android/jetpack/compose/) for more details.
 
