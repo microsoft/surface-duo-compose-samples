@@ -153,15 +153,15 @@ fun Pane2(screenState: ScreenState) {
                 content = { DualPortraitPane2() }
             )
         }
-        ScreenState.DualLandscape -> DualLandscapePane2(Modifier.background(color = MaterialTheme.colors.background))
+        ScreenState.DualLandscape -> DualLandscapePane2()
         else -> {}
     }
 }
 
 @Composable
-fun DualPortraitPane1(modifier: Modifier = Modifier) {
+fun DualPortraitPane1() {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         ImagePanel(Modifier.padding(horizontal = 30.dp))
@@ -170,9 +170,9 @@ fun DualPortraitPane1(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DualPortraitPane2(modifier: Modifier = Modifier) {
+fun DualPortraitPane2() {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(80.dp, Alignment.CenterVertically)
     ) {
@@ -187,9 +187,9 @@ fun DualPortraitPane2(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DualLandscapePane1(modifier: Modifier = Modifier) {
+fun DualLandscapePane1() {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 20.dp)
             .clipToBounds(),
@@ -200,9 +200,10 @@ fun DualLandscapePane1(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DualLandscapePane2(modifier: Modifier = Modifier) {
+fun DualLandscapePane2() {
     Column(
-        modifier = modifier
+        modifier = Modifier
+            .background(color = MaterialTheme.colors.background)
             .fillMaxSize()
             .padding(start = 5.dp, end = 5.dp, bottom = 5.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
