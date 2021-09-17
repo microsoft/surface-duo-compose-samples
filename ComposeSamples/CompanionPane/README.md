@@ -10,13 +10,13 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 The sample showcases how to build [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose.
 
-![Single portrait](screenshots/1.png)
+![Single portrait](screenshots/single_portrait.png)
 
-![Single landscape](screenshots/2.png)
+![Single landscape](screenshots/single_landscape.png)
 
-![Double portrait](screenshots/3.png)
+![Double portrait](screenshots/dual_portrait.png)
 
-![Double landscape](screenshots/4.png)
+![Double landscape](screenshots/dual_landscape.png)
 
 ## Contributing
 

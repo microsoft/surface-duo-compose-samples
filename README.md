@@ -22,10 +22,6 @@ A UI component that help you build two-pane layout for dual-screen, foldable and
 
 Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
 
-> [!TIP]
-> When importing the code samples into Android Studio, use the **ComposeSamples** folder as the base directory of the project.
-> This lets you access and run all of the samples from within the same project.
-
 ## Social links
 
 - [video: TwoPaneLayout Compose library Twitch](https://www.twitch.tv/videos/1088662335)

@@ -14,7 +14,7 @@ This repo contains the samples built in Jetpack Compose for Microsoft Surface Du
 
 ## Getting Started
 
-To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [the blog](https://devblogs.microsoft.com/surface-duo).
+When importing the code samples into Android Studio, use the **ComposeSamples** folder as the base directory of the project. This lets you access and run all of the samples from within the same project.
 
 ## Prerequisites
 
