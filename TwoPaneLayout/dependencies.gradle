@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 7
+    twoPaneLayoutVersionCode = 8
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0-alpha07'
+    twoPaneLayoutVersionName = '1.0.0-alpha08'
 
     // ----------------------------------
 
@@ -49,9 +49,9 @@ ext {
             window            : "androidx.window:window:$windowVersion"
     ]
 
-    composeVersion = "1.0.1"
-    activityComposeVersion = "1.3.0"
-    navigationComposeVersion = "2.4.0-alpha07"
+    composeVersion = "1.0.2"
+    activityComposeVersion = "1.3.1"
+    navigationComposeVersion = "2.4.0-alpha09"
 
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
