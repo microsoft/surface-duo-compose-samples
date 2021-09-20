@@ -3,6 +3,7 @@ package com.example.navigationrail.ui.view
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.view.Window
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoRepository) {
+fun SetupUI(windowInfoRep: WindowInfoRepository, window: Window) {
     var isAppSpanned by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRep) {
@@ -37,6 +38,9 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualScreen = (isAppSpanned || isTablet) && !isPortrait
+
+    window.statusBarColor = Color.TRANSPARENT
+    // TODO: change status bar text color to be onPrimary
 
     DualScreenUI(isDualScreen, isPortrait)
 }
