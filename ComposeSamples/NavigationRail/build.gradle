@@ -53,6 +53,7 @@ dependencies {
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
     implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeRuntime
     implementation microsoftDependencies.twoPaneLayout
 
     implementation googleDependencies.material
