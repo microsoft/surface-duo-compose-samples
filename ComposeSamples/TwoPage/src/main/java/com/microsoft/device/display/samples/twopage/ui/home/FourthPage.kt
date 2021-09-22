@@ -26,18 +26,22 @@ fun FourthPage(modifier: Modifier) {
 fun FourthPageContent() {
     Text(
         text = stringResource(R.string.two_page_page4_title1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
         text = stringResource(R.string.two_page_page4_text1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body2
     )
     Text(
         text = stringResource(R.string.two_page_page4_title2),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
         text = stringResource(R.string.two_page_page4_text2),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body2
     )
     AlignedCaption(

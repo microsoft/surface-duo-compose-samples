@@ -28,6 +28,7 @@ fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
     ) {
         Text(
             text = text,
+            color = MaterialTheme.colors.onBackground,
             style = MaterialTheme.typography.caption
         )
     }
