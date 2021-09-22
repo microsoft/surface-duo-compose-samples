@@ -70,7 +70,7 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
 
     val isDualScreen = (isAppSpanned || isTabletDualMode) && !isHingeHorizontal
     val pages = setupPages(viewWidth)
-    PageViews(pages, isDualScreen, hingeThickness)
+    PageViews(pages, isDualScreen, hingeThickness / 2)
 }
 
 @Composable
