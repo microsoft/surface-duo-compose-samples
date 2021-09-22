@@ -33,7 +33,8 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     val density = LocalDensity.current.density
     var isAppSpanned by remember { mutableStateOf(false) }
     var viewWidth by remember { mutableStateOf(0) }
-    var hingeWidth by remember { mutableStateOf(0) }
+    var hingeThickness by remember { mutableStateOf(0) }
+    var isHingeHorizontal by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
@@ -42,13 +43,19 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
                 isAppSpanned = displayFeatures.isNotEmpty()
                 if (isAppSpanned) {
                     val foldingFeature = displayFeatures.first() as FoldingFeature
-                    val vWidth = if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
-                        foldingFeature.bounds.left
+                    val vWidth: Int
+
+                    if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                        isHingeHorizontal = false
+                        vWidth = foldingFeature.bounds.left
+                        hingeThickness = foldingFeature.bounds.width()
                     } else {
-                        foldingFeature.bounds.top
+                        isHingeHorizontal = true
+                        vWidth = foldingFeature.bounds.right
+                        hingeThickness = foldingFeature.bounds.height()
                     }
+
                     viewWidth = (vWidth / density).toInt()
-                    hingeWidth = foldingFeature.bounds.width()
                 }
             }
     }
@@ -61,9 +68,9 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
         viewWidth = LocalConfiguration.current.screenWidthDp / 2
     }
 
-    val isDualScreen = isAppSpanned || isTabletDualMode
+    val isDualScreen = (isAppSpanned || isTabletDualMode) && !isHingeHorizontal
     val pages = setupPages(viewWidth)
-    PageViews(pages, isDualScreen, hingeWidth)
+    PageViews(pages, isDualScreen, hingeThickness)
 }
 
 @Composable
