@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">NavigationRail</string>
     <string name="select_image">Select an image to view it in more detail</string>
+    <string name="date_found">Date found: %1$s</string>
+    <string name="observation_details">Observation details: %1$s</string>
+    <string-array name="galleries">
+        <item>plants</item>
+        <item>birds</item>
+        <item>animals</item>
+        <item>rocks</item>
+        <item>lakes</item>
+    </string-array>
 </resources>
