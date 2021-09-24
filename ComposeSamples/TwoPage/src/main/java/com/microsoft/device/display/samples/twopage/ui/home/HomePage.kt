@@ -67,8 +67,9 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     if (isTabletDualMode) {
         viewWidth = LocalConfiguration.current.screenWidthDp / 2
     }
+    val isDualPortraitMode = isAppSpanned && !isHingeHorizontal
 
-    val isDualScreen = (isAppSpanned || isTabletDualMode) && !isHingeHorizontal
+    val isDualScreen = (isDualPortraitMode) || isTabletDualMode
     val pages = setupPages(viewWidth)
     PageViews(pages, isDualScreen, hingeThickness / 2)
 }
