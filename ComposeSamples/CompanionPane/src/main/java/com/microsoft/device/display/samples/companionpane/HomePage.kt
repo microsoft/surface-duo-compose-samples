@@ -91,7 +91,8 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
 
     screenState =
         if (isDualScreen) {
-            if (isHingeHorizontal) ScreenState.DualLandscape else ScreenState.DualPortrait
+            val showDualLandscape = if (isAppSpanned) isHingeHorizontal else isPortrait
+            if (showDualLandscape) ScreenState.DualLandscape else ScreenState.DualPortrait
         } else {
             // NOTE: the LocalConfiguration orientation info should only be used in single screen mode
             if (isPortrait) ScreenState.SinglePortrait else ScreenState.SingleLandscape
