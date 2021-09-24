@@ -67,40 +67,36 @@ enum class ScreenState {
 @Composable
 fun SetupUI(windowInfoRep: WindowInfoRepository) {
     var screenState by remember { mutableStateOf(ScreenState.SinglePortrait) }
-
-    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-    screenState = if (isPortrait) {
-        ScreenState.SinglePortrait
-    } else {
-        ScreenState.SingleLandscape
-    }
-
-    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
-    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
-    if (isTablet) {
-        screenState = if (isPortrait) {
-            ScreenState.DualLandscape
-        } else {
-            ScreenState.DualPortrait
-        }
-    }
+    var isAppSpanned by remember { mutableStateOf(false) }
+    var isHingeHorizontal by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
             .collect { newLayoutInfo ->
                 val displayFeatures = newLayoutInfo.displayFeatures
-                val isScreenSpanned = displayFeatures.isNotEmpty()
-                if (isScreenSpanned) {
-                    val foldingFeature = displayFeatures.first() as FoldingFeature
-                    val isVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
-                    screenState = if (isVertical) {
-                        ScreenState.DualPortrait
-                    } else {
-                        ScreenState.DualLandscape
+                isAppSpanned = displayFeatures.isNotEmpty()
+                if (isAppSpanned) {
+                    val foldingFeature = displayFeatures.first() as? FoldingFeature
+                    foldingFeature?.let {
+                        isHingeHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
                     }
                 }
             }
     }
+
+    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
+    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
+    val isDualScreen = (isAppSpanned || isTablet)
+
+    screenState =
+        if (isDualScreen) {
+            val showDualLandscape = if (isAppSpanned) isHingeHorizontal else isPortrait
+            if (showDualLandscape) ScreenState.DualLandscape else ScreenState.DualPortrait
+        } else {
+            // NOTE: the LocalConfiguration orientation info should only be used in single screen mode
+            if (isPortrait) ScreenState.SinglePortrait else ScreenState.SingleLandscape
+        }
 
     TwoPaneLayout(
         pane1 = { Pane1(screenState) },
