@@ -5,8 +5,6 @@
 
 package com.example.navigationrail.ui.view
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -18,12 +16,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.MutableLiveData
+import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository
 import com.example.navigationrail.models.AppStateViewModel
-import com.example.navigationrail.models.DataProvider
 import com.example.navigationrail.models.Image
-import com.example.navigationrail.ui.theme.ComposeSamplesTheme
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import kotlinx.coroutines.flow.collect
@@ -36,6 +33,7 @@ const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 @Composable
 fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
     var isAppSpanned by remember { mutableStateOf(false) }
+    var isHingeVertical by remember { mutableStateOf(false) }
     appStateViewModel = viewModel
 
     LaunchedEffect(windowInfoRep) {
@@ -43,80 +41,66 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
             .collect { newLayoutInfo ->
                 val displayFeatures = newLayoutInfo.displayFeatures
                 isAppSpanned = displayFeatures.isNotEmpty()
+                if (isAppSpanned) {
+                    val foldingFeature = displayFeatures.first() as FoldingFeature
+                    isHingeVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
+                }
             }
     }
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualScreen = (isAppSpanned || isTablet)
+    // REVISIT: i think a good addition to twopanelayout would be the ability to check the state
+    // of the layout? like in the "single" modes you would want the single screen view to be shown
+    // when the layout is technically still dual screen (would also be useful to know which pane
+    // is currently being shown, like if i navigate to pane2 inside pane1, I would want to know
+    // so I could return to pane1 eventually)
+    val isDualPortrait = isDualScreen && isHingeVertical
 
-    DualScreenUI(isDualScreen)
+    DualScreenUI(isDualScreen, isDualPortrait)
 }
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun DualScreenUI(isDualScreen: Boolean) {
-    val selectedImage =
-        appStateViewModel.imageSelectionLiveData.observeAsState(initial = null).value
+fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) { // , navController: NavHostController, navHost: @Composable (Modifier) -> Unit) {
+    // Observe state of image selection
+    val imageLiveData = appStateViewModel.imageSelectionLiveData
+    val selectedImage = imageLiveData.observeAsState(initial = null).value
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { Pane1(isDualScreen) },
-        pane2 = { Pane2(selectedImage) },
+        pane1 = { Pane1(isDualScreen, isDualPortrait) },
+        pane2 = { Pane2(isDualPortrait, imageLiveData, selectedImage) },
     )
 }
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Pane1(isDualScreen: Boolean) {
-    ShowWithNavigation(isDualScreen, appStateViewModel.imageSelectionLiveData)
+fun Pane1(isDualScreen: Boolean, isDualPortrait: Boolean) {
+    ShowWithNavigation(isDualScreen, appStateViewModel.imageSelectionLiveData, isDualPortrait)
 }
 
 @Composable
-fun Pane2(selectedImage: Image?) {
-    ShowWithTopBar(
-        title = selectedImage?.description ?: "",
-        titleColor = MaterialTheme.colors.onSecondary,
-        color = MaterialTheme.colors.secondary,
-    ) {
-        ItemView(selectedImage)
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewPane1DarkMode() {
-    ComposeSamplesTheme {
-        Pane1(false)
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewPane1LightMode() {
-    ComposeSamplesTheme {
-        Pane1(false)
-    }
-}
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewPane2DarkMode() {
-    ComposeSamplesTheme {
-        Pane2(DataProvider.plantList[0])
-    }
-}
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewPane2LightMode() {
-    ComposeSamplesTheme {
-        Pane2(DataProvider.plantList[0])
+fun Pane2(isDualPortrait: Boolean, imageLiveData: MutableLiveData<Image>, selectedImage: Image?) {
+    if (!isDualPortrait) {
+        ShowWithTopBar(
+            title = selectedImage?.description ?: "",
+            titleColor = MaterialTheme.colors.onSecondary,
+            color = MaterialTheme.colors.secondary,
+            navIcon = { TopBarNavIcon(imageLiveData) },
+        ) {
+            ItemView(selectedImage)
+        }
+    } else {
+        ShowWithTopBar(
+            title = selectedImage?.description ?: "",
+            titleColor = MaterialTheme.colors.onSecondary,
+            color = MaterialTheme.colors.secondary,
+        ) {
+            ItemView(selectedImage)
+        }
     }
 }

@@ -8,11 +8,10 @@
     <string name="select_image">Select an image to view it in more detail</string>
     <string name="date_found">Date found: %1$s</string>
     <string name="observation_details">Observation details: %1$s</string>
-    <string-array name="galleries">
-        <item>plants</item>
-        <item>birds</item>
-        <item>animals</item>
-        <item>rocks</item>
-        <item>lakes</item>
-    </string-array>
+    <string name="plants">plants</string>
+    <string name="birds">birds</string>
+    <string name="animals">animals</string>
+    <string name="rocks">rocks</string>
+    <string name="lakes">lakes</string>
+    <string name="back">Return back to gallery view</string>
 </resources>

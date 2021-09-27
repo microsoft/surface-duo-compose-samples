@@ -7,13 +7,13 @@ package com.example.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.NavigationRail
@@ -24,6 +24,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
@@ -31,7 +32,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -43,23 +43,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.navigationrail.R
+import com.example.navigationrail.models.DataProvider
+import com.example.navigationrail.models.Gallery
 import com.example.navigationrail.models.Image
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Image>) {
-    // Set up navigation destinations
-    val galleries = stringArrayResource(id = R.array.galleries)
-    // REVISIT: add this and any other hardcoded text to string xml
-    if (galleries.isEmpty()) throw Error("gallery string array is empty")
-    val icons = listOf(
-        // REVISIT: placeholder icons
-        Icons.Filled.Favorite,
-        Icons.Filled.AccountCircle,
-        Icons.Filled.Face,
-        Icons.Filled.AddCircle,
-        Icons.Filled.ArrowDropDown
+fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Image>, isDualPortrait: Boolean) {
+    // Set up navigation components
+    val galleries = listOf(
+        Gallery(stringResource(R.string.plants), DataProvider.plantList, Icons.Filled.Favorite),
+        Gallery(stringResource(R.string.birds), DataProvider.birdList, Icons.Filled.AccountCircle),
+        Gallery(stringResource(R.string.animals), DataProvider.animalList, Icons.Filled.Face),
+        Gallery(stringResource(R.string.rocks), DataProvider.rockList, Icons.Filled.AddCircle),
+        Gallery(stringResource(R.string.lakes), DataProvider.lakeList, Icons.Filled.ArrowDropDown)
     )
 
     val navController = rememberNavController()
@@ -67,10 +66,12 @@ fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Ima
         NavHost(
             modifier = modifier,
             navController = navController,
-            startDestination = galleries[0],
+            startDestination = galleries[0].name,
         ) {
             galleries.forEachIndexed { index, item ->
-                composable(galleries[index]) { Gallery(item, imageLiveData, isDualScreen) }
+                composable(galleries[index].name) {
+                    GalleryOrItemView(item.name, imageLiveData, isDualPortrait)
+                }
             }
         }
     }
@@ -82,8 +83,7 @@ fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Ima
         ) { modifier ->
             ShowWithNavigationRail(
                 modifier = modifier,
-                names = galleries,
-                icons = icons,
+                galleries = galleries,
                 navController = navController,
                 imageLiveData = imageLiveData,
             ) {
@@ -95,8 +95,7 @@ fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Ima
             title = stringResource(R.string.app_name),
             bottomBar = {
                 ShowBottomNavigation(
-                    names = galleries,
-                    icons = icons,
+                    galleries = galleries,
                     navController = navController,
                     imageLiveData = imageLiveData,
                 )
@@ -113,20 +112,34 @@ fun ShowWithTopBar(
     titleColor: Color = MaterialTheme.colors.onPrimary,
     color: Color = MaterialTheme.colors.primary,
     bottomBar: @Composable () -> Unit = {},
-    actions: @Composable RowScope.() -> Unit = {},
+    navIcon: (@Composable () -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = title ?: "", color = titleColor) },
-                backgroundColor = color,
-                actions = { actions() }
-            )
-        },
-        bottomBar = bottomBar,
-    ) { innerPadding ->
-        content(Modifier.padding(innerPadding))
+    navIcon?.let { navigationIcon ->
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = title ?: "", color = titleColor) },
+                    backgroundColor = color,
+                    navigationIcon = { navigationIcon() }
+                )
+            },
+            bottomBar = bottomBar,
+        ) { innerPadding ->
+            content(Modifier.padding(innerPadding))
+        }
+    } ?: run {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = title ?: "", color = titleColor) },
+                    backgroundColor = color,
+                )
+            },
+            bottomBar = bottomBar,
+        ) { innerPadding ->
+            content(Modifier.padding(innerPadding))
+        }
     }
 }
 
@@ -134,21 +147,20 @@ fun ShowWithTopBar(
 @Composable
 fun ShowWithNavigationRail(
     modifier: Modifier,
-    names: Array<String>,
-    icons: List<ImageVector>,
+    galleries: List<Gallery>,
     navController: NavController,
     imageLiveData: MutableLiveData<Image>,
     content: @Composable () -> Unit,
 ) {
     Row(modifier = modifier) {
-        NavigationRail(modifier = modifier) {
+        NavigationRail {
             val currentDestination = navController.currentBackStackEntryAsState().value?.destination
-            names.forEachIndexed { index, item ->
+            galleries.forEach { item ->
                 NavigationRailItem(
-                    icon = { NavItemIcon(icons = icons, index = index, description = item) },
-                    label = { NavItemLabel(item) },
-                    selected = isNavItemSelected(currentDestination, item),
-                    onClick = { navItemOnClick(navController, item, imageLiveData) }
+                    icon = { NavItemIcon(icon = item.icon, description = item.name) },
+                    label = { NavItemLabel(item.name) },
+                    selected = isNavItemSelected(currentDestination, item.name),
+                    onClick = { navItemOnClick(navController, item.name, imageLiveData) }
                 )
             }
         }
@@ -159,19 +171,18 @@ fun ShowWithNavigationRail(
 @Composable
 // Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav
 fun ShowBottomNavigation(
-    names: Array<String>,
-    icons: List<ImageVector>,
+    galleries: List<Gallery>,
     navController: NavController,
     imageLiveData: MutableLiveData<Image>,
 ) {
     BottomNavigation {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
-        names.forEachIndexed { index, item ->
+        galleries.forEach { item ->
             BottomNavigationItem(
-                icon = { NavItemIcon(icons = icons, index = index, description = item) },
-                label = { NavItemLabel(item) },
-                selected = isNavItemSelected(currentDestination, item),
-                onClick = { navItemOnClick(navController, item, imageLiveData) },
+                icon = { NavItemIcon(icon = item.icon, description = item.name) },
+                label = { NavItemLabel(item.name) },
+                selected = isNavItemSelected(currentDestination, item.name),
+                onClick = { navItemOnClick(navController, item.name, imageLiveData) },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
             )
@@ -180,8 +191,8 @@ fun ShowBottomNavigation(
 }
 
 @Composable
-private fun NavItemIcon(icons: List<ImageVector>, index: Int, description: String) {
-    Icon(icons[index], description)
+private fun NavItemIcon(icon: ImageVector, description: String) {
+    Icon(icon, description)
 }
 
 @Composable
@@ -211,4 +222,19 @@ private fun navItemOnClick(
 
     // Reset selected image when switching gallery
     imageLiveData.value = null
+}
+
+@Composable
+fun TopBarNavIcon(imageLiveData: MutableLiveData<Image>) {
+    IconButton(
+        onClick = {
+            navigateToPane1()
+            imageLiveData.value = null
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = stringResource(R.string.back),
+        )
+    }
 }
