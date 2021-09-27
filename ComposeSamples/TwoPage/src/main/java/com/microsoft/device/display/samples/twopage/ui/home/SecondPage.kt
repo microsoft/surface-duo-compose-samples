@@ -26,18 +26,22 @@ fun SecondPage(modifier: Modifier) {
 fun SecondPageContent() {
     Text(
         text = stringResource(R.string.two_page_page2_title1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
         text = stringResource(R.string.two_page_page2_text1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )
     Text(
         text = stringResource(R.string.two_page_page2_title2),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
         text = stringResource(R.string.two_page_page2_text2),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )
     AlignedCaption(

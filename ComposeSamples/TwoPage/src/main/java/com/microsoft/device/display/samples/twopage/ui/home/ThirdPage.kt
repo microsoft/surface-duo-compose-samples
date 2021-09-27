@@ -26,10 +26,12 @@ fun ThirdPage(modifier: Modifier) {
 fun ThirdPageContent() {
     Text(
         text = stringResource(R.string.two_page_page3_title1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
         text = stringResource(R.string.two_page_page3_text1),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )
     AlignedCaption(
