@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.ui.view
+package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
@@ -43,9 +43,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.navigationrail.R
-import com.example.navigationrail.models.DataProvider
-import com.example.navigationrail.models.Gallery
-import com.example.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.models.DataProvider
+import com.microsoft.device.display.samples.navigationrail.models.Gallery
+import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 @ExperimentalMaterialApi

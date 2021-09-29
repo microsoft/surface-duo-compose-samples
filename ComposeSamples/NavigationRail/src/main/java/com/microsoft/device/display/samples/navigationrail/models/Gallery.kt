@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.models
+package com.microsoft.device.display.samples.navigationrail.models
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

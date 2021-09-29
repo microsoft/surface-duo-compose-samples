@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.ui.view
+package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.example.navigationrail.R
-import com.example.navigationrail.models.DataProvider
-import com.example.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.models.DataProvider
+import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 @ExperimentalFoundationApi

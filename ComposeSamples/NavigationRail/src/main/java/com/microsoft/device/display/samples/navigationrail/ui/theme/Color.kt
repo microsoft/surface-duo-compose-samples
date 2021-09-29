@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.ui.theme
+package com.microsoft.device.display.samples.navigationrail.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.ui.view
+package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.MutableLiveData
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository
-import com.example.navigationrail.models.AppStateViewModel
-import com.example.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.models.AppStateViewModel
+import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import kotlinx.coroutines.flow.collect

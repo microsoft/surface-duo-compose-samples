@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.ui.view
+package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.navigationrail.R
-import com.example.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.models.Image
 
 @Composable
 fun ItemView(selectedImage: Image?) {

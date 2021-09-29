@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail.models
+package com.microsoft.device.display.samples.navigationrail.models
 
 data class Image(val id: Int, val description: String, val date: String, val details: String = "")

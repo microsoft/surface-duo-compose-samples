@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.example.navigationrail
+package com.microsoft.device.display.samples.navigationrail
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -15,9 +15,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModelProvider
 import androidx.window.layout.WindowInfoRepository
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
-import com.example.navigationrail.models.AppStateViewModel
-import com.example.navigationrail.ui.theme.ComposeSamplesTheme
-import com.example.navigationrail.ui.view.SetupUI
+import com.microsoft.device.display.samples.navigationrail.models.AppStateViewModel
+import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
+import com.microsoft.device.display.samples.navigationrail.ui.view.SetupUI
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
