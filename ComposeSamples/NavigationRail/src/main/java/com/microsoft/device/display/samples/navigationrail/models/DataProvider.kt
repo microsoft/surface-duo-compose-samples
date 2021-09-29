@@ -8,9 +8,10 @@ package com.microsoft.device.display.samples.navigationrail.models
 import com.example.navigationrail.R
 
 object DataProvider {
-    val plantList: List<Image> = listOf(
+    val images: List<Image> = listOf(
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 1,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "9/23",
             details = "discovery details\ndiscovery details\n" +
@@ -30,160 +31,180 @@ object DataProvider {
                 "discovery details\nend"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 2,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/26",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 3,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 4,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "3/11",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 5,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/12",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 6,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "9/23",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 7,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/26",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 8,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 9,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "3/11",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 10,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/12",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 11,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "9/23",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 12,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/26",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 13,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 14,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "3/11",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 15,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/12",
             details = "discovery details"
         ),
-    )
-
-    val birdList: List<Image> = listOf(
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 16,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
-            description = "Description",
-            date = "4/24",
-            details = "discovery details"
-        ),
-    )
-
-    val animalList: List<Image> = listOf(
-        Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 17,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 18,
+            image = R.drawable.ic_launcher_foreground,
+            description = "Description",
+            date = "4/24",
+            details = "discovery details"
+        ),
+        Image(
+            id = 19,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "3/11",
             details = "discovery details"
         ),
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 20,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "6/12",
             details = "discovery details"
         ),
-    )
-
-    val rockList: List<Image> = listOf(
         Image(
-            id = R.drawable.ic_launcher_foreground,
+            id = 21,
+            image = R.drawable.ic_launcher_foreground,
+            description = "Description",
+            date = "4/24",
+            details = "discovery details"
+        ),
+        Image(
+            id = 22,
+            image = R.drawable.ic_launcher_foreground,
+            description = "Description",
+            date = "4/24",
+            details = "discovery details"
+        ),
+        Image(
+            id = 23,
+            image = R.drawable.ic_launcher_foreground,
+            description = "Description",
+            date = "4/24",
+            details = "discovery details"
+        ),
+        Image(
+            id = 24,
+            image = R.drawable.ic_launcher_foreground,
+            description = "Description",
+            date = "4/24",
+            details = "discovery details"
+        ),
+        Image(
+            id = 25,
+            image = R.drawable.ic_launcher_foreground,
             description = "Description",
             date = "4/24",
             details = "discovery details"
         ),
     )
 
-    val lakeList: List<Image> = listOf(
-        Image(
-            id = R.drawable.ic_launcher_foreground,
-            description = "Description",
-            date = "4/24",
-            details = "discovery details"
-        ),
-        Image(
-            id = R.drawable.ic_launcher_foreground,
-            description = "Description",
-            date = "4/24",
-            details = "discovery details"
-        ),
-        Image(
-            id = R.drawable.ic_launcher_foreground,
-            description = "Description",
-            date = "4/24",
-            details = "discovery details"
-        ),
-        Image(
-            id = R.drawable.ic_launcher_foreground,
-            description = "Description",
-            date = "4/24",
-            details = "discovery details"
-        ),
-    )
+    val plantList = images.subList(0, 15)
+    val birdList = images.subList(15, 17)
+    val animalList = images.subList(17, 20)
+    val rockList = images.subList(20, 21)
+    val lakeList = images.subList(21, 25)
+
+    fun getImage(imageId: Int) = images.find { it.id == imageId }
 }

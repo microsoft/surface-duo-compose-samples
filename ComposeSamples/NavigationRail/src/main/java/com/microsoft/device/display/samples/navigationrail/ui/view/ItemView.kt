@@ -36,7 +36,7 @@ fun ItemView(selectedImage: Image?) {
             verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.Top),
         ) {
             Image(
-                painterResource(id = image.id),
+                painterResource(id = image.image),
                 contentDescription = (image.description),
                 modifier = Modifier
                     .fillMaxSize(0.5f)

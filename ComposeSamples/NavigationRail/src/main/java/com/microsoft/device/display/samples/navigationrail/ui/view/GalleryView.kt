@@ -60,7 +60,7 @@ fun GalleryView(galleryName: String, imageLiveData: MutableLiveData<Image>, isDu
 @Composable
 fun GalleryItem(image: Image, imageLiveData: MutableLiveData<Image>, isDualPortrait: Boolean) {
     Image(
-        painterResource(id = image.id),
+        painterResource(id = image.image),
         contentDescription = image.description,
         modifier = Modifier.selectable(
             selected = imageLiveData.value?.id == image.id,
