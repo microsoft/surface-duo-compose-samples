@@ -85,22 +85,12 @@ fun Pane1(isDualScreen: Boolean, isDualPortrait: Boolean) {
 
 @Composable
 fun Pane2(isDualPortrait: Boolean, imageLiveData: MutableLiveData<Image>, selectedImage: Image?) {
-    if (!isDualPortrait) {
-        ShowWithTopBar(
-            title = selectedImage?.description ?: "",
-            titleColor = MaterialTheme.colors.onSecondary,
-            color = MaterialTheme.colors.secondary,
-            navIcon = { TopBarNavIcon(imageLiveData) },
-        ) {
-            ItemView(selectedImage)
-        }
-    } else {
-        ShowWithTopBar(
-            title = selectedImage?.description ?: "",
-            titleColor = MaterialTheme.colors.onSecondary,
-            color = MaterialTheme.colors.secondary,
-        ) {
-            ItemView(selectedImage)
-        }
+    ShowWithTopBar(
+        title = selectedImage?.description ?: "",
+        titleColor = MaterialTheme.colors.onSecondary,
+        color = MaterialTheme.colors.secondary,
+        navIcon = if (isDualPortrait) null else { { TopBarNavIcon(imageLiveData) } },
+    ) {
+        ItemDetailView(selectedImage)
     }
 }
