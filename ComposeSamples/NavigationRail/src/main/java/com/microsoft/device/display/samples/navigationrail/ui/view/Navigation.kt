@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -33,75 +34,106 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
-import com.microsoft.device.display.samples.navigationrail.models.Gallery
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
+
+object NavDestinations {
+    const val GALLERY_ROUTE = "gallery"
+    val gallerySections = GallerySections.values()
+}
+
+@ExperimentalFoundationApi
+fun NavGraphBuilder.addGalleryGraph(
+    onImageSelected: (Int, NavBackStackEntry) -> Unit,
+    showItemView: Boolean,
+) {
+    NavDestinations.gallerySections.forEach { section ->
+        composable(section.route) { from ->
+            GalleryOrItemView(
+                galleryList = section.list,
+                onImageClick = { id -> onImageSelected(id, from) },
+                showItemView = showItemView,
+            )
+        }
+    }
+}
+
+enum class GallerySections(
+    @StringRes val title: Int,
+    val icon: ImageVector,
+    val route: String,
+    val list: List<Image>
+) {
+    PLANTS(R.string.plants, Icons.Filled.Favorite, "${NavDestinations.GALLERY_ROUTE}/plants", DataProvider.plantList),
+    BIRDS(R.string.birds, Icons.Filled.AccountCircle, "${NavDestinations.GALLERY_ROUTE}/birds", DataProvider.birdList),
+    ANIMALS(R.string.animals, Icons.Filled.Face, "${NavDestinations.GALLERY_ROUTE}/animals", DataProvider.animalList),
+    ROCKS(R.string.rocks, Icons.Filled.AddCircle, "${NavDestinations.GALLERY_ROUTE}/rocks", DataProvider.rockList),
+    LAKES(R.string.lakes, Icons.Filled.ArrowDropDown, "${NavDestinations.GALLERY_ROUTE}/lakes", DataProvider.lakeList)
+}
+
+private fun NavBackStackEntry.lifecycleIsResumed() =
+    this.lifecycle.currentState == Lifecycle.State.RESUMED
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun ShowWithNavigation(isDualScreen: Boolean, imageLiveData: MutableLiveData<Image>, isDualPortrait: Boolean) {
-    // Set up navigation components
-    val galleries = listOf(
-        Gallery(stringResource(R.string.plants), DataProvider.plantList, Icons.Filled.Favorite),
-        Gallery(stringResource(R.string.birds), DataProvider.birdList, Icons.Filled.AccountCircle),
-        Gallery(stringResource(R.string.animals), DataProvider.animalList, Icons.Filled.Face),
-        Gallery(stringResource(R.string.rocks), DataProvider.rockList, Icons.Filled.AddCircle),
-        Gallery(stringResource(R.string.lakes), DataProvider.lakeList, Icons.Filled.ArrowDropDown)
-    )
 
     val navController = rememberNavController()
-    val navHost: @Composable (Modifier) -> Unit = { modifier ->
+    val navHost: @Composable () -> Unit = {
         NavHost(
-            modifier = modifier,
             navController = navController,
-            startDestination = galleries[0].name,
+            startDestination = NavDestinations.gallerySections[0].route,
         ) {
-            galleries.forEachIndexed { index, item ->
-                composable(galleries[index].name) {
-                    GalleryOrItemView(item.name, imageLiveData, isDualPortrait)
-                }
-            }
+            addGalleryGraph(
+                onImageSelected = { id, from ->
+                    imageLiveData.value = DataProvider.getImage(id)
+
+                    if (from.lifecycleIsResumed() && !isDualPortrait) {
+                        navigateToPane2()
+                    }
+                },
+                showItemView = !isDualPortrait && imageLiveData.value != null,
+            )
         }
     }
 
     // Use navigation rail when dual screen (more space), otherwise use bottom navigation
-    if (isDualScreen) {
-        ShowWithTopBar(
-            title = stringResource(R.string.app_name)
-        ) { modifier ->
-            ShowWithNavigationRail(
-                modifier = modifier,
-                galleries = galleries,
-                navController = navController,
-                imageLiveData = imageLiveData,
-            ) {
-                navHost(Modifier)
-            }
-        }
-    } else {
-        ShowWithTopBar(
-            title = stringResource(R.string.app_name),
-            bottomBar = {
+    ShowWithTopBar(
+        title = stringResource(R.string.app_name),
+        bottomBar = {
+            if (!isDualScreen)
                 ShowBottomNavigation(
-                    galleries = galleries,
+                    galleries = NavDestinations.gallerySections,
                     navController = navController,
                     imageLiveData = imageLiveData,
                 )
-            },
-        ) { modifier ->
-            navHost(modifier)
+        }
+    ) { modifier ->
+        Row(modifier) {
+            if (isDualScreen) {
+                ShowNavigationRail(
+                    galleries = NavDestinations.gallerySections,
+                    navController = navController,
+                    imageLiveData = imageLiveData,
+                )
+            }
+            navHost()
         }
     }
 }
@@ -115,63 +147,43 @@ fun ShowWithTopBar(
     navIcon: (@Composable () -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
 ) {
-    navIcon?.let { navigationIcon ->
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = title ?: "", color = titleColor) },
-                    backgroundColor = color,
-                    navigationIcon = { navigationIcon() }
-                )
-            },
-            bottomBar = bottomBar,
-        ) { innerPadding ->
-            content(Modifier.padding(innerPadding))
-        }
-    } ?: run {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = title ?: "", color = titleColor) },
-                    backgroundColor = color,
-                )
-            },
-            bottomBar = bottomBar,
-        ) { innerPadding ->
-            content(Modifier.padding(innerPadding))
-        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = title ?: "", color = titleColor) },
+                backgroundColor = color,
+                navigationIcon = if (navIcon == null) null else { { navIcon() } }
+            )
+        },
+        bottomBar = bottomBar,
+    ) { innerPadding ->
+        content(Modifier.padding(innerPadding))
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun ShowWithNavigationRail(
-    modifier: Modifier,
-    galleries: List<Gallery>,
+fun ShowNavigationRail(
+    galleries: Array<GallerySections>,
     navController: NavController,
     imageLiveData: MutableLiveData<Image>,
-    content: @Composable () -> Unit,
 ) {
-    Row(modifier = modifier) {
-        NavigationRail {
-            val currentDestination = navController.currentBackStackEntryAsState().value?.destination
-            galleries.forEach { item ->
-                NavigationRailItem(
-                    icon = { NavItemIcon(icon = item.icon, description = item.name) },
-                    label = { NavItemLabel(item.name) },
-                    selected = isNavItemSelected(currentDestination, item.name),
-                    onClick = { navItemOnClick(navController, item.name, imageLiveData) }
-                )
-            }
+    NavigationRail {
+        val currentDestination = navController.currentBackStackEntryAsState().value?.destination
+        galleries.forEach { item ->
+            NavigationRailItem(
+                icon = { NavItemIcon(icon = item.icon, description = stringResource(item.title)) },
+                label = { NavItemLabel(stringResource(item.title)) },
+                selected = isNavItemSelected(currentDestination, item.route),
+                onClick = { navItemOnClick(navController, item.route, imageLiveData) }
+            )
         }
-        content()
     }
 }
 
 @Composable
-// Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav
 fun ShowBottomNavigation(
-    galleries: List<Gallery>,
+    galleries: Array<GallerySections>,
     navController: NavController,
     imageLiveData: MutableLiveData<Image>,
 ) {
@@ -179,10 +191,10 @@ fun ShowBottomNavigation(
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
             BottomNavigationItem(
-                icon = { NavItemIcon(icon = item.icon, description = item.name) },
-                label = { NavItemLabel(item.name) },
-                selected = isNavItemSelected(currentDestination, item.name),
-                onClick = { navItemOnClick(navController, item.name, imageLiveData) },
+                icon = { NavItemIcon(icon = item.icon, description = stringResource(item.title)) },
+                label = { NavItemLabel(stringResource(item.title)) },
+                selected = isNavItemSelected(currentDestination, item.route),
+                onClick = { navItemOnClick(navController, item.route, imageLiveData) },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
             )
@@ -201,8 +213,8 @@ private fun NavItemLabel(navItem: String) {
 }
 
 // Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav
-private fun isNavItemSelected(currentDestination: NavDestination?, navItem: String): Boolean {
-    return currentDestination?.hierarchy?.any { it.route == navItem } == true
+private fun isNavItemSelected(currentDestination: NavDestination?, navItemRoute: String): Boolean {
+    return currentDestination?.hierarchy?.any { it.route == navItemRoute } == true
 }
 
 // Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav

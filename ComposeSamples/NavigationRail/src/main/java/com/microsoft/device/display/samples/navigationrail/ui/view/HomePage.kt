@@ -64,8 +64,7 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) { // , navController: NavHostController, navHost: @Composable (Modifier) -> Unit) {
-    // Observe state of image selection
+fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
     val imageLiveData = appStateViewModel.imageSelectionLiveData
     val selectedImage = imageLiveData.observeAsState(initial = null).value
 
