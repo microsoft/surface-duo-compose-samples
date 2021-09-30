@@ -14,7 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.MutableLiveData
 import androidx.window.layout.FoldingFeature
@@ -51,11 +53,6 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualScreen = (isAppSpanned || isTablet)
-    // REVISIT: i think a good addition to twopanelayout would be the ability to check the state
-    // of the layout? like in the "single" modes you would want the single screen view to be shown
-    // when the layout is technically still dual screen (would also be useful to know which pane
-    // is currently being shown, like if i navigate to pane2 inside pane1, I would want to know
-    // so I could return to pane1 eventually)
     val isDualPortrait = isDualScreen && isHingeVertical
 
     DualScreenUI(isDualScreen, isDualPortrait)
@@ -65,12 +62,16 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
 @ExperimentalMaterialApi
 @Composable
 fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
+    // retrieve selected image data
     val imageLiveData = appStateViewModel.imageSelectionLiveData
     val selectedImage = imageLiveData.observeAsState(initial = null).value
 
+    // set up starting route for navigation
+    var currentRoute by rememberSaveable { mutableStateOf(NavDestinations.gallerySections[0].route) }
+
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { Pane1(isDualScreen, isDualPortrait) },
+        pane1 = { Pane1(isDualScreen, isDualPortrait, currentRoute) { newRoute -> currentRoute = newRoute } },
         pane2 = { Pane2(isDualPortrait, imageLiveData, selectedImage) },
     )
 }
@@ -78,17 +79,18 @@ fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Pane1(isDualScreen: Boolean, isDualPortrait: Boolean) {
-    ShowWithNavigation(isDualScreen, appStateViewModel.imageSelectionLiveData, isDualPortrait)
+fun Pane1(isDualScreen: Boolean, isDualPortrait: Boolean, currentRoute: String, updateRoute: (String) -> Unit) {
+    ShowWithNavigation(isDualScreen, appStateViewModel.imageSelectionLiveData, isDualPortrait, currentRoute, updateRoute)
 }
 
 @Composable
-fun Pane2(isDualPortrait: Boolean, imageLiveData: MutableLiveData<Image>, selectedImage: Image?) {
+fun Pane2(isDualPortrait: Boolean, imageLiveData: MutableLiveData<Image>, selectedImage: Image?, modifier: Modifier = Modifier) {
     ShowWithTopBar(
         title = selectedImage?.description ?: "",
         titleColor = MaterialTheme.colors.onSecondary,
         color = MaterialTheme.colors.secondary,
         navIcon = if (isDualPortrait) null else { { TopBarNavIcon(imageLiveData) } },
+        modifier = modifier,
     ) {
         ItemDetailView(selectedImage)
     }
