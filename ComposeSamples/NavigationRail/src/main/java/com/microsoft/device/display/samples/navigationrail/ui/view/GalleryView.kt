@@ -18,6 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
+/**
+ * Show the GalleryView when in dual portrait mode or when no item has been selected,
+ * otherwise show the ItemDetailView of the selected item
+ */
 @ExperimentalFoundationApi
 @Composable
 fun GalleryOrItemView(galleryList: List<Image>, onImageClick: (Int) -> Unit, showItemView: Boolean) {

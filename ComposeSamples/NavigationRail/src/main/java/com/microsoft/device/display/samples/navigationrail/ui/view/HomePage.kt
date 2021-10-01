@@ -11,32 +11,27 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.lifecycle.MutableLiveData
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository
-import com.microsoft.device.display.samples.navigationrail.models.AppStateViewModel
-import com.microsoft.device.display.samples.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import kotlinx.coroutines.flow.collect
 
-private lateinit var appStateViewModel: AppStateViewModel
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
+fun SetupUI(windowInfoRep: WindowInfoRepository) {
+    // Create variables to track foldable device layout information
     var isAppSpanned by remember { mutableStateOf(false) }
     var isHingeVertical by remember { mutableStateOf(false) }
-    appStateViewModel = viewModel
 
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
@@ -45,7 +40,8 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
                 isAppSpanned = displayFeatures.isNotEmpty()
                 if (isAppSpanned) {
                     val foldingFeature = displayFeatures.first() as FoldingFeature
-                    isHingeVertical = foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
+                    isHingeVertical =
+                        foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
                 }
             }
     }
@@ -62,35 +58,47 @@ fun SetupUI(windowInfoRep: WindowInfoRepository, viewModel: AppStateViewModel) {
 @ExperimentalMaterialApi
 @Composable
 fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
-    // retrieve selected image data
-    val imageLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedImage = imageLiveData.observeAsState(initial = null).value
+    // Set up starting route for navigation in pane 1
+    var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }
+    val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
 
-    // set up starting route for navigation
-    var currentRoute by rememberSaveable { mutableStateOf(NavDestinations.gallerySections[0].route) }
+    // Set up variable to store selected image id
+    var imageId: Int? by rememberSaveable { mutableStateOf(null) }
+    val updateImageId: (Int?) -> Unit = { newId -> imageId = newId }
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { Pane1(isDualScreen, isDualPortrait, currentRoute) { newRoute -> currentRoute = newRoute } },
-        pane2 = { Pane2(isDualPortrait, imageLiveData, selectedImage) },
+        pane1 = {
+            Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
+        },
+        pane2 = { Pane2(isDualPortrait, imageId, updateImageId) },
     )
 }
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Pane1(isDualScreen: Boolean, isDualPortrait: Boolean, currentRoute: String, updateRoute: (String) -> Unit) {
-    ShowWithNavigation(isDualScreen, appStateViewModel.imageSelectionLiveData, isDualPortrait, currentRoute, updateRoute)
+fun Pane1(
+    isDualScreen: Boolean,
+    isDualPortrait: Boolean,
+    imageId: Int?,
+    updateImageId: (Int?) -> Unit,
+    currentRoute: String,
+    updateRoute: (String) -> Unit
+) {
+    ShowWithNav(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
 }
 
 @Composable
-fun Pane2(isDualPortrait: Boolean, imageLiveData: MutableLiveData<Image>, selectedImage: Image?, modifier: Modifier = Modifier) {
+fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit) {
+    // Retrieve selected image information
+    val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
+
     ShowWithTopBar(
         title = selectedImage?.description ?: "",
         titleColor = MaterialTheme.colors.onSecondary,
         color = MaterialTheme.colors.secondary,
-        navIcon = if (isDualPortrait) null else { { TopBarNavIcon(imageLiveData) } },
-        modifier = modifier,
+        navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } },
     ) {
         ItemDetailView(selectedImage)
     }

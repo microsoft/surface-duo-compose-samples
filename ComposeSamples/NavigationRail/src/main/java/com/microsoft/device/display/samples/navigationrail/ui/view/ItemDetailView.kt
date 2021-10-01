@@ -30,6 +30,10 @@ import androidx.compose.ui.unit.dp
 import com.example.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.Image
 
+/**
+ * Show the image and details for the selected gallery item. If no item is selected, show
+ * a message explaining how to open the detail view.
+ */
 @Composable
 fun ItemDetailView(selectedImage: Image? = null) {
     // If no images are selected, show "select image" message
