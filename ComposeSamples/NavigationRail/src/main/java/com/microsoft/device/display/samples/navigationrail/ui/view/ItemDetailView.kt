@@ -35,10 +35,10 @@ import com.microsoft.device.display.samples.navigationrail.models.Image
  * a message explaining how to open the detail view.
  */
 @Composable
-fun ItemDetailView(selectedImage: Image? = null) {
+fun ItemDetailView(selectedImage: Image? = null, currentRoute: String) {
     // If no images are selected, show "select image" message
     if (selectedImage == null) {
-        SelectImageMessage()
+        PlaceholderImageMessage(currentRoute)
         return
     }
 
@@ -53,25 +53,49 @@ fun ItemDetailView(selectedImage: Image? = null) {
 }
 
 @Composable
-private fun SelectImageMessage() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = stringResource(R.string.select_image),
-            color = MaterialTheme.colors.onSurface,
-            modifier = Modifier.padding(bottom = 40.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h5,
-        )
+private fun PlaceholderImageMessage(currentRoute: String) {
+    // Find current gallery
+    val gallerySection = navDestinations.find { it.route == currentRoute }
+
+    gallerySection?.let { gallery ->
+        // Get placeholder image and message for current gallery
+        val drawable = gallery.placeholderImage
+        val message = stringResource(R.string.placeholder_msg, gallery.route)
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            PlaceholderImage(drawable, message)
+            PlaceholderMessage(message)
+        }
     }
+}
+
+@Composable
+private fun PlaceholderImage(drawable: Int, description: String) {
+    Image(
+        painter = painterResource(id = drawable),
+        contentDescription = description,
+    )
+}
+
+@Composable
+private fun PlaceholderMessage(message: String) {
+    Text(
+        text = message,
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.fillMaxWidth(0.85f).padding(top = 50.dp),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.h3,
+    )
 }
 
 @Composable
 private fun ItemImage(image: Image) {
     Image(
-        painterResource(id = image.image),
+        painter = painterResource(id = image.image),
         contentDescription = (image.description),
         modifier = Modifier
             .fillMaxWidth()

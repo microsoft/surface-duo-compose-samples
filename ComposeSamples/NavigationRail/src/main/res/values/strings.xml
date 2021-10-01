@@ -5,13 +5,17 @@
 
 <resources>
     <string name="app_name">NavigationRail</string>
-    <string name="select_image">Select an image to view it in more detail</string>
-    <string name="date_found">Date found: %1$s</string>
-    <string name="observation_details">Observation details: %1$s</string>
+
+    <!-- Icon labels -->
     <string name="plants">plants</string>
     <string name="birds">birds</string>
     <string name="animals">animals</string>
     <string name="rocks">rocks</string>
     <string name="lakes">lakes</string>
+
+    <!-- ItemDetailView labels -->
+    <string name="date_found">Date found: %1$s</string>
+    <string name="observation_details">Observation details: %1$s</string>
     <string name="back">Return back to gallery view</string>
+    <string name="placeholder_msg">Select the image of %1$s to learn more about them on this screen.</string>
 </resources>

@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
@@ -34,13 +35,14 @@ enum class GallerySections(
     @StringRes val title: Int,
     val icon: ImageVector,
     val route: String,
-    val list: List<Image>
+    val list: List<Image>,
+    @DrawableRes val placeholderImage: Int,
 ) {
-    PLANTS(R.string.plants, Icons.Filled.Favorite, "plants", DataProvider.plantList),
-    BIRDS(R.string.birds, Icons.Filled.AccountCircle, "birds", DataProvider.birdList),
-    ANIMALS(R.string.animals, Icons.Filled.Face, "animals", DataProvider.animalList),
-    ROCKS(R.string.rocks, Icons.Filled.AddCircle, "rocks", DataProvider.rockList),
-    LAKES(R.string.lakes, Icons.Filled.ArrowDropDown, "lakes", DataProvider.lakeList)
+    PLANTS(R.string.plants, Icons.Filled.Favorite, "plants", DataProvider.plantList, R.drawable.plants_placeholder),
+    BIRDS(R.string.birds, Icons.Filled.AccountCircle, "birds", DataProvider.birdList, R.drawable.birds_placeholder),
+    ANIMALS(R.string.animals, Icons.Filled.Face, "animals", DataProvider.animalList, R.drawable.animals_placeholder),
+    ROCKS(R.string.rocks, Icons.Filled.AddCircle, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder),
+    LAKES(R.string.lakes, Icons.Filled.ArrowDropDown, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder)
 }
 
 /**

@@ -71,7 +71,7 @@ fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
         pane1 = {
             Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
         },
-        pane2 = { Pane2(isDualPortrait, imageId, updateImageId) },
+        pane2 = { Pane2(isDualPortrait, imageId, updateImageId, currentRoute) },
     )
 }
 
@@ -90,7 +90,7 @@ fun Pane1(
 }
 
 @Composable
-fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit) {
+fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit, currentRoute: String) {
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
@@ -100,6 +100,6 @@ fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit)
         color = MaterialTheme.colors.secondary,
         navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } },
     ) {
-        ItemDetailView(selectedImage)
+        ItemDetailView(selectedImage, currentRoute)
     }
 }
