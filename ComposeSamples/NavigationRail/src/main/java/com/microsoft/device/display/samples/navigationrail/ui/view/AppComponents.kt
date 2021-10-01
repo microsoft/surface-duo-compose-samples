@@ -5,14 +5,20 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
@@ -22,10 +28,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -34,6 +43,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+
+private val NavItemShape = RoundedCornerShape(percent = 12)
 
 /**
  * Show the given content with a TopAppBar (customizable title/color/navigation icons) and a
@@ -71,6 +82,7 @@ fun BackNavIcon(updateImageId: (Int?) -> Unit) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
             contentDescription = stringResource(R.string.back),
+            tint = MaterialTheme.colors.onPrimary,
         )
     }
 }
@@ -94,15 +106,34 @@ fun NavRail(
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
-    NavigationRail {
+    NavigationRail(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.width(72.dp) // REVISIT: is it bad to hardcode this?
+    ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
-            NavigationRailItem(
-                icon = { NavItemIcon(icon = item.icon, description = stringResource(item.title)) },
-                label = { NavItemLabel(stringResource(item.title)) },
-                selected = isNavItemSelected(currentDestination, item.route),
-                onClick = { navItemOnClick(navController, item.route, updateImageId, updateRoute) }
-            )
+            NavRailItem(isNavItemSelected(currentDestination, item.route)) {
+                NavigationRailItem(
+                    icon = {
+                        NavItemIcon(
+                            icon = item.icon,
+                            description = stringResource(item.title)
+                        )
+                    },
+                    label = { NavItemLabel(stringResource(item.title)) },
+                    selected = isNavItemSelected(currentDestination, item.route),
+                    onClick = {
+                        navItemOnClick(
+                            navController,
+                            item.route,
+                            updateImageId,
+                            updateRoute
+                        )
+                    },
+                    selectedContentColor = MaterialTheme.colors.primary,
+                    unselectedContentColor = MaterialTheme.colors.onPrimary
+                )
+            }
         }
     }
 }
@@ -117,18 +148,69 @@ fun BottomNav(
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
-    BottomNavigation {
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.height(54.dp) // REVISIT: is it bad to hardcode this?
+    ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
-            BottomNavigationItem(
-                icon = { NavItemIcon(icon = item.icon, description = stringResource(item.title)) },
-                label = { NavItemLabel(stringResource(item.title)) },
-                selected = isNavItemSelected(currentDestination, item.route),
-                onClick = { navItemOnClick(navController, item.route, updateImageId, updateRoute) },
-                selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
+            BottomNavItem(isNavItemSelected(currentDestination, item.route)) {
+                BottomNavigationItem(
+                    icon = {
+                        NavItemIcon(
+                            icon = item.icon,
+                            description = stringResource(item.title)
+                        )
+                    },
+                    label = { NavItemLabel(stringResource(item.title)) },
+                    selected = isNavItemSelected(currentDestination, item.route),
+                    onClick = {
+                        navItemOnClick(
+                            navController,
+                            item.route,
+                            updateImageId,
+                            updateRoute
+                        )
+                    },
+                    selectedContentColor = MaterialTheme.colors.primary,
+                    unselectedContentColor = MaterialTheme.colors.onPrimary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RowScope.BottomNavItem(showSelected: Boolean, navItem: @Composable () -> Unit) {
+    Box(Modifier.weight(1f), Alignment.Center) {
+        if (showSelected) {
+            // Reference:https://github.com/android/compose-samples/blob/main/Jetsnack/app/src/main/java/com/example/jetsnack/ui/home/Home.kt
+            Spacer(
+                modifier = Modifier
+                    .padding(vertical = 5.dp, horizontal = 25.dp) // REVISIT: is it bad to hardcode this?
+                    .clip(NavItemShape)
+                    .background(MaterialTheme.colors.secondary)
+                    .matchParentSize()
             )
         }
+        navItem()
+    }
+}
+
+@Composable
+private fun ColumnScope.NavRailItem(showSelected: Boolean, navItem: @Composable () -> Unit) {
+    Box {
+        if (showSelected) {
+            // Reference:https://github.com/android/compose-samples/blob/main/Jetsnack/app/src/main/java/com/example/jetsnack/ui/home/Home.kt
+            Spacer(
+                modifier = Modifier
+                    .padding(vertical = 10.dp, horizontal = 11.dp) // REVISIT: is it bad to hardcode this?
+                    .clip(NavItemShape)
+                    .background(MaterialTheme.colors.secondary)
+                    .matchParentSize()
+            )
+        }
+        navItem()
     }
 }
 
