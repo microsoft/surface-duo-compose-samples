@@ -7,11 +7,11 @@
     <string name="app_name">NavigationRail</string>
 
     <!-- Icon labels -->
-    <string name="plants">plants</string>
-    <string name="birds">birds</string>
-    <string name="animals">animals</string>
-    <string name="rocks">rocks</string>
-    <string name="lakes">lakes</string>
+    <string name="plants">Plants</string>
+    <string name="birds">Birds</string>
+    <string name="animals">Animals</string>
+    <string name="rocks">Rocks</string>
+    <string name="lakes">Lakes</string>
 
     <!-- ItemDetailView labels -->
     <string name="date_found">Date found: %1$s</string>

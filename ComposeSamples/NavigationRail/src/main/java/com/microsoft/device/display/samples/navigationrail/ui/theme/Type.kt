@@ -59,7 +59,12 @@ val Typography = Typography(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.W700,
         fontSize = 24.sp,
-    )
+    ),
+    caption = TextStyle(
+        fontFamily = robotoFontFamily,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp
+    ),
 
     /* Other default text styles to override
     button = TextStyle(
