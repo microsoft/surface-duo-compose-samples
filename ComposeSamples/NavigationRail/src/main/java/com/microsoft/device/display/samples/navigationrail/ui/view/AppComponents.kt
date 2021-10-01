@@ -32,7 +32,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.navigationrail.R
+import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 /**

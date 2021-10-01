@@ -5,10 +5,10 @@
 
 package com.microsoft.device.display.samples.navigationrail.models
 
-import com.example.navigationrail.R
+import com.microsoft.device.display.samples.navigationrail.R
 
 object DataProvider {
-    val images: List<Image> = listOf(
+    private val images: List<Image> = listOf(
         Image(
             id = 1,
             image = R.drawable.ic_launcher_foreground,
