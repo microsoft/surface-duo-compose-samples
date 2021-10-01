@@ -33,16 +33,16 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 val navDestinations = GallerySections.values()
 enum class GallerySections(
     @StringRes val title: Int,
-    val icon: ImageVector,
+    @DrawableRes val icon: Int,
     val route: String,
     val list: List<Image>,
     @DrawableRes val placeholderImage: Int,
 ) {
-    PLANTS(R.string.plants, Icons.Filled.Favorite, "plants", DataProvider.plantList, R.drawable.plants_placeholder),
-    BIRDS(R.string.birds, Icons.Filled.AccountCircle, "birds", DataProvider.birdList, R.drawable.birds_placeholder),
-    ANIMALS(R.string.animals, Icons.Filled.Face, "animals", DataProvider.animalList, R.drawable.animals_placeholder),
-    ROCKS(R.string.rocks, Icons.Filled.AddCircle, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder),
-    LAKES(R.string.lakes, Icons.Filled.ArrowDropDown, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder)
+    PLANTS(R.string.plants, R.drawable.plant_icon, "plants", DataProvider.plantList, R.drawable.plants_placeholder),
+    BIRDS(R.string.birds, R.drawable.bird_icon, "birds", DataProvider.birdList, R.drawable.birds_placeholder),
+    ANIMALS(R.string.animals, R.drawable.animal_icon, "animals", DataProvider.animalList, R.drawable.animals_placeholder),
+    ROCKS(R.string.rocks, R.drawable.rock_icon, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder),
+    LAKES(R.string.lakes, R.drawable.lake_icon, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder)
 }
 
 /**
