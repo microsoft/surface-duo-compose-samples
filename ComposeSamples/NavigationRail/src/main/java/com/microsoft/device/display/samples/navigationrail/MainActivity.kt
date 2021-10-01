@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.window.layout.WindowInfoRepository
@@ -26,10 +27,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         windowInfoRep = windowInfoRepository()
-        window.statusBarColor = Color.Transparent.toArgb()
 
         setContent {
             ComposeSamplesTheme {
+                // Set status bar color according to app theme
+                window.statusBarColor = MaterialTheme.colors.secondary.toArgb()
+
+                // Set up app UI
                 SetupUI(windowInfoRep)
             }
         }
