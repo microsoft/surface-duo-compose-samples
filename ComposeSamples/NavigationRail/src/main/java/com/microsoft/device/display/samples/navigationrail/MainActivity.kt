@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             ComposeSamplesTheme {
-                // Set status bar color according to app theme
-                window.statusBarColor = MaterialTheme.colors.secondary.toArgb()
-
                 // Set up app UI
                 SetupUI(windowInfoRep)
             }

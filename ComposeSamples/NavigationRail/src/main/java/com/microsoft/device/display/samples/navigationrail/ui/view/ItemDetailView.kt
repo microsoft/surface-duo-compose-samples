@@ -84,7 +84,7 @@ private fun PlaceholderImage(drawable: Int, description: String) {
 private fun PlaceholderMessage(message: String) {
     Text(
         text = message,
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.onSurface,
         modifier = Modifier.fillMaxWidth(0.85f).padding(top = 50.dp),
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.h3,

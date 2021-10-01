@@ -12,16 +12,16 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Ming,
-    primaryVariant = MingTranslucent,
-    onPrimary = OffWhite,
-    secondary = MiddleBlueGreen,
-    secondaryVariant = MiddleBlueGreenTranslucent,
-    onSecondary = Ming,
-    surface = AliceBlue,
-    onSurface = Ming,
-    background = AliceBlue,
-    onBackground = Ming,
+    primary = OxfordBlue,
+    //primaryVariant = MingTranslucent, // TODO
+    onPrimary = Turquoise,
+    secondary = Turquoise,
+    //secondaryVariant = MiddleBlueGreenTranslucent, // TODO
+    onSecondary = Turquoise, // REVISIT: may have to change secondary/surface logic
+    surface = SpaceCadet,
+    onSurface = Turquoise,
+    background = SpaceCadet,
+    onBackground = Turquoise,
 )
 
 private val LightColorPalette = lightColors(
@@ -35,15 +35,6 @@ private val LightColorPalette = lightColors(
     onSurface = Ming,
     background = AliceBlue,
     onBackground = Ming,
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable
