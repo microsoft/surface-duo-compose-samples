@@ -10,16 +10,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,22 +38,23 @@ enum class GallerySections(
     PLANTS(R.string.plants, R.drawable.plant_icon, "plants", DataProvider.plantList, R.drawable.plants_placeholder),
     BIRDS(R.string.birds, R.drawable.bird_icon, "birds", DataProvider.birdList, R.drawable.birds_placeholder),
     ANIMALS(R.string.animals, R.drawable.animal_icon, "animals", DataProvider.animalList, R.drawable.animals_placeholder),
-    ROCKS(R.string.rocks, R.drawable.rock_icon, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder),
-    LAKES(R.string.lakes, R.drawable.lake_icon, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder)
+    LAKES(R.string.lakes, R.drawable.lake_icon, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder),
+    ROCKS(R.string.rocks, R.drawable.rock_icon, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder)
 }
 
 /**
  * Build nav graph with the different galleries as destinations
  */
 @ExperimentalFoundationApi
-fun NavGraphBuilder.addGalleryGraph(onImageSelected: (Int) -> Unit, showItemView: Boolean) {
+fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean) {
     navDestinations.forEach { section ->
         composable(section.route) {
-            GalleryOrItemView(
-                galleryList = section.list,
-                onImageClick = { id -> onImageSelected(id) },
-                showItemView = showItemView,
-            )
+                GalleryOrItemView(
+                    galleryList = section.list,
+                    currentImageId = currentImageId,
+                    onImageSelected = { id -> onImageSelected(id) },
+                    showItemView = showItemView,
+                )
         }
     }
 }
@@ -84,6 +82,7 @@ fun ShowWithNav(
             startDestination = currentRoute,
         ) {
             addGalleryGraph(
+                currentImageId = imageId,
                 onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
                 showItemView = !isDualPortrait && imageId != null,
             )

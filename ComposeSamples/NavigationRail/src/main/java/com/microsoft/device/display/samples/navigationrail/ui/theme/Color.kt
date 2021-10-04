@@ -14,6 +14,7 @@ val OffWhite = Color(0xFFEDF6F9)
 val MiddleBlueGreen = Color(0xFF83C5BE)
 val MiddleBlueGreenTranslucent = Color(0x83C5BE80)
 val AliceBlue = Color(0xFFEDF6F9)
+val LightModeSelector = Color(0xFF54CDD8)
 
 // dark mode colors
 val OxfordBlue = Color(0xFF0B132B)

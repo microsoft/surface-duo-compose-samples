@@ -7,11 +7,17 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -24,33 +30,34 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
  */
 @ExperimentalFoundationApi
 @Composable
-fun GalleryOrItemView(galleryList: List<Image>, onImageClick: (Int) -> Unit, showItemView: Boolean) {
+fun GalleryOrItemView(galleryList: List<Image>, currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean) {
     if (showItemView) {
         navigateToPane2()
     } else {
-        GalleryView(galleryList, onImageClick)
+        GalleryView(galleryList, currentImageId, onImageSelected)
     }
 }
 
 @ExperimentalFoundationApi
 @Composable
-fun GalleryView(galleryList: List<Image>, onImageClick: (Int) -> Unit) {
+fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (Int) -> Unit) {
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 200.dp), // TODO: change size when images are chosen
     ) {
         items(galleryList) { item ->
-            GalleryItem(item, onImageClick)
+            GalleryItem(item, currentImageId, onImageClick)
         }
     }
 }
 
 @Composable
-fun GalleryItem(image: Image, onImageClick: (Int) -> Unit) {
+fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Unit) {
     Image(
         painterResource(id = image.image),
         contentDescription = image.description,
-        modifier = Modifier.clickable(
-            onClick = { onImageClick(image.id) }
-        )
+        modifier = Modifier.selectable(
+            onClick = { onImageSelected(image.id) },
+            selected = image.id == currentImageId,
+        ).then(if (image.id == currentImageId) Modifier.border(7.dp, MaterialTheme.colors.error) else Modifier)
     )
 }

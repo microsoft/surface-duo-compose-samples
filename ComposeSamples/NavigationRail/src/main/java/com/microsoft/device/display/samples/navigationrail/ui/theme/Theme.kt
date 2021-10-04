@@ -22,6 +22,7 @@ private val DarkColorPalette = darkColors(
     onSurface = Turquoise,
     background = SpaceCadet,
     onBackground = Turquoise,
+    error = Turquoise,
 )
 
 private val LightColorPalette = lightColors(
@@ -35,6 +36,7 @@ private val LightColorPalette = lightColors(
     onSurface = Ming,
     background = AliceBlue,
     onBackground = Ming,
+    error = LightModeSelector,
 )
 
 @Composable
