@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -43,11 +44,16 @@ fun GalleryOrItemView(galleryList: List<Image>, currentImageId: Int?, onImageSel
 fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (Int) -> Unit) {
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 200.dp), // TODO: change size when images are chosen
+        cells = GridCells.Adaptive(minSize = 141.dp),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.Center,
     ) {
         items(galleryList) { item ->
             GalleryItem(item, currentImageId, onImageClick)
         }
     }
+    // 141 x 141
+    // 540 x 540
 }
 
 @Composable
@@ -55,7 +61,7 @@ fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Un
     Image(
         painterResource(id = image.image),
         contentDescription = image.description,
-        modifier = Modifier.selectable(
+        modifier = Modifier.size(141.dp).selectable(
             onClick = { onImageSelected(image.id) },
             selected = image.id == currentImageId,
         ).then(if (image.id == currentImageId) Modifier.border(7.dp, MaterialTheme.colors.error) else Modifier)
