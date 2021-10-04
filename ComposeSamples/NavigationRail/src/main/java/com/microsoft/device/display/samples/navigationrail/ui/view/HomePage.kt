@@ -7,7 +7,6 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -95,9 +94,6 @@ fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit,
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
     ShowWithTopBar(
-        title = selectedImage?.description ?: "",
-        titleColor = MaterialTheme.colors.onSecondary,
-        color = MaterialTheme.colors.secondary,
         navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } },
     ) {
         ItemDetailView(selectedImage, currentRoute)

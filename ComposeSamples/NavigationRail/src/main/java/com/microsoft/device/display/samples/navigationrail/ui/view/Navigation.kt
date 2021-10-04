@@ -49,12 +49,17 @@ enum class GallerySections(
 fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean) {
     navDestinations.forEach { section ->
         composable(section.route) {
+            ShowWithTopBar(
+                modifier = Modifier.height(140.dp),
+                title = section.route,
+            ) {
                 GalleryOrItemView(
                     galleryList = section.list,
                     currentImageId = currentImageId,
                     onImageSelected = { id -> onImageSelected(id) },
                     showItemView = showItemView,
                 )
+            }
         }
     }
 }
@@ -90,14 +95,13 @@ fun ShowWithNav(
     }
 
     // Use navigation rail when dual screen (more space), otherwise use bottom navigation
-    ShowWithTopBar(
-        title = stringResource(R.string.app_name),
+    Scaffold(
         bottomBar = {
             if (!isDualScreen)
                 BottomNav(navDestinations, navController, updateImageId, updateRoute)
         },
-    ) { mod ->
-        Row(mod) {
+    ) { paddingValues ->
+        Row(Modifier.padding(paddingValues)) {
             if (isDualScreen)
                 NavRail(navDestinations, navController, updateImageId, updateRoute)
             navHost()

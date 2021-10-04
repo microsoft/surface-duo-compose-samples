@@ -65,6 +65,11 @@ val Typography = Typography(
         fontWeight = FontWeight.W400,
         fontSize = 12.sp
     ),
+    h1 = TextStyle(
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.W700,
+        fontSize = 72.sp,
+    )
 
     /* Other default text styles to override
     button = TextStyle(

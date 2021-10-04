@@ -10,11 +10,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -30,13 +27,20 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -44,10 +48,12 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.R
+import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
-private val NavItemShape = RoundedCornerShape(percent = 12)
+private val NavItemShape = RoundedCornerShape(percent = 15)
 
 /**
  * Show the given content with a TopAppBar (customizable title/color/navigation icons) and a
@@ -55,9 +61,12 @@ private val NavItemShape = RoundedCornerShape(percent = 12)
  */
 @Composable
 fun ShowWithTopBar(
+    modifier: Modifier = Modifier,
     title: String? = null,
-    titleColor: Color = MaterialTheme.colors.onPrimary,
-    color: Color = MaterialTheme.colors.primary,
+    titleColor: Color = MaterialTheme.colors.primaryVariant,
+    titleStyle: TextStyle = MaterialTheme.typography.h1,
+    color: Color = Color.Transparent,
+    elevation: Dp = 0.dp,
     bottomBar: @Composable () -> Unit = {},
     navIcon: (@Composable () -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
@@ -65,9 +74,16 @@ fun ShowWithTopBar(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = title ?: "", color = titleColor) },
+                modifier = modifier,
+                title = { Text(
+                    text = title ?: "",
+                    color = titleColor,
+                    style = titleStyle,
+                    textAlign = TextAlign.Left,
+                ) },
                 backgroundColor = color,
-                navigationIcon = if (navIcon == null) null else { { navIcon() } }
+                elevation = elevation,
+                navigationIcon = if (navIcon == null) null else { {navIcon()} },
             )
         },
         bottomBar = bottomBar,
@@ -111,11 +127,10 @@ fun NavRail(
 ) {
     NavigationRail(
         backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier.width(72.dp) // REVISIT: is it bad to hardcode this?
     ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
-            NavRailItem(isNavItemSelected(currentDestination, item.route)) {
+            NavRailItemWithSelector(isNavItemSelected(currentDestination, item.route)) {
                 NavigationRailItem(
                     icon = {
                         NavItemIcon(
@@ -153,12 +168,12 @@ fun BottomNav(
 ) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier.height(54.dp) // REVISIT: is it bad to hardcode this?
     ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
-            BottomNavItem(isNavItemSelected(currentDestination, item.route)) {
+            BottomNavItemWithSelector(isNavItemSelected(currentDestination, item.route)) {
                 BottomNavigationItem(
+                    modifier = Modifier.align(Alignment.Bottom),
                     icon = {
                         NavItemIcon(
                             icon = item.icon,
@@ -184,37 +199,36 @@ fun BottomNav(
 }
 
 @Composable
-private fun RowScope.BottomNavItem(showSelected: Boolean, navItem: @Composable () -> Unit) {
-    Box(Modifier.weight(1f), Alignment.Center) {
+private fun RowScope.BottomNavItemWithSelector(showSelected: Boolean, navItem: @Composable () -> Unit) {
+    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
         if (showSelected) {
-            // Reference:https://github.com/android/compose-samples/blob/main/Jetsnack/app/src/main/java/com/example/jetsnack/ui/home/Home.kt
-            Spacer(
-                modifier = Modifier
-                    .padding(vertical = 5.dp, horizontal = 25.dp) // REVISIT: is it bad to hardcode this?
-                    .clip(NavItemShape)
-                    .background(MaterialTheme.colors.secondary)
-                    .matchParentSize()
-            )
+            Selector()
         }
         navItem()
     }
 }
 
 @Composable
-private fun ColumnScope.NavRailItem(showSelected: Boolean, navItem: @Composable () -> Unit) {
-    Box {
+private fun ColumnScope.NavRailItemWithSelector(showSelected: Boolean, navItem: @Composable () -> Unit) {
+    Box(modifier = Modifier.weight(1f, fill = false), contentAlignment = Alignment.Center) {
         if (showSelected) {
-            // Reference:https://github.com/android/compose-samples/blob/main/Jetsnack/app/src/main/java/com/example/jetsnack/ui/home/Home.kt
-            Spacer(
-                modifier = Modifier
-                    .padding(vertical = 10.dp, horizontal = 11.dp) // REVISIT: is it bad to hardcode this?
-                    .clip(NavItemShape)
-                    .background(MaterialTheme.colors.secondary)
-                    .matchParentSize()
-            )
+            Selector()
         }
         navItem()
     }
+}
+
+/**
+ * Reference:https://github.com/android/compose-samples/blob/main/Jetsnack/app/src/main/java/com/example/jetsnack/ui/home/Home.kt
+ */
+@Composable
+private fun Selector() {
+    Spacer(
+        modifier = Modifier
+            .size(50.dp) // REVISIT: is it bad to hardcode this?
+            .clip(NavItemShape)
+            .background(MaterialTheme.colors.secondary)
+    )
 }
 
 @Composable
@@ -258,4 +272,35 @@ private fun navItemOnClick(
 
     // Reset selected image when switching gallery
     updateImageId(null)
+}
+
+@ExperimentalMaterialApi
+@Preview
+@Composable
+private fun NavRailPreview() {
+    ComposeSamplesTheme {
+        var imageId: Int? by remember { mutableStateOf(null) }
+        var route by remember { mutableStateOf(navDestinations[0].route) }
+        NavRail(
+            galleries = navDestinations,
+            navController = rememberNavController(),
+            updateImageId = {id -> imageId = id},
+            updateRoute = {new -> route = new},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun BottomNavPreview() {
+    ComposeSamplesTheme {
+        var imageId: Int? by remember { mutableStateOf(null) }
+        var route by remember { mutableStateOf(navDestinations[0].route) }
+        BottomNav(
+            galleries = navDestinations,
+            navController = rememberNavController(),
+            updateImageId = {id -> imageId = id},
+            updateRoute = {new -> route = new},
+        )
+    }
 }
