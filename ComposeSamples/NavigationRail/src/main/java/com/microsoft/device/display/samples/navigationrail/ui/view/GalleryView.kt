@@ -57,7 +57,7 @@ fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (I
         state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.Top),
         horizontalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.CenterHorizontally),
-        contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, bottom = BORDER_SIZE)
+        contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, bottom = GALLERY_SPACING)
     ) {
         items(galleryList) { item ->
             GalleryItem(item, currentImageId, onImageClick)

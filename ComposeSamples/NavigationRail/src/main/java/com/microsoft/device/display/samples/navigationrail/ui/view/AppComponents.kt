@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -175,12 +176,12 @@ fun BottomNav(
 ) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.height(60.dp)
     ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination
         galleries.forEach { item ->
             BottomNavItemWithSelector(isNavItemSelected(currentDestination, item.route)) {
                 BottomNavigationItem(
-                    modifier = Modifier.align(Alignment.Bottom),
                     icon = {
                         NavItemIcon(
                             icon = item.icon,
