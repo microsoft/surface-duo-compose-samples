@@ -6,13 +6,16 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -67,6 +70,7 @@ fun ShowWithTopBar(
     titleStyle: TextStyle = MaterialTheme.typography.h1,
     color: Color = Color.Transparent,
     elevation: Dp = 0.dp,
+    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
     bottomBar: @Composable () -> Unit = {},
     navIcon: (@Composable () -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
@@ -75,16 +79,19 @@ fun ShowWithTopBar(
         topBar = {
             TopAppBar(
                 modifier = modifier,
-                title = { Text(
+                contentPadding = contentPadding,
+                backgroundColor = color,
+                elevation = elevation,
+            ) {
+                if (navIcon != null)
+                    navIcon()
+                Text(
                     text = title ?: "",
                     color = titleColor,
                     style = titleStyle,
-                    textAlign = TextAlign.Left,
-                ) },
-                backgroundColor = color,
-                elevation = elevation,
-                navigationIcon = if (navIcon == null) null else { {navIcon()} },
-            )
+                    textAlign = TextAlign.Start,
+                )
+            }
         },
         bottomBar = bottomBar,
     ) { innerPadding ->

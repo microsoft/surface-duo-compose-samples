@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
@@ -46,11 +48,12 @@ enum class GallerySections(
  * Build nav graph with the different galleries as destinations
  */
 @ExperimentalFoundationApi
-fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean) {
+fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean, horizontalPadding: Dp) {
     navDestinations.forEach { section ->
         composable(section.route) {
             ShowWithTopBar(
-                modifier = Modifier.height(140.dp),
+                modifier = Modifier.height(120.dp), // REVISIT: do padding instead of fixed height?
+                contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, top = 40.dp, ),
                 title = section.route,
             ) {
                 GalleryOrItemView(
@@ -58,6 +61,7 @@ fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int)
                     currentImageId = currentImageId,
                     onImageSelected = { id -> onImageSelected(id) },
                     showItemView = showItemView,
+                    horizontalPadding = horizontalPadding,
                 )
             }
         }
@@ -90,6 +94,7 @@ fun ShowWithNav(
                 currentImageId = imageId,
                 onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
                 showItemView = !isDualPortrait && imageId != null,
+                horizontalPadding = 15.dp // REVISIT: might be better to make a percentage (or change value based on isDualScreen)
             )
         }
     }
