@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
     primary = OxfordBlue,
-    //primaryVariant = MingTranslucent, // TODO
+    primaryVariant = TurquoiseTranslucent,
     onPrimary = Turquoise,
     secondary = Turquoise,
     //secondaryVariant = MiddleBlueGreenTranslucent, // TODO
-    onSecondary = Turquoise, // REVISIT: may have to change secondary/surface logic
+    // secondaryVariant = MiddleBlueGreenTranslucent, // TODO
     surface = SpaceCadet,
     onSurface = Turquoise,
     background = SpaceCadet,

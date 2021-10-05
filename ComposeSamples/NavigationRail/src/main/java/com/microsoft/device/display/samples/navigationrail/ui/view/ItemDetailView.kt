@@ -62,7 +62,6 @@ private fun PlaceholderImageMessage(currentRoute: String) {
         val message = stringResource(R.string.placeholder_msg, gallery.route)
 
         Column(
-            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {

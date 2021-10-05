@@ -50,7 +50,7 @@ fun GalleryOrItemView(galleryList: List<Image>, currentImageId: Int?, onImageSel
 @ExperimentalFoundationApi
 @Composable
 fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (Int) -> Unit, horizontalPadding: Dp) {
-    val lazyListState by remember { mutableStateOf(LazyListState())}
+    val lazyListState by remember { mutableStateOf(LazyListState()) }
 
     LazyVerticalGrid(
         cells = GridCells.Fixed(count = NUM_COLUMNS),
@@ -77,7 +77,7 @@ fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Un
                 selected = image.id == currentImageId,
             ).then(
                 if (image.id == currentImageId)
-                    Modifier.border(BORDER_SIZE,MaterialTheme.colors.error)
+                    Modifier.border(BORDER_SIZE, MaterialTheme.colors.error)
                 else
                     Modifier
             ),
