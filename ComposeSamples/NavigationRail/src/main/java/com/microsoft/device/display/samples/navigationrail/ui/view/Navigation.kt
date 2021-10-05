@@ -53,7 +53,7 @@ fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int)
         composable(section.route) {
             ShowWithTopBar(
                 modifier = Modifier.height(120.dp), // REVISIT: do padding instead of fixed height?
-                contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, top = 40.dp, ),
+                contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, top = 40.dp,),
                 title = section.route,
             ) {
                 GalleryOrItemView(

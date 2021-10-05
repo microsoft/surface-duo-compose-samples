@@ -10,8 +10,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.graphics.toArgb
 import androidx.window.layout.WindowInfoRepository
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
 import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme

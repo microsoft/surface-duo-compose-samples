@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -80,23 +79,46 @@ fun ShowWithTopBar(
         topBar = {
             TopAppBar(
                 modifier = modifier,
-                contentPadding = contentPadding,
-                backgroundColor = color,
+                title = title,
+                titleColor = titleColor,
+                titleStyle = titleStyle,
+                color = color,
                 elevation = elevation,
-            ) {
-                if (navIcon != null)
-                    navIcon()
-                Text(
-                    text = title ?: "",
-                    color = titleColor,
-                    style = titleStyle,
-                    textAlign = TextAlign.Start,
-                )
-            }
+                contentPadding = contentPadding,
+                navIcon = navIcon,
+            )
         },
         bottomBar = bottomBar,
     ) { innerPadding ->
         content(Modifier.padding(innerPadding))
+    }
+}
+
+@Composable
+fun TopAppBar(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    titleColor: Color = MaterialTheme.colors.primaryVariant,
+    titleStyle: TextStyle = MaterialTheme.typography.h1,
+    color: Color = Color.Transparent,
+    elevation: Dp = 0.dp,
+    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
+    navIcon: (@Composable () -> Unit)? = null,
+) {
+    TopAppBar(
+        modifier = modifier,
+        contentPadding = contentPadding,
+        backgroundColor = color,
+        elevation = elevation,
+    ) {
+        if (navIcon != null)
+            navIcon()
+        Text(
+            text = title ?: "",
+            color = titleColor,
+            style = titleStyle,
+            textAlign = TextAlign.Start,
+        )
     }
 }
 
@@ -292,8 +314,8 @@ private fun NavRailPreview() {
         NavRail(
             galleries = navDestinations,
             navController = rememberNavController(),
-            updateImageId = {id -> imageId = id},
-            updateRoute = {new -> route = new},
+            updateImageId = { id -> imageId = id },
+            updateRoute = { new -> route = new },
         )
     }
 }
@@ -307,8 +329,8 @@ private fun BottomNavPreview() {
         BottomNav(
             galleries = navDestinations,
             navController = rememberNavController(),
-            updateImageId = {id -> imageId = id},
-            updateRoute = {new -> route = new},
+            updateImageId = { id -> imageId = id },
+            updateRoute = { new -> route = new },
         )
     }
 }

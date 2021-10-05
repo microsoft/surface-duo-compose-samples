@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -88,14 +89,14 @@ fun Pane1(
     ShowWithNav(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit, currentRoute: String) {
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
-    ShowWithTopBar(
-        navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } },
-    ) {
+    Box {
         ItemDetailView(selectedImage, currentRoute)
+        TopAppBar(navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } })
     }
 }

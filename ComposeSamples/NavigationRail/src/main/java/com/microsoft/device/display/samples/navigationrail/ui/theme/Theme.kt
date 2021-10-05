@@ -16,8 +16,7 @@ private val DarkColorPalette = darkColors(
     primaryVariant = TurquoiseTranslucent,
     onPrimary = Turquoise,
     secondary = Turquoise,
-    //secondaryVariant = MiddleBlueGreenTranslucent, // TODO
-    // secondaryVariant = MiddleBlueGreenTranslucent, // TODO
+    secondaryVariant = MiddleBlueGreenTranslucent,
     surface = SpaceCadet,
     onSurface = Turquoise,
     background = SpaceCadet,
@@ -31,7 +30,6 @@ private val LightColorPalette = lightColors(
     onPrimary = OffWhite,
     secondary = MiddleBlueGreen,
     secondaryVariant = MiddleBlueGreenTranslucent,
-    onSecondary = Ming,
     surface = AliceBlue,
     onSurface = Ming,
     background = AliceBlue,
@@ -42,7 +40,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun ComposeSamplesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette

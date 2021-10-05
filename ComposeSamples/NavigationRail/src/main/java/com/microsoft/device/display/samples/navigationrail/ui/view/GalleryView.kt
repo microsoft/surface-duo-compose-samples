@@ -31,7 +31,7 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 private val BORDER_SIZE = 7.dp
 private val GALLERY_SPACING = 2.dp
-private const val NUM_COLUMNS = 3
+private const val NUM_COLUMNS = 2
 
 /**
  * Show the GalleryView when in dual portrait mode or when no item has been selected,

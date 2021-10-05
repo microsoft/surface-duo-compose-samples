@@ -51,9 +51,14 @@ val robotoFontFamily = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.W700,
+        fontSize = 18.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.W700,
+        fontSize = 12.sp
     ),
     h3 = TextStyle(
         fontFamily = montserratFontFamily,
@@ -69,18 +74,5 @@ val Typography = Typography(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.W700,
         fontSize = 72.sp,
-    )
-
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
     ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
 )
