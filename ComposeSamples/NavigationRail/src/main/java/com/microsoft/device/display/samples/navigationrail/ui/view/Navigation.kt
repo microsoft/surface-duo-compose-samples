@@ -25,6 +25,8 @@ import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryBottomNav
+import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryNavRail
 import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryTopBar
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import java.lang.NullPointerException
@@ -127,12 +129,12 @@ fun ShowWithNav(
     Scaffold(
         bottomBar = {
             if (!isDualScreen)
-                BottomNav(navDestinations, navController, updateImageId, updateRoute)
+                GalleryBottomNav(navController, navDestinations, updateImageId, updateRoute)
         },
     ) { paddingValues ->
         Row(Modifier.padding(paddingValues)) {
             if (isDualScreen)
-                NavRail(navDestinations, navController, updateImageId, updateRoute)
+                GalleryNavRail(navController, navDestinations, updateImageId, updateRoute)
             NavHost(
                 modifier = Modifier.onGloballyPositioned {
                     // Once layouts have been positioned, check that nav controller is at correct
