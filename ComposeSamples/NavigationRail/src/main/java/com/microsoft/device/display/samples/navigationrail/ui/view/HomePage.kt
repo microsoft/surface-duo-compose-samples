@@ -16,6 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.dp
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
@@ -27,6 +30,7 @@ import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
@@ -34,6 +38,7 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     // Create variables to track foldable device layout information
     var isAppSpanned by remember { mutableStateOf(false) }
     var isHingeVertical by remember { mutableStateOf(false) }
+    var hingeSize by remember { mutableStateOf(0) }
 
     LaunchedEffect(windowInfoRep) {
         windowInfoRep.windowLayoutInfo
@@ -44,6 +49,10 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
                     val foldingFeature = displayFeatures.first() as FoldingFeature
                     isHingeVertical =
                         foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
+                    hingeSize = if (isHingeVertical)
+                        foldingFeature.bounds.width()
+                    else
+                        foldingFeature.bounds.height()
                 }
             }
     }
@@ -52,14 +61,21 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualScreen = (isAppSpanned || isTablet)
     val isDualPortrait = isDualScreen && isHingeVertical
+    val isDualLandscape = isDualScreen && !isHingeVertical
 
-    DualScreenUI(isDualScreen, isDualPortrait)
+    DualScreenUI(isDualScreen, isDualPortrait, isDualLandscape, hingeSize.dp)
 }
 
+@ExperimentalUnitApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
+fun DualScreenUI(
+    isDualScreen: Boolean,
+    isDualPortrait: Boolean,
+    isDualLandscape: Boolean,
+    hingeSize: Dp,
+) {
     // Set up starting route for navigation in pane 1
     var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }
     val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
@@ -73,7 +89,9 @@ fun DualScreenUI(isDualScreen: Boolean, isDualPortrait: Boolean) {
         pane1 = {
             Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
         },
-        pane2 = { Pane2(isDualPortrait, imageId, updateImageId, currentRoute) },
+        pane2 = {
+            Pane2(isDualPortrait, isDualLandscape, hingeSize, imageId, updateImageId, currentRoute)
+        },
     )
 }
 
@@ -91,19 +109,22 @@ fun Pane1(
     ShowWithNav(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
 }
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
 fun Pane2(
     isDualPortrait: Boolean,
+    isDualLandscape: Boolean,
+    hingeSize: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
-    currentRoute: String
+    currentRoute: String,
 ) {
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
     Box {
-        ItemDetailView(isDualPortrait, selectedImage, currentRoute)
+        ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
         if (!isDualPortrait) {
             ItemTopBar(
                 onClick = {
