@@ -15,6 +15,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
@@ -26,6 +27,7 @@ import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryTopBar
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
+import java.lang.NullPointerException
 
 // Dp values for UI design
 private val GALLERY_HORIZ_PADDING = 16.dp
@@ -119,21 +121,7 @@ fun ShowWithNav(
     currentRoute: String,
     updateRoute: (String) -> Unit
 ) {
-    // Set up nav controller and nav graph
     val navController = rememberNavController()
-    val navHost: @Composable () -> Unit = {
-        NavHost(
-            navController = navController,
-            startDestination = currentRoute,
-        ) {
-            addGalleryGraph(
-                currentImageId = imageId,
-                onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
-                showItemView = !isDualPortrait && imageId != null,
-                horizontalPadding = GALLERY_HORIZ_PADDING
-            )
-        }
-    }
 
     // Use navigation rail when dual screen (more space), otherwise use bottom navigation
     Scaffold(
@@ -145,19 +133,30 @@ fun ShowWithNav(
         Row(Modifier.padding(paddingValues)) {
             if (isDualScreen)
                 NavRail(navDestinations, navController, updateImageId, updateRoute)
-            navHost()
-        }
-    }
-
-    // Check that nav controller is at correct current route
-    // If not, try to navigate to the current route (unless nav graph hasn't been created yet)
-    if (navController.currentDestination?.route != currentRoute) {
-        try {
-            navController.graph
-            navController.navigate(currentRoute)
-        } catch (e: IllegalStateException) {
-            // Graph may be null if this is the first run through
-            Log.i("Navigation Rail Sample", "Caught the following exception: ${e.message}")
+            NavHost(
+                modifier = Modifier.onGloballyPositioned {
+                    // Once layouts have been positioned, check that nav controller is at correct
+                    // current route. If not, try to navigate to the current route (unless nav
+                    // graph hasn't been created yet).
+                    if (navController.currentDestination?.route != currentRoute) {
+                        try {
+                            navController.navigate(currentRoute)
+                        } catch (e: NullPointerException) {
+                            // Nav graph may be null if this is the first run through
+                            Log.i("Navigation Rail Sample", "Caught the following exception: ${e.message}")
+                        }
+                    }
+                },
+                navController = navController,
+                startDestination = currentRoute,
+            ) {
+                addGalleryGraph(
+                    currentImageId = imageId,
+                    onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
+                    showItemView = !isDualPortrait && imageId != null,
+                    horizontalPadding = GALLERY_HORIZ_PADDING
+                )
+            }
         }
     }
 }
