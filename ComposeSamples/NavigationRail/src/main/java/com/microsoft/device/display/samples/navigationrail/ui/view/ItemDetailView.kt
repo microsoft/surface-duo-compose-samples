@@ -63,10 +63,13 @@ private enum class DetailsDrawerState {
  */
 @ExperimentalMaterialApi
 @Composable
-fun ItemDetailView(selectedImage: Image? = null, currentRoute: String) {
-    // If no images are selected, show "select image" message
+fun ItemDetailView(isDualPortrait: Boolean, selectedImage: Image? = null, currentRoute: String) {
+    // If no images are selected, show "select image" message or navigate back to gallery view
     if (selectedImage == null) {
-        PlaceholderImageMessage(currentRoute)
+        if (isDualPortrait)
+            PlaceholderImageMessage(currentRoute)
+        else
+            navigateToPane1()
         return
     }
 

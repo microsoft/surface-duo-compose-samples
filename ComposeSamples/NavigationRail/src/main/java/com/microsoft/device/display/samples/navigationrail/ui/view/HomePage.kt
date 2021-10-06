@@ -103,7 +103,7 @@ fun Pane2(
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
     Box {
-        ItemDetailView(selectedImage, currentRoute)
+        ItemDetailView(isDualPortrait, selectedImage, currentRoute)
         if (!isDualPortrait) {
             ItemTopBar(
                 onClick = {
