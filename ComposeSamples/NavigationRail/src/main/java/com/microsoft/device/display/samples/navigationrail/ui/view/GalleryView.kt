@@ -39,7 +39,13 @@ private const val NUM_COLUMNS = 2
  */
 @ExperimentalFoundationApi
 @Composable
-fun GalleryOrItemView(galleryList: List<Image>, currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean, horizontalPadding: Dp) {
+fun GalleryOrItemView(
+    galleryList: List<Image>,
+    currentImageId: Int?,
+    onImageSelected: (Int) -> Unit,
+    showItemView: Boolean,
+    horizontalPadding: Dp
+) {
     if (showItemView) {
         navigateToPane2()
     } else {
@@ -49,7 +55,12 @@ fun GalleryOrItemView(galleryList: List<Image>, currentImageId: Int?, onImageSel
 
 @ExperimentalFoundationApi
 @Composable
-fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (Int) -> Unit, horizontalPadding: Dp) {
+fun GalleryView(
+    galleryList: List<Image>,
+    currentImageId: Int?,
+    onImageClick: (Int) -> Unit,
+    horizontalPadding: Dp
+) {
     val lazyListState by remember { mutableStateOf(LazyListState()) }
 
     LazyVerticalGrid(
@@ -57,7 +68,11 @@ fun GalleryView(galleryList: List<Image>, currentImageId: Int?, onImageClick: (I
         state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.Top),
         horizontalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.CenterHorizontally),
-        contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, bottom = GALLERY_SPACING)
+        contentPadding = PaddingValues(
+            start = horizontalPadding,
+            end = horizontalPadding,
+            bottom = GALLERY_SPACING
+        )
     ) {
         items(galleryList) { item ->
             GalleryItem(item, currentImageId, onImageClick)
@@ -75,7 +90,8 @@ fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Un
             .selectable(
                 onClick = { onImageSelected(image.id) },
                 selected = image.id == currentImageId,
-            ).then(
+            )
+            .then(
                 if (image.id == currentImageId)
                     Modifier.border(BORDER_SIZE, MaterialTheme.colors.error)
                 else

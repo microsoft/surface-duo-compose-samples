@@ -91,12 +91,21 @@ fun Pane1(
 
 @ExperimentalMaterialApi
 @Composable
-fun Pane2(isDualPortrait: Boolean, imageId: Int?, updateImageId: (Int?) -> Unit, currentRoute: String) {
+fun Pane2(
+    isDualPortrait: Boolean,
+    imageId: Int?,
+    updateImageId: (Int?) -> Unit,
+    currentRoute: String
+) {
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
     Box {
         ItemDetailView(selectedImage, currentRoute)
-        TopAppBar(navIcon = if (isDualPortrait) null else { { BackNavIcon(updateImageId) } })
+        TopAppBar(
+            navIcon = if (isDualPortrait) null else {
+                { BackNavIcon(updateImageId) }
+            }
+        )
     }
 }

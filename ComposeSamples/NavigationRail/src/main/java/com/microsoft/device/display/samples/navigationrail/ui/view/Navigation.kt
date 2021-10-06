@@ -28,8 +28,14 @@ import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
+// Dp values for UI design
+private val GALLERY_HORIZ_PADDING = 16.dp
+private val GALLERY_TITLE_TOP_PADDING = 40.dp
+private val GALLERY_TITLE_BAR_HEIGHT = 120.dp
+
 // Nav destinations for app
 val navDestinations = GallerySections.values()
+
 enum class GallerySections(
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
@@ -37,23 +43,62 @@ enum class GallerySections(
     val list: List<Image>,
     @DrawableRes val placeholderImage: Int,
 ) {
-    PLANTS(R.string.plants, R.drawable.plant_icon, "plants", DataProvider.plantList, R.drawable.plants_placeholder),
-    BIRDS(R.string.birds, R.drawable.bird_icon, "birds", DataProvider.birdList, R.drawable.birds_placeholder),
-    ANIMALS(R.string.animals, R.drawable.animal_icon, "animals", DataProvider.animalList, R.drawable.animals_placeholder),
-    LAKES(R.string.lakes, R.drawable.lake_icon, "lakes", DataProvider.lakeList, R.drawable.lakes_placeholder),
-    ROCKS(R.string.rocks, R.drawable.rock_icon, "rocks", DataProvider.rockList, R.drawable.rocks_placeholder)
+    PLANTS(
+        R.string.plants,
+        R.drawable.plant_icon,
+        "plants",
+        DataProvider.plantList,
+        R.drawable.plants_placeholder
+    ),
+    BIRDS(
+        R.string.birds,
+        R.drawable.bird_icon,
+        "birds",
+        DataProvider.birdList,
+        R.drawable.birds_placeholder
+    ),
+    ANIMALS(
+        R.string.animals,
+        R.drawable.animal_icon,
+        "animals",
+        DataProvider.animalList,
+        R.drawable.animals_placeholder
+    ),
+    LAKES(
+        R.string.lakes,
+        R.drawable.lake_icon,
+        "lakes",
+        DataProvider.lakeList,
+        R.drawable.lakes_placeholder
+    ),
+    ROCKS(
+        R.string.rocks,
+        R.drawable.rock_icon,
+        "rocks",
+        DataProvider.rockList,
+        R.drawable.rocks_placeholder
+    )
 }
 
 /**
  * Build nav graph with the different galleries as destinations
  */
 @ExperimentalFoundationApi
-fun NavGraphBuilder.addGalleryGraph(currentImageId: Int?, onImageSelected: (Int) -> Unit, showItemView: Boolean, horizontalPadding: Dp) {
+fun NavGraphBuilder.addGalleryGraph(
+    currentImageId: Int?,
+    onImageSelected: (Int) -> Unit,
+    showItemView: Boolean,
+    horizontalPadding: Dp
+) {
     navDestinations.forEach { section ->
         composable(section.route) {
             ShowWithTopBar(
-                modifier = Modifier.height(120.dp), // REVISIT: do padding instead of fixed height?
-                contentPadding = PaddingValues(start = horizontalPadding, end = horizontalPadding, top = 40.dp,),
+                modifier = Modifier.height(GALLERY_TITLE_BAR_HEIGHT),
+                contentPadding = PaddingValues(
+                    start = horizontalPadding,
+                    end = horizontalPadding,
+                    top = GALLERY_TITLE_TOP_PADDING
+                ),
                 title = section.route,
             ) {
                 GalleryOrItemView(
@@ -94,7 +139,7 @@ fun ShowWithNav(
                 currentImageId = imageId,
                 onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
                 showItemView = !isDualPortrait && imageId != null,
-                horizontalPadding = 15.dp // REVISIT: might be better to make a percentage (or change value based on isDualScreen)
+                horizontalPadding = GALLERY_HORIZ_PADDING
             )
         }
     }

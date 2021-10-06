@@ -44,7 +44,12 @@ import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import kotlin.math.roundToInt
 
-private val ItemDetailsShape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp, bottomStart = 0.dp, bottomEnd = 10.dp)
+private val ItemDetailsShape = RoundedCornerShape(
+    topStart = 25.dp,
+    topEnd = 25.dp,
+    bottomStart = 0.dp,
+    bottomEnd = 10.dp
+)
 private val ItemConditionsShape = RoundedCornerShape(percent = 20)
 
 private enum class DetailsDrawerState {
@@ -131,10 +136,12 @@ private fun ItemImage(modifier: Modifier, image: Image) {
 private fun ItemDetailsDrawer(modifier: Modifier, image: Image) {
     val swipeableState = rememberSwipeableState(initialValue = DetailsDrawerState.Expanded)
     val collapsedPx = with(LocalDensity.current) { 210.dp.toPx() }
-    val anchors = mapOf(collapsedPx to DetailsDrawerState.Collapsed, 0f to DetailsDrawerState.Expanded)
+    val anchors =
+        mapOf(collapsedPx to DetailsDrawerState.Collapsed, 0f to DetailsDrawerState.Expanded)
 
     Box(
-        modifier = modifier.padding(top = 300.dp)
+        modifier = modifier
+            .padding(top = 300.dp)
             .fillMaxSize()
             .swipeable(swipeableState, anchors, Orientation.Vertical),
         contentAlignment = Alignment.CenterStart,
@@ -145,7 +152,6 @@ private fun ItemDetailsDrawer(modifier: Modifier, image: Image) {
                 .offset { IntOffset(0, swipeableState.offset.value.roundToInt()) }
                 .clip(ItemDetailsShape)
                 .background(MaterialTheme.colors.surface),
-            // .border(10.dp, MaterialTheme.colors.secondary),
         ) {
             Column(
                 modifier = modifier
@@ -195,7 +201,10 @@ private fun ItemLocation(location: String = "Southern Asia") {
 }
 
 @Composable
-private fun ItemConditions(first: String = "medium indirect filtered light", second: String = "1.3 metres high") {
+private fun ItemConditions(
+    first: String = "medium indirect filtered light",
+    second: String = "1.3 metres high"
+) {
     val endSpacing = 15.dp
     val betweenSpacing = 5.dp
 
@@ -240,7 +249,9 @@ private fun ItemDetailsLong(details: String = "Homalomena rubescens is usually s
     val scrollState = rememberScrollState()
 
     Text(
-        modifier = Modifier.padding(top = 35.dp, bottom = 10.dp).verticalScroll(scrollState),
+        modifier = Modifier
+            .padding(top = 35.dp, bottom = 10.dp)
+            .verticalScroll(scrollState),
         text = details,
         color = MaterialTheme.colors.onSurface,
         style = MaterialTheme.typography.body1,

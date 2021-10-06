@@ -229,7 +229,10 @@ fun BottomNav(
 }
 
 @Composable
-private fun RowScope.BottomNavItemWithSelector(showSelected: Boolean, navItem: @Composable () -> Unit) {
+private fun RowScope.BottomNavItemWithSelector(
+    showSelected: Boolean,
+    navItem: @Composable () -> Unit
+) {
     Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
         if (showSelected) {
             Selector()
@@ -239,7 +242,10 @@ private fun RowScope.BottomNavItemWithSelector(showSelected: Boolean, navItem: @
 }
 
 @Composable
-private fun ColumnScope.NavRailItemWithSelector(showSelected: Boolean, navItem: @Composable () -> Unit) {
+private fun ColumnScope.NavRailItemWithSelector(
+    showSelected: Boolean,
+    navItem: @Composable () -> Unit
+) {
     Box(modifier = Modifier.weight(1f, fill = false), contentAlignment = Alignment.Center) {
         if (showSelected) {
             Selector()
@@ -275,7 +281,10 @@ private fun NavItemLabel(navItem: String) {
  * Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav
  */
 @Composable
-private fun isNavItemSelected(currentDestination: NavDestination?, navItemRoute: String,): Boolean {
+private fun isNavItemSelected(
+    currentDestination: NavDestination?,
+    navItemRoute: String,
+): Boolean {
     return currentDestination?.hierarchy?.any { it.route == navItemRoute } == true
 }
 
