@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -127,11 +128,16 @@ fun TopAppBar(
  */
 @Composable
 fun BackNavIcon(updateImageId: (Int?) -> Unit) {
-    IconButton(onClick = { goBack(updateImageId) }) {
+    IconButton(
+        modifier = Modifier
+            .size(40.dp)
+            .background(MaterialTheme.colors.secondary, RoundedCornerShape(3.dp)),
+        onClick = { goBack(updateImageId) }
+    ) {
         Icon(
-            imageVector = Icons.Filled.ArrowBack,
+            painter = painterResource(R.drawable.arrow_back_icon),
             contentDescription = stringResource(R.string.back),
-            tint = MaterialTheme.colors.onPrimary,
+            tint = MaterialTheme.colors.primary,
         )
     }
 }
@@ -262,8 +268,7 @@ private fun Selector() {
     Spacer(
         modifier = Modifier
             .size(50.dp) // REVISIT: is it bad to hardcode this?
-            .clip(NavItemShape)
-            .background(MaterialTheme.colors.secondary)
+            .background(MaterialTheme.colors.secondary, NavItemShape)
     )
 }
 
