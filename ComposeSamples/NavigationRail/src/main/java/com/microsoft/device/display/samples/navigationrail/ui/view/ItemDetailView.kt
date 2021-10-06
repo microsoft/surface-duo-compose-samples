@@ -11,6 +11,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,10 +46,10 @@ import com.microsoft.device.display.samples.navigationrail.models.Image
 import kotlin.math.roundToInt
 
 private val ItemDetailsShape = RoundedCornerShape(
-    topStart = 25.dp,
-    topEnd = 25.dp,
-    bottomStart = 0.dp,
-    bottomEnd = 10.dp
+    topStartPercent = 7,
+    topEndPercent = 7,
+    bottomStartPercent = 0,
+    bottomEndPercent = 0
 )
 private val ItemConditionsShape = RoundedCornerShape(percent = 20)
 
@@ -158,6 +159,7 @@ private fun ItemDetailsDrawer(modifier: Modifier, image: Image) {
                     .padding(horizontal = 35.dp)
                     .fillMaxWidth(),
             ) {
+                DrawerPill()
                 ItemTitle(title = image.description)
                 ItemLocation() // REVISIT: add fields to data provider
                 ItemConditions()
@@ -168,9 +170,22 @@ private fun ItemDetailsDrawer(modifier: Modifier, image: Image) {
 }
 
 @Composable
+private fun ColumnScope.DrawerPill() {
+    Icon(
+        painter = painterResource(R.drawable.drawer_pill),
+        contentDescription = stringResource(R.string.drawer_pill),
+        tint = if (MaterialTheme.colors.isLight)
+            MaterialTheme.colors.primary
+        else
+            MaterialTheme.colors.secondaryVariant,
+        modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally)
+    )
+}
+
+@Composable
 private fun ItemTitle(title: String) {
     Text(
-        modifier = Modifier.padding(top = 25.dp), // REVISIT (check padding from other elements too)
+        modifier = Modifier.padding(top = 8.dp), // REVISIT (check padding from other elements too)
         text = title,
         color = MaterialTheme.colors.onSurface,
         style = MaterialTheme.typography.body1,
@@ -181,7 +196,7 @@ private fun ItemTitle(title: String) {
 @Composable
 private fun ItemLocation(location: String = "Southern Asia") {
     Row(
-        modifier = Modifier.padding(top = 15.dp),
+        modifier = Modifier.padding(top = 10.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
