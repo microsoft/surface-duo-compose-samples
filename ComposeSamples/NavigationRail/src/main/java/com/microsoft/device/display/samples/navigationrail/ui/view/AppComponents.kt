@@ -8,43 +8,26 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -52,103 +35,8 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.display.samples.navigationrail.R
-import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
 private val NavItemShape = RoundedCornerShape(percent = 15)
-
-/**
- * Show the given content with a TopAppBar (customizable title/color/navigation icons) and a
- * bottom bar if desired
- */
-@Composable
-fun ShowWithTopBar(
-    modifier: Modifier = Modifier,
-    title: String? = null,
-    titleColor: Color = MaterialTheme.colors.primaryVariant,
-    titleStyle: TextStyle = MaterialTheme.typography.h1,
-    color: Color = Color.Transparent,
-    elevation: Dp = 0.dp,
-    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
-    bottomBar: @Composable () -> Unit = {},
-    navIcon: (@Composable () -> Unit)? = null,
-    content: @Composable (Modifier) -> Unit
-) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                modifier = modifier,
-                title = title,
-                titleColor = titleColor,
-                titleStyle = titleStyle,
-                color = color,
-                elevation = elevation,
-                contentPadding = contentPadding,
-                navIcon = navIcon,
-            )
-        },
-        bottomBar = bottomBar,
-    ) { innerPadding ->
-        content(Modifier.padding(innerPadding))
-    }
-}
-
-@Composable
-fun TopAppBar(
-    modifier: Modifier = Modifier,
-    title: String? = null,
-    titleColor: Color = MaterialTheme.colors.primaryVariant,
-    titleStyle: TextStyle = MaterialTheme.typography.h1,
-    color: Color = Color.Transparent,
-    elevation: Dp = 0.dp,
-    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
-    navIcon: (@Composable () -> Unit)? = null,
-) {
-    TopAppBar(
-        modifier = modifier,
-        contentPadding = contentPadding,
-        backgroundColor = color,
-        elevation = elevation,
-    ) {
-        if (navIcon != null)
-            navIcon()
-        Text(
-            text = title ?: "",
-            color = titleColor,
-            style = titleStyle,
-            textAlign = TextAlign.Start,
-        )
-    }
-}
-
-/**
- * Show a "back" navigation icon that returns from ItemDetailView to GalleryView
- */
-@Composable
-fun BackNavIcon(updateImageId: (Int?) -> Unit) {
-    IconButton(
-        modifier = Modifier
-            .size(40.dp)
-            .background(MaterialTheme.colors.secondary, RoundedCornerShape(3.dp)),
-        onClick = { goBack(updateImageId) }
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.arrow_back_icon),
-            contentDescription = stringResource(R.string.back),
-            tint = MaterialTheme.colors.primary,
-        )
-    }
-}
-
-/**
- * Return to gallery view (pane 1) and clear image selection
- */
-private fun goBack(updateImageId: (Int?) -> Unit) {
-    navigateToPane1()
-    updateImageId(null)
-}
 
 /**
  * Show a NavigationRail with gallery destinations

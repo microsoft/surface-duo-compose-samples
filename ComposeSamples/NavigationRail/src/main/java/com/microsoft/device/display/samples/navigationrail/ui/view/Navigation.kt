@@ -9,9 +9,7 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -26,12 +24,11 @@ import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.models.Image
+import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryTopBar
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 // Dp values for UI design
 private val GALLERY_HORIZ_PADDING = 16.dp
-private val GALLERY_TITLE_TOP_PADDING = 40.dp
-private val GALLERY_TITLE_BAR_HEIGHT = 120.dp
 
 // Nav destinations for app
 val navDestinations = GallerySections.values()
@@ -92,14 +89,8 @@ fun NavGraphBuilder.addGalleryGraph(
 ) {
     navDestinations.forEach { section ->
         composable(section.route) {
-            ShowWithTopBar(
-                modifier = Modifier.height(GALLERY_TITLE_BAR_HEIGHT),
-                contentPadding = PaddingValues(
-                    start = horizontalPadding,
-                    end = horizontalPadding,
-                    top = GALLERY_TITLE_TOP_PADDING
-                ),
-                title = section.route,
+            Scaffold(
+                topBar = { GalleryTopBar(section.route, horizontalPadding) }
             ) {
                 GalleryOrItemView(
                     galleryList = section.list,

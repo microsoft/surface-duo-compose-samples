@@ -19,8 +19,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
+import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
@@ -102,10 +104,13 @@ fun Pane2(
 
     Box {
         ItemDetailView(selectedImage, currentRoute)
-        TopAppBar(
-            navIcon = if (isDualPortrait) null else {
-                { BackNavIcon(updateImageId) }
-            }
-        )
+        if (!isDualPortrait) {
+            ItemTopBar(
+                onClick = {
+                    navigateToPane1()
+                    updateImageId(null)
+                }
+            )
+        }
     }
 }
