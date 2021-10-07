@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.window.layout.WindowInfoRepository
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
 import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
@@ -17,6 +18,7 @@ import com.microsoft.device.display.samples.navigationrail.ui.view.SetupUI
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
+@ExperimentalUnitApi
 class MainActivity : AppCompatActivity() {
     private lateinit var windowInfoRep: WindowInfoRepository
 

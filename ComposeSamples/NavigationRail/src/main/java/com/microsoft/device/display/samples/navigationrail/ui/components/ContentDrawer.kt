@@ -8,15 +8,13 @@ package com.microsoft.device.display.samples.navigationrail.ui.components
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -29,16 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import kotlin.math.roundToInt
 
-private const val CONTENT_HORIZ_PADDING_PERECENT = 0.02
+private const val CONTENT_HORIZ_PADDING_PERECENT = 0.06f
 private val DrawerShape = RoundedCornerShape(
-    topStartPercent = 6,
-    topEndPercent = 6,
-    bottomStartPercent = 0,
-    bottomEndPercent = 0
+    topStart = 25.dp,
+    topEnd = 25.dp,
+    bottomStart = 0.dp,
+    bottomEnd = 0.dp
 )
 
 private enum class DrawerState { Collapsed, Expanded }
@@ -72,51 +68,53 @@ fun ContentDrawer(
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
-    BoxWithConstraints(modifier) {
-        // Calculate drawer y coordinates for the collapsed and expanded states
-        val fullHeight = constraints.maxHeight.toFloat()
-        val fullWidth = constraints.maxWidth.toFloat()
-        val expandHeightPx = with(LocalDensity.current) { expandHeight.toPx() }
-        val collapseHeightPx = with(LocalDensity.current) { collapseHeight.toPx() }
-        val expandedY = fullHeight - expandHeightPx
-        val collapsedY = fullHeight - collapseHeightPx
+    // Calculate drawer y coordinates for the collapsed and expanded states
+    val expandHeightPx = with(LocalDensity.current) { expandHeight.toPx() }
+    val collapseHeightPx = with(LocalDensity.current) { collapseHeight.toPx() }
+    val swipeHeightPx = expandHeightPx - collapseHeightPx
 
-        // Set up swipeable modifier fields
-        val swipeableState = rememberSwipeableState(initialValue = DrawerState.Collapsed)
-        val anchors = mapOf(collapsedY to DrawerState.Collapsed, expandedY to DrawerState.Expanded)
+    // Set up swipeable modifier fields
+    val swipeableState = rememberSwipeableState(initialValue = DrawerState.Collapsed)
+    val anchors = mapOf(swipeHeightPx to DrawerState.Collapsed, 0f to DrawerState.Expanded)
 
-        Box(
+    BoxWithConstraints(
+        modifier = modifier.swipeable(swipeableState, anchors, Orientation.Vertical),
+        contentAlignment = Alignment.TopStart,
+    ) {
+        // Check if a spacer needs to be included to render content around an occluding hinge
+        val spacerHeight =
+            if (swipeableState.currentValue == DrawerState.Expanded && hingeOccludes)
+                hingeSize
+            else
+                0.dp
+
+        // Calculate drawer height based on swipe state (height in dp)
+        val swipeOffsetDp = with(LocalDensity.current) { swipeableState.offset.value.toDp() }
+        val drawerHeight = expandHeight - swipeOffsetDp
+
+        Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .swipeable(swipeableState, anchors, Orientation.Vertical),
-            contentAlignment = Alignment.CenterStart,
+                .heightIn(collapseHeight, expandHeight)
+                .height(drawerHeight)
+                .clip(DrawerShape)
+                .background(MaterialTheme.colors.surface)
         ) {
-            val spacerSize =
-                if (swipeableState.currentValue == DrawerState.Expanded && hingeOccludes)
-                    hingeSize
-                else
-                    0.dp
+            // Calculate horizontal padding for drawer content
+            val paddingPx = CONTENT_HORIZ_PADDING_PERECENT * constraints.maxWidth.toFloat()
+            val paddingDp = with(LocalDensity.current) { paddingPx.toDp() }
 
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .offset { IntOffset(0, swipeableState.offset.value.roundToInt()) }
-                    .clip(DrawerShape)
-                    .background(MaterialTheme.colors.surface),
+            Column(
+                modifier = Modifier.padding(horizontal = paddingDp)
             ) {
-                val horizontalPadding = CONTENT_HORIZ_PADDING_PERECENT * fullWidth
-                Column(
-                    modifier = modifier.padding(horizontal = horizontalPadding.dp),
-                ) {
-                    pill()
-                    peekContent()
-                    Spacer(
-                        Modifier
-                            .size(spacerSize)
-                            .animateContentSize()
-                    )
-                    hiddenContent()
-                }
+                pill()
+                peekContent()
+                // REVISIT: animate size/appearance
+                Spacer(
+                    Modifier
+                        .height(spacerHeight)
+                        .animateContentSize()
+                )
+                hiddenContent()
             }
         }
     }

@@ -55,10 +55,20 @@ val Typography = Typography(
         fontWeight = FontWeight.W700,
         fontSize = 18.sp
     ),
-    body2 = TextStyle(
+    subtitle1 = TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.W700,
         fontSize = 12.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.W700,
+        fontSize = 22.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = montserratFontFamily,
+        fontWeight = FontWeight.W700,
+        fontSize = 16.sp
     ),
     h3 = TextStyle(
         fontFamily = montserratFontFamily,
