@@ -7,11 +7,14 @@ package com.microsoft.device.display.samples.navigationrail.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -55,7 +58,8 @@ fun InfoBox(
     Row(
         modifier = Modifier
             .height(INFO_BOX_HEIGHT)
-            .background(MaterialTheme.colors.secondaryVariant, InfoBoxShape),
+            .background(MaterialTheme.colors.secondaryVariant, InfoBoxShape)
+            .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(INFO_SPACE_BY, Alignment.CenterHorizontally)
     ) {
