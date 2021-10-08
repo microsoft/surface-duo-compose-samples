@@ -6,7 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
@@ -47,7 +47,7 @@ fun ItemDetailView(
     }
 
     // Show the image at the top and the details drawer at the bottom
-    Box(
+    BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
     ) {
         ItemImage(Modifier.align(Alignment.TopCenter), selectedImage)

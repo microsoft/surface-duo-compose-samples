@@ -5,7 +5,9 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -60,8 +62,16 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualScreen = (isAppSpanned || isTablet)
-    val isDualPortrait = isDualScreen && isHingeVertical
-    val isDualLandscape = isDualScreen && !isHingeVertical
+    val isDualPortrait = when {
+        isAppSpanned -> isHingeVertical
+        isTablet -> LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+        else -> false
+    }
+    val isDualLandscape = when {
+        isAppSpanned -> !isHingeVertical
+        isTablet -> LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+        else -> false
+    }
 
     DualScreenUI(isDualScreen, isDualPortrait, isDualLandscape, hingeSize.dp)
 }

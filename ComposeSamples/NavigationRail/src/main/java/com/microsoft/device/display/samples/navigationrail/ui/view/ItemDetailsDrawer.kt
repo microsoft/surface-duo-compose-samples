@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -38,10 +40,10 @@ import com.microsoft.device.display.samples.navigationrail.ui.components.InfoBox
 
 private lateinit var BodyTextStyle: TextStyle
 private lateinit var SubtitleTextStyle: TextStyle
-private val EXPANDED_HEIGHT_2PANE = 760.dp
-private val EXPANDED_HEIGHT_1PANE = 380.dp
-private val COLLAPSED_HEIGHT_2PANE = 440.dp
-private val COLLAPSED_HEIGHT_1PANE = 190.dp
+private const val EXPANDED_HEIGHT_2PANE = 0.7f
+private const val EXPANDED_HEIGHT_1PANE = 0.55f
+private const val COLLAPSED_HEIGHT_2PANE = 0.4f
+private const val COLLAPSED_HEIGHT_1PANE = 0.28f
 private val PILL_TOP_PADDING = 8.dp
 private val NAME_TOP_PADDING = 8.dp
 private val LOCATION_TOP_PADDING = 10.dp
@@ -54,7 +56,7 @@ private const val LONG_DETAILS_LINE_HEIGHT = 32f
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
-fun ItemDetailsDrawer(
+fun BoxWithConstraintsScope.ItemDetailsDrawer(
     modifier: Modifier,
     image: Image,
     isDualLandscape: Boolean,
@@ -62,8 +64,11 @@ fun ItemDetailsDrawer(
     gallerySection: GallerySections?,
 ) {
     // Set max/min height for drawer based on orientation
-    val expandedHeight = if (isDualLandscape) EXPANDED_HEIGHT_2PANE else EXPANDED_HEIGHT_1PANE
-    val collapsedHeight = if (isDualLandscape) COLLAPSED_HEIGHT_2PANE else COLLAPSED_HEIGHT_1PANE
+    val expandedHeightPct = if (isDualLandscape) EXPANDED_HEIGHT_2PANE else EXPANDED_HEIGHT_1PANE
+    val collapsedHeightPct = if (isDualLandscape) COLLAPSED_HEIGHT_2PANE else COLLAPSED_HEIGHT_1PANE
+    val fullHeight = constraints.maxHeight.toFloat()
+    val expandedHeight = with(LocalDensity.current) { (expandedHeightPct * fullHeight).toDp() }
+    val collapsedHeight = with(LocalDensity.current) { (collapsedHeightPct * fullHeight).toDp() }
 
     // Set text size for drawer based on orientation
     if (isDualLandscape) {
