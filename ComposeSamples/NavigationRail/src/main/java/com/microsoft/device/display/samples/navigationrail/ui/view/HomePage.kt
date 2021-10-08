@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.content.res.Configuration
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
+@ExperimentalAnimationApi
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -76,6 +78,7 @@ fun SetupUI(windowInfoRep: WindowInfoRepository) {
     DualScreenUI(isDualScreen, isDualPortrait, isDualLandscape, hingeSize.dp)
 }
 
+@ExperimentalAnimationApi
 @ExperimentalUnitApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -105,6 +108,7 @@ fun DualScreenUI(
     )
 }
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable

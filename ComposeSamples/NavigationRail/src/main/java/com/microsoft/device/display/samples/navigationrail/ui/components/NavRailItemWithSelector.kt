@@ -5,6 +5,10 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -15,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun ColumnScope.NavRailItemWithSelector(
@@ -26,8 +31,14 @@ fun ColumnScope.NavRailItemWithSelector(
     unselectedContentColor: Color,
 ) {
     Box(modifier = Modifier.weight(1f, fill = false), contentAlignment = Alignment.Center) {
-        if (selected) {
-            Selector()
+        Column {
+            AnimatedVisibility(
+                visible = selected,
+                enter = scaleIn(),
+                exit = scaleOut(),
+            ) {
+                Selector()
+            }
         }
         Column {
             NavigationRailItem(

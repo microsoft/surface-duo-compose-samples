@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -112,6 +113,7 @@ fun NavGraphBuilder.addGalleryGraph(
  * Show the NavHost with the gallery composables, surrounded by a top bar and the appropriate nav
  * component (BottomNavigation or NavigationRail)
  */
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable

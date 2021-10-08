@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -82,11 +81,16 @@ fun ContentDrawer(
         contentAlignment = Alignment.TopStart,
     ) {
         // Check if a spacer needs to be included to render content around an occluding hinge
-        val spacerHeight =
-            if (swipeableState.currentValue == DrawerState.Expanded && hingeOccludes)
-                hingeSize
+        val spacerHeight = if (hingeOccludes) {
+            val isExpanding = swipeableState.progress.to == DrawerState.Expanded
+            val progressHeight = (hingeSize.value * swipeableState.progress.fraction).dp
+            if (isExpanding)
+                progressHeight
             else
-                0.dp
+                hingeSize - progressHeight
+        } else {
+            0.dp
+        }
 
         // Calculate drawer height based on swipe state (height in dp)
         val swipeOffsetDp = with(LocalDensity.current) { swipeableState.offset.value.toDp() }
@@ -108,12 +112,7 @@ fun ContentDrawer(
             ) {
                 pill()
                 peekContent()
-                // REVISIT: animate size/appearance
-                Spacer(
-                    Modifier
-                        .height(spacerHeight)
-                        .animateContentSize()
-                )
+                Spacer(Modifier.height(spacerHeight))
                 hiddenContent()
             }
         }

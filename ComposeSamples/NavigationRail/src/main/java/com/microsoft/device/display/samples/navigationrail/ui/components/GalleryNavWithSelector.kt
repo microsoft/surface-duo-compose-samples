@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
@@ -58,6 +59,7 @@ fun GalleryNavRail(
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun GalleryBottomNav(

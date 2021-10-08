@@ -24,10 +24,12 @@ ext {
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
     windowVersion = "1.0.0-beta02"
+    composeAnimationVersion = "1.1.0-alpha05"
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
-            window            : "androidx.window:window:$windowVersion"
+            window            : "androidx.window:window:$windowVersion",
+            composeAnimation  : "androidx.compose.animation:animation:$composeAnimationVersion",
     ]
 
     composeVersion = "1.0.2"
