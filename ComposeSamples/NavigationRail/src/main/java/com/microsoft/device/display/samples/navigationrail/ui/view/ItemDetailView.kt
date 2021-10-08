@@ -65,7 +65,7 @@ fun ItemDetailView(
 private fun ItemImage(modifier: Modifier, image: Image) {
     Image(
         painter = painterResource(id = image.image),
-        contentDescription = (image.description),
+        contentDescription = (image.name),
         modifier = modifier.fillMaxWidth(),
         contentScale = ContentScale.FillWidth,
     )

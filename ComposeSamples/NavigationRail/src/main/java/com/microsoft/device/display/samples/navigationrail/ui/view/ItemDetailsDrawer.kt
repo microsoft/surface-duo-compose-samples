@@ -81,14 +81,14 @@ fun ItemDetailsDrawer(
         hingeOccludes = isDualLandscape,
         hingeSize = hingeSize,
         pill = { DrawerPill() },
-        hiddenContent = { ItemDetailsLong() }
+        hiddenContent = { ItemDetailsLong(image.details) }
     ) {
         Spacer(Modifier.height(NAME_TOP_PADDING))
-        ItemName(name = image.description)
+        ItemName(name = image.name)
         Spacer(Modifier.height(LOCATION_TOP_PADDING))
         ItemLocation() // REVISIT: add fields to data provider
         Spacer(Modifier.height(CONDITIONS_TOP_PADDING))
-        ItemConditions(gallerySection)
+        ItemConditions(gallerySection, image.condition1, image.condition2)
     }
 }
 
@@ -140,8 +140,8 @@ private fun ItemLocation(location: String = "Southern Asia") {
 @Composable
 private fun ItemConditions(
     gallerySection: GallerySections?,
-    first: String = "medium indirect filtered light",
-    second: String = "1.3 metres high",
+    first: String,
+    second: String,
 ) {
     gallerySection?.let {
         // TODO: choose icon/content description based on gallery
@@ -159,7 +159,7 @@ private fun ItemConditions(
 
 @ExperimentalUnitApi
 @Composable
-private fun ItemDetailsLong(details: String = "Homalomena rubescens is usually seen in southern parts of Asia. It enjoys damp, humid environment of the rainforest floor, receiving medium indirect filtered light through the canopy. In their best conditions they reach about a height around 1.3 meters to 1.5 meters. Homalomena rubescens is usually seen in southern parts of Asia. It enjoys damp, humid environment of the rainforest floor, receiving medium indirect filtered light through the canopy. In their best conditions they reach about a height around 1.3 meters to 1.5 meters. ") {
+private fun ItemDetailsLong(details: String) {
     val scrollState = rememberScrollState()
 
     Spacer(Modifier.height(LONG_DETAILS_TOP_PADDING))

@@ -5,10 +5,14 @@
 
 package com.microsoft.device.display.samples.navigationrail.models
 
+import androidx.annotation.DrawableRes
+
 data class Image(
     val id: Int,
-    val image: Int,
-    val description: String,
-    val date: String,
-    val details: String = ""
+    @DrawableRes val image: Int,
+    val name: String,
+    val location: String,
+    val condition1: String,
+    val condition2: String,
+    val details: String,
 )

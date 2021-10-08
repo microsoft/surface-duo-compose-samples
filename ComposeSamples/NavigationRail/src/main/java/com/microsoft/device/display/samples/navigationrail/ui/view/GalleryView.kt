@@ -85,7 +85,7 @@ fun GalleryView(
 fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Unit) {
     Image(
         painterResource(id = image.image),
-        contentDescription = image.description,
+        contentDescription = image.name,
         modifier = Modifier
             .selectable(
                 onClick = { onImageSelected(image.id) },
