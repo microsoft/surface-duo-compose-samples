@@ -86,7 +86,7 @@ fun ItemDetailsDrawer(
         Spacer(Modifier.height(NAME_TOP_PADDING))
         ItemName(name = image.name)
         Spacer(Modifier.height(LOCATION_TOP_PADDING))
-        ItemLocation() // REVISIT: add fields to data provider
+        ItemLocation(image.location)
         Spacer(Modifier.height(CONDITIONS_TOP_PADDING))
         ItemConditions(gallerySection, image.condition1, image.condition2)
     }
@@ -117,7 +117,7 @@ private fun ItemName(name: String) {
 }
 
 @Composable
-private fun ItemLocation(location: String = "Southern Asia") {
+private fun ItemLocation(location: String) {
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
