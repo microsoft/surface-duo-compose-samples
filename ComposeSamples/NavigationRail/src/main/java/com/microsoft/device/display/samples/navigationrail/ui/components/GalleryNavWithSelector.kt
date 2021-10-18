@@ -29,6 +29,7 @@ import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySectio
 
 private val NAV_RAIL_TOP_SPACING = 32.dp
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun GalleryNavRail(
