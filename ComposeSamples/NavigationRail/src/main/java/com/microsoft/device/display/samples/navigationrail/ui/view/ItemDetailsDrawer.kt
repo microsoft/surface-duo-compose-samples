@@ -152,10 +152,10 @@ private fun ItemConditions(
         // TODO: choose icon/content description based on gallery
         InfoBox(
             icon1 = R.drawable.sun_icon,
-            info1 = first,
+            info1 = if (first == "") null else first,
             description1 = stringResource(R.string.sun),
             icon2 = R.drawable.plant_height_icon,
-            info2 = second,
+            info2 = if (second == "") null else second,
             description2 = stringResource(R.string.height),
             textStyle = SubtitleTextStyle
         )

@@ -47,10 +47,10 @@ private val INFO_BETWEEN_PADDING = 5.dp
 @Composable
 fun InfoBox(
     @DrawableRes icon1: Int,
-    info1: String,
+    info1: String?,
     description1: String,
     @DrawableRes icon2: Int,
-    info2: String,
+    info2: String?,
     description2: String,
     textStyle: TextStyle,
 ) {
@@ -63,11 +63,15 @@ fun InfoBox(
         horizontalArrangement = Arrangement.spacedBy(INFO_SPACE_BY, Alignment.CenterHorizontally)
     ) {
         Spacer(Modifier.width(INFO_HORIZ_PADDING))
-        InfoIcon(icon1, description1)
-        InfoText(info1, textStyle)
-        Spacer(Modifier.width(INFO_BETWEEN_PADDING))
-        InfoIcon(icon2, description2)
-        InfoText(info2, textStyle)
+        info1?.let { info ->
+            InfoIcon(icon1, description1)
+            InfoText(info, textStyle)
+            Spacer(Modifier.width(INFO_BETWEEN_PADDING))
+        }
+        info2?.let { info ->
+            InfoIcon(icon2, description2)
+            InfoText(info, textStyle)
+        }
         Spacer(Modifier.width(INFO_HORIZ_PADDING))
     }
 }

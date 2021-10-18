@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetScaffoldDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -101,7 +102,8 @@ fun ContentDrawer(
                 .heightIn(collapseHeight, expandHeight)
                 .height(drawerHeight)
                 .clip(DrawerShape)
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colors.surface),
+            elevation = BottomSheetScaffoldDefaults.SheetElevation
         ) {
             // Calculate horizontal padding for drawer content
             val paddingPx = CONTENT_HORIZ_PADDING_PERECENT * constraints.maxWidth.toFloat()
