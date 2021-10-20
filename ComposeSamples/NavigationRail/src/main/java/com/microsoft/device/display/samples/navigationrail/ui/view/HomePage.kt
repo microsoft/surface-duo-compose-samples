@@ -137,15 +137,14 @@ fun Pane2(
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
-    Box {
-        ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
-        if (!isDualPortrait) {
-            ItemTopBar(
-                onClick = {
-                    navigateToPane1()
-                    updateImageId(null)
-                }
-            )
-        }
+    ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
+    // If only one pane is being displayed, show a "back" icon
+    if (!isDualPortrait) {
+        ItemTopBar(
+            onClick = {
+                navigateToPane1()
+                updateImageId(null)
+            }
+        )
     }
 }
