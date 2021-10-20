@@ -85,14 +85,11 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
         collapseHeight = collapsedHeight,
         hingeOccludes = isDualLandscape,
         hingeSize = hingeSize,
-        pill = { DrawerPill() },
         hiddenContent = { ItemDetailsLong(image.details) }
     ) {
-        Spacer(Modifier.height(NAME_TOP_PADDING))
-        ItemName(name = image.name)
-        Spacer(Modifier.height(LOCATION_TOP_PADDING))
+        DrawerPill()
+        ItemName(image.name)
         ItemLocation(image.location)
-        Spacer(Modifier.height(CONDITIONS_TOP_PADDING))
         ItemConditions(gallerySection, image.condition1, image.condition2)
     }
 }
@@ -112,7 +109,8 @@ private fun ColumnScope.DrawerPill() {
 }
 
 @Composable
-private fun ItemName(name: String) {
+private fun ColumnScope.ItemName(name: String) {
+    Spacer(Modifier.height(NAME_TOP_PADDING))
     Text(
         text = name,
         color = MaterialTheme.colors.onSurface,
@@ -122,7 +120,8 @@ private fun ItemName(name: String) {
 }
 
 @Composable
-private fun ItemLocation(location: String) {
+private fun ColumnScope.ItemLocation(location: String) {
+    Spacer(Modifier.height(LOCATION_TOP_PADDING))
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -143,11 +142,12 @@ private fun ItemLocation(location: String) {
 }
 
 @Composable
-private fun ItemConditions(
+private fun ColumnScope.ItemConditions(
     gallerySection: GallerySections?,
     first: String,
     second: String,
 ) {
+    Spacer(Modifier.height(CONDITIONS_TOP_PADDING))
     gallerySection?.let {
         // TODO: choose icon/content description based on gallery
         InfoBox(

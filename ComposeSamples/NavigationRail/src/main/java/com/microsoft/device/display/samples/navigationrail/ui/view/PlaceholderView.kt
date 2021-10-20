@@ -32,6 +32,8 @@ private val MESSAGE_TOP_PADDING = 50.dp
 
 /**
  * Shows the placeholder image and message for the current gallery
+ *
+ * @param gallerySection: current gallery
  */
 @Composable
 fun PlaceholderView(gallerySection: GallerySections?) {

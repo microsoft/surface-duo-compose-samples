@@ -23,6 +23,12 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 /**
  * Show the image and details for the selected gallery item. If no item is selected, show
  * a placeholder view explaining how to open the detail view.
+ *
+ * @param isDualPortrait: true if device is in dual portrait mode
+ * @param isDualLandscape: true if device is in dual landscape mode
+ * @param hingeSize: size of hinge in dp (0 if no hinge)
+ * @param selectedImage: currently selected image
+ * @param currentRoute: current route in gallery NavHost
  */
 @ExperimentalUnitApi
 @ExperimentalMaterialApi

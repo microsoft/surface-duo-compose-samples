@@ -51,8 +51,6 @@ private enum class DrawerState { Collapsed, Expanded }
  * @param hingeOccludes: optional param for foldable support, indicates whether there is a hinge
  * that occludes content in the current layout
  * @param hingeSize: optional param for foldable support, indicates the size of a hinge
- * @param pill: optional param to show a pill graphic on the drawer that tells the user the drawer
- * can be swiped up/down
  * @param hiddenContent: the content that will only be shown when the drawer is expanded
  * @param peekContent: the content that will be shown even when the drawer is collapsed
  */
@@ -64,7 +62,6 @@ fun ContentDrawer(
     collapseHeight: Dp,
     hingeOccludes: Boolean = false,
     hingeSize: Dp = 0.dp,
-    pill: @Composable ColumnScope.() -> Unit = {},
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
@@ -112,7 +109,6 @@ fun ContentDrawer(
             Column(
                 modifier = Modifier.padding(horizontal = paddingDp)
             ) {
-                pill()
                 peekContent()
                 Spacer(Modifier.height(spacerHeight))
                 hiddenContent()
