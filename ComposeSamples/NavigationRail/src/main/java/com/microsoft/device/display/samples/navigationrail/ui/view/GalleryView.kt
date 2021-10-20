@@ -11,15 +11,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,45 +24,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.models.Image
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 private val BORDER_SIZE = 7.dp
 private val GALLERY_SPACING = 2.dp
 private const val NUM_COLUMNS = 2
 
 /**
- * Show the GalleryView when in dual portrait mode or when no item has been selected,
- * otherwise show the ItemDetailView of the selected item
+ * Show a grid with all of the items in the current gallery
+ *
+ * @param galleryList: list of the images to show in the gallery
+ * @param currentImageId: id of the currently selected image
+ * @param onImageSelected: action to perform when a gallery item/image is selected
+ * @param horizontalPadding: amount of horizontal padding to put around the gallery grid
  */
-@ExperimentalFoundationApi
-@Composable
-fun GalleryOrItemView(
-    galleryList: List<Image>,
-    currentImageId: Int?,
-    onImageSelected: (Int) -> Unit,
-    showItemView: Boolean,
-    horizontalPadding: Dp
-) {
-    if (showItemView) {
-        navigateToPane2()
-    } else {
-        GalleryView(galleryList, currentImageId, onImageSelected, horizontalPadding)
-    }
-}
-
 @ExperimentalFoundationApi
 @Composable
 fun GalleryView(
     galleryList: List<Image>,
     currentImageId: Int?,
-    onImageClick: (Int) -> Unit,
+    onImageSelected: (Int) -> Unit,
     horizontalPadding: Dp
 ) {
-    val lazyListState by remember { mutableStateOf(LazyListState()) }
-
     LazyVerticalGrid(
         cells = GridCells.Fixed(count = NUM_COLUMNS),
-        state = lazyListState,
+        state = rememberLazyListState(),
         verticalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.Top),
         horizontalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.CenterHorizontally),
         contentPadding = PaddingValues(
@@ -75,11 +57,19 @@ fun GalleryView(
         )
     ) {
         items(galleryList) { item ->
-            GalleryItem(item, currentImageId, onImageClick)
+            GalleryItem(item, currentImageId, onImageSelected)
         }
     }
 }
 
+/**
+ * Show the visual representation of a gallery item, and show a colored border around the item
+ * if it is selected
+ *
+ * @param image: image associated with the item
+ * @param currentImageId: id of the currently selected image
+ * @param onImageSelected: action to perform when the item is selected
+ */
 @ExperimentalFoundationApi
 @Composable
 fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Unit) {

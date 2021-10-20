@@ -8,8 +8,6 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 import android.content.res.Configuration
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +27,7 @@ import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTop
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
@@ -106,6 +105,14 @@ fun DualScreenUI(
             Pane2(isDualPortrait, isDualLandscape, hingeSize, imageId, updateImageId, currentRoute)
         },
     )
+
+    // If only one pane is being displayed, make sure the correct pane is displayed
+    if (!isDualPortrait) {
+        if (imageId != null)
+            navigateToPane2()
+        else
+            navigateToPane1()
+    }
 }
 
 @ExperimentalAnimationApi

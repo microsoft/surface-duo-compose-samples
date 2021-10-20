@@ -89,7 +89,6 @@ enum class GallerySections(
 fun NavGraphBuilder.addGalleryGraph(
     currentImageId: Int?,
     onImageSelected: (Int) -> Unit,
-    showItemView: Boolean,
     horizontalPadding: Dp
 ) {
     navDestinations.forEach { section ->
@@ -97,11 +96,10 @@ fun NavGraphBuilder.addGalleryGraph(
             Scaffold(
                 topBar = { GalleryTopBar(section.route, horizontalPadding) }
             ) {
-                GalleryOrItemView(
+                GalleryView(
                     galleryList = section.list,
                     currentImageId = currentImageId,
                     onImageSelected = { id -> onImageSelected(id) },
-                    showItemView = showItemView,
                     horizontalPadding = horizontalPadding,
                 )
             }
@@ -157,7 +155,6 @@ fun ShowWithNav(
                 addGalleryGraph(
                     currentImageId = imageId,
                     onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
-                    showItemView = !isDualPortrait && imageId != null,
                     horizontalPadding = GALLERY_HORIZ_PADDING
                 )
             }
