@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -144,14 +145,18 @@ fun Pane2(
     // Retrieve selected image information
     val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
 
+    // Set up back press action to return to pane 1 and clear image selection
+    val onBackPressed = {
+        navigateToPane1()
+        updateImageId(null)
+    }
+    BackHandler { onBackPressed() }
+
     ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
     // If only one pane is being displayed, show a "back" icon
     if (!isDualPortrait) {
         ItemTopBar(
-            onClick = {
-                navigateToPane1()
-                updateImageId(null)
-            }
+            onClick = { onBackPressed() }
         )
     }
 }
