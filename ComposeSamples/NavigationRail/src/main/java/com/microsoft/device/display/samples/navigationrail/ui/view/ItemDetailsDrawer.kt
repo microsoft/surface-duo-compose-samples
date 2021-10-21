@@ -109,7 +109,7 @@ private fun ColumnScope.DrawerPill() {
 }
 
 @Composable
-private fun ColumnScope.ItemName(name: String) {
+private fun ItemName(name: String) {
     Spacer(Modifier.height(NAME_TOP_PADDING))
     Text(
         text = name,
@@ -120,7 +120,7 @@ private fun ColumnScope.ItemName(name: String) {
 }
 
 @Composable
-private fun ColumnScope.ItemLocation(location: String) {
+private fun ItemLocation(location: String) {
     Spacer(Modifier.height(LOCATION_TOP_PADDING))
     Row(
         horizontalArrangement = Arrangement.Start,
@@ -142,21 +142,16 @@ private fun ColumnScope.ItemLocation(location: String) {
 }
 
 @Composable
-private fun ColumnScope.ItemConditions(
-    gallerySection: GallerySections?,
-    first: String,
-    second: String,
-) {
+private fun ItemConditions(gallerySection: GallerySections?, fact1: String, fact2: String) {
     Spacer(Modifier.height(CONDITIONS_TOP_PADDING))
-    gallerySection?.let {
-        // TODO: choose icon/content description based on gallery
+    gallerySection?.let { section ->
         InfoBox(
-            icon1 = R.drawable.sun_icon,
-            info1 = if (first == "") null else first,
-            description1 = stringResource(R.string.sun),
-            icon2 = R.drawable.plant_height_icon,
-            info2 = if (second == "") null else second,
-            description2 = stringResource(R.string.height),
+            icon1 = section.fact1Icon,
+            info1 = if (fact1 == "") null else fact1,
+            description1 = stringResource(section.fact1Description),
+            icon2 = section.fact2Icon,
+            info2 = if (fact2 == "") null else fact2,
+            description2 = section.fact2Description?.let { stringResource(it) },
             textStyle = SubtitleTextStyle
         )
     }

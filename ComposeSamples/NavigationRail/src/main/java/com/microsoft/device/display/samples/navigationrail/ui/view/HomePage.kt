@@ -150,7 +150,7 @@ fun Pane2(
         navigateToPane1()
         updateImageId(null)
     }
-    BackHandler { onBackPressed() }
+    BackHandler { if (!isDualPortrait) onBackPressed() }
 
     ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
     // If only one pane is being displayed, show a "back" icon

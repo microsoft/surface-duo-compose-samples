@@ -22,4 +22,7 @@
     <string name="drawer_pill">Swipe up to reveal more details about the image, or swipe down to hide them</string>
     <string name="sun">Plant light conditions</string>
     <string name="height">Plant height</string>
+    <string name="composition">Rock composition</string>
+    <string name="elevation">Lake elevation above sea level</string>
+    <string name="depth">Lake depth</string>
 </resources>

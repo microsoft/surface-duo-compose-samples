@@ -49,9 +49,9 @@ fun InfoBox(
     @DrawableRes icon1: Int,
     info1: String?,
     description1: String,
-    @DrawableRes icon2: Int,
+    @DrawableRes icon2: Int?,
     info2: String?,
-    description2: String,
+    description2: String?,
     textStyle: TextStyle,
 ) {
     Row(
@@ -69,6 +69,7 @@ fun InfoBox(
             Spacer(Modifier.width(INFO_BETWEEN_PADDING))
         }
         info2?.let { info ->
+            check(icon2 != null && description2 != null) { "Second fact exists in item but gallery does not have icon or content description for it " }
             InfoIcon(icon2, description2)
             InfoText(info, textStyle)
         }

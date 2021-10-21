@@ -30,7 +30,6 @@ import com.microsoft.device.display.samples.navigationrail.ui.components.Gallery
 import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryNavRail
 import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryTopBar
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
-import java.lang.NullPointerException
 
 // Dp values for UI design
 private val GALLERY_HORIZ_PADDING = 16.dp
@@ -44,41 +43,63 @@ enum class GallerySections(
     val route: String,
     val list: List<Image>,
     @DrawableRes val placeholderImage: Int,
+    @DrawableRes val fact1Icon: Int,
+    @StringRes val fact1Description: Int,
+    @DrawableRes val fact2Icon: Int? = null,
+    @StringRes val fact2Description: Int? = null,
 ) {
     PLANTS(
         R.string.plants,
         R.drawable.plant_icon,
         "plants",
         DataProvider.plantList,
-        R.drawable.plants_placeholder
+        R.drawable.plants_placeholder,
+        R.drawable.sun_icon,
+        R.string.sun,
+        R.drawable.plant_height_icon,
+        R.string.height
     ),
     BIRDS(
         R.string.birds,
         R.drawable.bird_icon,
         "birds",
         DataProvider.birdList,
-        R.drawable.birds_placeholder
+        R.drawable.birds_placeholder,
+        R.drawable.sun_icon, // TODO: replace with bird fact 1 icon
+        R.string.sun, // TODO: replace with bird fact 1 content description
+        R.drawable.plant_height_icon, // TODO: replace with bird fact 2 icon
+        R.string.height // TODO: replace with bird fact 2 content description
     ),
     ANIMALS(
         R.string.animals,
         R.drawable.animal_icon,
         "animals",
         DataProvider.animalList,
-        R.drawable.animals_placeholder
+        R.drawable.animals_placeholder,
+        R.drawable.sun_icon, // TODO: replace with animal fact 1 icon
+        R.string.sun, // TODO: replace with animal fact 1 content description
+        R.drawable.plant_height_icon, // TODO: replace with animal fact 2 icon
+        R.string.height // TODO: replace with animal fact 2 content description
     ),
     LAKES(
         R.string.lakes,
         R.drawable.lake_icon,
         "lakes",
         DataProvider.lakeList,
-        R.drawable.lakes_placeholder
+        R.drawable.lakes_placeholder,
+        R.drawable.sun_icon, // TODO: replace with elevation icon
+        R.string.elevation,
+        R.drawable.plant_height_icon, // TODO: replace with depth icon
+        R.string.depth
     ),
     ROCKS(
         R.string.rocks,
         R.drawable.rock_icon,
         "rocks",
         DataProvider.rockList,
-        R.drawable.rocks_placeholder
+        R.drawable.rocks_placeholder,
+        R.drawable.sun_icon, // TODO: replace with rock composition icon
+        R.string.composition
     )
 }
 
@@ -145,7 +166,10 @@ fun ShowWithNav(
                             navController.navigate(currentRoute)
                         } catch (e: NullPointerException) {
                             // Nav graph may be null if this is the first run through
-                            Log.i("Navigation Rail Sample", "Caught the following exception: ${e.message}")
+                            Log.i(
+                                "Navigation Rail Sample",
+                                "Caught the following exception: ${e.message}"
+                            )
                         }
                     }
                 },
