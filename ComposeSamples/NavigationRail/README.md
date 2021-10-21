@@ -8,19 +8,37 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to incorporate the [NavigationRail](https://material.io/components/navigation-rail) component into a Jetpack Compose application.
+The sample showcases how to incorporate the [NavigationRail](https://material.io/components/navigation-rail) component into a Jetpack Compose application for large screen and foldable devices.
 
 ### Dynamic navigation components
 
-When the app is spanned and the screen size is larger, it uses a **NavigationRail**. When the app is unspanned, however, it switches back to a **BottomNavigation** bar.
+When the app is spanned and the screen size is larger, it uses a **NavigationRail**.
 
-TODO: add screenshots
+![Lakes gallery dual portrait](screenshots/dual_portrait_lakes_placeholder.png)
+![Animals gallery dual landscape](screenshots/dual_landscape_animals.png)
+
+When the app is unspanned, however, it switches back to a **BottomNavigation** bar.
+
+![Birds gallery single portrait](screenshots/single_portrait_birds.png)
+![Rocks gallery single landscape](screenshots/single_landscape_rocks.png)
 
 ### Hinge-aware content drawer
 
 The app features a custom content drawer component, similar to [BottomSheetScaffold](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#BottomSheetScaffold(kotlin.Function1,androidx.compose.ui.Modifier,androidx.compose.material.BottomSheetScaffoldState,kotlin.Function0,kotlin.Function1,kotlin.Function0,androidx.compose.material.FabPosition,kotlin.Boolean,androidx.compose.ui.graphics.Shape,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,kotlin.Function1,kotlin.Boolean,androidx.compose.ui.graphics.Shape,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,kotlin.Function1)), that adds a `Spacer` to the drawer content if it's being rendered across the hinge.
 
-[!Demo of content drawer](screenshots/content_drawer_demo.mp4)
+![Demo of content drawer](screenshots/content_drawer_animation.gif)
+
+### Navigation hierarchy
+
+The app uses two sources of navigation.
+
+To switch between gallery and item views, we use the built in navigation support from `TwoPaneLayout`.
+
+![TwoPaneLayout navigation logic](screenshots/twopanelayout.png)
+
+To switch between the gallery categories, we use a `NavHostController` and `NavHost`paried with the current navigation component.
+
+![NavHost navigation logic](screenshots/navhost.png)
 
 ## Contributing
 
