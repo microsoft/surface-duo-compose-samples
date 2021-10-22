@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,10 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.R
-import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
 
 private const val MESSAGE_WIDTH_PERCENT = 0.85f
 private val MESSAGE_TOP_PADDING = 50.dp
@@ -74,52 +71,4 @@ private fun PlaceholderMessage(message: String) {
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.h3,
     )
-}
-
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Plants Dark Mode"
-)
-@Composable
-private fun PreviewPlantsDarkMode() {
-    ComposeSamplesTheme {
-        PlaceholderView(gallerySection = navDestinations[0])
-    }
-}
-
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    showBackground = true,
-    name = "Plants Light Mode"
-)
-@Composable
-private fun PreviewPlantsLightMode() {
-    ComposeSamplesTheme {
-        PlaceholderView(gallerySection = navDestinations[0])
-    }
-}
-
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Animals Dark Mode"
-)
-@Composable
-private fun PreviewAnimalsDarkMode() {
-    ComposeSamplesTheme {
-        PlaceholderView(gallerySection = navDestinations[2])
-    }
-}
-
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    showBackground = true,
-    name = "Animals Light Mode"
-)
-@Composable
-private fun PreviewAnimalsLightMode() {
-    ComposeSamplesTheme {
-        PlaceholderView(gallerySection = navDestinations[2])
-    }
 }
