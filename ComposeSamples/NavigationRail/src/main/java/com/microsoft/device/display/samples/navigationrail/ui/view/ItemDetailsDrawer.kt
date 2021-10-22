@@ -90,7 +90,7 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
         DrawerPill()
         ItemName(image.name)
         ItemLocation(image.location)
-        ItemConditions(gallerySection, image.condition1, image.condition2)
+        ItemConditions(gallerySection, image.fact1, image.fact2)
     }
 }
 

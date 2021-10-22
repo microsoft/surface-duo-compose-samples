@@ -12,7 +12,7 @@ data class Image(
     @DrawableRes val image: Int,
     val name: String,
     val location: String,
-    val condition1: String,
-    val condition2: String,
+    val fact1: String,
+    val fact2: String,
     val details: String,
 )
