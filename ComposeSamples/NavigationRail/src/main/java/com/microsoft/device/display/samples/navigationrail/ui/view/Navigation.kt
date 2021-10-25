@@ -65,10 +65,8 @@ enum class GallerySections(
         "birds",
         DataProvider.birdList,
         R.drawable.birds_placeholder,
-        R.drawable.sun_icon, // TODO: replace with bird fact 1 icon
-        R.string.sun, // TODO: replace with bird fact 1 content description
-        R.drawable.plant_height_icon, // TODO: replace with bird fact 2 icon
-        R.string.height // TODO: replace with bird fact 2 content description
+        R.drawable.wingspan_icon,
+        R.string.bird_size,
     ),
     ANIMALS(
         R.string.animals,
@@ -76,10 +74,8 @@ enum class GallerySections(
         "animals",
         DataProvider.animalList,
         R.drawable.animals_placeholder,
-        R.drawable.sun_icon, // TODO: replace with animal fact 1 icon
-        R.string.sun, // TODO: replace with animal fact 1 content description
-        R.drawable.plant_height_icon, // TODO: replace with animal fact 2 icon
-        R.string.height // TODO: replace with animal fact 2 content description
+        R.drawable.animal_size_icon,
+        R.string.animal_size,
     ),
     LAKES(
         R.string.lakes,
@@ -87,10 +83,8 @@ enum class GallerySections(
         "lakes",
         DataProvider.lakeList,
         R.drawable.lakes_placeholder,
-        R.drawable.sun_icon, // TODO: replace with elevation icon
-        R.string.elevation,
-        R.drawable.plant_height_icon, // TODO: replace with depth icon
-        R.string.depth
+        R.drawable.sea_level_icon,
+        R.string.sea_level,
     ),
     ROCKS(
         R.string.rocks,
@@ -98,7 +92,7 @@ enum class GallerySections(
         "rocks",
         DataProvider.rockList,
         R.drawable.rocks_placeholder,
-        R.drawable.sun_icon, // TODO: replace with rock composition icon
+        R.drawable.chemical_constituents_icon,
         R.string.composition
     )
 }
