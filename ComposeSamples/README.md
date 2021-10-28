@@ -48,6 +48,10 @@ Includes example of building [Dual View](https://docs.microsoft.com/en-us/dual-s
 
 Includes example of building [Two Page](https://docs.microsoft.com/en-us/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
 
+### [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/NavigationRail)
+
+Includes example of using a [NavigationRail](https://material.io/components/navigation-rail) in a dual-screen app in Jetpack Compose.
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
