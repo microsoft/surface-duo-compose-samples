@@ -18,7 +18,7 @@ When importing the code samples into Android Studio, use the **ComposeSamples** 
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.0.2`
+- Jetpack Compose version: `1.0.4`
 
 - AndroidX WindowManager version: `1.0.0-beta02`
 
@@ -47,6 +47,10 @@ Includes example of building [Dual View](https://docs.microsoft.com/en-us/dual-s
 ### [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/TwoPage)
 
 Includes example of building [Two Page](https://docs.microsoft.com/en-us/dual-screen/introduction#two-page) app pattern in Jetpack Compose.
+
+### [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/NavigationRail)
+
+Includes example of using a [NavigationRail](https://material.io/components/navigation-rail) in a dual-screen app in Jetpack Compose.
 
 ## Contributing
 

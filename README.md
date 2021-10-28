@@ -1,4 +1,4 @@
-![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.2-brightgreen)
+![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.4-brightgreen)
 
 # Surface Duo Jetpack Compose
 
