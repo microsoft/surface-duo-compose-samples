@@ -18,7 +18,7 @@ When importing the code samples into Android Studio, use the **ComposeSamples** 
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.0.2`
+- Jetpack Compose version: `1.0.4`
 
 - AndroidX WindowManager version: `1.0.0-beta02`
 
