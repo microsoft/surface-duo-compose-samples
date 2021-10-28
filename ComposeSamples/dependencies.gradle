@@ -4,7 +4,7 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.2'
+    gradlePluginVersion = '7.0.3'
     kotlinVersion = "1.5.21"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
@@ -24,15 +24,18 @@ ext {
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
     windowVersion = "1.0.0-beta02"
+    composeAnimationVersion = "1.1.0-alpha05"
     androidxDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
-            window            : "androidx.window:window:$windowVersion"
+            window            : "androidx.window:window:$windowVersion",
+            composeAnimation  : "androidx.compose.animation:animation:$composeAnimationVersion",
     ]
 
     composeVersion = "1.0.2"
     activityComposeVersion = "1.3.1"
     navigationComposeVersion = "2.4.0-alpha09"
+    composeVersionForNavRail = "1.1.0-alpha06"
     composeDependencies = [
             composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
@@ -40,6 +43,8 @@ ext {
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
             activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
             navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion",
+            composeRuntimeForNavRail: "androidx.compose.runtime:runtime-livedata:$composeVersionForNavRail",
+            composeMaterialForNavRail: "androidx.compose.material:material:$composeVersionForNavRail",
     ]
 
     //Google dependencies
