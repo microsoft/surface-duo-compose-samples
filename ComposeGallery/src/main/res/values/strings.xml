@@ -5,4 +5,6 @@
 
 <resources>
     <string name="app_name">Compose Gallery</string>
+    <string name="switch_to_detail">Switch to picture detail viewing mode</string>
+    <string name="switch_to_list">Switch to list viewing mode</string>
 </resources>
