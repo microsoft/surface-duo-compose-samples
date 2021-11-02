@@ -10,11 +10,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
@@ -54,6 +58,7 @@ fun ComposeGalleryTopAppBar(actions: @Composable () -> Unit, title: String) {
         },
         backgroundColor = MaterialTheme.colors.primary,
         elevation = 10.dp,
-        actions = { actions() }
+        actions = { actions() },
+        modifier = Modifier.testTag(stringResource(R.string.top_app_bar))
     )
 }
