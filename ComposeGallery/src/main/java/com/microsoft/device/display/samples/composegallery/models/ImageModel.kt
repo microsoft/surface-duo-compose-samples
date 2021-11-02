@@ -10,7 +10,7 @@ import androidx.annotation.DrawableRes
 data class ImageModel(
     val id: String,
     val description: String,
-    val contentDescription: String? = null,
+    val contentDescription: String,
     @DrawableRes val image: Int,
     val imageId: Int
 )
