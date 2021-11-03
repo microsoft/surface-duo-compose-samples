@@ -40,6 +40,10 @@ To switch between the gallery categories, we use a `NavHostController` and `NavH
 
 ![NavHost navigation logic](screenshots/navhost.png)
 
+## Attributions
+
+The images used in the NavigationRail sample are licensed under [© eakarat], [© nerudol], [© DedMityay], [© tibor13], [© Harry Collins], [© Tony Baggett], [© WildMedia], [© Vlasto Opatovsky], [© Lakeview Images], [© viktoriya89], [© dudlajzov], [© zkbld], [© muraviov], [© phototrip.cz], [© gpisano71], [© Mike Mareen], [	© Fokke], [© ronnybas], [© Piotr Krzeslak], [© shaiith], [© aiisha], [© Andrew Mayovskyy], [© Andrey Armyagov], [© Наталья Босяк] / stock.adobe.com
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
