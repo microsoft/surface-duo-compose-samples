@@ -204,4 +204,3 @@ fun UiDevice.testSpanningMethods() {
     switchToStart()
     closeStart()
 }
-

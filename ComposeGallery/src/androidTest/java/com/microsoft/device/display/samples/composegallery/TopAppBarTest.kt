@@ -94,7 +94,7 @@ class TopAppBarTest {
 
         composeTestRule.onNode(
             hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                    and hasText(getString(R.string.app_name))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -108,7 +108,7 @@ class TopAppBarTest {
 
         composeTestRule.onNode(
             hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                    and hasText(getString(R.string.app_name))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -122,7 +122,7 @@ class TopAppBarTest {
 
         composeTestRule.onNode(
             hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                    and hasText(getString(R.string.app_name))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -136,7 +136,7 @@ class TopAppBarTest {
 
         composeTestRule.onNode(
             hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                    and hasText("")
+                and hasText("")
         ).assertExists()
     }
 
