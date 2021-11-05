@@ -9,7 +9,6 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
-import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasScrollAction
@@ -17,11 +16,10 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.test.uiautomator.UiDevice
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
@@ -33,18 +31,7 @@ import org.junit.Test
 class PaneSynchronizationTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-
-    private val device = FoldableUiDevice(InstrumentationRegistry.getInstrumentation())
-
-    @Before
-    fun setUp() {
-        device.determineModel()
-    }
-
-    @Test
-    fun test_functions() {
-        device.testSpanningMethods()
-    }
+    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @ExperimentalTestApi
     @Test
@@ -56,7 +43,7 @@ class PaneSynchronizationTest {
         }
 
         // Span app so two panes are visible
-        device.spanFromLeft()
+        device.spanFromStart()
 
         // Scroll to end of list
         composeTestRule.onNode(
