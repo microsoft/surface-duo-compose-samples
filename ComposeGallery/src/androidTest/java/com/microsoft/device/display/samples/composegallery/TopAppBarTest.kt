@@ -6,15 +6,23 @@
 package com.microsoft.device.display.samples.composegallery
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
+import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
 import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
 import org.junit.Rule
@@ -31,12 +39,16 @@ class TopAppBarTest {
     private val models = DataProvider.imageModels
     private val imageSelection = MutableLiveData(0)
     private val index = 0
+    private val lazyListState @Composable get() = rememberLazyListState()
 
+    /**
+     * Test that picture/detail icon is hidden in the list pane when the app is spanned
+     */
     @Test
-    fun listPane_iconShowsInSingleMode() {
+    fun listPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, imageSelection)
+                ListPane(models, true, imageSelection, lazyListState)
             }
         }
 
@@ -45,11 +57,14 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
+    /**
+     * Test that picture/detail icon appears in the list pane when the app is unspanned
+     */
     @Test
-    fun listPane_iconHiddenInDualMode() {
+    fun listPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, imageSelection)
+                ListPane(models, false, imageSelection, lazyListState)
             }
         }
 
@@ -58,8 +73,11 @@ class TopAppBarTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Test that list icon is hidden in the detail pane when the app in spanned
+     */
     @Test
-    fun detailPane_iconShowsInSingleMode() {
+    fun detailPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 DetailPane(models, true, index)
@@ -71,8 +89,11 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
+    /**
+     * Test that list icon appears in the detail pane when the app is unspanned
+     */
     @Test
-    fun detailPane_iconHiddenInDualMode() {
+    fun detailPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 DetailPane(models, false, index)
@@ -84,11 +105,14 @@ class TopAppBarTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Test that the list pane top bar displays the app name when the app is unspanned
+     */
     @Test
     fun listPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, imageSelection)
+                ListPane(models, false, imageSelection, lazyListState)
             }
         }
 
@@ -98,11 +122,14 @@ class TopAppBarTest {
         ).assertIsDisplayed()
     }
 
+    /**
+     * Test that the list pane top bar displays the app name when the app is spanned
+     */
     @Test
     fun listPane_showsAppNameInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, imageSelection)
+                ListPane(models, true, imageSelection, lazyListState)
             }
         }
 
@@ -112,6 +139,9 @@ class TopAppBarTest {
         ).assertIsDisplayed()
     }
 
+    /**
+     * Test that the detail pane top bar displays the app name when the app is unspanned
+     */
     @Test
     fun detailPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
@@ -126,6 +156,9 @@ class TopAppBarTest {
         ).assertIsDisplayed()
     }
 
+    /**
+     * Test that the detail pane top bar displays a blank string when the app is spanned
+     */
     @Test
     fun detailPane_blankTitleInDualMode() {
         composeTestRule.setContent {
@@ -138,6 +171,36 @@ class TopAppBarTest {
             hasParent(hasTestTag(getString(R.string.top_app_bar)))
                 and hasText("")
         ).assertExists()
+    }
+
+    /**
+     * Test that top bar icons navigate to the other panes
+     */
+    @Test
+    fun app_testTopBarIconsSwitchPanes() {
+        val viewModel = ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
+        val windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
+
+        composeTestRule.setContent {
+            ComposeGalleryTheme {
+                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
+            }
+        }
+
+        // Check that list pane is currently displayed
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertIsDisplayed()
+
+        // Click on picture/detail icon
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail)).performClick()
+
+        // Check that list pane is no longer displayed
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertDoesNotExist()
+
+        // Click on list icon
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list)).performClick()
+
+        // Check that list pane is displayed again
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertIsDisplayed()
     }
 
     private fun getString(@StringRes id: Int): String {

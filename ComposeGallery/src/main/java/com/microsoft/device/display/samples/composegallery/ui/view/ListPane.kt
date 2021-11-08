@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Divider
@@ -44,7 +45,8 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 fun ListPane(
     models: List<ImageModel>,
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>
+    selectionLiveData: MutableLiveData<Int>,
+    lazyListState: LazyListState,
 ) {
     Scaffold(
         topBar = {
@@ -54,7 +56,12 @@ fun ListPane(
             )
         }
     ) {
-        GalleryList(models = models, isDualMode = isDualMode, selectionLiveData = selectionLiveData)
+        GalleryList(
+            models = models,
+            isDualMode = isDualMode,
+            selectionLiveData = selectionLiveData,
+            lazyListState = lazyListState,
+        )
     }
 }
 
@@ -73,12 +80,14 @@ private fun ListActions() {
 private fun GalleryList(
     models: List<ImageModel>,
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>
+    selectionLiveData: MutableLiveData<Int>,
+    lazyListState: LazyListState,
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .testTag(stringResource(R.string.gallery_list))
+            .testTag(stringResource(R.string.gallery_list)),
+        state = lazyListState,
     ) {
         itemsIndexed(models) { index, item ->
             ListEntry(isDualMode, selectionLiveData, index, item)

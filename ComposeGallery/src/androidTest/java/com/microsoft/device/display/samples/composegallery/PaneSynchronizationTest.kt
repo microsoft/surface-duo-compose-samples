@@ -40,6 +40,10 @@ class PaneSynchronizationTest {
     private lateinit var viewModel: AppStateViewModel
     private lateinit var windowLayoutInfo: Flow<WindowLayoutInfo>
 
+    /**
+     * Set up viewmodel and window layout info params and set the content of the test rule
+     * to the entire app
+     */
     @Before
     fun app_setUp() {
         viewModel = ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
@@ -52,6 +56,9 @@ class PaneSynchronizationTest {
         }
     }
 
+    /**
+     * Test that clicking an item in the list pane updates the image shown in the detail pane
+     */
     @ExperimentalTestApi
     @Test
     fun app_testListItemClickUpdatesDetailPane() {
@@ -81,8 +88,11 @@ class PaneSynchronizationTest {
         ).assertIsDisplayed()
     }
 
+    /**
+     * Test that a selection made when unspanned is remembered when span state changes
+     */
     @Test
-    fun app_testListItemSelectionShowInDetailPaneAfterSpan() {
+    fun app_testSelectionPersistenceAfterSpan() {
         // Click on third surface duo entry
         composeTestRule.onNodeWithContentDescription(getString(R.string.duo3_content_des))
             .performClick()
@@ -98,6 +108,12 @@ class PaneSynchronizationTest {
             hasContentDescription(getString(R.string.duo3_content_des))
                 and hasAnySibling(hasText(getString(R.string.duo3_id)))
         ).assertIsDisplayed()
+
+        // Unspan the app
+        device.unspanToStart()
+
+        // Check that detail view of third surface duo is still displayed
+        composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
     }
 
     private fun getString(@StringRes id: Int): String {

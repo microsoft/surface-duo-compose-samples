@@ -6,6 +6,7 @@
 package com.microsoft.device.display.samples.composegallery.ui.view
 
 import android.util.Log
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -50,16 +51,21 @@ fun ComposeGalleryApp(viewModel: AppStateViewModel, windowLayoutInfo: Flow<Windo
 
 @Composable
 fun ComposeGalleryAppContent(viewModel: AppStateViewModel, isAppSpanned: Boolean) {
+    // Check if app should be in dual mode
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
     val isDualMode = isAppSpanned || isTablet
 
+    // Get relevant image data for the panes
     val models = DataProvider.imageModels
     val imageSelectionLiveData = viewModel.imageSelectionLiveData
     val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
 
+    // Remember lazy list state
+    val lazyListState = rememberLazyListState()
+
     TwoPaneLayout(
-        pane1 = { ListPane(models, isDualMode, imageSelectionLiveData) },
+        pane1 = { ListPane(models, isDualMode, imageSelectionLiveData, lazyListState) },
         pane2 = { DetailPane(models, isDualMode, selectedIndex) }
     )
 }
