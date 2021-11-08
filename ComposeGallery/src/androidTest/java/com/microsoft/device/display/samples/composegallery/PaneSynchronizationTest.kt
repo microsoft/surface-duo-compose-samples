@@ -19,12 +19,17 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowLayoutInfo
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
+import kotlinx.coroutines.flow.Flow
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,16 +37,24 @@ class PaneSynchronizationTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    private lateinit var viewModel: AppStateViewModel
+    private lateinit var windowLayoutInfo: Flow<WindowLayoutInfo>
+
+    @Before
+    fun app_setUp() {
+        viewModel = ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
+        windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
+
+        composeTestRule.setContent {
+            ComposeGalleryTheme {
+                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
+            }
+        }
+    }
 
     @ExperimentalTestApi
     @Test
     fun app_testListItemClickUpdatesDetailPane() {
-        composeTestRule.setContent {
-            ComposeGalleryTheme {
-                ComposeGalleryApp(viewModel = AppStateViewModel(), isAppSpanned = false)
-            }
-        }
-
         // Span app so two panes are visible
         device.spanFromStart()
 
@@ -69,13 +82,7 @@ class PaneSynchronizationTest {
     }
 
     @Test
-    fun app_testSelectionPersistsAfterSpan() {
-        composeTestRule.setContent {
-            ComposeGalleryTheme {
-                ComposeGalleryApp(viewModel = AppStateViewModel(), isAppSpanned = false)
-            }
-        }
-
+    fun app_testListItemSelectionShowInDetailPaneAfterSpan() {
         // Click on third surface duo entry
         composeTestRule.onNodeWithContentDescription(getString(R.string.duo3_content_des))
             .performClick()
