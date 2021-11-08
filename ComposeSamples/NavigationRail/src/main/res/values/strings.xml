@@ -4,7 +4,7 @@
   -->
 
 <resources>
-    <string name="app_name">NavigationRail</string>
+    <string name="app_name">Compose NavRail</string>
 
     <!-- Icon labels -->
     <string name="plants">Plants</string>
