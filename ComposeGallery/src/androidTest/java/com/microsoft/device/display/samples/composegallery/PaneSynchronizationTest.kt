@@ -23,13 +23,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
-import androidx.window.layout.WindowLayoutInfo
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
-import kotlinx.coroutines.flow.Flow
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -37,24 +34,6 @@ class PaneSynchronizationTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    private lateinit var viewModel: AppStateViewModel
-    private lateinit var windowLayoutInfo: Flow<WindowLayoutInfo>
-
-    /**
-     * Set up viewmodel and window layout info params and set the content of the test rule
-     * to the entire app
-     */
-    @Before
-    fun app_setUp() {
-        viewModel = ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
-        windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
-
-        composeTestRule.setContent {
-            ComposeGalleryTheme {
-                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
-            }
-        }
-    }
 
     /**
      * Test that clicking an item in the list pane updates the image shown in the detail pane
@@ -62,6 +41,16 @@ class PaneSynchronizationTest {
     @ExperimentalTestApi
     @Test
     fun app_testListItemClickUpdatesDetailPane() {
+        val viewModel =
+            ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
+        val windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
+
+        composeTestRule.setContent {
+            ComposeGalleryTheme {
+                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
+            }
+        }
+
         // Span app so two panes are visible
         device.spanFromStart()
 
@@ -77,6 +66,9 @@ class PaneSynchronizationTest {
                 and hasContentDescription(lastItem.contentDescription)
         ).performClick()
 
+        // Check that viewmodel contains correct selection index
+        check(viewModel.imageSelectionLiveData.value == 7) { "Expected: 7 Actual: ${viewModel.imageSelectionLiveData.value}" }
+
         // Check that detail pane has updated with the correct information
         composeTestRule.onNode(
             hasText(lastItem.id)
@@ -86,6 +78,10 @@ class PaneSynchronizationTest {
             hasContentDescription(lastItem.contentDescription)
                 and hasAnySibling(hasText(lastItem.id))
         ).assertIsDisplayed()
+
+        // REVISIT: added to make tests consistent, can remove when state isn't saved between tests
+        // Close the app
+        device.closeStart()
     }
 
     /**
@@ -93,12 +89,25 @@ class PaneSynchronizationTest {
      */
     @Test
     fun app_testSelectionPersistenceAfterSpan() {
+        val viewModel =
+            ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
+        val windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
+
+        composeTestRule.setContent {
+            ComposeGalleryTheme {
+                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
+            }
+        }
+
         // Click on third surface duo entry
         composeTestRule.onNodeWithContentDescription(getString(R.string.duo3_content_des))
             .performClick()
 
         // Check that detail view of third surface duo is displayed
         composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
+
+        // Check that viewmodel contains correct selection index
+        check(viewModel.imageSelectionLiveData.value == 2) { "Expected: 2 Actual: ${viewModel.imageSelectionLiveData.value}" }
 
         // Span the app
         device.spanFromStart()
@@ -114,6 +123,13 @@ class PaneSynchronizationTest {
 
         // Check that detail view of third surface duo is still displayed
         composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
+
+        // REVISIT: added to make tests consistent, can remove when state isn't saved between tests
+        // Return to list view
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list)).performClick()
+
+        // Close the app
+        device.closeStart()
     }
 
     private fun getString(@StringRes id: Int): String {
