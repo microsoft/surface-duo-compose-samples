@@ -1,30 +1,59 @@
-![Jetpack Compose sample code CI](https://github.com/microsoft/surface-duo-app-samples/workflows/App%20samples%20CI/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.4-brightgreen)
+---
+page_type: sample
+name: Surface Duo - Jetpack Compose samples
+languages:
+- kotlin
+products:
+- surface-duo
+description: "Samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns."
+urlFragment: all
+---
+![build-test-check](https://github.com/microsoft/surface-duo-compose-samples/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.4-brightgreen)
 
-# Surface Duo Jetpack Compose
+# Surface Duo Jetpack Compose Samples
 
-This repo contains the samples and components built in Jetpack Compose for Microsoft Surface Duo.
+This repo contains samples built with Jetpack Compose for the Microsoft Surface Duo and other large screen and foldable devices. These samples demonstrate our [dual-screen user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns) with the new UI framework.
 
 Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md).
 
 ## Getting Started
 
-To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo). 
+When importing the code samples into Android Studio, use the repository directory as the base directory of the project. This lets you access and run all of the sample modules from within the same project.
 
-Please check out [Microsoft Dual-screen document](https://docs.microsoft.com/dual-screen/android/jetpack/compose/) for more details.
+To learn how to load apps on the Surface Duo emulator, see the [documentation](https://docs.microsoft.com/dual-screen/android), and follow [our blog](https://devblogs.microsoft.com/surface-duo).
+
+Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https://docs.microsoft.com/dual-screen/android/jetpack/compose/) for more details.
+
+## Prerequisites
+
+- Jetpack Compose version: `1.0.4`
+
+- AndroidX WindowManager version: `1.0.0-beta02`
 
 ## Contents
 
-### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout)
-
-A UI component that help you build two-pane layout for dual-screen, foldable and large-screen devices.
-
-### [ComposeSamples](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples)
-
-Code samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns.
+| Sample | | Description |
+|---|:---:|---|
+| [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
+| | |
+| [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/CompanionPane) | ![CompanionPane app icon](screenshots/companion_pane.svg) | Photo editor sample that shows how to build the [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose. |
+| | |
+| [ExtendedCanvas](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ExtendedCanvas) | ![ExtendedCanvas app icon](screenshots/extended_canvas.svg) | Map sample that shows how to build the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose. |
+| | |
+| [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ListDetail) | ![ListDetail app icon](screenshots/list_detail.svg) | Photo gallery sample that shows how to build the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern in Jetpack Compose. |
+| | |
+| [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
+| | |
+| [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
+| | |
+| [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
+| | |
 
 ## Social links
 
-- [video: TwoPaneLayout Compose library Twitch](https://www.twitch.tv/videos/1088662335)
+- [video: NavigationRail Compose sample Twitch](https://www.twitch.tv/videos/1196858313)
+- [blog: NavigationRail Compose sample](https://devblogs.microsoft.com/surface-duo/jetpack-compose-navigation-rail/)
+- [video: TwoPaneLayout Compose library Twitch](https://www.youtube.com/watch?v=Q66bR2jKdrg)
 - [blog: New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/)
 - [video: Jetpack Compose samples Twitch](https://www.youtube.com/watch?v=m8bMjFhBbN8)
 - [blog: Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples)
@@ -32,14 +61,16 @@ Code samples showing how to use Jetpack Compose to achieve dual-screen user inte
 
 ## Related links
 
+- [Surface Duo Compose SDK](https://github.com/microsoft/surface-duo-compose-sdk/)
 - [App samples](https://github.com/microsoft/surface-duo-app-samples)
+- [Jetpack Window Manager samples](https://github.com/microsoft/surface-duo-window-manager-samples)
 - [SDK samples (Java)](https://github.com/microsoft/surface-duo-sdk-samples)
 - [SDK samples (Kotlin)](https://github.com/microsoft/surface-duo-sdk-samples-kotlin)
 - [Unity samples](https://github.com/microsoft/surface-duo-sdk-unity-samples)
 - [Xamarin samples](https://github.com/microsoft/surface-duo-sdk-xamarin-samples)
 - [Flutter samples](https://github.com/microsoft/surface-duo-sdk-samples-flutter)
 - [React Native samples](https://github.com/microsoft/react-native-dualscreen)
-- Web samples are coming soon
+- [Web samples](https://docs.microsoft.com/dual-screen/web/samples)
 
 ## Contributing
 
