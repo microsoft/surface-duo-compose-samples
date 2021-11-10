@@ -34,19 +34,19 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 | Sample | | Description |
 |---|:---:|---|
-| [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
+| [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
 | | |
-| [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/CompanionPane) | ![CompanionPane app icon](screenshots/companion_pane.svg) | Photo editor sample that shows how to build the [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose. |
+| [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane) | ![CompanionPane app icon](screenshots/companion_pane.svg) | Photo editor sample that shows how to build the [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose. |
 | | |
-| [ExtendedCanvas](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ExtendedCanvas) | ![ExtendedCanvas app icon](screenshots/extended_canvas.svg) | Map sample that shows how to build the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose. |
+| [ExtendedCanvas](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ExtendedCanvas) | ![ExtendedCanvas app icon](screenshots/extended_canvas.svg) | Map sample that shows how to build the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose. |
 | | |
-| [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/ListDetail) | ![ListDetail app icon](screenshots/list_detail.svg) | Photo gallery sample that shows how to build the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern in Jetpack Compose. |
+| [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ListDetail) | ![ListDetail app icon](screenshots/list_detail.svg) | Photo gallery sample that shows how to build the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern in Jetpack Compose. |
 | | |
-| [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
+| [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
 | | |
-| [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
+| [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
 | | |
-| [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeSamples/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
+| [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
 | | |
 
 ## Social links
