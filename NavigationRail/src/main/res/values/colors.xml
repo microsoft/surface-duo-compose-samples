@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+
+<resources>
+    <color name="middle_blue_green">#FF83C5BE</color>
+    <color name="space_cadet">#FF1C2541</color>
+</resources>

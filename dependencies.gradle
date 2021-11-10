@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+ext {
+    gradlePluginVersion = '7.0.3'
+    kotlinVersion = "1.5.31"
+    compileSdkVersion = 31
+    targetSdkVersion = compileSdkVersion
+    minSdkVersion = 23
+
+    config = [
+            gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
+            kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    ]
+
+    //AndroidX versions
+    appCompatVersion = "1.3.0"
+    ktxCoreVersion = "1.5.0"
+    windowVersion = "1.0.0-beta02"
+    composeAnimationVersion = "1.1.0-alpha05"
+    androidxDependencies = [
+            appCompat        : "androidx.appcompat:appcompat:$appCompatVersion",
+            ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
+            window            : "androidx.window:window:$windowVersion",
+            composeAnimation  : "androidx.compose.animation:animation:$composeAnimationVersion",
+    ]
+
+    composeVersion = "1.0.4"
+    activityComposeVersion = "1.4.0"
+    navigationComposeVersion = "2.4.0-alpha09"
+    composeVersionForNavRail = "1.1.0-beta01"
+    composeDependencies = [
+            composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
+            composeMaterial         : "androidx.compose.material:material:$composeVersion",
+            composeUI               : "androidx.compose.ui:ui:$composeVersion",
+            composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
+            activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
+            navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion",
+            composeRuntimeForNavRail: "androidx.compose.runtime:runtime-livedata:$composeVersionForNavRail",
+            composeMaterialForNavRail: "androidx.compose.material:material:$composeVersionForNavRail",
+    ]
+
+    //Google dependencies
+    materialVersion = "1.5.0-alpha01"
+    googleDependencies = [
+            material: "com.google.android.material:material:$materialVersion"
+    ]
+
+    twoPaneLayoutVersion = "1.0.0-alpha08"
+    microsoftDependencies = [
+            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion"
+    ]
+}

@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.microsoft.device.display.samples.navigationrail"
+        minSdk 23
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+        kotlinCompilerVersion '1.5.21'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation kotlinDependencies.kotlinStdlib
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+    implementation androidxDependencies.window
+    implementation androidxDependencies.composeAnimation
+    implementation microsoftDependencies.twoPaneLayout
+
+    // Use different compose version to access navigation rail
+    implementation composeDependencies.composeMaterialForNavRail
+    implementation composeDependencies.composeRuntimeForNavRail
+    implementation composeDependencies.navigationCompose
+
+    implementation googleDependencies.material
+}
