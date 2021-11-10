@@ -62,7 +62,6 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 ## Related links
 
 - [Surface Duo Compose SDK](https://github.com/microsoft/surface-duo-compose-sdk/)
-- [App samples](https://github.com/microsoft/surface-duo-app-samples)
 - [Jetpack Window Manager samples](https://github.com/microsoft/surface-duo-window-manager-samples)
 - [SDK samples (Java)](https://github.com/microsoft/surface-duo-sdk-samples)
 - [SDK samples (Kotlin)](https://github.com/microsoft/surface-duo-sdk-samples-kotlin)
