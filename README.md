@@ -28,7 +28,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 - Jetpack Compose version: `1.0.5`
 
-- AndroidX WindowManager version: `1.0.0-beta02`
+- Jetpack WindowManager version: `1.0.0-beta03`
 
 ## Contents
 
