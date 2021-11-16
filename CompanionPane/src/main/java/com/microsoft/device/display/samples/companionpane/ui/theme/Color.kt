@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.companionpane.ui
+package com.microsoft.device.display.samples.companionpane.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

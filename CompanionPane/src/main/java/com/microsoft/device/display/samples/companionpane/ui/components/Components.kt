@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.companionpane.uicomponent
+package com.microsoft.device.display.samples.companionpane.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.companionpane.R
-import com.microsoft.device.display.samples.companionpane.ui.Gray
+import com.microsoft.device.display.samples.companionpane.ui.theme.Gray
 import kotlin.random.Random
 
 @Composable

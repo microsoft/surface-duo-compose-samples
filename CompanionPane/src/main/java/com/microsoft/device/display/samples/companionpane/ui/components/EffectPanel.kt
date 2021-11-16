@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.companionpane.uicomponent
+package com.microsoft.device.display.samples.companionpane.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
