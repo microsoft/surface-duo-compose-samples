@@ -57,13 +57,12 @@ dependencies {
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
-    implementation androidxDependencies.composeAnimation
     implementation microsoftDependencies.twoPaneLayout
 
-    // Use different compose version to access navigation rail
     implementation composeDependencies.composeMaterialForNavRail
-    implementation composeDependencies.composeRuntimeForNavRail
+    implementation composeDependencies.composeRuntime
     implementation composeDependencies.navigationCompose
+    implementation composeDependencies.composeAnimation
 
     implementation googleDependencies.material
 }
