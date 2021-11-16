@@ -19,10 +19,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,8 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.companionpane.ui.components.BrightnessPanel
@@ -64,49 +62,36 @@ fun CompanionPaneApp(windowState: WindowState) {
 }
 
 @Composable
-fun ShowWithTopBar(content: @Composable () -> Unit, title: String? = null) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    BasicText(
-                        text = title ?: "",
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onPrimary
-                        )
-                    )
-                },
-                backgroundColor = MaterialTheme.colors.primaryVariant
-            )
-        },
-        content = { content() }
+fun CompanionPaneTopBar(title: String? = null) {
+    TopAppBar(
+        title = { Text(text = title ?: "") },
+        backgroundColor = MaterialTheme.colors.primaryVariant
     )
 }
 
 @Composable
 fun Pane1(windowMode: WindowMode) {
-    ShowWithTopBar(
-        content = {
-            when (windowMode) {
-                WindowMode.SINGLE_PORTRAIT -> PortraitLayout()
-                WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout()
-                WindowMode.DUAL_PORTRAIT -> DualPortraitPane1()
-                WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1()
-            }
-        },
-        title = stringResource(R.string.app_name)
-    )
+    Scaffold(
+        topBar = { CompanionPaneTopBar(stringResource(R.string.app_name)) }
+    ) {
+        when (windowMode) {
+            WindowMode.SINGLE_PORTRAIT -> PortraitLayout()
+            WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout()
+            WindowMode.DUAL_PORTRAIT -> DualPortraitPane1()
+            WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1()
+        }
+    }
 }
 
 @Composable
 fun Pane2(windowMode: WindowMode) {
-    when (windowMode) {
-        WindowMode.DUAL_PORTRAIT -> {
-            ShowWithTopBar(
-                content = { DualPortraitPane2() }
-            )
+    when (screenState) {
+        ScreenState.DualPortrait -> {
+            Scaffold(
+                topBar = { CompanionPaneTopBar() }
+            ) {
+                DualPortraitPane2()
+            }
         }
         WindowMode.DUAL_LANDSCAPE -> DualLandscapePane2()
         else -> {}
