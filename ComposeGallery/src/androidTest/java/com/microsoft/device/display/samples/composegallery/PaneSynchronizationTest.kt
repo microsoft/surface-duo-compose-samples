@@ -23,17 +23,30 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
+
+private const val USE_SWIPE_GESTURE = false
 
 class PaneSynchronizationTest {
-    @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    private val composeTestRule = createAndroidComposeRule<MainActivity>()
+    private val publisherRule = WindowLayoutInfoPublisherRule()
+
+    @get: Rule
+    val testRule: TestRule
+
+    init {
+        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
+        RuleChain.outerRule(composeTestRule)
+    }
 
     /**
      * Test that clicking an item in the list pane updates the image shown in the detail pane
@@ -52,7 +65,9 @@ class PaneSynchronizationTest {
         }
 
         // Span app so two panes are visible
-        device.spanFromStart()
+        if (USE_SWIPE_GESTURE)
+            device.spanFromStart()
+        publisherRule.simulateVerticalFold(composeTestRule)
 
         // Scroll to end of list
         composeTestRule.onNode(
@@ -110,7 +125,9 @@ class PaneSynchronizationTest {
         check(viewModel.imageSelectionLiveData.value == 2) { "Expected: 2 Actual: ${viewModel.imageSelectionLiveData.value}" }
 
         // Span the app
-        device.spanFromStart()
+        if (USE_SWIPE_GESTURE)
+            device.spanFromStart()
+        publisherRule.simulateVerticalFold(composeTestRule)
 
         // Check that third surface duo image is still displayed
         composeTestRule.onNode(
@@ -119,14 +136,17 @@ class PaneSynchronizationTest {
         ).assertIsDisplayed()
 
         // Unspan the app
-        device.unspanToStart()
+        if (USE_SWIPE_GESTURE)
+            device.unspanToStart()
+        publisherRule.simulateNoFold()
 
         // Check that detail view of third surface duo is still displayed
         composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
 
         // REVISIT: added to make tests consistent, can remove when state isn't saved between tests
         // Return to list view
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list)).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
+            .performClick()
 
         // Close the app
         device.closeStart()

@@ -7,7 +7,18 @@ package com.microsoft.device.display.samples.composegallery
 
 import android.util.Log
 import android.view.Surface
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.uiautomator.UiDevice
+import androidx.window.layout.FoldingFeature
+import androidx.window.testing.layout.FoldingFeature
+import androidx.window.testing.layout.TestWindowLayoutInfo
+import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
+
+/**
+ * UIDEVICE HELPER METHODS - based on hardcoded coordinates and espresso swipe gestures
+ */
 
 /**
  * Coordinates taken from dual portrait point of view
@@ -28,7 +39,8 @@ enum class DeviceModel(
     val closeSteps: Int = 50,
 ) {
     SurfaceDuo(paneWidth = 1350, paneHeight = 1800, hingeThickness = 84, bottomY = 1780),
-    SurfaceDuo2(paneWidth = 1344, paneHeight = 1892, hingeThickness = 66, bottomY = 1870);
+    SurfaceDuo2(paneWidth = 1344, paneHeight = 1892, hingeThickness = 66, bottomY = 1870),
+    Other(paneWidth = 0, paneHeight = 0, hingeThickness = 0, bottomY = 0);
 
     override fun toString(): String {
         return "leftX: $leftX rightX: $rightX middleX: $middleX middleY: $middleY bottomY: $bottomY"
@@ -36,9 +48,9 @@ enum class DeviceModel(
 }
 
 /**
- * Helper method to determine the model of a device
+ * Method to determine the model of a device
  */
-private fun UiDevice.getDeviceModel(): DeviceModel {
+fun UiDevice.getDeviceModel(): DeviceModel {
     Log.d(
         "SurfaceDuoTestingHelper",
         "w: $displayWidth h: $displayHeight rotation: $displayRotation"
@@ -62,7 +74,11 @@ private fun UiDevice.getModelFromPaneWidth(paneWidth: Int): DeviceModel {
         if (paneWidth == model.paneWidth || paneWidth == model.paneWidth * 2 + model.hingeThickness)
             return model
     }
-    throw Error("Unknown dualscreen device dimensions $displayWidth $displayHeight")
+    Log.d(
+        "SurfaceDuoTestingHelper",
+        "Unknown dualscreen device dimensions $displayWidth $displayHeight"
+    )
+    return DeviceModel.Other
 }
 
 /**
@@ -200,7 +216,61 @@ fun UiDevice.testSpanningMethods() {
     spanFromEnd()
     unspanToStart()
     switchToEnd()
-//    closeEnd()
     switchToStart()
     closeStart()
+}
+
+/**
+ * WINDOW MANAGER HELPER METHODS - based on TestWindowLayoutInfo and mocking FoldingFeatures
+ */
+
+fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
+    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
+    center: Int = -1,
+    size: Int = 0,
+    state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
+) {
+    simulateFold(composeAndroidTestRule, center, size, state, FoldingFeature.Orientation.VERTICAL)
+}
+
+fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold(
+    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
+    center: Int = -1,
+    size: Int = 0,
+    state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
+) {
+    simulateFold(composeAndroidTestRule, center, size, state, FoldingFeature.Orientation.HORIZONTAL)
+}
+
+fun WindowLayoutInfoPublisherRule.simulateNoFold() {
+    overrideWindowLayoutInfo(TestWindowLayoutInfo())
+}
+
+/**
+ * Helper method to override the current window layout info with new information
+ *
+ * @param composeAndroidTestRule: compose test rule that's associated with an activity
+ * @param center: center of the fold (defaults to middle of screen when -1)
+ * @param size: size of the fold (default 0)
+ * @param state: state of the fold (flat or half-opened)
+ * @param orientation: orientation of the fold
+ */
+private fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
+    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
+    center: Int,
+    size: Int,
+    state: FoldingFeature.State,
+    orientation: FoldingFeature.Orientation,
+) {
+    composeAndroidTestRule.activityRule.scenario.onActivity { activity ->
+        val fold = FoldingFeature(
+            activity = activity,
+            center = center,
+            size = size,
+            state = state,
+            orientation = orientation
+        )
+        val windowLayoutInfo = TestWindowLayoutInfo(listOf(fold))
+        overrideWindowLayoutInfo(windowLayoutInfo)
+    }
 }
