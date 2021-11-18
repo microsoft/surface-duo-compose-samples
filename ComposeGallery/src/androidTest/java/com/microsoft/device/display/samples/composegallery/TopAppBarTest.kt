@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
@@ -53,7 +52,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is true, icon should be hidden
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
             .assertDoesNotExist()
     }
 
@@ -69,7 +68,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is false, icon should show
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
             .assertIsDisplayed()
     }
 
@@ -85,7 +84,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is true, icon should be hidden
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
             .assertDoesNotExist()
     }
 
@@ -101,7 +100,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is false, icon should show
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
             .assertIsDisplayed()
     }
 
@@ -117,8 +116,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                and hasText(getString(R.string.app_name))
+            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
+                and hasText(composeTestRule.getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -134,8 +133,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                and hasText(getString(R.string.app_name))
+            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
+                and hasText(composeTestRule.getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -151,8 +150,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(getString(R.string.top_app_bar)))
-                and hasText(getString(R.string.app_name))
+            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
+                and hasText(composeTestRule.getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -168,7 +167,7 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(getString(R.string.top_app_bar)))
+            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
                 and hasText("")
         ).assertExists()
     }
@@ -178,7 +177,8 @@ class TopAppBarTest {
      */
     @Test
     fun app_testTopBarIconsSwitchPanes() {
-        val viewModel = ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
+        val viewModel =
+            ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
         val windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
 
         composeTestRule.setContent {
@@ -188,22 +188,23 @@ class TopAppBarTest {
         }
 
         // Check that list pane is currently displayed
-        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+            .assertIsDisplayed()
 
         // Click on picture/detail icon
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail)).performClick()
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
+            .performClick()
 
         // Check that list pane is no longer displayed
-        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+            .assertDoesNotExist()
 
         // Click on list icon
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list)).performClick()
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
+            .performClick()
 
         // Check that list pane is displayed again
-        composeTestRule.onNodeWithTag(getString(R.string.gallery_list)).assertIsDisplayed()
-    }
-
-    private fun getString(@StringRes id: Int): String {
-        return composeTestRule.activity.getString(id)
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+            .assertIsDisplayed()
     }
 }

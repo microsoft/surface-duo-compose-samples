@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import androidx.annotation.StringRes
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
@@ -70,19 +69,20 @@ class PaneSynchronizationTest {
         publisherRule.simulateVerticalFold(composeTestRule)
 
         // Scroll to end of list
+        val index = 7
         composeTestRule.onNode(
-            hasScrollAction() and hasTestTag(getString(R.string.gallery_list))
-        ).performScrollToIndex(7)
+            hasScrollAction() and hasTestTag(composeTestRule.getString(R.string.gallery_list))
+        ).performScrollToIndex(index)
 
         // Click on last list item
         val lastItem = DataProvider.imageModels.last()
         composeTestRule.onNode(
-            hasAnyAncestor(hasTestTag(getString(R.string.gallery_list)))
+            hasAnyAncestor(hasTestTag(composeTestRule.getString(R.string.gallery_list)))
                 and hasContentDescription(lastItem.contentDescription)
         ).performClick()
 
         // Check that viewmodel contains correct selection index
-        check(viewModel.imageSelectionLiveData.value == 7) { "Expected: 7 Actual: ${viewModel.imageSelectionLiveData.value}" }
+        check(viewModel.imageSelectionLiveData.value == index) { "Expected: $index Actual: ${viewModel.imageSelectionLiveData.value}" }
 
         // Check that detail pane has updated with the correct information
         composeTestRule.onNode(
@@ -115,11 +115,12 @@ class PaneSynchronizationTest {
         }
 
         // Click on third surface duo entry
-        composeTestRule.onNodeWithContentDescription(getString(R.string.duo3_content_des))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.duo3_content_des))
             .performClick()
 
         // Check that detail view of third surface duo is displayed
-        composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.duo3_id))
+            .assertIsDisplayed()
 
         // Check that viewmodel contains correct selection index
         check(viewModel.imageSelectionLiveData.value == 2) { "Expected: 2 Actual: ${viewModel.imageSelectionLiveData.value}" }
@@ -131,8 +132,8 @@ class PaneSynchronizationTest {
 
         // Check that third surface duo image is still displayed
         composeTestRule.onNode(
-            hasContentDescription(getString(R.string.duo3_content_des))
-                and hasAnySibling(hasText(getString(R.string.duo3_id)))
+            hasContentDescription(composeTestRule.getString(R.string.duo3_content_des))
+                and hasAnySibling(hasText(composeTestRule.getString(R.string.duo3_id)))
         ).assertIsDisplayed()
 
         // Unspan the app
@@ -141,18 +142,15 @@ class PaneSynchronizationTest {
         publisherRule.simulateNoFold()
 
         // Check that detail view of third surface duo is still displayed
-        composeTestRule.onNodeWithText(getString(R.string.duo3_id)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.duo3_id))
+            .assertIsDisplayed()
 
         // REVISIT: added to make tests consistent, can remove when state isn't saved between tests
         // Return to list view
-        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
             .performClick()
 
         // Close the app
         device.closeStart()
-    }
-
-    private fun getString(@StringRes id: Int): String {
-        return composeTestRule.activity.getString(id)
     }
 }

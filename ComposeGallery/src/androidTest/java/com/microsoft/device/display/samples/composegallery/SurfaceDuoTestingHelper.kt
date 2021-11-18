@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.composegallery
 import android.util.Log
 import android.view.Surface
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.uiautomator.UiDevice
@@ -15,6 +16,10 @@ import androidx.window.layout.FoldingFeature
 import androidx.window.testing.layout.FoldingFeature
 import androidx.window.testing.layout.TestWindowLayoutInfo
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
+
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int): String {
+    return activity.getString(id)
+}
 
 /**
  * UIDEVICE HELPER METHODS - based on hardcoded coordinates and espresso swipe gestures
