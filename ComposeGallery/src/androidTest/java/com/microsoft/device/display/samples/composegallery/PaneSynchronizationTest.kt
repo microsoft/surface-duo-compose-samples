@@ -56,9 +56,7 @@ class PaneSynchronizationTest {
         }
 
         // Span app so two panes are visible
-        if (device.isSurfaceDuo())
-            device.spanFromStart()
-        publisherRule.simulateVerticalFold(composeTestRule, size = device.getFoldSize())
+        publisherRule.simulateVerticalFold(composeTestRule)
 
         // Scroll to end of list
         val index = 7
@@ -82,10 +80,6 @@ class PaneSynchronizationTest {
             hasContentDescription(lastItem.contentDescription)
                 and hasAnySibling(hasText(lastItem.id))
         ).assertIsDisplayed()
-
-        // REVISIT: added to make tests consistent, can remove when state isn't saved between tests
-        // Close the app
-        // device.closeStart()
     }
 
     /**
@@ -113,9 +107,7 @@ class PaneSynchronizationTest {
             .performClick()
 
         // Span the app
-        if (device.isSurfaceDuo())
-            device.spanFromStart()
-        publisherRule.simulateVerticalFold(composeTestRule, size = device.getFoldSize())
+        publisherRule.simulateVerticalFold(composeTestRule)
 
         // Check that third surface duo image is still displayed
         composeTestRule.onNode(

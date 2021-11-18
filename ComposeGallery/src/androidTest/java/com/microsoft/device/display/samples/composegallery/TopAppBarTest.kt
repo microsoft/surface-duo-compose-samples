@@ -180,9 +180,6 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.waitForIdle()
-        Thread.sleep(3000)
-
         // Check that list pane is currently displayed
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
             .assertIsDisplayed()

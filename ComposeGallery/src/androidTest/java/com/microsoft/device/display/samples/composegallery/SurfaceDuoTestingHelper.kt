@@ -17,6 +17,9 @@ import androidx.window.testing.layout.FoldingFeature
 import androidx.window.testing.layout.TestWindowLayoutInfo
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 
+/**
+ * Helper method for getting resource strings in Compose tests
+ */
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int): String {
     return activity.getString(id)
 }
@@ -32,10 +35,10 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.g
 enum class DeviceModel(
     val paneWidth: Int,
     val paneHeight: Int,
-    val hingeThickness: Int,
+    val foldSize: Int,
     val leftX: Int = paneWidth / 2,
-    val rightX: Int = leftX + paneWidth + hingeThickness,
-    val middleX: Int = paneWidth + hingeThickness / 2,
+    val rightX: Int = leftX + paneWidth + foldSize,
+    val middleX: Int = paneWidth + foldSize / 2,
     val middleY: Int = paneHeight / 2,
     val bottomY: Int,
     val spanSteps: Int = 400,
@@ -43,12 +46,12 @@ enum class DeviceModel(
     val switchSteps: Int = 100,
     val closeSteps: Int = 50,
 ) {
-    SurfaceDuo(paneWidth = 1350, paneHeight = 1800, hingeThickness = 84, bottomY = 1780),
-    SurfaceDuo2(paneWidth = 1344, paneHeight = 1892, hingeThickness = 66, bottomY = 1870),
-    Other(paneWidth = 0, paneHeight = 0, hingeThickness = 0, bottomY = 0);
+    SurfaceDuo(paneWidth = 1350, paneHeight = 1800, foldSize = 84, bottomY = 1780),
+    SurfaceDuo2(paneWidth = 1344, paneHeight = 1892, foldSize = 66, bottomY = 1870),
+    Other(paneWidth = 0, paneHeight = 0, foldSize = 0, bottomY = 0);
 
     override fun toString(): String {
-        return "leftX: $leftX rightX: $rightX middleX: $middleX middleY: $middleY bottomY: $bottomY"
+        return "$name [leftX: $leftX rightX: $rightX middleX: $middleX middleY: $middleY bottomY: $bottomY]"
     }
 }
 
@@ -69,6 +72,21 @@ fun UiDevice.getDeviceModel(): DeviceModel {
 }
 
 /**
+ * Method to check if a device is a Surface Duo model
+ */
+fun UiDevice.isSurfaceDuo(): Boolean {
+    val model = getDeviceModel()
+    return model == DeviceModel.SurfaceDuo || model == DeviceModel.SurfaceDuo2
+}
+
+/**
+ * Method to retrieve hinge/fold size of a device
+ */
+fun UiDevice.getFoldSize(): Int {
+    return getDeviceModel().foldSize
+}
+
+/**
  * Helper method to compare the pane width of a device to the pane widths of the defined device
  * models
  */
@@ -76,7 +94,7 @@ private fun UiDevice.getModelFromPaneWidth(paneWidth: Int): DeviceModel {
     for (model in DeviceModel.values()) {
         // pane width could be the width of a single pane, or the width of two panes + the width
         // of the hinge
-        if (paneWidth == model.paneWidth || paneWidth == model.paneWidth * 2 + model.hingeThickness)
+        if (paneWidth == model.paneWidth || paneWidth == model.paneWidth * 2 + model.foldSize)
             return model
     }
     Log.d(
@@ -212,20 +230,6 @@ fun UiDevice.closeEnd() {
 }
 
 /**
- * Call this method to ensure that each method performs the desired visual effects
- * on your device/emulator
- */
-fun UiDevice.testSpanningMethods() {
-    spanFromStart()
-    unspanToEnd()
-    spanFromEnd()
-    unspanToStart()
-    switchToEnd()
-    switchToStart()
-    closeStart()
-}
-
-/**
  * WINDOW MANAGER HELPER METHODS - based on TestWindowLayoutInfo and mocking FoldingFeatures
  */
 
@@ -247,10 +251,6 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold
     simulateFold(composeAndroidTestRule, center, size, state, FoldingFeature.Orientation.HORIZONTAL)
 }
 
-fun WindowLayoutInfoPublisherRule.simulateNoFold() {
-    overrideWindowLayoutInfo(TestWindowLayoutInfo())
-}
-
 /**
  * Helper method to override the current window layout info with new information
  *
@@ -260,7 +260,7 @@ fun WindowLayoutInfoPublisherRule.simulateNoFold() {
  * @param state: state of the fold (flat or half-opened)
  * @param orientation: orientation of the fold
  */
-private fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
+fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
     composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int,
     size: Int,
