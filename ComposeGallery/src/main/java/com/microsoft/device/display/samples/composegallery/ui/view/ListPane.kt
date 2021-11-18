@@ -27,7 +27,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -36,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.MutableLiveData
 import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
@@ -45,7 +43,8 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 fun ListPane(
     models: List<ImageModel>,
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>,
+    selectedImageIndex: Int,
+    updateImageIndex: (Int) -> Unit,
     lazyListState: LazyListState,
 ) {
     Scaffold(
@@ -59,7 +58,8 @@ fun ListPane(
         GalleryList(
             models = models,
             isDualMode = isDualMode,
-            selectionLiveData = selectionLiveData,
+            selectedImageIndex = selectedImageIndex,
+            updateImageIndex = updateImageIndex,
             lazyListState = lazyListState,
         )
     }
@@ -80,7 +80,8 @@ private fun ListActions() {
 private fun GalleryList(
     models: List<ImageModel>,
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>,
+    selectedImageIndex: Int,
+    updateImageIndex: (Int) -> Unit,
     lazyListState: LazyListState,
 ) {
     LazyColumn(
@@ -90,7 +91,7 @@ private fun GalleryList(
         state = lazyListState,
     ) {
         itemsIndexed(models) { index, item ->
-            ListEntry(isDualMode, selectionLiveData, index, item)
+            ListEntry(isDualMode, selectedImageIndex, updateImageIndex, index, item)
             Divider(color = MaterialTheme.colors.onSurface)
         }
     }
@@ -99,17 +100,16 @@ private fun GalleryList(
 @Composable
 fun ListEntry(
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>,
+    selectedImageIndex: Int,
+    updateImageIndex: (Int) -> Unit,
     index: Int,
     item: ImageModel
 ) {
-    val selectedIndex = selectionLiveData.observeAsState().value
-
     Row(
         modifier = Modifier
             .selectable(
-                selected = (index == selectedIndex),
-                onClick = { switchToDetailPane(isDualMode, selectionLiveData, index) }
+                selected = (index == selectedImageIndex),
+                onClick = { switchToDetailPane(isDualMode, updateImageIndex, index) }
             )
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -129,10 +129,10 @@ fun ListEntry(
 
 private fun switchToDetailPane(
     isDualMode: Boolean,
-    selectionLiveData: MutableLiveData<Int>,
+    updateImageIndex: (Int) -> Unit,
     index: Int
 ) {
-    selectionLiveData.value = index
+    updateImageIndex(index)
 
     if (!isDualMode) {
         navigateToPane2()

@@ -15,10 +15,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
-import com.microsoft.device.display.samples.composegallery.models.AppStateViewModel
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
@@ -36,7 +32,8 @@ class TopAppBarTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val models = DataProvider.imageModels
-    private val imageSelection = MutableLiveData(0)
+    private val selectedImageIndex = 0
+    private val updateImageIndex = { _: Int -> }
     private val index = 0
     private val lazyListState @Composable get() = rememberLazyListState()
 
@@ -47,7 +44,7 @@ class TopAppBarTest {
     fun listPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, imageSelection, lazyListState)
+                ListPane(models, true, selectedImageIndex, updateImageIndex, lazyListState)
             }
         }
 
@@ -63,7 +60,7 @@ class TopAppBarTest {
     fun listPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, imageSelection, lazyListState)
+                ListPane(models, false, selectedImageIndex, updateImageIndex, lazyListState)
             }
         }
 
@@ -111,7 +108,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, imageSelection, lazyListState)
+                ListPane(models, false, selectedImageIndex, updateImageIndex, lazyListState)
             }
         }
 
@@ -128,7 +125,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, imageSelection, lazyListState)
+                ListPane(models, true, selectedImageIndex, updateImageIndex, lazyListState)
             }
         }
 
@@ -177,15 +174,14 @@ class TopAppBarTest {
      */
     @Test
     fun app_testTopBarIconsSwitchPanes() {
-        val viewModel =
-            ViewModelProvider(composeTestRule.activity).get(AppStateViewModel::class.java)
-        val windowLayoutInfo = composeTestRule.activity.windowInfoRepository().windowLayoutInfo
-
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(viewModel = viewModel, windowLayoutInfo = windowLayoutInfo)
+                ComposeGalleryApp(isAppSpanned = false, widthSizeClass = WindowSizeClass.Compact)
             }
         }
+
+        composeTestRule.waitForIdle()
+        Thread.sleep(3000)
 
         // Check that list pane is currently displayed
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
