@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -37,7 +38,7 @@ fun ComposeGalleryApp(isAppSpanned: Boolean, widthSizeClass: WindowSizeClass) {
 
     // Remember app state variables
     val lazyListState = rememberLazyListState()
-    var selectedImageIndex by remember { mutableStateOf(0) }
+    var selectedImageIndex by rememberSaveable { mutableStateOf(0) }
     val updateImageIndex: (Int) -> Unit = { index -> selectedImageIndex = index }
 
     TwoPaneLayout(
