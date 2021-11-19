@@ -109,7 +109,7 @@ fun ListEntry(
         modifier = Modifier
             .selectable(
                 selected = (index == selectedImageIndex),
-                onClick = { switchToDetailPane(isDualMode, updateImageIndex, index) }
+                onClick = { openDetailPane(isDualMode, updateImageIndex, index) }
             )
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -127,7 +127,7 @@ fun ListEntry(
     }
 }
 
-private fun switchToDetailPane(
+private fun openDetailPane(
     isDualMode: Boolean,
     updateImageIndex: (Int) -> Unit,
     index: Int

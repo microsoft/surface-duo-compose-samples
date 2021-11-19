@@ -17,18 +17,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
-import androidx.window.layout.WindowMetricsCalculator
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
 import kotlinx.coroutines.flow.collect
 
 enum class WindowSizeClass { Compact, Medium, Expanded }
+data class FoldableState(val hasFold: Boolean, val isFoldHorizontal: Boolean)
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,27 +36,34 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val widthSizeClass = rememberWidthSizeClass()
-            val isAppSpanned = rememberSpanState()
+            val foldableState = rememberFoldableState()
 
             ComposeGalleryTheme {
-                ComposeGalleryApp(isAppSpanned, widthSizeClass)
+                ComposeGalleryApp(foldableState, widthSizeClass)
             }
         }
     }
 }
 
 @Composable
-fun Activity.rememberSpanState(): Boolean {
+fun Activity.rememberFoldableState(): FoldableState {
     val windowInfoRepo = windowInfoRepository()
-    var isAppSpanned by remember { mutableStateOf(false) }
+    var hasFold by remember { mutableStateOf(false) }
+    var isFoldHorizontal by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRepo) {
         windowInfoRepo.windowLayoutInfo.collect { newLayoutInfo ->
-            isAppSpanned = newLayoutInfo.displayFeatures.isNotEmpty()
+            hasFold = newLayoutInfo.displayFeatures.isNotEmpty()
+            if (hasFold) {
+                val fold = newLayoutInfo.displayFeatures.firstOrNull() as? FoldingFeature
+                fold?.let {
+                    isFoldHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
+                }
+            }
         }
     }
 
-    return isAppSpanned
+    return FoldableState(hasFold, isFoldHorizontal)
 }
 
 /**
@@ -67,31 +73,25 @@ fun Activity.rememberSpanState(): Boolean {
  * Remembers the [WindowSizeClass] class for the window corresponding to the current window metrics.
  */
 @Composable
-fun Activity.rememberWidthSizeClass(): WindowSizeClass {
+fun rememberWidthSizeClass(): WindowSizeClass {
     // Get the size (in pixels) of the window
     val windowSize = rememberWindowSize()
 
-    // Convert the window size width to [Dp]
-    val windowDpWidth = with(LocalDensity.current) {
-        windowSize.width.toDp()
-    }
-
     // Calculate the width window size class
-    return getWindowSizeClass(windowDpWidth)
+    return getWindowSizeClass(windowSize)
 }
 
 /**
  * Remembers the [Size] in pixels of the window corresponding to the current window metrics.
  */
 @Composable
-private fun Activity.rememberWindowSize(): Size {
+private fun rememberWindowSize(): Dp {
     val configuration = LocalConfiguration.current
-    // WindowMetricsCalculator implicitly depends on the configuration through the activity,
-    // so re-calculate it upon changes.
+
     val windowMetrics = remember(configuration) {
-        WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+        configuration.smallestScreenWidthDp.dp
     }
-    return windowMetrics.bounds.toComposeRect().size
+    return windowMetrics
 }
 
 /**

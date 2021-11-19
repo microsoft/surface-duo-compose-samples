@@ -18,20 +18,16 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
 class PaneSynchronizationTest {
-    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val publisherRule = WindowLayoutInfoPublisherRule()
 
@@ -51,11 +47,14 @@ class PaneSynchronizationTest {
     fun app_testListItemClickUpdatesDetailPane() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(isAppSpanned = true, widthSizeClass = WindowSizeClass.Medium)
+                ComposeGalleryApp(
+                    foldableState = FoldableState(hasFold = true, isFoldHorizontal = false),
+                    widthSizeClass = WindowSizeClass.Medium
+                )
             }
         }
 
-        // Span app so two panes are visible
+        // Simulate a vertical fold so two panes are visible
         publisherRule.simulateVerticalFold(composeTestRule)
 
         // Scroll to end of list
@@ -85,12 +84,14 @@ class PaneSynchronizationTest {
     /**
      * Test that a selection made when unspanned is remembered when span state changes
      */
-    @ExperimentalCoroutinesApi
     @Test
     fun app_testSelectionPersistenceAfterSpan() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(isAppSpanned = false, widthSizeClass = WindowSizeClass.Compact)
+                ComposeGalleryApp(
+                    foldableState = FoldableState(hasFold = false, isFoldHorizontal = false),
+                    widthSizeClass = WindowSizeClass.Compact
+                )
             }
         }
 
@@ -106,7 +107,7 @@ class PaneSynchronizationTest {
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
             .performClick()
 
-        // Span the app
+        // Simulate a vertical fold so two panes are visible
         publisherRule.simulateVerticalFold(composeTestRule)
 
         // Check that third surface duo image is still displayed

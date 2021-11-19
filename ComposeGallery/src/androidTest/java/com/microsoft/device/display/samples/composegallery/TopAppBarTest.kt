@@ -176,7 +176,10 @@ class TopAppBarTest {
     fun app_testTopBarIconsSwitchPanes() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(isAppSpanned = false, widthSizeClass = WindowSizeClass.Compact)
+                ComposeGalleryApp(
+                    foldableState = FoldableState(hasFold = false, isFoldHorizontal = false),
+                    widthSizeClass = WindowSizeClass.Compact
+                )
             }
         }
 
