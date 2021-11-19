@@ -15,6 +15,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
@@ -115,5 +116,36 @@ class PaneSynchronizationTest {
             hasContentDescription(composeTestRule.getString(R.string.duo3_content_des))
                 and hasAnySibling(hasText(composeTestRule.getString(R.string.duo3_id)))
         ).assertIsDisplayed()
+    }
+
+    @Test
+    fun app_testOnePaneShowsWithHorizontalFold() {
+        composeTestRule.setContent {
+            ComposeGalleryTheme {
+                ComposeGalleryApp(
+                    foldableState = FoldableState(hasFold = true, isFoldHorizontal = true),
+                    widthSizeClass = WindowSizeClass.Compact
+                )
+            }
+        }
+
+        // Simulate a horizontal fold so one pane is still visible
+        publisherRule.simulateHorizontalFold(composeTestRule)
+
+        // Check that the list view is displayed
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+            .assertIsDisplayed()
+
+        // Click to switch to the detail view
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
+            .performClick()
+
+        // Check that list view is no longer displayed (only one pane shown in HorizontalSingle mode)
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+            .assertDoesNotExist()
+
+        // REVISIT: return to list view so state isn't saved for other tests
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
+            .performClick()
     }
 }
