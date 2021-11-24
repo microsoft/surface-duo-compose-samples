@@ -5,10 +5,12 @@
 
 package com.microsoft.device.display.samples.composegallery.models
 
+import androidx.annotation.DrawableRes
+
 data class ImageModel(
     val id: String,
-    val title: String,
-    val subtitle: String? = null,
-    val image: Int = 0,
-    val imageId: Int = 0
+    val description: String,
+    val contentDescription: String,
+    @DrawableRes val image: Int,
+    val imageId: Int
 )

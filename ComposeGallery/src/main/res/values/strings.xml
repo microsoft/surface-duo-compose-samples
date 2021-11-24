@@ -5,4 +5,13 @@
 
 <resources>
     <string name="app_name">Compose Gallery</string>
+    <string name="switch_to_detail">Switch to picture detail viewing mode</string>
+    <string name="switch_to_list">Switch to list viewing mode</string>
+    <string name="top_app_bar">top app bar</string>
+    <string name="gallery_list">gallery list</string>
+    
+    <!-- data provider strings -->
+    <string name="duo3_id">Surface Duo 3</string>
+    <string name="duo3_des">This is the third image</string>
+    <string name="duo3_content_des">Third Surface Duo image</string>
 </resources>

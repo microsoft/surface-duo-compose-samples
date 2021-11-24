@@ -13,6 +13,8 @@ android {
         applicationId "com.microsoft.device.display.samples.composegallery"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -26,6 +28,11 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        exclude "META-INF/licenses/**"
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
     }
 }
 
@@ -42,4 +49,15 @@ dependencies {
     implementation microsoftDependencies.twoPaneLayout
 
     implementation googleDependencies.material
+
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+    androidTestImplementation(testDependencies.uiAutomator)
+    androidTestImplementation(testDependencies.windowTest)
+
+    debugImplementation(testDependencies.composeUITestManifest)
+
 }

@@ -45,6 +45,20 @@ ext {
             composeMaterialForNavRail: "androidx.compose.material:material:$composeBetaVersion",
     ]
 
+    // Testing versions
+    androidxTestVersion = "1.4.0-beta01"
+    uiAutomatorVersion = "2.2.0"
+    testDependencies = [
+            androidxTestCore        : "androidx.test:core:$androidxTestVersion",
+            androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
+            composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
+            composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
+            uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
+            windowTest              : "androidx.window:window-testing:$windowVersion",
+    ]
+
     // Google dependencies
     materialVersion = "1.5.0-alpha01"
     googleDependencies = [
