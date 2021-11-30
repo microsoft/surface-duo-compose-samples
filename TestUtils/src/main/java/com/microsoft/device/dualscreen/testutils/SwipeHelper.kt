@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.foldable_test
+package com.microsoft.device.dualscreen.testutils
 
 import android.view.Surface
 import androidx.test.uiautomator.UiDevice

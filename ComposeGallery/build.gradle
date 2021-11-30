@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation testDependencies.composeUITest
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.windowTest
-    androidTestImplementation project(':foldable-test')
+    androidTestImplementation project(':TestUtils')
 
     debugImplementation testDependencies.composeUITestManifest
 }

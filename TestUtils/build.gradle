@@ -13,10 +13,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
-
-        // REVISIT: uncomment if we want to release the library
-//        versionCode 1
-//        versionName "1.0"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
