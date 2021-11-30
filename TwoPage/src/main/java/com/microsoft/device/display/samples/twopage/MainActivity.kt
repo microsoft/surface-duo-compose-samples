@@ -8,18 +8,17 @@ package com.microsoft.device.display.samples.twopage
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.window.layout.WindowInfoRepository
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.twopage.ui.home.SetupUI
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageComposeSamplesTheme
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowInfoRep: WindowInfoRepository
+    private lateinit var windowInfoRep: WindowInfoTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        windowInfoRep = windowInfoRepository()
+        windowInfoRep = WindowInfoTracker.getOrCreate(this)
 
         setContent {
             TwoPageComposeSamplesTheme {

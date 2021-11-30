@@ -12,8 +12,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.window.layout.WindowInfoRepository
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.SetupUI
 
@@ -22,12 +21,12 @@ import com.microsoft.device.display.samples.navigationrail.ui.view.SetupUI
 @ExperimentalFoundationApi
 @ExperimentalUnitApi
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowInfoRep: WindowInfoRepository
+    private lateinit var windowInfoRep: WindowInfoTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        windowInfoRep = windowInfoRepository()
+        windowInfoRep = WindowInfoTracker.getOrCreate(this)
 
         setContent {
             ComposeSamplesTheme {

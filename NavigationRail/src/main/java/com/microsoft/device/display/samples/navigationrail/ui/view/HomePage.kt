@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -18,11 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
@@ -38,14 +40,16 @@ const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoRepository) {
+fun SetupUI(windowInfoRep: WindowInfoTracker) {
+    val activity = LocalContext.current as Activity
+
     // Create variables to track foldable device layout information
     var isAppSpanned by remember { mutableStateOf(false) }
     var isHingeVertical by remember { mutableStateOf(false) }
     var hingeSize by remember { mutableStateOf(0) }
 
     LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo
+        windowInfoRep.windowLayoutInfo(activity)
             .collect { newLayoutInfo ->
                 val displayFeatures = newLayoutInfo.displayFeatures
                 isAppSpanned = displayFeatures.isNotEmpty()

@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.listdetail.ui.view
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
@@ -15,8 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.window.layout.WindowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
@@ -26,11 +28,12 @@ private lateinit var appStateViewModel: AppStateViewModel
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
-fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoRepository) {
+fun SetupUI(viewModel: AppStateViewModel, windowInfoRep: WindowInfoTracker) {
+    val activity = LocalContext.current as Activity
     var isAppSpanned by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo
+        windowInfoRep.windowLayoutInfo(activity)
             .collect { newLayoutInfo ->
                 val displayFeatures = newLayoutInfo.displayFeatures
                 isAppSpanned = displayFeatures.isNotEmpty()

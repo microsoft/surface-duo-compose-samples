@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.companionpane
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -35,13 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.companionpane.uicomponent.BrightnessPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.DefinitionPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.EffectPanel
@@ -65,13 +67,14 @@ enum class ScreenState {
 }
 
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoRepository) {
+fun SetupUI(windowInfoRep: WindowInfoTracker) {
+    val activity = LocalContext.current as Activity
     var screenState by remember { mutableStateOf(ScreenState.SinglePortrait) }
     var isAppSpanned by remember { mutableStateOf(false) }
     var isHingeHorizontal by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo
+        windowInfoRep.windowLayoutInfo(activity)
             .collect { newLayoutInfo ->
                 val displayFeatures = newLayoutInfo.displayFeatures
                 isAppSpanned = displayFeatures.isNotEmpty()

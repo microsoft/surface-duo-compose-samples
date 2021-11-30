@@ -17,20 +17,21 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowMetricsCalculator
 import kotlinx.coroutines.flow.collect
 
 @Composable
 fun Activity.rememberWindowInfo(): WindowInfo {
-    val windowInfoRepo = windowInfoRepository()
+    val activity = this
+    val windowInfoRepo = WindowInfoTracker.getOrCreate(activity)
 
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
     var foldBounds by remember { mutableStateOf(Rect()) }
 
     LaunchedEffect(windowInfoRepo) {
-        windowInfoRepo.windowLayoutInfo.collect { newLayoutInfo ->
+        windowInfoRepo.windowLayoutInfo(activity).collect { newLayoutInfo ->
             hasFold = newLayoutInfo.displayFeatures.isNotEmpty()
             if (hasFold) {
                 val fold = newLayoutInfo.displayFeatures.firstOrNull() as? FoldingFeature
