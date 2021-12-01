@@ -9,24 +9,26 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
-import com.microsoft.device.display.samples.dualview.ui.home.SetupUI
+import com.microsoft.device.display.samples.dualview.ui.home.DualViewApp
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewComposeSampleTheme
+import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.window.rememberWindowState
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowInfoRep: WindowInfoTracker
+    private lateinit var windowState: WindowState
     private lateinit var appStateViewModel: AppStateViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        windowInfoRep = WindowInfoTracker.getOrCreate(this)
         appStateViewModel = ViewModelProvider(this).get(AppStateViewModel::class.java)
 
         setContent {
+            windowState = rememberWindowState()
+
             DualViewComposeSampleTheme {
-                SetupUI(appStateViewModel, windowInfoRep)
+                DualViewApp(appStateViewModel, windowState)
             }
         }
     }
