@@ -20,6 +20,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.window.layout.FoldingFeature
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
@@ -59,6 +60,9 @@ class PaneSynchronizationTest {
                         hasFold = true,
                         isFoldHorizontal = false,
                         foldBounds = Rect(),
+                        foldState = FoldingFeature.State.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
                         widthSizeClass = WindowSizeClass.MEDIUM,
                         heightSizeClass = WindowSizeClass.MEDIUM
                     )
@@ -105,6 +109,9 @@ class PaneSynchronizationTest {
                         hasFold = false,
                         isFoldHorizontal = false,
                         foldBounds = Rect(),
+                        foldState = FoldingFeature.State.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
                         widthSizeClass = WindowSizeClass.COMPACT,
                         heightSizeClass = WindowSizeClass.MEDIUM
                     )
@@ -143,6 +150,9 @@ class PaneSynchronizationTest {
                         hasFold = true,
                         isFoldHorizontal = true,
                         foldBounds = Rect(),
+                        foldState = FoldingFeature.State.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
                         widthSizeClass = WindowSizeClass.COMPACT,
                         heightSizeClass = WindowSizeClass.MEDIUM
                     )

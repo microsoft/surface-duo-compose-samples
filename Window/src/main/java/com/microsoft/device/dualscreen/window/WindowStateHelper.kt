@@ -29,6 +29,9 @@ fun Activity.rememberWindowState(): WindowState {
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
     var foldBounds by remember { mutableStateOf(Rect()) }
+    var foldState by remember { mutableStateOf(FoldingFeature.State.FLAT) }
+    var foldSeparates by remember { mutableStateOf(false) }
+    var foldOccludes by remember { mutableStateOf(false) }
 
     LaunchedEffect(windowInfoRepo) {
         windowInfoRepo.windowLayoutInfo(activity).collect { newLayoutInfo ->
@@ -38,6 +41,9 @@ fun Activity.rememberWindowState(): WindowState {
                 fold?.let {
                     isFoldHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
                     foldBounds = it.bounds
+                    foldState = it.state
+                    foldSeparates = it.isSeparating
+                    foldOccludes = it.occlusionType == FoldingFeature.OcclusionType.FULL
                 }
             }
         }
@@ -55,5 +61,14 @@ fun Activity.rememberWindowState(): WindowState {
     val widthSizeClass = getWindowSizeClass(windowWidth)
     val heightSizeClass = getWindowSizeClass(windowHeight, Dimension.HEIGHT)
 
-    return WindowState(hasFold, isFoldHorizontal, foldBounds, widthSizeClass, heightSizeClass)
+    return WindowState(
+        hasFold,
+        isFoldHorizontal,
+        foldBounds,
+        foldState,
+        foldSeparates,
+        foldOccludes,
+        widthSizeClass,
+        heightSizeClass
+    )
 }
