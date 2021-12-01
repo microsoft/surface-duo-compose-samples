@@ -26,7 +26,7 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
  *
  * @param isDualPortrait: true if device is in dual portrait mode
  * @param isDualLandscape: true if device is in dual landscape mode
- * @param hingeSize: size of hinge in dp (0 if no hinge)
+ * @param foldSize: size of fold in dp (0 if no fold)
  * @param selectedImage: currently selected image
  * @param currentRoute: current route in gallery NavHost
  */
@@ -36,7 +36,7 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 fun ItemDetailView(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    hingeSize: Dp,
+    foldSize: Dp,
     selectedImage: Image? = null,
     currentRoute: String,
 ) {
@@ -61,7 +61,7 @@ fun ItemDetailView(
             modifier = Modifier.align(Alignment.BottomCenter),
             image = selectedImage,
             isDualLandscape = isDualLandscape,
-            hingeSize = hingeSize,
+            foldSize = foldSize,
             gallerySection = gallerySection,
         )
     }

@@ -5,94 +5,38 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.app.Activity
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoTracker
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
-import kotlinx.coroutines.flow.collect
-
-const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
+import com.microsoft.device.dualscreen.window.WindowState
 
 @ExperimentalAnimationApi
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoTracker) {
-    val activity = LocalContext.current as Activity
+fun NavigationRailApp(windowState: WindowState) {
+    // Extract window state information
+    val isDualScreen = windowState.isDualScreen()
+    val isDualPortrait = windowState.isDualPortrait()
+    val isDualLandscape = windowState.isDualLandscape()
+    val foldSize = windowState.getFoldSize().dp
 
-    // Create variables to track foldable device layout information
-    var isAppSpanned by remember { mutableStateOf(false) }
-    var isHingeVertical by remember { mutableStateOf(false) }
-    var hingeSize by remember { mutableStateOf(0) }
-
-    LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo(activity)
-            .collect { newLayoutInfo ->
-                val displayFeatures = newLayoutInfo.displayFeatures
-                isAppSpanned = displayFeatures.isNotEmpty()
-                if (isAppSpanned) {
-                    val foldingFeature = displayFeatures.first() as FoldingFeature
-                    isHingeVertical =
-                        foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL
-                    hingeSize = if (isHingeVertical)
-                        foldingFeature.bounds.width()
-                    else
-                        foldingFeature.bounds.height()
-                }
-            }
-    }
-
-    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
-    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
-    val isDualScreen = (isAppSpanned || isTablet)
-    val isDualPortrait = when {
-        isAppSpanned -> isHingeVertical
-        isTablet -> LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-        else -> false
-    }
-    val isDualLandscape = when {
-        isAppSpanned -> !isHingeVertical
-        isTablet -> LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-        else -> false
-    }
-
-    DualScreenUI(isDualScreen, isDualPortrait, isDualLandscape, hingeSize.dp)
-}
-
-@ExperimentalAnimationApi
-@ExperimentalUnitApi
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@Composable
-fun DualScreenUI(
-    isDualScreen: Boolean,
-    isDualPortrait: Boolean,
-    isDualLandscape: Boolean,
-    hingeSize: Dp,
-) {
     // Set up starting route for navigation in pane 1
     var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }
     val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
@@ -107,7 +51,7 @@ fun DualScreenUI(
             Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
         },
         pane2 = {
-            Pane2(isDualPortrait, isDualLandscape, hingeSize, imageId, updateImageId, currentRoute)
+            Pane2(isDualPortrait, isDualLandscape, foldSize, imageId, updateImageId, currentRoute)
         },
     )
 
@@ -141,7 +85,7 @@ fun Pane1(
 fun Pane2(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    hingeSize: Dp,
+    foldSize: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
     currentRoute: String,
@@ -156,7 +100,7 @@ fun Pane2(
     }
     BackHandler { if (!isDualPortrait) onBackPressed() }
 
-    ItemDetailView(isDualPortrait, isDualLandscape, hingeSize, selectedImage, currentRoute)
+    ItemDetailView(isDualPortrait, isDualLandscape, foldSize, selectedImage, currentRoute)
     // If only one pane is being displayed, show a "back" icon
     if (!isDualPortrait) {
         ItemTopBar(
