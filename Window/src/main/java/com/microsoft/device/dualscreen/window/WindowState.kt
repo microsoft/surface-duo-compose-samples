@@ -17,6 +17,7 @@ data class WindowState(
     val widthSizeClass: WindowSizeClass,
     val heightSizeClass: WindowSizeClass,
 ) {
+    // REVISIT: should we keep getters or just use public vals to access info?
     fun getFoldSize(): Int {
         if (!hasFold)
             return 0
@@ -32,31 +33,53 @@ data class WindowState(
         return !hasFold && widthSizeClass != WindowSizeClass.COMPACT
     }
 
+    fun isDualScreen(): Boolean {
+        return hasFold || isLargeScreen()
+    }
+
+    // REVISIT: should width/height ratio be used instead of orientation?
     @Composable
-    fun isDualPortrait(): Boolean {
-        return when (hasFold) {
-            true -> !isFoldHorizontal
+    private fun isPortrait(): Boolean {
+        return LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+        // NOTE: refers to orientation of entire device, not just the current window
+        // So, for large screens, a portrait large screen device would be in dual landscape mode
+    }
+
+    val windowMode: WindowMode
+        @Composable get() = when (isDualScreen()) {
+            true -> {
+                // REVISIT: get backend internal error when calling isLargeScreen and isPortrait on the same line
+                val isPortrait = isPortrait()
+                if ((hasFold && isFoldHorizontal) || (isLargeScreen() && isPortrait))
+                    WindowMode.DUAL_LANDSCAPE
+                else
+                    WindowMode.DUAL_PORTRAIT
+            }
             false -> {
-                val isLandscape =
-                    LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-                return isLargeScreen() && isLandscape
+                if (isPortrait())
+                    WindowMode.SINGLE_PORTRAIT
+                else
+                    WindowMode.SINGLE_LANDSCAPE
             }
         }
+
+    @Composable
+    fun isDualPortrait(): Boolean {
+        return windowMode == WindowMode.DUAL_PORTRAIT
     }
 
     @Composable
     fun isDualLandscape(): Boolean {
-        return when (hasFold) {
-            true -> isFoldHorizontal
-            false -> {
-                val isPortrait =
-                    LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-                return isLargeScreen() && isPortrait
-            }
-        }
+        return windowMode == WindowMode.DUAL_LANDSCAPE
     }
 
-    fun isDualScreen(): Boolean {
-        return hasFold || isLargeScreen()
+    @Composable
+    fun isSinglePortrait(): Boolean {
+        return windowMode == WindowMode.SINGLE_PORTRAIT
+    }
+
+    @Composable
+    fun isSingleLandscape(): Boolean {
+        return windowMode == WindowMode.SINGLE_LANDSCAPE
     }
 }
