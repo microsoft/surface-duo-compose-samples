@@ -35,7 +35,7 @@ fun NavigationRailApp(windowState: WindowState) {
     val isDualScreen = windowState.isDualScreen()
     val isDualPortrait = windowState.isDualPortrait()
     val isDualLandscape = windowState.isDualLandscape()
-    val foldSize = windowState.getFoldSize().dp
+    val foldSize = windowState.foldSize.dp
 
     // Set up starting route for navigation in pane 1
     var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }

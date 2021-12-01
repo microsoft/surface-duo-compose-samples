@@ -17,51 +17,49 @@ data class WindowState(
     val widthSizeClass: WindowSizeClass,
     val heightSizeClass: WindowSizeClass,
 ) {
-    // REVISIT: should we keep getters or just use public vals to access info?
-    fun getFoldSize(): Int {
-        if (!hasFold)
-            return 0
-
-        return when (isFoldHorizontal) {
-            true -> foldBounds.height()
-            false -> foldBounds.width()
-        }
+    private val foldableFoldSize = when (isFoldHorizontal) {
+        true -> foldBounds.height()
+        false -> foldBounds.width()
     }
 
-    // REVISIT: should height also be considered?
-    fun isLargeScreen(): Boolean {
-        return !hasFold && widthSizeClass != WindowSizeClass.COMPACT
-    }
-
-    fun isDualScreen(): Boolean {
-        return hasFold || isLargeScreen()
-    }
-
-    // REVISIT: should width/height ratio be used instead of orientation?
-    @Composable
-    private fun isPortrait(): Boolean {
-        return LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-        // NOTE: refers to orientation of entire device, not just the current window
-        // So, for large screens, a portrait large screen device would be in dual landscape mode
-    }
+    val foldSize = if (hasFold) foldableFoldSize else 0
 
     val windowMode: WindowMode
-        @Composable get() = when (isDualScreen()) {
-            true -> {
-                // REVISIT: get backend internal error when calling isLargeScreen and isPortrait on the same line
-                val isPortrait = isPortrait()
-                if ((hasFold && isFoldHorizontal) || (isLargeScreen() && isPortrait))
-                    WindowMode.DUAL_LANDSCAPE
-                else
-                    WindowMode.DUAL_PORTRAIT
-            }
-            false -> {
-                if (isPortrait())
-                    WindowMode.SINGLE_PORTRAIT
-                else
-                    WindowMode.SINGLE_LANDSCAPE
+        @Composable get() {
+            // REVISIT: should width/height ratio be used instead of orientation?
+            val isPortrait =
+                LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+
+            // REVISIT: should height class also be considered?
+            // Also, right now we are considering large screens + foldables mutually exclusive
+            // (which seems necessary for dualscreen apps), but we may want to think about this
+            // more and change our approach if we think there are cases where we want an app to
+            // know about both properties
+            val isLargeScreen = !hasFold && widthSizeClass != WindowSizeClass.COMPACT
+
+            return when {
+                hasFold -> {
+                    if (isFoldHorizontal)
+                        WindowMode.DUAL_LANDSCAPE
+                    else
+                        WindowMode.DUAL_PORTRAIT
+                }
+                isLargeScreen -> {
+                    if (isPortrait)
+                        WindowMode.DUAL_LANDSCAPE
+                    else
+                        WindowMode.DUAL_PORTRAIT
+                }
+                isPortrait -> WindowMode.SINGLE_PORTRAIT
+                else -> WindowMode.SINGLE_LANDSCAPE
             }
         }
+
+
+    @Composable
+    fun isDualScreen(): Boolean {
+        return windowMode.isDualScreen
+    }
 
     @Composable
     fun isDualPortrait(): Boolean {

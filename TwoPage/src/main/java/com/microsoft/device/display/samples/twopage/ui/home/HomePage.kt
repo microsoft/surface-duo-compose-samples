@@ -40,7 +40,7 @@ fun TwoPageApp(windowState: WindowState) {
 
     val isDualScreen = windowState.isDualPortrait()
     val pages = setupPages(viewWidth)
-    PageViews(pages, isDualScreen, windowState.getFoldSize() / 2)
+    PageViews(pages, isDualScreen, windowState.foldSize / 2)
 }
 
 @Composable
