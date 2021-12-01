@@ -27,8 +27,8 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
-import com.microsoft.device.dualscreen.window_info.WindowInfo
-import com.microsoft.device.dualscreen.window_info.WindowSizeClass
+import com.microsoft.device.dualscreen.window.WindowSizeClass
+import com.microsoft.device.dualscreen.window.WindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -55,7 +55,7 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    WindowInfo(
+                    WindowState(
                         hasFold = true,
                         isFoldHorizontal = false,
                         foldBounds = Rect(),
@@ -101,7 +101,7 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    WindowInfo(
+                    WindowState(
                         hasFold = false,
                         isFoldHorizontal = false,
                         foldBounds = Rect(),
@@ -139,7 +139,7 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    WindowInfo(
+                    WindowState(
                         hasFold = true,
                         isFoldHorizontal = true,
                         foldBounds = Rect(),

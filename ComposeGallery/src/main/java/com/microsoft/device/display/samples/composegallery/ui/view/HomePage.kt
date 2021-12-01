@@ -25,12 +25,12 @@ import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
-import com.microsoft.device.dualscreen.window_info.WindowInfo
+import com.microsoft.device.dualscreen.window.WindowState
 
 @Composable
-fun ComposeGalleryApp(windowInfo: WindowInfo) {
+fun ComposeGalleryApp(windowState: WindowState) {
     // Check if app should be in dual mode
-    val isDualMode = windowInfo.isDualPortrait()
+    val isDualMode = windowState.isDualPortrait()
 
     // Get relevant image data for the panes
     val models = DataProvider.imageModels

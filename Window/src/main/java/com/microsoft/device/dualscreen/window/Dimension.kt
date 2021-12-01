@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.window_info
+package com.microsoft.device.dualscreen.window
 
 enum class Dimension { WIDTH, HEIGHT }

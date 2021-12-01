@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.window_info
+package com.microsoft.device.dualscreen.window
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

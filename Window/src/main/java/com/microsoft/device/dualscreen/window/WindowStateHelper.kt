@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.window_info
+package com.microsoft.device.dualscreen.window
 
 import android.app.Activity
 import android.graphics.Rect
@@ -22,7 +22,7 @@ import androidx.window.layout.WindowMetricsCalculator
 import kotlinx.coroutines.flow.collect
 
 @Composable
-fun Activity.rememberWindowInfo(): WindowInfo {
+fun Activity.rememberWindowState(): WindowState {
     val activity = this
     val windowInfoRepo = WindowInfoTracker.getOrCreate(activity)
 
@@ -55,5 +55,5 @@ fun Activity.rememberWindowInfo(): WindowInfo {
     val widthSizeClass = getWindowSizeClass(windowWidth)
     val heightSizeClass = getWindowSizeClass(windowHeight, Dimension.HEIGHT)
 
-    return WindowInfo(hasFold, isFoldHorizontal, foldBounds, widthSizeClass, heightSizeClass)
+    return WindowState(hasFold, isFoldHorizontal, foldBounds, widthSizeClass, heightSizeClass)
 }

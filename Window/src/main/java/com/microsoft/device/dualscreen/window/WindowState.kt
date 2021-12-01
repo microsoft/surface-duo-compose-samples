@@ -3,14 +3,14 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.window_info
+package com.microsoft.device.dualscreen.window
 
 import android.content.res.Configuration
 import android.graphics.Rect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 
-data class WindowInfo(
+data class WindowState(
     val hasFold: Boolean,
     val isFoldHorizontal: Boolean,
     val foldBounds: Rect,
