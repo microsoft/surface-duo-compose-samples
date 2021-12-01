@@ -3,32 +3,17 @@
  * Licensed under the MIT License.
  */
 
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 31
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.microsoft.device.display.samples.navigationrail"
-        minSdk 23
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,7 +28,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
-        kotlinCompilerVersion '1.5.21'
     }
     packagingOptions {
         resources {
@@ -54,9 +38,11 @@ android {
 
 dependencies {
     implementation kotlinDependencies.kotlinStdlib
+
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
+
     implementation microsoftDependencies.twoPaneLayout
 
     implementation composeDependencies.composeMaterialForNavRail

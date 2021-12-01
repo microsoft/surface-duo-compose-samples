@@ -13,8 +13,7 @@ android {
         applicationId "com.microsoft.device.display.samples.composegallery"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -38,26 +37,29 @@ android {
 
 dependencies {
     implementation kotlinDependencies.kotlinStdlib
+
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation androidxDependencies.window
+
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeRuntime
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+
     implementation microsoftDependencies.twoPaneLayout
 
     implementation googleDependencies.material
 
-    androidTestImplementation(testDependencies.androidxTestCore)
-    androidTestImplementation(testDependencies.androidxTestRules)
-    androidTestImplementation(testDependencies.androidxTestRunner)
-    androidTestImplementation(testDependencies.composeUITest)
-    androidTestImplementation(testDependencies.composeJunit)
-    androidTestImplementation(testDependencies.uiAutomator)
-    androidTestImplementation(testDependencies.windowTest)
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
+    androidTestImplementation testDependencies.composeUITest
+    androidTestImplementation testDependencies.composeJunit
+    androidTestImplementation testDependencies.windowTest
+    androidTestImplementation project(':TestUtils')
 
-    debugImplementation(testDependencies.composeUITestManifest)
-
+    debugImplementation testDependencies.composeUITestManifest
 }

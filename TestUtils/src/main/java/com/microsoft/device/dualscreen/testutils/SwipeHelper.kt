@@ -3,106 +3,24 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.composegallery
+package com.microsoft.device.dualscreen.testutils
 
-import android.util.Log
 import android.view.Surface
-import androidx.activity.ComponentActivity
-import androidx.annotation.StringRes
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.uiautomator.UiDevice
-import androidx.window.layout.FoldingFeature
-import androidx.window.testing.layout.FoldingFeature
-import androidx.window.testing.layout.TestWindowLayoutInfo
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 
 /**
- * Helper method for getting resource strings in Compose tests
+ * SWIPE HELPER
+ * -----------------------------------------------------------------------------------------------
+ * These functions can be used in dualscreen UI tests to simulate swipe gestures that affect
+ * app display. The swipes are simulated using UiDevice, and the coordinates are calculated based
+ * on the display width/height of the testing device (see DeviceModel.kt).
+ *
+ * Available gestures:
+ * - span (display app in two panes)
+ * - unspan (display app in one pane)
+ * - close (close app)
+ * - switch (switch app from one pane to the other)
  */
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int): String {
-    return activity.getString(id)
-}
-
-/**
- * UIDEVICE HELPER METHODS - based on hardcoded coordinates and espresso swipe gestures
- */
-
-/**
- * Coordinates taken from dual portrait point of view
- * Dimensions available here: https://docs.microsoft.com /dual-screen/android/surface-duo-dimensions
- */
-enum class DeviceModel(
-    val paneWidth: Int,
-    val paneHeight: Int,
-    val foldSize: Int,
-    val leftX: Int = paneWidth / 2,
-    val rightX: Int = leftX + paneWidth + foldSize,
-    val middleX: Int = paneWidth + foldSize / 2,
-    val middleY: Int = paneHeight / 2,
-    val bottomY: Int,
-    val spanSteps: Int = 400,
-    val unspanSteps: Int = 200,
-    val switchSteps: Int = 100,
-    val closeSteps: Int = 50,
-) {
-    SurfaceDuo(paneWidth = 1350, paneHeight = 1800, foldSize = 84, bottomY = 1780),
-    SurfaceDuo2(paneWidth = 1344, paneHeight = 1892, foldSize = 66, bottomY = 1870),
-    Other(paneWidth = 0, paneHeight = 0, foldSize = 0, bottomY = 0);
-
-    override fun toString(): String {
-        return "$name [leftX: $leftX rightX: $rightX middleX: $middleX middleY: $middleY bottomY: $bottomY]"
-    }
-}
-
-/**
- * Method to determine the model of a device
- */
-fun UiDevice.getDeviceModel(): DeviceModel {
-    Log.d(
-        "SurfaceDuoTestingHelper",
-        "w: $displayWidth h: $displayHeight rotation: $displayRotation"
-    )
-
-    return when (displayRotation) {
-        Surface.ROTATION_0, Surface.ROTATION_180 -> getModelFromPaneWidth(displayWidth)
-        Surface.ROTATION_90, Surface.ROTATION_270 -> getModelFromPaneWidth(displayHeight)
-        else -> throw Error("Unknown rotation state $displayRotation")
-    }
-}
-
-/**
- * Method to check if a device is a Surface Duo model
- */
-fun UiDevice.isSurfaceDuo(): Boolean {
-    val model = getDeviceModel()
-    return model == DeviceModel.SurfaceDuo || model == DeviceModel.SurfaceDuo2
-}
-
-/**
- * Method to retrieve hinge/fold size of a device
- */
-fun UiDevice.getFoldSize(): Int {
-    return getDeviceModel().foldSize
-}
-
-/**
- * Helper method to compare the pane width of a device to the pane widths of the defined device
- * models
- */
-private fun UiDevice.getModelFromPaneWidth(paneWidth: Int): DeviceModel {
-    for (model in DeviceModel.values()) {
-        // pane width could be the width of a single pane, or the width of two panes + the width
-        // of the hinge
-        if (paneWidth == model.paneWidth || paneWidth == model.paneWidth * 2 + model.foldSize)
-            return model
-    }
-    Log.d(
-        "SurfaceDuoTestingHelper",
-        "Unknown dualscreen device dimensions $displayWidth $displayHeight"
-    )
-    return DeviceModel.Other
-}
 
 /**
  * Helper method that sets up/cleans up a dualscreen swipe operation for automated testing
@@ -117,6 +35,9 @@ private fun UiDevice.dualscreenSwipeWrapper(swipe: (DeviceModel) -> Boolean) {
     unfreezeRotation()
 }
 
+/**
+ * Span app from the top/left pane
+ */
 fun UiDevice.spanFromStart() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -131,6 +52,9 @@ fun UiDevice.spanFromStart() {
     }
 }
 
+/**
+ * Span app from the bottom/right pane
+ */
 fun UiDevice.spanFromEnd() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -145,6 +69,9 @@ fun UiDevice.spanFromEnd() {
     }
 }
 
+/**
+ * Unspan app to the top/left pane
+ */
 fun UiDevice.unspanToStart() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -159,6 +86,9 @@ fun UiDevice.unspanToStart() {
     }
 }
 
+/**
+ * Unspan app to bottom/right pane
+ */
 fun UiDevice.unspanToEnd() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -173,6 +103,9 @@ fun UiDevice.unspanToEnd() {
     }
 }
 
+/**
+ * Switch app from bottom/right pane to top/left pane
+ */
 fun UiDevice.switchToStart() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -187,6 +120,9 @@ fun UiDevice.switchToStart() {
     }
 }
 
+/**
+ * Switch app from top/left pane to bottom/right pane
+ */
 fun UiDevice.switchToEnd() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -201,6 +137,9 @@ fun UiDevice.switchToEnd() {
     }
 }
 
+/**
+ * Close app from top/left pane
+ */
 fun UiDevice.closeStart() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -215,6 +154,9 @@ fun UiDevice.closeStart() {
     }
 }
 
+/**
+ * Close app from bottom/right pane
+ */
 fun UiDevice.closeEnd() {
     dualscreenSwipeWrapper { model ->
         when (displayRotation) {
@@ -226,56 +168,5 @@ fun UiDevice.closeEnd() {
                 swipe(model.bottomY, model.rightX, model.middleY, model.rightX, model.closeSteps)
             else -> throw Error("Unknown rotation state $displayRotation")
         }
-    }
-}
-
-/**
- * WINDOW MANAGER HELPER METHODS - based on TestWindowLayoutInfo and mocking FoldingFeatures
- */
-
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
-    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
-    center: Int = -1,
-    size: Int = 0,
-    state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
-) {
-    simulateFold(composeAndroidTestRule, center, size, state, FoldingFeature.Orientation.VERTICAL)
-}
-
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold(
-    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
-    center: Int = -1,
-    size: Int = 0,
-    state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
-) {
-    simulateFold(composeAndroidTestRule, center, size, state, FoldingFeature.Orientation.HORIZONTAL)
-}
-
-/**
- * Helper method to override the current window layout info with new information
- *
- * @param composeAndroidTestRule: compose test rule that's associated with an activity
- * @param center: center of the fold (defaults to middle of screen when -1)
- * @param size: size of the fold (default 0)
- * @param state: state of the fold (flat or half-opened)
- * @param orientation: orientation of the fold
- */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
-    composeAndroidTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
-    center: Int,
-    size: Int,
-    state: FoldingFeature.State,
-    orientation: FoldingFeature.Orientation,
-) {
-    composeAndroidTestRule.activityRule.scenario.onActivity { activity ->
-        val fold = FoldingFeature(
-            activity = activity,
-            center = center,
-            size = size,
-            state = state,
-            orientation = orientation
-        )
-        val windowLayoutInfo = TestWindowLayoutInfo(listOf(fold))
-        overrideWindowLayoutInfo(windowLayoutInfo)
     }
 }

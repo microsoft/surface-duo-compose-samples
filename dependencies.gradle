@@ -31,7 +31,7 @@ ext {
     ]
 
     composeVersion = "1.0.5"
-    composeBetaVersion = "1.1.0-beta02"
+    composeBetaVersion = "1.1.0-beta03"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0-beta02"
     composeDependencies = [
@@ -46,8 +46,9 @@ ext {
     ]
 
     // Testing versions
-    androidxTestVersion = "1.4.0-beta01"
+    androidxTestVersion = "1.4.0"
     uiAutomatorVersion = "2.2.0"
+    espressoVersion = "3.4.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
@@ -57,6 +58,7 @@ ext {
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
             uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
             windowTest              : "androidx.window:window-testing:$windowVersion",
+            espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
     ]
 
     // Google dependencies
@@ -65,8 +67,9 @@ ext {
             material: "com.google.android.material:material:$materialVersion"
     ]
 
+    // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha09"
     microsoftDependencies = [
-            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion"
+            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
     ]
 }
