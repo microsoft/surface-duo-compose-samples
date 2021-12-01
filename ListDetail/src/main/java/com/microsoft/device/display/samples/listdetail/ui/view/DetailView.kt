@@ -44,13 +44,13 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewWithTopBar(isAppSpanned: Boolean, appStateViewModel: AppStateViewModel) {
+fun DetailViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    if (!isAppSpanned) {
+                    if (!isDualScreen) {
                         DetailViewTopBar()
                     }
                 }
