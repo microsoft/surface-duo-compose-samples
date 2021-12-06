@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.companionpane.ui.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,13 +18,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.display.samples.companionpane.R
 import com.microsoft.device.display.samples.companionpane.ui.components.BrightnessPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.DefinitionPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.FilterPanel
@@ -42,7 +43,8 @@ fun DualLandscapePane1() {
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 20.dp)
-            .clipToBounds(),
+            .clipToBounds()
+            .testTag(stringResource(R.string.dual_land_pane1)),
         contentAlignment = Alignment.Center
     ) {
         ImagePanel(modifier = Modifier.padding(all = 20.dp))
@@ -55,7 +57,8 @@ fun DualLandscapePane2() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 5.dp, end = 5.dp, bottom = 5.dp),
+                .padding(start = 5.dp, end = 5.dp, bottom = 5.dp)
+                .testTag(stringResource(R.string.dual_land_pane2)),
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             FilterPanel()
@@ -87,7 +90,8 @@ fun LandscapeLayout() {
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 20.dp, start = 20.dp, end = 10.dp, bottom = 10.dp)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .testTag(stringResource(R.string.single_land)),
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Row(

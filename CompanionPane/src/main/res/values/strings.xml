@@ -19,4 +19,13 @@
     <string name="lark">Lark</string>
     <string name="juno">Juno</string>
     <string name="ludwig">Ludwig</string>
+
+    <!-- Testing tags -->
+    <string name="dual_port_pane1">DualPortrait Pane 1</string>
+    <string name="dual_port_pane2">DualPortrait Pane 2</string>
+    <string name="dual_land_pane1">DualLandscape Pane 1</string>
+    <string name="dual_land_pane2">DualLandscape Pane 2</string>
+    <string name="single_port">SinglePortrait</string>
+    <string name="single_land">SingleLandscape</string>
+    <string name="top_bar">Top Bar</string>
 </resources>

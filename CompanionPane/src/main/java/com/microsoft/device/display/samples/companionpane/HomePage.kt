@@ -11,14 +11,17 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowLayoutInfo
+import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane1
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane2
 import com.microsoft.device.display.samples.companionpane.ui.view.DualPortraitPane1
@@ -44,6 +47,7 @@ fun CompanionPaneApp(windowState: WindowState) {
 @Composable
 fun CompanionPaneTopBar(title: String? = null) {
     TopAppBar(
+        modifier = Modifier.testTag(stringResource(R.string.top_bar)),
         title = { Text(text = title ?: "") },
         backgroundColor = MaterialTheme.colors.primary
     )

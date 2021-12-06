@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.display.samples.companionpane.R
 import com.microsoft.device.display.samples.companionpane.ui.components.BrightnessPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.DefinitionPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.FilterPanel
@@ -31,7 +34,9 @@ private val longSliderWidth = 350.dp
 @Composable
 fun DualPortraitPane1() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(stringResource(R.string.dual_port_pane1)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         ImagePanel(Modifier.padding(horizontal = 30.dp))
@@ -42,7 +47,9 @@ fun DualPortraitPane1() {
 @Composable
 fun DualPortraitPane2() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(stringResource(R.string.dual_port_pane2)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(80.dp, Alignment.CenterVertically)
     ) {
@@ -59,7 +66,9 @@ fun DualPortraitPane2() {
 @Composable
 fun PortraitLayout() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(stringResource(R.string.single_port)),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         Spacer(Modifier.height(8.dp))
