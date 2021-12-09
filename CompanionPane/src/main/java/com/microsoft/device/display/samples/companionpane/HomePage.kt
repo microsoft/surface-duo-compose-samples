@@ -46,8 +46,8 @@ import com.microsoft.device.display.samples.companionpane.uicomponent.MagicWandP
 import com.microsoft.device.display.samples.companionpane.uicomponent.ShortFilterControl
 import com.microsoft.device.display.samples.companionpane.uicomponent.VignettePanel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
-import com.microsoft.device.dualscreen.window.WindowMode
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowMode
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 private val shortSlideWidth = 200.dp
 private val longSlideWidth = 350.dp

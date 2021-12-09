@@ -12,7 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun DualViewApp(viewModel: AppStateViewModel, windowState: WindowState) {

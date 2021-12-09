@@ -14,8 +14,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
-import com.microsoft.device.dualscreen.window.WindowState
-import com.microsoft.device.dualscreen.window.rememberWindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi

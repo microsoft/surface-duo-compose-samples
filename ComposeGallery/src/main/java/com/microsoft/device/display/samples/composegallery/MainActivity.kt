@@ -10,8 +10,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
-import com.microsoft.device.dualscreen.window.WindowState
-import com.microsoft.device.dualscreen.window.rememberWindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 class MainActivity : AppCompatActivity() {
     private lateinit var windowState: WindowState

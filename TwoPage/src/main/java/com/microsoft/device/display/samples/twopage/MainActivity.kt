@@ -10,8 +10,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.microsoft.device.display.samples.twopage.ui.home.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageComposeSamplesTheme
-import com.microsoft.device.dualscreen.window.WindowState
-import com.microsoft.device.dualscreen.window.rememberWindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 class MainActivity : AppCompatActivity() {
     private lateinit var windowState: WindowState

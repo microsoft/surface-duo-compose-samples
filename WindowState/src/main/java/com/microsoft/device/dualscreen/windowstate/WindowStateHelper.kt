@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.window
+package com.microsoft.device.dualscreen.windowstate
 
 import android.app.Activity
 import android.graphics.Rect

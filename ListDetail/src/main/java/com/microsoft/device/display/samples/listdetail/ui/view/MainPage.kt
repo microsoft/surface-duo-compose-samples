@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun ListDetailApp(viewModel: AppStateViewModel, windowState: WindowState) {

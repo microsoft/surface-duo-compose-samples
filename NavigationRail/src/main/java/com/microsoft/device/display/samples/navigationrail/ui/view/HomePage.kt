@@ -23,7 +23,7 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @ExperimentalAnimationApi
 @ExperimentalUnitApi

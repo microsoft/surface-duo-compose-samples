@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun TwoPageApp(windowState: WindowState) {

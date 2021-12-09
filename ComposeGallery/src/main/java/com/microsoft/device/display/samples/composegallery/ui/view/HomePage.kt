@@ -25,7 +25,7 @@ import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
-import com.microsoft.device.dualscreen.window.WindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun ComposeGalleryApp(windowState: WindowState) {

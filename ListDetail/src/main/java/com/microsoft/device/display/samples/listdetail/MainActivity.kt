@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
-import com.microsoft.device.dualscreen.window.WindowState
-import com.microsoft.device.dualscreen.window.rememberWindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 class MainActivity : AppCompatActivity() {
     private lateinit var windowState: WindowState

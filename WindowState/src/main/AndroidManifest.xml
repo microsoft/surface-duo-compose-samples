@@ -4,4 +4,4 @@
   ~ Licensed under the MIT License.
   -->
 
-<manifest package="com.microsoft.device.dualscreen.window" />
+<manifest package="com.microsoft.device.dualscreen.windowstate" />
