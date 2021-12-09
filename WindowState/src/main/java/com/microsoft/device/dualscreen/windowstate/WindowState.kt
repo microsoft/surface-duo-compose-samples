@@ -7,6 +7,7 @@ package com.microsoft.device.dualscreen.windowstate
 
 import android.content.res.Configuration
 import android.graphics.Rect
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.window.layout.FoldingFeature
@@ -47,30 +48,35 @@ data class WindowState(
             val isPortrait =
                 LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
 
-            // REVISIT: should height class also be considered?
-            // Also, right now we are considering large screens + foldables mutually exclusive
-            // (which seems necessary for dualscreen apps), but we may want to think about this
-            // more and change our approach if we think there are cases where we want an app to
-            // know about both properties
-            val isLargeScreen = !hasFold && widthSizeClass == WindowSizeClass.EXPANDED
-
-            return when {
-                hasFold -> {
-                    if (isFoldHorizontal)
-                        WindowMode.DUAL_LANDSCAPE
-                    else
-                        WindowMode.DUAL_PORTRAIT
-                }
-                isLargeScreen -> {
-                    if (isPortrait)
-                        WindowMode.DUAL_LANDSCAPE
-                    else
-                        WindowMode.DUAL_PORTRAIT
-                }
-                isPortrait -> WindowMode.SINGLE_PORTRAIT
-                else -> WindowMode.SINGLE_LANDSCAPE
-            }
+            return calculateWindowMode(isPortrait)
         }
+
+    @VisibleForTesting
+    fun calculateWindowMode(isPortrait: Boolean): WindowMode {
+        // REVISIT: should height class also be considered?
+        // Also, right now we are considering large screens + foldables mutually exclusive
+        // (which seems necessary for dualscreen apps), but we may want to think about this
+        // more and change our approach if we think there are cases where we want an app to
+        // know about both properties
+        val isLargeScreen = !hasFold && widthSizeClass == WindowSizeClass.EXPANDED
+
+        return when {
+            hasFold -> {
+                if (isFoldHorizontal)
+                    WindowMode.DUAL_LANDSCAPE
+                else
+                    WindowMode.DUAL_PORTRAIT
+            }
+            isLargeScreen -> {
+                if (isPortrait)
+                    WindowMode.DUAL_LANDSCAPE
+                else
+                    WindowMode.DUAL_PORTRAIT
+            }
+            isPortrait -> WindowMode.SINGLE_PORTRAIT
+            else -> WindowMode.SINGLE_LANDSCAPE
+        }
+    }
 
     @Composable
     fun isDualScreen(): Boolean {

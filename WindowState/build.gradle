@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
 
         // REVISIT: can uncomment if we release this
 //        versionCode 1
@@ -44,4 +45,13 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+
+    testImplementation testDependencies.androidJunit
+    testImplementation testDependencies.androidxTestCore
+    testImplementation testDependencies.mockitoCore
+
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
 }

@@ -49,6 +49,8 @@ ext {
     androidxTestVersion = "1.4.0"
     uiAutomatorVersion = "2.2.0"
     espressoVersion = "3.4.0"
+    junitVersion = "4.12"
+    mockitoVersion = "4.1.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
@@ -59,6 +61,8 @@ ext {
             uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
             windowTest              : "androidx.window:window-testing:$windowVersion",
             espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
+            androidJunit            : "junit:junit:$junitVersion",
+            mockitoCore             : "org.mockito:mockito-core:$mockitoVersion",
     ]
 
     // Google dependencies
