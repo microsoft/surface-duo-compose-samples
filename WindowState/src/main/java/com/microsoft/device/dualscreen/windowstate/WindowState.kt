@@ -41,8 +41,6 @@ data class WindowState(
 
     val foldSize = if (hasFold) foldableFoldSize else 0
 
-    val isTabletopMode = foldState == FoldingFeature.State.HALF_OPENED
-
     val windowMode: WindowMode
         @Composable get() {
             // REVISIT: should width/height ratio be used instead of orientation?
@@ -54,7 +52,7 @@ data class WindowState(
             // (which seems necessary for dualscreen apps), but we may want to think about this
             // more and change our approach if we think there are cases where we want an app to
             // know about both properties
-            val isLargeScreen = !hasFold && widthSizeClass != WindowSizeClass.COMPACT
+            val isLargeScreen = !hasFold && widthSizeClass == WindowSizeClass.EXPANDED
 
             return when {
                 hasFold -> {

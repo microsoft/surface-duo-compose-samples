@@ -53,10 +53,8 @@ fun Activity.rememberWindowState(): WindowState {
     val windowMetrics = remember(config) {
         WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this).bounds
     }
-    val windowWidth = config.smallestScreenWidthDp.dp
-    // REVISIT: proper way to do it below, but need to figure out how to handle single landscape
-    // mode on Surface Duo first (will think it's a large screen due to width)
-//    val windowWidth = with(LocalDensity.current) { windowMetrics.width().toDp() }
+
+    val windowWidth = with(LocalDensity.current) { windowMetrics.width().toDp() }
     val windowHeight = with(LocalDensity.current) { windowMetrics.height().toDp() }
     val widthSizeClass = getWindowSizeClass(windowWidth)
     val heightSizeClass = getWindowSizeClass(windowHeight, Dimension.HEIGHT)
