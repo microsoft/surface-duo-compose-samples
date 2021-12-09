@@ -6,14 +6,13 @@
 package com.microsoft.device.dualscreen.windowstate
 
 import android.graphics.Rect
-import androidx.window.layout.FoldingFeature
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class WindowStateTest {
     private val hasFold = true
     private val foldBounds = Rect(20, 20, 60, 100)
-    private val foldState = FoldingFeature.State.HALF_OPENED
+    private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
     private val widthSizeClass = WindowSizeClass.MEDIUM
@@ -43,7 +42,7 @@ class WindowStateTest {
         hasFold = false,
         isFoldHorizontal = true,
         foldBounds = Rect(),
-        foldState = FoldingFeature.State.FLAT,
+        foldState = FoldState.FLAT,
         foldSeparates = false,
         foldOccludes = false,
         widthSizeClass = WindowSizeClass.EXPANDED,
@@ -53,7 +52,7 @@ class WindowStateTest {
         hasFold = false,
         isFoldHorizontal = true,
         foldBounds = Rect(),
-        foldState = FoldingFeature.State.FLAT,
+        foldState = FoldState.FLAT,
         foldSeparates = false,
         foldOccludes = false,
         widthSizeClass = WindowSizeClass.COMPACT,

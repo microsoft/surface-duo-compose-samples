@@ -28,7 +28,7 @@ fun Activity.rememberWindowState(): WindowState {
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
     var foldBounds by remember { mutableStateOf(Rect()) }
-    var foldState by remember { mutableStateOf(FoldingFeature.State.FLAT) }
+    var foldState by remember { mutableStateOf(FoldState.FLAT) }
     var foldSeparates by remember { mutableStateOf(false) }
     var foldOccludes by remember { mutableStateOf(false) }
 
@@ -40,7 +40,10 @@ fun Activity.rememberWindowState(): WindowState {
                 fold?.let {
                     isFoldHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
                     foldBounds = it.bounds
-                    foldState = it.state
+                    foldState = when (it.state) {
+                        FoldingFeature.State.HALF_OPENED -> FoldState.HALF_OPENED
+                        else -> FoldState.FLAT
+                    }
                     foldSeparates = it.isSeparating
                     foldOccludes = it.occlusionType == FoldingFeature.OcclusionType.FULL
                 }

@@ -10,7 +10,6 @@ import android.graphics.Rect
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.window.layout.FoldingFeature
 
 /**
  * Data class that contains foldable and large screen information extracted from the Jetpack
@@ -19,7 +18,7 @@ import androidx.window.layout.FoldingFeature
  * @param hasFold: true if window contains a FoldingFeature,
  * @param isFoldHorizontal: true if window contains a FoldingFeature with a horizontal orientation
  * @param foldBounds: Rect object that describes the bound of the FoldingFeature
- * @param foldState: state of FoldingFeature
+ * @param foldState: state of the fold, based on state property of FoldingFeature
  * @param foldSeparates: based on isSeparating property of FoldingFeature
  * @param foldOccludes: true if FoldingFeature occlusion type is full
  * @param widthSizeClass: size class (compact, medium, or expanded) for window width
@@ -29,7 +28,7 @@ data class WindowState(
     val hasFold: Boolean,
     val isFoldHorizontal: Boolean,
     val foldBounds: Rect,
-    val foldState: FoldingFeature.State,
+    val foldState: FoldState,
     val foldSeparates: Boolean,
     val foldOccludes: Boolean,
     val widthSizeClass: WindowSizeClass,
