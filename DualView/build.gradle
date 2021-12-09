@@ -46,5 +46,5 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation project(':Window')
+    implementation project(':WindowState')
 }

@@ -49,7 +49,7 @@ dependencies {
     implementation composeDependencies.activityCompose
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation project(':Window')
+    implementation project(':WindowState')
 
     implementation googleDependencies.material
 
