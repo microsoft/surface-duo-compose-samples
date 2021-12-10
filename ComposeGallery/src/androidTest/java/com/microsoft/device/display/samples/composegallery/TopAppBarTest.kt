@@ -23,6 +23,7 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
 import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.windowstate.FoldState
 import com.microsoft.device.dualscreen.windowstate.WindowSizeClass
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
@@ -186,7 +187,7 @@ class TopAppBarTest {
                         hasFold = false,
                         isFoldHorizontal = false,
                         foldBounds = Rect(),
-                        foldState = FoldingFeature.State.HALF_OPENED,
+                        foldState = FoldState.HALF_OPENED,
                         foldSeparates = true,
                         foldOccludes = true,
                         widthSizeClass = WindowSizeClass.COMPACT,
