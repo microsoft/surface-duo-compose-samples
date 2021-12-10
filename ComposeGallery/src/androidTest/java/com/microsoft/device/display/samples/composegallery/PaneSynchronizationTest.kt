@@ -20,7 +20,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.window.layout.FoldingFeature
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
