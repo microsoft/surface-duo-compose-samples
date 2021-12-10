@@ -118,10 +118,40 @@ class LayoutTest {
         // Simulate horizontal fold
         publisherRule.simulateHorizontalFold(composeTestRule)
 
-        // Check that dual portrait panes are shown
+        // Check that dual landscape panes are shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane1))
             .assertIsDisplayed()
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane2))
+            .assertIsDisplayed()
+    }
+
+    /**
+     * Test that app responds correctly when fold orientation switches from horizontal to vertical
+     */
+    @Test
+    fun app_testDualLayoutRespondsToFoldOrientationChange() {
+        composeTestRule.setContent {
+            CompanionPaneAppTheme {
+                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
+            }
+        }
+
+        // Simulate horizontal fold
+        publisherRule.simulateHorizontalFold(composeTestRule)
+
+        // Check that dual landscape panes are shown
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane1))
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane2))
+            .assertIsDisplayed()
+
+        // Simulate vertical fold
+        publisherRule.simulateVerticalFold(composeTestRule)
+
+        // Check that dual portrait panes are shown
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_port_pane1))
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_port_pane2))
             .assertIsDisplayed()
     }
 }
