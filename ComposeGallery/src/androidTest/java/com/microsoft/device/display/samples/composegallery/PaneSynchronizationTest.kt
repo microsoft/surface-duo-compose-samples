@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.composegallery
 
+import android.graphics.Rect
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
@@ -26,6 +27,9 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.FoldState
+import com.microsoft.device.dualscreen.windowstate.WindowSizeClass
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -52,8 +56,16 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    foldableState = FoldableState(hasFold = true, isFoldHorizontal = false),
-                    widthSizeClass = WindowSizeClass.Medium
+                    WindowState(
+                        hasFold = true,
+                        isFoldHorizontal = false,
+                        foldBounds = Rect(),
+                        foldState = FoldState.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
+                        widthSizeClass = WindowSizeClass.MEDIUM,
+                        heightSizeClass = WindowSizeClass.MEDIUM
+                    )
                 )
             }
         }
@@ -93,8 +105,16 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    foldableState = FoldableState(hasFold = false, isFoldHorizontal = false),
-                    widthSizeClass = WindowSizeClass.Compact
+                    WindowState(
+                        hasFold = false,
+                        isFoldHorizontal = false,
+                        foldBounds = Rect(),
+                        foldState = FoldState.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
+                        widthSizeClass = WindowSizeClass.COMPACT,
+                        heightSizeClass = WindowSizeClass.MEDIUM
+                    )
                 )
             }
         }
@@ -126,8 +146,16 @@ class PaneSynchronizationTest {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(
-                    foldableState = FoldableState(hasFold = true, isFoldHorizontal = true),
-                    widthSizeClass = WindowSizeClass.Compact
+                    WindowState(
+                        hasFold = true,
+                        isFoldHorizontal = true,
+                        foldBounds = Rect(),
+                        foldState = FoldState.HALF_OPENED,
+                        foldSeparates = true,
+                        foldOccludes = true,
+                        widthSizeClass = WindowSizeClass.COMPACT,
+                        heightSizeClass = WindowSizeClass.MEDIUM
+                    )
                 )
             }
         }

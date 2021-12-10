@@ -37,13 +37,13 @@ dependencies {
 
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
-    implementation androidxDependencies.window
 
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeRuntime
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
+    implementation project(':WindowState')
 
     implementation googleDependencies.material
 }

@@ -60,7 +60,7 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     modifier: Modifier,
     image: Image,
     isDualLandscape: Boolean,
-    hingeSize: Dp,
+    foldSize: Dp,
     gallerySection: GallerySections?,
 ) {
     // Set max/min height for drawer based on orientation
@@ -84,7 +84,7 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
         expandHeight = expandedHeight,
         collapseHeight = collapsedHeight,
         hingeOccludes = isDualLandscape,
-        hingeSize = hingeSize,
+        foldSize = foldSize,
         hiddenContent = { ItemDetailsLong(image.details) }
     ) {
         DrawerPill()

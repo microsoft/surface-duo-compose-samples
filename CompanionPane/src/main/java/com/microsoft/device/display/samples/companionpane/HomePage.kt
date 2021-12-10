@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.companionpane
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +25,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,14 +32,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.companionpane.uicomponent.BrightnessPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.DefinitionPanel
 import com.microsoft.device.display.samples.companionpane.uicomponent.EffectPanel
@@ -51,56 +46,20 @@ import com.microsoft.device.display.samples.companionpane.uicomponent.MagicWandP
 import com.microsoft.device.display.samples.companionpane.uicomponent.ShortFilterControl
 import com.microsoft.device.display.samples.companionpane.uicomponent.VignettePanel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
-import kotlinx.coroutines.flow.collect
+import com.microsoft.device.dualscreen.windowstate.WindowMode
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 private val shortSlideWidth = 200.dp
 private val longSlideWidth = 350.dp
-const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
-
-enum class ScreenState {
-    SinglePortrait,
-    SingleLandscape,
-    DualPortrait,
-    DualLandscape
-}
 
 @Composable
-fun SetupUI(windowInfoRep: WindowInfoRepository) {
-    var screenState by remember { mutableStateOf(ScreenState.SinglePortrait) }
-    var isAppSpanned by remember { mutableStateOf(false) }
-    var isHingeHorizontal by remember { mutableStateOf(false) }
-
-    LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo
-            .collect { newLayoutInfo ->
-                val displayFeatures = newLayoutInfo.displayFeatures
-                isAppSpanned = displayFeatures.isNotEmpty()
-                if (isAppSpanned) {
-                    val foldingFeature = displayFeatures.first() as? FoldingFeature
-                    foldingFeature?.let {
-                        isHingeHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
-                    }
-                }
-            }
-    }
-
-    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-    val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
-    val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
-    val isDualScreen = (isAppSpanned || isTablet)
-
-    screenState =
-        if (isDualScreen) {
-            val showDualLandscape = if (isAppSpanned) isHingeHorizontal else isPortrait
-            if (showDualLandscape) ScreenState.DualLandscape else ScreenState.DualPortrait
-        } else {
-            // NOTE: the LocalConfiguration orientation info should only be used in single screen mode
-            if (isPortrait) ScreenState.SinglePortrait else ScreenState.SingleLandscape
-        }
+fun CompanionPaneApp(windowState: WindowState) {
+    var windowMode by remember { mutableStateOf(WindowMode.SINGLE_PORTRAIT) }
+    windowMode = windowState.windowMode
 
     TwoPaneLayout(
-        pane1 = { Pane1(screenState) },
-        pane2 = { Pane2(screenState) },
+        pane1 = { Pane1(windowMode) },
+        pane2 = { Pane2(windowMode) },
     )
 }
 
@@ -127,14 +86,14 @@ fun ShowWithTopBar(content: @Composable () -> Unit, title: String? = null) {
 }
 
 @Composable
-fun Pane1(screenState: ScreenState) {
+fun Pane1(windowMode: WindowMode) {
     ShowWithTopBar(
         content = {
-            when (screenState) {
-                ScreenState.SinglePortrait -> PortraitLayout()
-                ScreenState.SingleLandscape -> LandscapeLayout()
-                ScreenState.DualPortrait -> DualPortraitPane1()
-                ScreenState.DualLandscape -> DualLandscapePane1()
+            when (windowMode) {
+                WindowMode.SINGLE_PORTRAIT -> PortraitLayout()
+                WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout()
+                WindowMode.DUAL_PORTRAIT -> DualPortraitPane1()
+                WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1()
             }
         },
         title = stringResource(R.string.app_name)
@@ -142,14 +101,14 @@ fun Pane1(screenState: ScreenState) {
 }
 
 @Composable
-fun Pane2(screenState: ScreenState) {
-    when (screenState) {
-        ScreenState.DualPortrait -> {
+fun Pane2(windowMode: WindowMode) {
+    when (windowMode) {
+        WindowMode.DUAL_PORTRAIT -> {
             ShowWithTopBar(
                 content = { DualPortraitPane2() }
             )
         }
-        ScreenState.DualLandscape -> DualLandscapePane2()
+        WindowMode.DUAL_LANDSCAPE -> DualLandscapePane2()
         else -> {}
     }
 }

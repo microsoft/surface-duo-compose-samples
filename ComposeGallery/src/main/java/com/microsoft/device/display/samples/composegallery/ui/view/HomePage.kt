@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery.ui.view
 
-import android.content.res.Configuration
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,27 +15,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.microsoft.device.display.samples.composegallery.FoldableState
 import com.microsoft.device.display.samples.composegallery.R
-import com.microsoft.device.display.samples.composegallery.WindowSizeClass
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
+import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
-fun ComposeGalleryApp(foldableState: FoldableState, widthSizeClass: WindowSizeClass) {
+fun ComposeGalleryApp(windowState: WindowState) {
     // Check if app should be in dual mode
-    val isDualPortraitFoldable = foldableState.hasFold && !foldableState.isFoldHorizontal
-    val isLargeScreen = !foldableState.hasFold && widthSizeClass != WindowSizeClass.Compact
-    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-    val isDualMode = isDualPortraitFoldable || (isLargeScreen && isLandscape)
+    val isDualMode = windowState.isDualPortrait()
 
     // Get relevant image data for the panes
     val models = DataProvider.imageModels

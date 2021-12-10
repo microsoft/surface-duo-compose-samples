@@ -12,27 +12,26 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.window.layout.WindowInfoRepository
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
 import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
-import com.microsoft.device.display.samples.navigationrail.ui.view.SetupUI
+import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalUnitApi
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowInfoRep: WindowInfoRepository
+    private lateinit var windowState: WindowState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        windowInfoRep = windowInfoRepository()
-
         setContent {
+            windowState = rememberWindowState()
+
             ComposeSamplesTheme {
-                // Set up app UI
-                SetupUI(windowInfoRep)
+                NavigationRailApp(windowState)
             }
         }
     }

@@ -50,7 +50,7 @@ private enum class DrawerState { Collapsed, Expanded }
  * @param collapseHeight: height of the drawer when collpased (in dp)
  * @param hingeOccludes: optional param for foldable support, indicates whether there is a hinge
  * that occludes content in the current layout
- * @param hingeSize: optional param for foldable support, indicates the size of a hinge
+ * @param foldSize: optional param for foldable support, indicates the size of a fold
  * @param hiddenContent: the content that will only be shown when the drawer is expanded
  * @param peekContent: the content that will be shown even when the drawer is collapsed
  */
@@ -61,7 +61,7 @@ fun ContentDrawer(
     expandHeight: Dp,
     collapseHeight: Dp,
     hingeOccludes: Boolean = false,
-    hingeSize: Dp = 0.dp,
+    foldSize: Dp = 0.dp,
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
@@ -81,11 +81,11 @@ fun ContentDrawer(
         // Check if a spacer needs to be included to render content around an occluding hinge
         val spacerHeight = if (hingeOccludes) {
             val isExpanding = swipeableState.progress.to == DrawerState.Expanded
-            val progressHeight = (hingeSize.value * swipeableState.progress.fraction).dp
+            val progressHeight = (foldSize.value * swipeableState.progress.fraction).dp
             if (isExpanding)
                 progressHeight
             else
-                hingeSize - progressHeight
+                foldSize - progressHeight
         } else {
             0.dp
         }

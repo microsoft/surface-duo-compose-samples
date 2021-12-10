@@ -35,7 +35,6 @@ dependencies {
 
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
-    implementation androidxDependencies.window
 
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeRuntime
@@ -46,4 +45,5 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
+    implementation project(':WindowState')
 }

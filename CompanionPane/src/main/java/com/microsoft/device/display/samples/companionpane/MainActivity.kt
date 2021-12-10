@@ -8,21 +8,21 @@ package com.microsoft.device.display.samples.companionpane
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.window.layout.WindowInfoRepository
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
 import com.microsoft.device.display.samples.companionpane.ui.CompanionPaneAppsTheme
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var windowInfoRep: WindowInfoRepository
+    private lateinit var windowState: WindowState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        windowInfoRep = windowInfoRepository()
-
         setContent {
+            windowState = rememberWindowState()
+
             CompanionPaneAppsTheme {
-                SetupUI(windowInfoRep)
+                CompanionPaneApp(windowState)
             }
         }
     }
