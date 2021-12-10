@@ -49,7 +49,6 @@ class LayoutTest {
 
         // Lock in portrait orientation
         device.setOrientationNatural()
-        device.freezeRotation()
 
         // Check that single portrait layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_port))
@@ -73,7 +72,6 @@ class LayoutTest {
 
         // Lock in landscape orientation
         device.setOrientationLeft()
-        device.freezeRotation()
 
         // Check that single landscape layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_land))
