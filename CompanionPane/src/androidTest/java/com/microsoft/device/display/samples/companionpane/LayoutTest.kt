@@ -11,12 +11,12 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -43,7 +43,7 @@ class LayoutTest {
     fun app_testSinglePortraitLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.windowInfoRepository())
+                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
@@ -67,7 +67,7 @@ class LayoutTest {
     fun app_testSingleLandscapeLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.windowInfoRepository())
+                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
@@ -91,7 +91,7 @@ class LayoutTest {
     fun app_testDualPortraitLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.windowInfoRepository())
+                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
@@ -113,7 +113,7 @@ class LayoutTest {
     fun app_testDualLandscapeLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.windowInfoRepository())
+                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
             }
         }
 

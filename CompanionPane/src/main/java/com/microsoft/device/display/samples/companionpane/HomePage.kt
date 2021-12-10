@@ -5,23 +5,18 @@
 
 package com.microsoft.device.display.samples.companionpane
 
-import android.content.res.Configuration
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane1
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane2
 import com.microsoft.device.display.samples.companionpane.ui.view.DualPortraitPane1
@@ -31,7 +26,6 @@ import com.microsoft.device.display.samples.companionpane.ui.view.PortraitLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
-
 
 @Composable
 fun CompanionPaneApp(windowState: WindowState) {
@@ -69,8 +63,8 @@ fun Pane1(windowMode: WindowMode) {
 
 @Composable
 fun Pane2(windowMode: WindowMode) {
-    when (screenState) {
-        ScreenState.DualPortrait -> {
+    when (windowMode) {
+        WindowMode.DUAL_PORTRAIT -> {
             Scaffold(
                 topBar = { CompanionPaneTopBar() }
             ) {

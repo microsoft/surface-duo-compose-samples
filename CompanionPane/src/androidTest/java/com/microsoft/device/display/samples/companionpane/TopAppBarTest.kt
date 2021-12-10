@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
 import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.windowstate.WindowMode
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -35,7 +36,7 @@ class TopAppBarTest {
     fun pane1_testTitleAppearsInSinglePortrait() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane1(ScreenState.SinglePortrait)
+                Pane1(WindowMode.SINGLE_PORTRAIT)
             }
         }
 
@@ -51,7 +52,7 @@ class TopAppBarTest {
     fun pane1_testTitleAppearsInSingleLandscape() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane1(ScreenState.SingleLandscape)
+                Pane1(WindowMode.SINGLE_LANDSCAPE)
             }
         }
 
@@ -67,7 +68,7 @@ class TopAppBarTest {
     fun pane1_testTitleAppearsInDualPortrait() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane1(ScreenState.DualPortrait)
+                Pane1(WindowMode.DUAL_PORTRAIT)
             }
         }
 
@@ -83,7 +84,7 @@ class TopAppBarTest {
     fun pane1_testTitleAppearsInDualLandscape() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane1(ScreenState.DualLandscape)
+                Pane1(WindowMode.DUAL_LANDSCAPE)
             }
         }
 
@@ -99,7 +100,7 @@ class TopAppBarTest {
     fun pane2_testTopBarDoesNotExistInSinglePortrait() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane2(ScreenState.SinglePortrait)
+                Pane2(WindowMode.SINGLE_PORTRAIT)
             }
         }
 
@@ -112,7 +113,7 @@ class TopAppBarTest {
     fun pane2_testTopBarDoesNotExistInSingleLandscape() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane2(ScreenState.SingleLandscape)
+                Pane2(WindowMode.SINGLE_LANDSCAPE)
             }
         }
 
@@ -126,7 +127,7 @@ class TopAppBarTest {
     fun pane2_testTitleIsBlankInDualPortrait() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane2(ScreenState.DualPortrait)
+                Pane2(WindowMode.DUAL_PORTRAIT)
             }
         }
 
@@ -142,7 +143,7 @@ class TopAppBarTest {
     fun pane2_testTopBarDoesNotExistInDualLandscape() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                Pane2(ScreenState.DualLandscape)
+                Pane2(WindowMode.DUAL_LANDSCAPE)
             }
         }
 
