@@ -37,7 +37,6 @@ dependencies {
 
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
-    implementation androidxDependencies.window
 
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeRuntime
