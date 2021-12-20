@@ -8,7 +8,7 @@ package com.microsoft.device.display.samples.companionpane
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.microsoft.device.display.samples.companionpane.ui.CompanionPaneAppsTheme
+import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             windowState = rememberWindowState()
 
-            CompanionPaneAppsTheme {
+            CompanionPaneAppTheme {
                 CompanionPaneApp(windowState)
             }
         }

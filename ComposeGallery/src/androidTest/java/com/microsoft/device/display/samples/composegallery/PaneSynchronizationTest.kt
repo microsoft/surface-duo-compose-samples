@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import android.graphics.Rect
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
@@ -27,9 +26,7 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
-import com.microsoft.device.dualscreen.windowstate.FoldState
-import com.microsoft.device.dualscreen.windowstate.WindowSizeClass
-import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -55,18 +52,7 @@ class PaneSynchronizationTest {
     fun app_testListItemClickUpdatesDetailPane() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(
-                    WindowState(
-                        hasFold = true,
-                        isFoldHorizontal = false,
-                        foldBounds = Rect(),
-                        foldState = FoldState.HALF_OPENED,
-                        foldSeparates = true,
-                        foldOccludes = true,
-                        widthSizeClass = WindowSizeClass.MEDIUM,
-                        heightSizeClass = WindowSizeClass.MEDIUM
-                    )
-                )
+                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
@@ -104,18 +90,7 @@ class PaneSynchronizationTest {
     fun app_testSelectionPersistenceAfterSpan() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(
-                    WindowState(
-                        hasFold = false,
-                        isFoldHorizontal = false,
-                        foldBounds = Rect(),
-                        foldState = FoldState.HALF_OPENED,
-                        foldSeparates = true,
-                        foldOccludes = true,
-                        widthSizeClass = WindowSizeClass.COMPACT,
-                        heightSizeClass = WindowSizeClass.MEDIUM
-                    )
-                )
+                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
@@ -145,18 +120,7 @@ class PaneSynchronizationTest {
     fun app_testOnePaneShowsWithHorizontalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(
-                    WindowState(
-                        hasFold = true,
-                        isFoldHorizontal = true,
-                        foldBounds = Rect(),
-                        foldState = FoldState.HALF_OPENED,
-                        foldSeparates = true,
-                        foldOccludes = true,
-                        widthSizeClass = WindowSizeClass.COMPACT,
-                        heightSizeClass = WindowSizeClass.MEDIUM
-                    )
-                )
+                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
             }
         }
 
