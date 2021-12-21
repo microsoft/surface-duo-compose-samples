@@ -5,6 +5,8 @@
 
 package com.microsoft.device.display.samples.dualview.ui.home
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -33,7 +36,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -53,29 +55,12 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
 const val outlinePadding = 25
 const val narrowWidth = 1100
+const val thumbnailWidth = 140
 
 @Composable
 fun RestaurantViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                actions = {
-                    if (!isDualScreen) {
-                        RestaurantActionButton()
-                    }
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
-                    )
-                }
-            )
-        },
+        topBar = { RestaurantTopBar(isDualScreen) },
         content = {
             RestaurantsView(
                 modifier = Modifier.wrapContentSize(),
@@ -86,16 +71,29 @@ fun RestaurantViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateV
 }
 
 @Composable
-fun RestaurantActionButton() {
-    IconButton(
-        onClick = {
-            navigateToPane2()
+private fun RestaurantTopBar(isDualScreen: Boolean) {
+    TopAppBar(
+        actions = { if (!isDualScreen) RestaurantActionButton() },
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = TextStyle(
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colors.onPrimary
+                )
+            )
         }
-    ) {
+    )
+}
+
+@Composable
+fun RestaurantActionButton() {
+    IconButton(onClick = { navigateToPane2() }) {
         Icon(
             painter = painterResource(R.drawable.ic_map),
-            contentDescription = null,
-            tint = Color.White
+            contentDescription = stringResource(R.string.switch_to_map),
+            tint = MaterialTheme.colors.onPrimary
         )
     }
 }
@@ -116,7 +114,7 @@ fun RestaurantsView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.list_title),
+                text = stringResource(R.string.list_title),
                 style = typography.subtitle1
             )
             RestaurantListView(appStateViewModel)
@@ -156,55 +154,96 @@ fun RestaurantListView(appStateViewModel: AppStateViewModel) {
 }
 
 @Composable
-fun RestaurantTile(restaurant: Restaurant, isSelected: Boolean, isSmallScreen: Boolean, modifier: Modifier) {
-    val columnModifier = if (isSmallScreen) Modifier.fillMaxHeight().horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
-    val smallArrangement = if (isSmallScreen) Arrangement.spacedBy(5.dp) else Arrangement.SpaceBetween
+fun RestaurantTile(
+    restaurant: Restaurant,
+    isSelected: Boolean,
+    isSmallScreen: Boolean,
+    modifier: Modifier
+) {
+    val columnModifier = if (isSmallScreen) Modifier
+        .fillMaxHeight()
+        .horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
 
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ImageView(
-            imageId = restaurant.imageResourceId,
-            modifier = Modifier
-                .requiredWidth(140.dp)
-                .wrapContentHeight()
-        )
+        RestaurantThumbnail(restaurant.imageResourceId)
         Column(
             modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            restaurant.title?.let {
-                Text(
-                    text = it,
-                    style = typography.subtitle2
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = smallArrangement
-            ) {
-                Text(
-                    text = formatRating(restaurant.rating, restaurant.voteCount),
-                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
-                )
-                Text(
-                    text = stringResource(R.string.restaurant_type, restaurant.cuisine.toString()),
-                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
-                )
-                Text(
-                    text = formatPriceRange(restaurant.priceRange),
-                    style = if (isSelected) { selectedBody1 } else { typography.body1 }
-                )
-            }
+            RestaurantTitle(restaurant.title)
+            RestaurantStats(isSmallScreen, isSelected, restaurant)
             Spacer(modifier = Modifier.height(2.dp))
-            restaurant.description?.let {
-                Text(
-                    text = it,
-                    style = if (isSelected) { selectedBody2 } else { typography.body2 }
-                )
-            }
+            RestaurantDescription(isSelected, restaurant.description)
         }
     }
+}
+
+@Composable
+private fun RestaurantThumbnail(@DrawableRes imageId: Int) {
+    ImageView(
+        imageId = imageId,
+        modifier = Modifier
+            .requiredWidth(thumbnailWidth.dp)
+            .wrapContentHeight()
+    )
+}
+
+@Composable
+private fun RestaurantTitle(@StringRes title: Int) {
+    Text(
+        text = stringResource(title),
+        style = typography.subtitle2
+    )
+}
+
+@Composable
+private fun RestaurantStats(isSmallScreen: Boolean, isSelected: Boolean, restaurant: Restaurant) {
+    val smallArrangement =
+        if (isSmallScreen) Arrangement.spacedBy(5.dp) else Arrangement.SpaceBetween
+    val textStyle = if (isSelected) selectedBody1 else typography.body1
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = smallArrangement
+    ) {
+        RestaurantRating(restaurant.rating, restaurant.voteCount, textStyle)
+        RestaurantType(restaurant.cuisine, textStyle)
+        RestaurantPriceRange(restaurant.priceRange, textStyle)
+    }
+}
+
+@Composable
+private fun RestaurantRating(rating: Double, votes: Int, textStyle: TextStyle) {
+    Text(
+        text = formatRating(rating, votes),
+        style = textStyle
+    )
+}
+
+@Composable
+private fun RestaurantType(cuisineType: Restaurant.CuisineType, textStyle: TextStyle) {
+    Text(
+        text = stringResource(R.string.restaurant_type, stringResource(cuisineType.label)),
+        style = textStyle
+    )
+}
+
+@Composable
+private fun RestaurantPriceRange(priceRange: Int, textStyle: TextStyle) {
+    Text(
+        text = formatPriceRange(priceRange),
+        style = textStyle
+    )
+}
+
+@Composable
+private fun RestaurantDescription(isSelected: Boolean, @StringRes description: Int) {
+    Text(
+        text = stringResource(description),
+        style = if (isSelected) selectedBody2 else typography.body2
+    )
 }
