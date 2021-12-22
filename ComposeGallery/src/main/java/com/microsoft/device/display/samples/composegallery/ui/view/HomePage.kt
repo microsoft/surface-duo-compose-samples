@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.composegallery.ui.view
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
+import com.microsoft.device.display.samples.composegallery.models.ImageModel
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -40,11 +42,20 @@ fun ComposeGalleryApp(windowState: WindowState) {
     var selectedImageIndex by rememberSaveable { mutableStateOf(0) }
     val updateImageIndex: (Int) -> Unit = { index -> selectedImageIndex = index }
 
+    ComposeGalleryAppContent(models, isDualMode, selectedImageIndex, updateImageIndex, lazyListState)
+}
+
+@Composable
+fun ComposeGalleryAppContent(
+    models: List<ImageModel>,
+    isDualMode: Boolean,
+    selectedImageIndex: Int,
+    updateImageIndex: (Int) -> Unit,
+    lazyListState: LazyListState
+) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = {
-            ListPane(models, isDualMode, selectedImageIndex, updateImageIndex, lazyListState)
-        },
+        pane1 = { ListPane(models, isDualMode, selectedImageIndex, updateImageIndex, lazyListState) },
         pane2 = { DetailPane(models, isDualMode, selectedImageIndex) }
     )
 }
