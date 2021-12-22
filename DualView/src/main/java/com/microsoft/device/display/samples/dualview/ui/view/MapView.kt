@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview.ui.home
+package com.microsoft.device.display.samples.dualview.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures

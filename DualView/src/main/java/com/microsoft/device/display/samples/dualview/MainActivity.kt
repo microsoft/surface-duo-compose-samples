@@ -10,7 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
-import com.microsoft.device.display.samples.dualview.ui.home.DualViewApp
+import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewComposeSampleTheme
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
