@@ -6,8 +6,6 @@
 package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import org.junit.Rule
 import org.junit.rules.RuleChain

@@ -20,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,7 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
-import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import kotlin.math.roundToInt
@@ -46,15 +44,13 @@ import kotlin.math.roundToInt
 private const val nonSelection = -1
 
 @Composable
-fun MapViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
+fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = {
-            MapTopBar(isDualScreen)
-        },
+        topBar = { MapTopBar(isDualScreen) },
         content = {
             MapView(
                 modifier = Modifier.wrapContentSize(),
-                appStateViewModel = appStateViewModel
+                selectedIndex = selectedIndex
             )
         }
     )
@@ -94,9 +90,7 @@ fun MapTopBar(isDualScreen: Boolean) {
 }
 
 @Composable
-fun MapView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
-    val selectionLiveData = appStateViewModel.selectionLiveData
-    val selectedIndex = selectionLiveData.observeAsState(initial = nonSelection).value
+fun MapView(modifier: Modifier, selectedIndex: Int) {
     var selectedMapId = R.drawable.unselected_map
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId

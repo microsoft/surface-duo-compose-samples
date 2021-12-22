@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.dualview.ui.view
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,9 +34,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -43,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
-import com.microsoft.device.display.samples.dualview.models.AppStateViewModel
 import com.microsoft.device.display.samples.dualview.models.Restaurant
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody1
@@ -58,13 +58,20 @@ const val narrowWidth = 1100
 const val thumbnailWidth = 140
 
 @Composable
-fun RestaurantViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
+fun RestaurantViewWithTopBar(
+    isDualScreen: Boolean,
+    viewWidth: Int,
+    selectedIndex: Int,
+    updateSelectedIndex: (Int) -> Unit
+) {
     Scaffold(
         topBar = { RestaurantTopBar(isDualScreen) },
         content = {
             RestaurantsView(
                 modifier = Modifier.wrapContentSize(),
-                appStateViewModel = appStateViewModel
+                viewWidth = viewWidth,
+                selectedIndex = selectedIndex,
+                updateSelectedIndex = updateSelectedIndex,
             )
         }
     )
@@ -99,7 +106,7 @@ fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantsView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
+fun RestaurantsView(modifier: Modifier, viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -117,17 +124,13 @@ fun RestaurantsView(modifier: Modifier, appStateViewModel: AppStateViewModel) {
                 text = stringResource(R.string.list_title),
                 style = typography.subtitle1
             )
-            RestaurantListView(appStateViewModel)
+            RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
         }
     }
 }
 
 @Composable
-fun RestaurantListView(appStateViewModel: AppStateViewModel) {
-    val selectionLiveData = appStateViewModel.selectionLiveData
-    val selectedIndex = selectionLiveData.observeAsState(initial = -1).value
-
-    val viewWidth = appStateViewModel.viewWidth
+fun RestaurantListView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
 
     LazyColumn(
@@ -144,7 +147,7 @@ fun RestaurantListView(appStateViewModel: AppStateViewModel) {
                     selected = isSelected,
                     enabled = true,
                     onClick = {
-                        appStateViewModel.selectionLiveData.value = index
+                        updateSelectedIndex(index)
                         navigateToPane2()
                     }
                 )
@@ -180,6 +183,16 @@ fun RestaurantTile(
             RestaurantDescription(isSelected, restaurant.description)
         }
     }
+}
+
+@Composable
+fun ImageView(imageId: Int, modifier: Modifier) {
+    Image(
+        painter = painterResource(id = imageId),
+        contentDescription = "",
+        modifier = modifier,
+        contentScale = ContentScale.FillWidth
+    )
 }
 
 @Composable
