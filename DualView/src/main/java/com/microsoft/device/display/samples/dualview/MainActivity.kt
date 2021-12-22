@@ -8,7 +8,7 @@ package com.microsoft.device.display.samples.dualview
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.microsoft.device.display.samples.dualview.ui.theme.DualViewComposeSampleTheme
+import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             windowState = rememberWindowState()
 
-            DualViewComposeSampleTheme {
+            DualViewAppTheme {
                 DualViewApp(windowState)
             }
         }

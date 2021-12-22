@@ -9,6 +9,7 @@
     <string name="restaurant_type">%1$s restaurant</string>
     <string name="switch_to_rest">Switch to restaurant view</string>
     <string name="switch_to_map">Switch to map view</string>
+    <string name="map_description">Map of restaurants</string>
 
     <!-- Cuisine Types -->
     <string name="american">American</string>

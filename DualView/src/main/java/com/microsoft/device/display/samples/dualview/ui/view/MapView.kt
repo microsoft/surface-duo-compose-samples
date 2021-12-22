@@ -12,7 +12,6 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -46,14 +45,10 @@ private const val nonSelection = -1
 @Composable
 fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar(isDualScreen) },
-        content = {
-            MapView(
-                modifier = Modifier.wrapContentSize(),
-                selectedIndex = selectedIndex
-            )
-        }
-    )
+        topBar = { MapTopBar(isDualScreen) }
+    ) {
+        MapView(selectedIndex)
+    }
 }
 
 @Composable
@@ -73,14 +68,10 @@ fun MapTopBar(isDualScreen: Boolean) {
         },
         actions = {
             if (!isDualScreen) {
-                IconButton(
-                    onClick = {
-                        navigateToPane1()
-                    }
-                ) {
+                IconButton(onClick = { navigateToPane1() }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_list),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.switch_to_rest),
                         tint = Color.White
                     )
                 }
@@ -90,13 +81,13 @@ fun MapTopBar(isDualScreen: Boolean) {
 }
 
 @Composable
-fun MapView(modifier: Modifier, selectedIndex: Int) {
+fun MapView(selectedIndex: Int) {
     var selectedMapId = R.drawable.unselected_map
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
     }
 
-    Box(modifier = modifier.then(Modifier.clipToBounds())) {
+    Box(modifier = Modifier.clipToBounds()) {
         ScalableImageView(imageId = selectedMapId)
     }
 }
@@ -106,15 +97,17 @@ fun ScalableImageView(imageId: Int) {
     val minScale = 1f
     val maxScale = 8f
     val defaultScale = 2f
+
     var scale by remember { mutableStateOf(defaultScale) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = rememberTransformableState { zoomChange, offsetChange, _ ->
         scale *= zoomChange
         offset += offsetChange
     }
+
     Image(
         painter = painterResource(id = imageId),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.map_description),
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(

@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.dualview.ui.view
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -69,7 +70,7 @@ fun RestaurantViewWithTopBar(
 }
 
 @Composable
-private fun RestaurantTopBar(isDualScreen: Boolean) {
+fun RestaurantTopBar(isDualScreen: Boolean) {
     TopAppBar(
         actions = { if (!isDualScreen) RestaurantActionButton() },
         title = {
@@ -86,7 +87,7 @@ private fun RestaurantTopBar(isDualScreen: Boolean) {
 }
 
 @Composable
-fun RestaurantActionButton() {
+private fun RestaurantActionButton() {
     IconButton(onClick = { navigateToPane2() }) {
         Icon(
             painter = painterResource(R.drawable.ic_map),
