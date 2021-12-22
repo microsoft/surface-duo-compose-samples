@@ -39,6 +39,11 @@ data class WindowState(
         false -> foldBounds.width()
     }
 
+    val foldablePaneWidth = when (isFoldHorizontal) {
+        true -> foldBounds.right
+        false -> foldBounds.left
+    }
+
     val foldSize = if (hasFold) foldableFoldSize else 0
 
     val windowMode: WindowMode

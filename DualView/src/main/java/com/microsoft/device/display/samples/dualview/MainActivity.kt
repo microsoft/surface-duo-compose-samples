@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             windowState = rememberWindowState()
+            appStateViewModel.viewWidth = windowState.foldablePaneWidth
 
             DualViewComposeSampleTheme {
                 DualViewApp(appStateViewModel, windowState)
