@@ -10,19 +10,16 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -65,16 +62,10 @@ fun RestaurantViewWithTopBar(
     updateSelectedIndex: (Int) -> Unit
 ) {
     Scaffold(
-        topBar = { RestaurantTopBar(isDualScreen) },
-        content = {
-            RestaurantsView(
-                modifier = Modifier.wrapContentSize(),
-                viewWidth = viewWidth,
-                selectedIndex = selectedIndex,
-                updateSelectedIndex = updateSelectedIndex,
-            )
-        }
-    )
+        topBar = { RestaurantTopBar(isDualScreen) }
+    ) {
+        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex)
+    }
 }
 
 @Composable
@@ -106,31 +97,22 @@ fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantsView(modifier: Modifier, viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = outlinePadding.dp,
-                start = outlinePadding.dp,
-                end = outlinePadding.dp
-            )
-            .then(modifier)
+fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+    Column(
+        modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.list_title),
-                style = typography.subtitle1
-            )
-            RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
-        }
+        Text(
+            text = stringResource(R.string.list_title),
+            style = typography.subtitle1
+        )
+        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 
 @Composable
 fun RestaurantListView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+    // REVISIT: use a WindowSizeClass check instead?
     val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
 
     LazyColumn(
@@ -145,7 +127,6 @@ fun RestaurantListView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: 
                 isSmallScreen = isSmallScreen,
                 modifier = Modifier.selectable(
                     selected = isSelected,
-                    enabled = true,
                     onClick = {
                         updateSelectedIndex(index)
                         navigateToPane2()
@@ -163,15 +144,15 @@ fun RestaurantTile(
     isSmallScreen: Boolean,
     modifier: Modifier
 ) {
-    val columnModifier = if (isSmallScreen) Modifier
-        .fillMaxHeight()
-        .horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
+    val columnModifier = Modifier.fillMaxHeight()
+    if (isSmallScreen)
+        columnModifier.horizontalScroll(rememberScrollState())
 
     Row(
-        modifier = modifier,
+        modifier = modifier.wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RestaurantThumbnail(restaurant.imageResourceId)
+        RestaurantThumbnail(restaurant.imageResourceId, restaurant.title)
         Column(
             modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -186,22 +167,14 @@ fun RestaurantTile(
 }
 
 @Composable
-fun ImageView(imageId: Int, modifier: Modifier) {
+private fun RestaurantThumbnail(@DrawableRes imageId: Int, @StringRes contentDescription: Int) {
     Image(
-        painter = painterResource(id = imageId),
-        contentDescription = "",
-        modifier = modifier,
-        contentScale = ContentScale.FillWidth
-    )
-}
-
-@Composable
-private fun RestaurantThumbnail(@DrawableRes imageId: Int) {
-    ImageView(
-        imageId = imageId,
+        painter = painterResource(imageId),
+        contentDescription = stringResource(contentDescription),
         modifier = Modifier
             .requiredWidth(thumbnailWidth.dp)
-            .wrapContentHeight()
+            .wrapContentHeight(),
+        contentScale = ContentScale.FillWidth
     )
 }
 
@@ -215,8 +188,7 @@ private fun RestaurantTitle(@StringRes title: Int) {
 
 @Composable
 private fun RestaurantStats(isSmallScreen: Boolean, isSelected: Boolean, restaurant: Restaurant) {
-    val smallArrangement =
-        if (isSmallScreen) Arrangement.spacedBy(5.dp) else Arrangement.SpaceBetween
+    val smallArrangement = if (isSmallScreen) Arrangement.spacedBy(5.dp) else Arrangement.SpaceBetween
     val textStyle = if (isSelected) selectedBody1 else typography.body1
 
     Row(
@@ -257,6 +229,6 @@ private fun RestaurantPriceRange(priceRange: Int, textStyle: TextStyle) {
 private fun RestaurantDescription(isSelected: Boolean, @StringRes description: Int) {
     Text(
         text = stringResource(description),
-        style = if (isSelected) selectedBody2 else typography.body2
+        style = if (isSelected) selectedBody2 else typography.body2,
     )
 }
