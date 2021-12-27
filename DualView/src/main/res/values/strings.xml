@@ -10,6 +10,8 @@
     <string name="switch_to_rest">Switch to restaurant view</string>
     <string name="switch_to_map">Switch to map view</string>
     <string name="map_description">Map of restaurants</string>
+    <string name="restaurant_top_bar">Restaurant Top Bar</string>
+    <string name="map_top_bar">Map Top Bar</string>
 
     <!-- Cuisine Types -->
     <string name="american">American</string>

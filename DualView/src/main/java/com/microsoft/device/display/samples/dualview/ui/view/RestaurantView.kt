@@ -7,7 +7,6 @@ package com.microsoft.device.display.samples.dualview.ui.view
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -72,6 +72,7 @@ fun RestaurantViewWithTopBar(
 @Composable
 fun RestaurantTopBar(isDualScreen: Boolean) {
     TopAppBar(
+        modifier = Modifier.testTag(stringResource(R.string.restaurant_top_bar)),
         actions = { if (!isDualScreen) RestaurantActionButton() },
         title = {
             Text(

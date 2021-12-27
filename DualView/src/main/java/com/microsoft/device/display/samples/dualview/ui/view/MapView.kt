@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -54,17 +55,16 @@ fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
 @Composable
 fun MapTopBar(isDualScreen: Boolean) {
     TopAppBar(
+        modifier = Modifier.testTag(stringResource(R.string.map_top_bar)),
         title = {
-            if (!isDualScreen) {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = TextStyle(
-                        fontSize = 19.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
+            Text(
+                text = if (!isDualScreen) stringResource(R.string.app_name) else "",
+                style = TextStyle(
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
                 )
-            }
+            )
         },
         actions = {
             if (!isDualScreen) {
