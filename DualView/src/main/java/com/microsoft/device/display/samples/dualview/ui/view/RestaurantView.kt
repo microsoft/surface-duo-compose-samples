@@ -37,6 +37,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,6 +57,8 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 const val outlinePadding = 25
 const val narrowWidth = 1100
 const val thumbnailWidth = 140
+val TextStyleKey = SemanticsPropertyKey<TextStyle>("TextStyleKey")
+var SemanticsPropertyReceiver.textStyle by TextStyleKey
 
 @Composable
 fun RestaurantViewWithTopBar(
@@ -194,7 +199,9 @@ private fun RestaurantStats(isSmallScreen: Boolean, isSelected: Boolean, restaur
     val textStyle = if (isSelected) selectedBody1 else typography.body1
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { this.textStyle = textStyle },
         horizontalArrangement = smallArrangement
     ) {
         RestaurantRating(restaurant.rating, restaurant.voteCount, textStyle)
