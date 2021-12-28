@@ -26,6 +26,7 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +50,7 @@ class PaneSynchronizationTest {
      */
     @ExperimentalTestApi
     @Test
-    fun app_testListItemClickUpdatesDetailPane() {
+    fun app_verticalFold_testListItemClickUpdatesDetailPane() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
@@ -84,13 +85,14 @@ class PaneSynchronizationTest {
     }
 
     /**
-     * Test that a selection made when unspanned is remembered when span state changes
+     * Test that a selection made when no fold is present (not a large screen device) is remembered when a vertical
+     * fold is introduced
      */
     @Test
-    fun app_testSelectionPersistenceAfterSpan() {
+    fun app_testSelectionPersistenceAfterVerticalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
+                ComposeGalleryApp(WindowState())
             }
         }
 
@@ -116,11 +118,15 @@ class PaneSynchronizationTest {
         ).assertIsDisplayed()
     }
 
+    /**
+     * Test that one pane is continuously shown on a non-large screen device, even when a horizontal fold is
+     * introduced
+     */
     @Test
     fun app_testOnePaneShowsWithHorizontalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
+                ComposeGalleryApp(WindowState())
             }
         }
 
