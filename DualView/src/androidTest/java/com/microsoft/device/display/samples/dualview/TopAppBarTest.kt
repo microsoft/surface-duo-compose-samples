@@ -11,6 +11,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.MapTopBar
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantTopBar
 import com.microsoft.device.dualscreen.testutils.getString
@@ -20,20 +21,13 @@ import org.junit.Test
 class TopAppBarTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-//    private val publisherRule = WindowLayoutInfoPublisherRule()
-//
-//    @get: Rule
-//    val testRule: TestRule
-//
-//    init {
-//        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-//        RuleChain.outerRule(composeTestRule)
-//    }
 
     @Test
     fun restaurantBar_iconShowsInSingleScreenMode() {
         composeTestRule.setContent {
-            RestaurantTopBar(isDualScreen = false)
+            DualViewAppTheme {
+                RestaurantTopBar(isDualScreen = false)
+            }
         }
 
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map))
@@ -43,7 +37,9 @@ class TopAppBarTest {
     @Test
     fun restaurantBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
-            RestaurantTopBar(isDualScreen = true)
+            DualViewAppTheme {
+                RestaurantTopBar(isDualScreen = true)
+            }
         }
 
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map))
@@ -53,7 +49,9 @@ class TopAppBarTest {
     @Test
     fun mapBar_iconShowsInSingleScreenMode() {
         composeTestRule.setContent {
-            MapTopBar(isDualScreen = false)
+            DualViewAppTheme {
+                MapTopBar(isDualScreen = false)
+            }
         }
 
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest))
@@ -63,7 +61,9 @@ class TopAppBarTest {
     @Test
     fun mapBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
-            MapTopBar(isDualScreen = true)
+            DualViewAppTheme {
+                MapTopBar(isDualScreen = true)
+            }
         }
 
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest))
@@ -73,7 +73,9 @@ class TopAppBarTest {
     @Test
     fun restaurantBar_showsAppTitleInSingleScreenMode() {
         composeTestRule.setContent {
-            RestaurantTopBar(isDualScreen = false)
+            DualViewAppTheme {
+                RestaurantTopBar(isDualScreen = false)
+            }
         }
 
         composeTestRule.onNode(
@@ -85,7 +87,9 @@ class TopAppBarTest {
     @Test
     fun restaurantBar_showsAppTitleInDualScreenMode() {
         composeTestRule.setContent {
-            RestaurantTopBar(isDualScreen = true)
+            DualViewAppTheme {
+                RestaurantTopBar(isDualScreen = true)
+            }
         }
 
         composeTestRule.onNode(
@@ -97,7 +101,9 @@ class TopAppBarTest {
     @Test
     fun mapBar_showsAppTitleInSingleScreenMode() {
         composeTestRule.setContent {
-            MapTopBar(isDualScreen = false)
+            DualViewAppTheme {
+                MapTopBar(isDualScreen = false)
+            }
         }
 
         composeTestRule.onNode(
@@ -109,7 +115,9 @@ class TopAppBarTest {
     @Test
     fun mapBar_isBlankInDualScreenMode() {
         composeTestRule.setContent {
-            MapTopBar(isDualScreen = true)
+            DualViewAppTheme {
+                MapTopBar(isDualScreen = true)
+            }
         }
 
         composeTestRule.onNode(
