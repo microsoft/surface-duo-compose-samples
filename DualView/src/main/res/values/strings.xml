@@ -12,6 +12,8 @@
     <string name="map_description">Map of restaurants</string>
     <string name="restaurant_top_bar">Restaurant Top Bar</string>
     <string name="map_top_bar">Map Top Bar</string>
+    <string name="map_image">Map image</string>
+    <string name="zoomable_map_image">Zoomable map image</string>
 
     <!-- Cuisine Types -->
     <string name="american">American</string>

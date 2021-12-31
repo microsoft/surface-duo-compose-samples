@@ -14,7 +14,7 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
-fun DualViewApp(windowState: WindowState) {
+fun DualViewApp(windowState: WindowState, viewSize: Int? = null) {
     var selectedIndex by rememberSaveable { mutableStateOf(-1) }
     val updateSelectedIndex: (Int) -> Unit = { newIndex -> selectedIndex = newIndex }
 
@@ -22,7 +22,8 @@ fun DualViewApp(windowState: WindowState) {
         windowState.isDualScreen(),
         windowState.foldablePaneWidth,
         selectedIndex,
-        updateSelectedIndex
+        updateSelectedIndex,
+        viewSize
     )
 }
 
@@ -31,10 +32,11 @@ fun DualViewAppContent(
     isDualScreen: Boolean,
     viewWidth: Int,
     selectedIndex: Int,
-    updateSelectedIndex: (Int) -> Unit
+    updateSelectedIndex: (Int) -> Unit,
+    viewSize: Int? = null
 ) {
     TwoPaneLayout(
         pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, updateSelectedIndex) },
-        pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex) }
+        pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex, viewSize) }
     )
 }
