@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.dualview
+package com.microsoft.device.dualscreen.testutils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -19,11 +19,20 @@ import java.io.FileOutputStream
 import kotlin.math.abs
 
 /**
+ * SCREENSHOT COMPARATOR
+ * -----------------------------------------------------------------------------------------------
+ * These functions can be used to take, save, and compare screenshots of composables in UI tests.
+ *
  * Based on ScreenshotComparator.kt in the TestingCodelab project from the official Jetpack Compose codelab samples
  * https://github.com/googlecodelabs/android-compose-codelabs/blob/main/TestingCodelab/app/src/androidTest/java/com/example/compose/rally/ScreenshotComparator.kt
- * TODO: move to testing utils folder when finalized
  */
 
+/**
+ * Check whether a screenshot of the current node matches the reference image
+ *
+ * @param referenceAsset: name of reference image (must be stored in the androidTest/assets folder)
+ * @param node: Semantics Node to take screenshot of
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 fun assertScreenshotMatchesReference(
     referenceAsset: String,
@@ -40,6 +49,15 @@ fun assertScreenshotMatchesReference(
     assert(referenceBitmap.compare(bitmap))
 }
 
+/**
+ * Saves a screenshot of the current node to the device's internal storage - screenshots can be
+ * retrieved via adb as described in these instructions:
+ * https://stackoverflow.com/questions/40323126/where-do-i-find-the-saved-image-in-android
+ *
+ * @param filename: filename (including extension) of the screenshot
+ * @param node: Semantics Node to take screenshot of
+ */
+@RequiresApi(Build.VERSION_CODES.O)
 fun saveScreenshotToDevice(filename: String, node: SemanticsNodeInteraction) {
     // Capture screenshot of composable
     val bmp = node.captureToImage().asAndroidBitmap()
@@ -47,15 +65,22 @@ fun saveScreenshotToDevice(filename: String, node: SemanticsNodeInteraction) {
     // Get path for saving file
     val path = InstrumentationRegistry.getInstrumentation().targetContext.filesDir.canonicalPath
 
-    // Compress bitmap and send to file (can be retrieved via adb)
-    // ADB instructions: https://stackoverflow.com/questions/40323126/where-do-i-find-the-saved-image-in-android
+    // Compress bitmap and send to file
     FileOutputStream("$path/$filename").use { out ->
         bmp.compress(Bitmap.CompressFormat.PNG, 100, out)
     }
 
-    println("Saved screenshot to $path/$filename")
+    Log.d("Screenshot Comparator", "Saved screenshot to $path/$filename")
 }
 
+/**
+ * Checks whether two bitmaps are the same, allowing for a small percentage of different pixels
+ * due to differences between devices
+ *
+ * @param other: Bitmap to compare to
+ * @return true if at least 99% of the bitmap pixels match, false otherwise
+ */
+@RequiresApi(Build.VERSION_CODES.O)
 fun Bitmap.compare(other: Bitmap): Boolean {
     if (this.width != other.width || this.height != other.height) {
         throw AssertionError("Size of screenshot does not match golden file. Expected: $width $height Actual: ${other.width} ${other.height}")
@@ -79,13 +104,20 @@ fun Bitmap.compare(other: Bitmap): Boolean {
 
     // Throw error if greater than 1% of the bitmap's pixels are different
     if (numDiffs > 0.01 * width * width) {
-        Log.d("Screen Comparator", "Sizes match but bitmap content has differences. Num diffs: $numDiffs")
+        Log.d("Screen Comparator", "Sizes match but bitmap content has differences in $numDiffs pixels")
         return false
     }
     Log.d("Screen Comparator", "Number of different pixels: $numDiffs")
     return true
 }
 
+/**
+ * Checks whether two colors (represented by integer values) are similar
+ *
+ * @param other: Color integer to compare to
+ * @return true if all color components are within 0.5% of the original, false otherwise
+ */
+@RequiresApi(Build.VERSION_CODES.O)
 private fun Int.isSimilarColor(other: Int): Boolean {
     // Convert ints to color values
     val expectedColor = this.toColor()
@@ -95,12 +127,12 @@ private fun Int.isSimilarColor(other: Int): Boolean {
     val expectedComponents = expectedColor.components
     val actualComponents = actualColor.components
 
-    if (expectedComponents.size != actualComponents.size)
-        Log.d(
-            "Screen Comparator",
-            "Difference in color components size. Expected: ${expectedComponents.size} Actual: ${actualComponents.size}"
-        )
+    // Check that color components have equal sizes
+    if (expectedComponents.size != actualComponents.size) {
+        return false
+    }
 
+    // Check that each color component is similar (within +/- 0.5%)
     val percentError = 0.005
     expectedComponents.forEachIndexed { index, comp ->
         // Calculate the error allowance for the color component
@@ -110,10 +142,6 @@ private fun Int.isSimilarColor(other: Int): Boolean {
 
         // Compare color component values
         if (abs(actualComponents[index] - comp) > errorAllowance) {
-            Log.d(
-                "Screen Comparator",
-                "Colors are not similar for component $index Expected: $comp Actual: ${actualComponents[index]}"
-            )
             return false
         }
     }

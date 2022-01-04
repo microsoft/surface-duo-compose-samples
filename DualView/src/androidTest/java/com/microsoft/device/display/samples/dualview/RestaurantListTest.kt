@@ -47,6 +47,9 @@ class RestaurantListTest {
         RuleChain.outerRule(composeTestRule)
     }
 
+    /**
+     * Tests that clicking on each restaurant list item updates the item's text style
+     */
     @ExperimentalTestApi
     @Test
     fun restaurantList_itemClickChangesTextStyle() {
@@ -59,6 +62,9 @@ class RestaurantListTest {
         checkRestaurantListTextStyle(true)
     }
 
+    /**
+     * Tests that no restaurant is selected  in the restaurant list on startup
+     */
     @ExperimentalTestApi
     @Test
     fun restaurantList_noItemSelectedUponStart() {
@@ -71,6 +77,12 @@ class RestaurantListTest {
         checkRestaurantListTextStyle()
     }
 
+    /**
+     * Helper method to scroll to each restaurant item and make sure its text style is correct
+     *
+     * @param clickRestaurantItems: if true, each restaurant item will also be clicked, otherwise,
+     * the list will just scroll to each restaurant item
+     */
     @ExperimentalTestApi
     private fun checkRestaurantListTextStyle(clickRestaurantItems: Boolean = false) {
         for (index in restaurants.indices) {
@@ -94,6 +106,10 @@ class RestaurantListTest {
         }
     }
 
+    /**
+     * Composable for testing purposes, stores the necessary states to pass into the
+     * RestaurantListView composable
+     */
     @Composable
     private fun RestaurantListViewWithState(windowState: WindowState) {
         var selectedIndex by remember { mutableStateOf(-1) }
@@ -101,7 +117,10 @@ class RestaurantListTest {
 
         RestaurantListView(windowState.foldablePaneWidth, selectedIndex, updateIndex)
     }
-}
 
-private fun SemanticsNodeInteraction.assertTextStyleEquals(textStyle: TextStyle) =
-    assert(SemanticsMatcher.expectValue(TextStyleKey, textStyle))
+    /**
+     * Asserts that the text style of the node matches the given text style
+     */
+    private fun SemanticsNodeInteraction.assertTextStyleEquals(textStyle: TextStyle) =
+        assert(SemanticsMatcher.expectValue(TextStyleKey, textStyle))
+}

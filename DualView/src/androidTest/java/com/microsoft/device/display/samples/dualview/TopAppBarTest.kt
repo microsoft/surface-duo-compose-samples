@@ -22,6 +22,9 @@ class TopAppBarTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
+    /**
+     * Tests that the map icon shows in the restaurant top bar when single screen
+     */
     @Test
     fun restaurantBar_iconShowsInSingleScreenMode() {
         composeTestRule.setContent {
@@ -34,6 +37,9 @@ class TopAppBarTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests that the map icon is hidden in the restaurant top bar when dual-screen
+     */
     @Test
     fun restaurantBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
@@ -46,6 +52,9 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
+    /**
+     * Tests that the restaurant icon shows in the map top bar when single screen
+     */
     @Test
     fun mapBar_iconShowsInSingleScreenMode() {
         composeTestRule.setContent {
@@ -58,6 +67,9 @@ class TopAppBarTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests that the restaurant icon is hidden in the map top bar when dual-screen
+     */
     @Test
     fun mapBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
@@ -70,6 +82,9 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
+    /**
+     * Tests that app title shows in the restaurant top bar when single screen
+     */
     @Test
     fun restaurantBar_showsAppTitleInSingleScreenMode() {
         composeTestRule.setContent {
@@ -84,6 +99,9 @@ class TopAppBarTest {
         ).assertExists()
     }
 
+    /**
+     * Tests that app title shows in the restaurant top bar when dual-screen
+     */
     @Test
     fun restaurantBar_showsAppTitleInDualScreenMode() {
         composeTestRule.setContent {
@@ -98,6 +116,9 @@ class TopAppBarTest {
         ).assertExists()
     }
 
+    /**
+     * Tests that app title shows in the map top bar when single screen
+     */
     @Test
     fun mapBar_showsAppTitleInSingleScreenMode() {
         composeTestRule.setContent {
@@ -112,6 +133,9 @@ class TopAppBarTest {
         ).assertExists()
     }
 
+    /**
+     * Tests that the map top bar is blank when dual-screen
+     */
     @Test
     fun mapBar_isBlankInDualScreenMode() {
         composeTestRule.setContent {
