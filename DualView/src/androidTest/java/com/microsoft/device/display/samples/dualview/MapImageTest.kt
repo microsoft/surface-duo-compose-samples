@@ -5,10 +5,13 @@
 
 package com.microsoft.device.display.samples.dualview
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.GestureScope
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.bottom
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
@@ -16,12 +19,15 @@ import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.left
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.pinch
+import androidx.compose.ui.test.right
 import androidx.compose.ui.test.swipeDown
+import androidx.compose.ui.test.top
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
@@ -35,13 +41,12 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
+const val PINCH_MILLIS: Long = 500
+
 class MapImageTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val publisherRule = WindowLayoutInfoPublisherRule()
-    private val leftFinger25 = Offset(25f, 50f)
-    private val leftFinger75 = Offset(75f, 50f)
-    private val rightFinger125 = Offset(125f, 150f)
-    private val rightFinger175 = Offset(175f, 150f)
+    private val viewSize = 400
 
     @get: Rule
     val testRule: TestRule
@@ -62,7 +67,7 @@ class MapImageTest {
     fun app_saveScreenshots() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = 400)
+                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = viewSize)
             }
         }
 
@@ -77,7 +82,7 @@ class MapImageTest {
     fun app_horizontalFold_mapUpdatesAfterRestaurantClick() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = 400)
+                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = viewSize)
             }
         }
 
@@ -117,7 +122,7 @@ class MapImageTest {
     fun mapView_testImageDrags() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = 200)
+                MapView(selectedIndex = 0, viewSize = viewSize)
             }
         }
 
@@ -129,18 +134,56 @@ class MapImageTest {
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
             swipeDown()
         }
-        val afterSwipe = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
+        val afterSwipe =
+            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
+                .asAndroidBitmap()
 
         // Make sure bitmaps are not the same anymore
         assert(!original.compare(afterSwipe))
+    }
+
+    data class ZoomCoordinates(
+        val leftOuter: Offset,
+        val leftInner: Offset,
+        val rightInner: Offset,
+        val rightOuter: Offset
+    ) {
+        override fun toString(): String {
+            return "[LeftOuter: $leftOuter, LeftInner: $leftInner, RightInner: $rightInner, RightOuter: $rightOuter]"
+        }
+    }
+
+    private fun GestureScope.zoomIn() {
+        val coords = setupZoomCoords()
+        Log.d("MapImageTest", "Zooming in: $coords")
+        pinch(coords.leftInner, coords.leftOuter, coords.rightInner, coords.rightOuter, PINCH_MILLIS)
+    }
+
+    private fun GestureScope.zoomOut() {
+        val coords = setupZoomCoords()
+        Log.d("MapImageTest", "Zooming out: $coords")
+        pinch(coords.leftOuter, coords.leftInner, coords.rightOuter, coords.rightInner, PINCH_MILLIS)
+    }
+
+    private fun GestureScope.setupZoomCoords(): ZoomCoordinates {
+        // Get height and width of node
+        val width = (right - left).toLong()
+        val height = (bottom - top).toLong()
+
+        // Set up zoom coordinates offsets
+        return ZoomCoordinates(
+            leftOuter = Offset(left + width * 0.25f, top + height * 0.3f),
+            leftInner = Offset(left + width * 0.45f, top + height * 0.3f),
+            rightInner = Offset(left + width * 0.55f, height * 0.7f),
+            rightOuter = Offset(left + width * 0.75f, height * 0.7f),
+        )
     }
 
     @Test
     fun mapView_testImageZoomsIn() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = 200)
+                MapView(selectedIndex = 0, viewSize = viewSize)
             }
         }
 
@@ -150,10 +193,11 @@ class MapImageTest {
 
         // Zoom in on map image map and take screenshot of new state
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
-            pinch(leftFinger75, leftFinger25, rightFinger125, rightFinger175)
+            zoomIn()
         }
-        val afterZoom = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
+        val afterZoom =
+            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
+                .asAndroidBitmap()
 
         // Make sure bitmaps are not the same anymore
         assert(!original.compare(afterZoom))
@@ -163,7 +207,7 @@ class MapImageTest {
     fun mapView_testImageZoomsOut() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = 200)
+                MapView(selectedIndex = 0, viewSize = viewSize)
             }
         }
 
@@ -173,10 +217,11 @@ class MapImageTest {
 
         // Zoom out on map image map and take screenshot of new state
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
-            pinch(leftFinger25, leftFinger75, rightFinger175, rightFinger125)
+            zoomOut()
         }
-        val afterZoom = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
+        val afterZoom =
+            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
+                .asAndroidBitmap()
 
         // Make sure bitmaps are not the same anymore
         assert(!original.compare(afterZoom))
