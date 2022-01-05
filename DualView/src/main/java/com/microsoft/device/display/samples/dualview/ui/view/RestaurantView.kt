@@ -65,12 +65,12 @@ fun RestaurantViewWithTopBar(
     isDualScreen: Boolean,
     viewWidth: Int,
     selectedIndex: Int,
-    updateSelectedIndex: (Int) -> Unit
+    onRestaurantClick: (Int) -> Unit
 ) {
     Scaffold(
         topBar = { RestaurantTopBar(isDualScreen) }
     ) {
-        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex)
+        RestaurantView(viewWidth, selectedIndex, onRestaurantClick)
     }
 }
 
@@ -104,7 +104,7 @@ private fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun RestaurantView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -113,12 +113,12 @@ fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int
             text = stringResource(R.string.list_title),
             style = typography.subtitle1
         )
-        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
+        RestaurantListView(viewWidth, selectedIndex, onRestaurantClick)
     }
 }
 
 @Composable
-fun RestaurantListView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun RestaurantListView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (Int) -> Unit) {
     // REVISIT: use a WindowSizeClass check instead?
     val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
 
@@ -134,10 +134,7 @@ fun RestaurantListView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: 
                 isSmallScreen = isSmallScreen,
                 modifier = Modifier.selectable(
                     selected = isSelected,
-                    onClick = {
-                        updateSelectedIndex(index)
-                        navigateToPane2()
-                    }
+                    onClick = { onRestaurantClick(index) }
                 )
             )
         }

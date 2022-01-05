@@ -11,10 +11,14 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
+import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
 import com.microsoft.device.display.samples.dualview.ui.view.MapTopBar
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantTopBar
 import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 
@@ -148,5 +152,29 @@ class TopAppBarTest {
             hasParent(hasTestTag(composeTestRule.getString(R.string.map_top_bar)))
                 and hasText("")
         ).assertExists()
+    }
+
+    @Test
+    fun app_iconsSwitchViewsInSingleScreenMode() {
+        composeTestRule.setContent {
+            DualViewAppTheme {
+                DualViewApp(WindowState())
+            }
+        }
+
+        // Assert restaurant view is shown first
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.restaurant_top_bar)).assertExists()
+
+        // Click map icon to switch views
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map)).performClick()
+
+        // Assert map view is now shown
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_top_bar)).assertExists()
+
+        // Click restaurant icon to switch views
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest)).performClick()
+
+        // Assert restaurant view is shown again
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.restaurant_top_bar)).assertExists()
     }
 }
