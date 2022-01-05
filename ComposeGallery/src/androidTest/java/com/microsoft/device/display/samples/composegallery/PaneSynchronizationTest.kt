@@ -27,7 +27,6 @@ import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
 import com.microsoft.device.dualscreen.windowstate.WindowState
-import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain

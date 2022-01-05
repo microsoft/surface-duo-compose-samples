@@ -5,10 +5,8 @@
 
 package com.microsoft.device.display.samples.dualview
 
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsNodeInteraction
-import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasParent
@@ -17,21 +15,15 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.compose.ui.test.swipeDown
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
-import com.microsoft.device.display.samples.dualview.ui.view.MapView
 import com.microsoft.device.dualscreen.testutils.assertScreenshotMatchesReference
-import com.microsoft.device.dualscreen.testutils.compare
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.saveScreenshotToDevice
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.zoomIn
-import com.microsoft.device.dualscreen.testutils.zoomOut
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
@@ -51,28 +43,6 @@ class MapImageTest {
     init {
         testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
         RuleChain.outerRule(composeTestRule)
-    }
-
-    /**
-     * Temporary test to save screenshots of composables to use as reference images - uncomment test
-     * annotation to run and follow instructions below to transfer images from device to computer:
-     * https://stackoverflow.com/questions/40323126/where-do-i-find-the-saved-image-in-android
-     *
-     * You may also need to add write permissions to AndroidManifest.xml in your own project.
-     */
-    @ExperimentalTestApi
-    // @Test
-    fun app_saveScreenshots() {
-        composeTestRule.setContent {
-            DualViewAppTheme {
-                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = VIEW_SIZE)
-            }
-        }
-
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
-
-        clickRestaurantsAndPerformAction(::saveScreenshotToDevice)
     }
 
     /**
