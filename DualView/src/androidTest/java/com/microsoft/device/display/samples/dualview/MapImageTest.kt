@@ -32,6 +32,7 @@ import com.microsoft.device.dualscreen.testutils.saveScreenshotToDevice
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.zoomIn
 import com.microsoft.device.dualscreen.testutils.zoomOut
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
@@ -82,7 +83,7 @@ class MapImageTest {
     fun app_horizontalFold_mapUpdatesAfterRestaurantClick() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                DualViewApp(windowState = composeTestRule.activity.rememberWindowState(), viewSize = VIEW_SIZE)
+                DualViewApp(WindowState(hasFold = true, isFoldHorizontal = true), viewSize = VIEW_SIZE)
             }
         }
 
@@ -125,86 +126,5 @@ class MapImageTest {
                 )
             ).performClick()
         }
-    }
-
-    /**
-     * Tests that the map view image is drags
-     */
-    @Test
-    fun mapView_testImageDrags() {
-        composeTestRule.setContent {
-            DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = VIEW_SIZE)
-            }
-        }
-
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
-
-        // Swipe map and take screenshot of new state
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
-            swipeDown()
-        }
-        val afterSwipe =
-            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-                .asAndroidBitmap()
-
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterSwipe))
-    }
-
-    /**
-     * Tests that the map image can zoom in
-     */
-    @Test
-    fun mapView_testImageZoomsIn() {
-        composeTestRule.setContent {
-            DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = VIEW_SIZE)
-            }
-        }
-
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
-
-        // Zoom in on map image map and take screenshot of new state
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
-            zoomIn()
-        }
-        val afterZoom =
-            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-                .asAndroidBitmap()
-
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterZoom))
-    }
-
-    /**
-     * Test that the map image can zoom out
-     */
-    @Test
-    fun mapView_testImageZoomsOut() {
-        composeTestRule.setContent {
-            DualViewAppTheme {
-                MapView(selectedIndex = 0, viewSize = VIEW_SIZE)
-            }
-        }
-
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-            .asAndroidBitmap()
-
-        // Zoom out on map image map and take screenshot of new state
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.zoomable_map_image)).performGesture {
-            zoomOut()
-        }
-        val afterZoom =
-            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image)).captureToImage()
-                .asAndroidBitmap()
-
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterZoom))
     }
 }

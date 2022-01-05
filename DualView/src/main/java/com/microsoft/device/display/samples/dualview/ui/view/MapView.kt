@@ -140,7 +140,6 @@ fun ScalableImageView(imageId: Int) {
                     }
                 )
             }
-            .fillMaxSize()
-            .testTag(stringResource(R.string.zoomable_map_image)),
+            .fillMaxSize(),
     )
 }
