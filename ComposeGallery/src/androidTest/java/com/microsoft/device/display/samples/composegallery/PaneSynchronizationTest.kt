@@ -53,7 +53,7 @@ class PaneSynchronizationTest {
     fun app_verticalFold_testListItemClickUpdatesDetailPane() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
+                ComposeGalleryApp(WindowState(hasFold = true))
             }
         }
 
@@ -126,7 +126,7 @@ class PaneSynchronizationTest {
     fun app_testOnePaneShowsWithHorizontalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(WindowState())
+                ComposeGalleryApp(WindowState(hasFold = true, isFoldHorizontal = true))
             }
         }
 
