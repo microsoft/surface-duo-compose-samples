@@ -28,8 +28,6 @@ import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantListView
 import com.microsoft.device.display.samples.dualview.ui.view.TextStyleKey
 import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.windowstate.WindowState
-import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -55,7 +53,7 @@ class RestaurantListTest {
     fun restaurantList_itemClickChangesTextStyle() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                RestaurantListViewWithState(windowState = composeTestRule.activity.rememberWindowState())
+                RestaurantListViewWithState()
             }
         }
 
@@ -70,7 +68,7 @@ class RestaurantListTest {
     fun restaurantList_noItemSelectedUponStart() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                RestaurantListViewWithState(windowState = composeTestRule.activity.rememberWindowState())
+                RestaurantListViewWithState()
             }
         }
 
@@ -111,11 +109,11 @@ class RestaurantListTest {
      * RestaurantListView composable
      */
     @Composable
-    private fun RestaurantListViewWithState(windowState: WindowState) {
+    private fun RestaurantListViewWithState(viewWidth: Int = 0) {
         var selectedIndex by remember { mutableStateOf(-1) }
         val updateIndex = { newIndex: Int -> selectedIndex = newIndex }
 
-        RestaurantListView(windowState.foldablePaneWidth, selectedIndex, updateIndex)
+        RestaurantListView(viewWidth, selectedIndex, updateIndex, true)
     }
 
     /**

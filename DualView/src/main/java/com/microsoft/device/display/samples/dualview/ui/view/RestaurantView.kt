@@ -65,12 +65,12 @@ fun RestaurantViewWithTopBar(
     isDualScreen: Boolean,
     viewWidth: Int,
     selectedIndex: Int,
-    onRestaurantClick: (Int) -> Unit
+    updateSelectedIndex: (Int) -> Unit
 ) {
     Scaffold(
         topBar = { RestaurantTopBar(isDualScreen) }
     ) {
-        RestaurantView(viewWidth, selectedIndex, onRestaurantClick)
+        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex, isDualScreen)
     }
 }
 
@@ -104,7 +104,7 @@ private fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (Int) -> Unit) {
+fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit, isDualScreen: Boolean) {
     Column(
         modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -113,13 +113,19 @@ fun RestaurantView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (Int) 
             text = stringResource(R.string.list_title),
             style = typography.subtitle1
         )
-        RestaurantListView(viewWidth, selectedIndex, onRestaurantClick)
+        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex, isDualScreen)
     }
 }
 
 @Composable
-fun RestaurantListView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (Int) -> Unit) {
-    // REVISIT: use a WindowSizeClass check instead?
+fun RestaurantListView(
+    viewWidth: Int,
+    selectedIndex: Int,
+    updateSelectedIndex: (Int) -> Unit,
+    isDualScreen: Boolean
+) {
+    // Note: not using WindowSizeClass because we are checking for very narrow window widths, not just
+    // the compact size class
     val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
 
     LazyColumn(
@@ -134,7 +140,11 @@ fun RestaurantListView(viewWidth: Int, selectedIndex: Int, onRestaurantClick: (I
                 isSmallScreen = isSmallScreen,
                 modifier = Modifier.selectable(
                     selected = isSelected,
-                    onClick = { onRestaurantClick(index) }
+                    onClick = {
+                        updateSelectedIndex(index)
+                        if (!isDualScreen)
+                            navigateToPane2()
+                    }
                 )
             )
         }

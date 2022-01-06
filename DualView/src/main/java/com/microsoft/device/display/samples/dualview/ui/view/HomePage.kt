@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
@@ -36,14 +35,8 @@ fun DualViewAppContent(
     updateSelectedIndex: (Int) -> Unit,
     viewSize: Int? = null
 ) {
-    val onRestaurantClick: (Int) -> Unit = { newIndex ->
-        updateSelectedIndex(newIndex)
-        if (!isDualScreen)
-            navigateToPane2()
-    }
-
     TwoPaneLayout(
-        pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, onRestaurantClick) },
+        pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, updateSelectedIndex) },
         pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex, viewSize) }
     )
 }
