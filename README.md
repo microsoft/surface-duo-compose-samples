@@ -51,7 +51,9 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 ## Social links
 
-- [video: NavigationRail Compose sample Twitch](https://www.twitch.tv/videos/1196858313)
+- [video: Get started with Jetpack Compose Twitch](https://www.youtube.com/watch?v=ijXDWDtdiIE)
+- [blog: Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/)
+- [video: NavigationRail Compose sample Twitch](https://www.youtube.com/watch?v=pdoIyOU7Suk)
 - [blog: NavigationRail Compose sample](https://devblogs.microsoft.com/surface-duo/jetpack-compose-navigation-rail/)
 - [video: TwoPaneLayout Compose library Twitch](https://www.youtube.com/watch?v=Q66bR2jKdrg)
 - [blog: New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/)

@@ -69,7 +69,8 @@ fun PortraitLayout() {
         modifier = Modifier
             .fillMaxSize()
             .testTag(stringResource(R.string.single_port)),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(8.dp))
         ImagePanel(

@@ -30,19 +30,20 @@ ext {
             window            : "androidx.window:window:$windowVersion",
     ]
 
+    // Compose dependencies
     composeVersion = "1.0.5"
-    composeBetaVersion = "1.1.0-beta03"
+    composeUnstableVersion = "1.1.0-rc01"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0-beta02"
     composeDependencies = [
-            composeAnimation        : "androidx.compose.animation:animation:$composeBetaVersion",
+            composeAnimation        : "androidx.compose.animation:animation:$composeVersion",
             composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
             activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
             navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion",
-            composeMaterialForNavRail: "androidx.compose.material:material:$composeBetaVersion",
+            composeMaterialForNavRail: "androidx.compose.material:material:$composeUnstableVersion",
     ]
 
     // Testing versions

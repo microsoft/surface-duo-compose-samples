@@ -27,16 +27,10 @@ fun TwoPageApp(windowState: WindowState) {
     val density = LocalDensity.current.density
     var viewWidth by remember { mutableStateOf(0) }
 
-    val vWidth = if (windowState.hasFold) {
-        when (windowState.isFoldHorizontal) {
-            true -> windowState.foldBounds.right
-            false -> windowState.foldBounds.left
-        }
-    } else 0
-    viewWidth = if (windowState.isDualPortrait() && !windowState.hasFold)
-        LocalConfiguration.current.screenWidthDp / 2
-    else
-        (vWidth / density).toInt()
+    viewWidth = when (windowState.isDualPortrait() && !windowState.hasFold) {
+        true -> LocalConfiguration.current.screenWidthDp / 2
+        else -> (windowState.foldablePaneWidth / density).toInt()
+    }
 
     val isDualScreen = windowState.isDualPortrait()
     val pages = setupPages(viewWidth)

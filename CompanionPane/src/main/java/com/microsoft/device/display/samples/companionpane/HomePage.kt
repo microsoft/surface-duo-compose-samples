@@ -32,6 +32,11 @@ fun CompanionPaneApp(windowState: WindowState) {
     var windowMode by remember { mutableStateOf(WindowMode.SINGLE_PORTRAIT) }
     windowMode = windowState.windowMode
 
+    CompanionPaneAppContent(windowMode)
+}
+
+@Composable
+fun CompanionPaneAppContent(windowMode: WindowMode) {
     TwoPaneLayout(
         pane1 = { Pane1(windowMode) },
         pane2 = { Pane2(windowMode) },

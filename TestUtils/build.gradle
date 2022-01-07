@@ -27,4 +27,5 @@ dependencies {
     implementation testDependencies.composeJunit
     implementation testDependencies.windowTest
     implementation testDependencies.uiAutomator
+    implementation androidxDependencies.ktxCore
 }

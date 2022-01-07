@@ -12,8 +12,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_gary">#FF141414</color>
-    <color name="light_gary">#FF878181</color>
+    <color name="dark_gray">#FF141414</color>
+    <color name="light_gray">#FF878181</color>
     <color name="red_200">#FFF65F5F</color>
     <color name="red_500">#FFF54D4D</color>
+    <color name="gray_500">#FF9E9E9E</color>
 </resources>

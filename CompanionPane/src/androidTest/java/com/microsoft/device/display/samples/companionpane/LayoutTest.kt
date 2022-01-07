@@ -16,6 +16,7 @@ import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPane
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
 import org.junit.Test
@@ -41,14 +42,14 @@ class LayoutTest {
      */
     @Test
     fun app_testSinglePortraitLayout() {
-        composeTestRule.setContent {
-            CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
-            }
-        }
-
         // Lock in portrait orientation
         device.setOrientationNatural()
+
+        composeTestRule.setContent {
+            CompanionPaneAppTheme {
+                CompanionPaneAppContent(WindowMode.SINGLE_PORTRAIT)
+            }
+        }
 
         // Check that single portrait layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_port))
@@ -64,14 +65,14 @@ class LayoutTest {
      */
     @Test
     fun app_testSingleLandscapeLayout() {
-        composeTestRule.setContent {
-            CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
-            }
-        }
-
         // Lock in landscape orientation
         device.setOrientationLeft()
+
+        composeTestRule.setContent {
+            CompanionPaneAppTheme {
+                CompanionPaneAppContent(WindowMode.SINGLE_LANDSCAPE)
+            }
+        }
 
         // Check that single landscape layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_land))
@@ -89,7 +90,7 @@ class LayoutTest {
     fun app_testDualPortraitLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
+                CompanionPaneAppContent(WindowMode.DUAL_PORTRAIT)
             }
         }
 
@@ -111,7 +112,7 @@ class LayoutTest {
     fun app_testDualLandscapeLayout() {
         composeTestRule.setContent {
             CompanionPaneAppTheme {
-                CompanionPaneApp(composeTestRule.activity.rememberWindowState())
+                CompanionPaneAppContent(WindowMode.DUAL_LANDSCAPE)
             }
         }
 

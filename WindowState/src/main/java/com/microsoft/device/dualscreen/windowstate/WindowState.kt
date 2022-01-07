@@ -25,18 +25,23 @@ import androidx.compose.ui.platform.LocalConfiguration
  * @param heightSizeClass: size class (compact, medium, or expanded) for window height
  */
 data class WindowState(
-    val hasFold: Boolean,
-    val isFoldHorizontal: Boolean,
-    val foldBounds: Rect,
-    val foldState: FoldState,
-    val foldSeparates: Boolean,
-    val foldOccludes: Boolean,
-    val widthSizeClass: WindowSizeClass,
-    val heightSizeClass: WindowSizeClass,
+    val hasFold: Boolean = false,
+    val isFoldHorizontal: Boolean = false,
+    val foldBounds: Rect = Rect(),
+    val foldState: FoldState = FoldState.FLAT,
+    val foldSeparates: Boolean = false,
+    val foldOccludes: Boolean = false,
+    val widthSizeClass: WindowSizeClass = WindowSizeClass.COMPACT,
+    val heightSizeClass: WindowSizeClass = WindowSizeClass.MEDIUM,
 ) {
     private val foldableFoldSize = when (isFoldHorizontal) {
         true -> foldBounds.height()
         false -> foldBounds.width()
+    }
+
+    val foldablePaneWidth = when (isFoldHorizontal) {
+        true -> foldBounds.right
+        false -> foldBounds.left
     }
 
     val foldSize = if (hasFold) foldableFoldSize else 0

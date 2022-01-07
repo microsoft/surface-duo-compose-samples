@@ -21,7 +21,7 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
 import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.windowstate.rememberWindowState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 
@@ -178,7 +178,7 @@ class TopAppBarTest {
     fun app_testTopBarIconsSwitchPanes() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(composeTestRule.activity.rememberWindowState())
+                ComposeGalleryApp(WindowState())
             }
         }
 

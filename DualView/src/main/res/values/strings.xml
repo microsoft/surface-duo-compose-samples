@@ -7,4 +7,38 @@
     <string name="app_name">Dual View-Compose</string>
     <string name="list_title">Dine-in Restaurants</string>
     <string name="restaurant_type">%1$s restaurant</string>
+    <string name="switch_to_rest">Switch to restaurant view</string>
+    <string name="switch_to_map">Switch to map view</string>
+    <string name="map_description">Map of restaurants</string>
+    <string name="restaurant_top_bar">Restaurant Top Bar</string>
+    <string name="map_top_bar">Map Top Bar</string>
+    <string name="map_image">Map image</string>
+
+    <!-- Cuisine Types -->
+    <string name="american">American</string>
+    <string name="italian">Italian</string>
+    <string name="thai">Thai</string>
+    <string name="korean">Korean</string>
+    <string name="fine_dining">Fine Dining</string>
+    <string name="breakfast">Breakfast</string>
+    
+    <!-- Restaurant names -->
+    <string name="pestle_rock">Pestle Rock</string>
+    <string name="sams_pizza">Sam\'s Pizza</string>
+    <string name="sizzle_and_crunch">Sizzle and Crunch</string>
+    <string name="cantinetta">Cantinetta</string>
+    <string name="arayas_place">Araya\'s Place</string>
+    <string name="kimchi_bistro">Kimchi Bistro</string>
+    <string name="topolopompo">Topolopompo Restaurant</string>
+    <string name="morsel">Morsel</string>
+
+    <!-- Restaurant descriptions -->
+    <string name="pestle_rock_des">Wine bar with upscale small plates in a lofty modern space with a central wine tower &amp; staircase.</string>
+    <string name="sams_pizza_des">Take-out/delivery chain offering classic &amp; specialty pizzas, wings &amp; breadsticks, plus desserts.</string>
+    <string name="sizzle_and_crunch_des">Eatery with a wood-fired oven turning out European &amp; NW dishes in a white-&amp;-blue cottage-like room.</string>
+    <string name="cantinetta_des">Gourmet Neapolitan pies served in a lofty space with casual, industrial-chic decor.</string>
+    <string name="arayas_place_des">Araya\'s Place is the 1st vegan-Thai restaurant in the northwest while supporting local farms.</string>
+    <string name="kimchi_bistro_des">Small, no frills Korean restaurant with an extensive menu served in simple digs inside a mall.</string>
+    <string name="topolopompo_des">Compact locale with counter service dishing up classic Mediterranean eats such as hummus &amp; falafel.</string>
+    <string name="morsel_des">Homey cafe with sofas, board games &amp; quiet corners for gourmet coffee &amp; craft biscuit sandwiches.</string>
 </resources>
