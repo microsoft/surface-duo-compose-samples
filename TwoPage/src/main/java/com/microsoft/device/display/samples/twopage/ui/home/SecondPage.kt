@@ -17,7 +17,7 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 fun SecondPage(modifier: Modifier) {
     PageLayout(
         modifier = modifier,
-        pageNumber = stringResource(R.string.two_page_page2_page_number)
+        pageNumber = stringResource(R.string.page_number_2)
     ) {
         SecondPageContent()
     }
@@ -26,22 +26,22 @@ fun SecondPage(modifier: Modifier) {
 @Composable
 fun SecondPageContent() {
     Text(
-        text = stringResource(R.string.two_page_page2_title1),
+        text = stringResource(R.string.page2_title1),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
-        text = stringResource(R.string.two_page_page2_text1),
+        text = stringResource(R.string.page2_text1),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )
     Text(
-        text = stringResource(R.string.two_page_page2_title2),
+        text = stringResource(R.string.page2_title2),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
-        text = stringResource(R.string.two_page_page2_text2),
+        text = stringResource(R.string.page2_text2),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )

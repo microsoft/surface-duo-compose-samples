@@ -17,7 +17,7 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 fun ThirdPage(modifier: Modifier) {
     PageLayout(
         modifier = modifier,
-        pageNumber = stringResource(R.string.two_page_page3_page_number)
+        pageNumber = stringResource(R.string.page_number_3)
     ) {
         ThirdPageContent()
     }
@@ -26,12 +26,12 @@ fun ThirdPage(modifier: Modifier) {
 @Composable
 fun ThirdPageContent() {
     Text(
-        text = stringResource(R.string.two_page_page3_title1),
+        text = stringResource(R.string.page3_title1),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
     )
     Text(
-        text = stringResource(R.string.two_page_page3_text1),
+        text = stringResource(R.string.page3_text1),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )

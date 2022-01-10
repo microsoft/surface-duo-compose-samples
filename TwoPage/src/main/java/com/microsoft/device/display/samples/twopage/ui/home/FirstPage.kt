@@ -29,7 +29,7 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 fun FirstPage(modifier: Modifier) {
     PageLayout(
         modifier = modifier,
-        pageNumber = stringResource(R.string.two_page_page1_page_number)
+        pageNumber = stringResource(R.string.page_number_1)
     ) {
         FirstPageContent()
     }
@@ -56,12 +56,12 @@ fun FirstPageContent() {
             )
     )
     AlignedCaption(
-        text = stringResource(R.string.two_page_image_caption),
+        text = stringResource(R.string.page1_image_caption),
         textAlign = TextAlign.Center
     )
     Spacer(modifier = Modifier.requiredHeight(5.dp))
     Text(
-        text = stringResource(R.string.two_page_page1_text),
+        text = stringResource(R.string.page1_text),
         color = MaterialTheme.colors.onBackground,
         style = typography.body1
     )
