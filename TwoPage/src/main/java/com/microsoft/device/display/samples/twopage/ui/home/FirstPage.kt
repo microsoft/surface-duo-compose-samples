@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.twopage.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +27,10 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 
 @Composable
 fun FirstPage(modifier: Modifier) {
-    PageLayout(modifier) {
+    PageLayout(
+        modifier = modifier,
+        pageNumber = stringResource(R.string.two_page_page1_page_number)
+    ) {
         FirstPageContent()
     }
 }
@@ -62,10 +64,6 @@ fun FirstPageContent() {
         text = stringResource(R.string.two_page_page1_text),
         color = MaterialTheme.colors.onBackground,
         style = typography.body1
-    )
-    AlignedCaption(
-        text = stringResource(R.string.two_page_page1_page_number),
-        arrangement = Arrangement.End
     )
     Spacer(modifier = Modifier.height(10.dp))
 }
