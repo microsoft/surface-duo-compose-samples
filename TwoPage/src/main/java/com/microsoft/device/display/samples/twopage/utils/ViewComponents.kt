@@ -18,20 +18,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
-    Row(
+fun AlignedCaption(text: String, textAlign: TextAlign) {
+    Text(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = arrangement
-    ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colors.onBackground,
-            style = MaterialTheme.typography.caption
-        )
-    }
+        text = text,
+        color = MaterialTheme.colors.onBackground,
+        style = MaterialTheme.typography.caption,
+        textAlign = textAlign
+    )
 }
 
 @Composable

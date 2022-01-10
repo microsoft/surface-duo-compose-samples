@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.AlignedCaption
@@ -54,7 +55,7 @@ fun FirstPageContent() {
     )
     AlignedCaption(
         text = stringResource(R.string.two_page_image_caption),
-        arrangement = Arrangement.Center
+        textAlign = TextAlign.Center
     )
     Spacer(modifier = Modifier.requiredHeight(5.dp))
     Text(

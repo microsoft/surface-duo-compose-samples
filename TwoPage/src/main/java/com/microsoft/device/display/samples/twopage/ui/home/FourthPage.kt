@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.AlignedCaption
 import com.microsoft.device.display.samples.twopage.utils.PageLayout
@@ -46,6 +47,6 @@ fun FourthPageContent() {
     )
     AlignedCaption(
         text = stringResource(R.string.two_page_page4_page_number),
-        arrangement = Arrangement.End
+        textAlign = TextAlign.End
     )
 }
