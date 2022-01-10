@@ -50,19 +50,3 @@ fun PageLayout(modifier: Modifier, content: @Composable () -> Unit) {
         }
     }
 }
-
-@Composable
-fun DualPageContainer(leftContent: @Composable () -> Unit, rightContent: @Composable () -> Unit) {
-    Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-        Box(
-            Modifier.weight(1f)
-        ) {
-            leftContent()
-        }
-        Box(
-            Modifier.weight(1f)
-        ) {
-            rightContent()
-        }
-    }
-}
