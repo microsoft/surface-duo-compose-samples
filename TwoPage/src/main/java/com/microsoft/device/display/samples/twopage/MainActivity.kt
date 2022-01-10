@@ -9,7 +9,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
-import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageComposeSamplesTheme
+import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             windowState = rememberWindowState()
 
-            TwoPageComposeSamplesTheme {
+            TwoPageAppTheme {
                 TwoPageApp(windowState)
             }
         }
