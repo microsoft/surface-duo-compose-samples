@@ -17,4 +17,10 @@
     <string name="page_number_2">PAGE 2 of 4</string>
     <string name="page_number_3">PAGE 3 of 4</string>
     <string name="page_number_4">PAGE 4 of 4</string>
+
+    <!-- TEST TAGS -->
+    <string name="page1_tag">Page 1</string>
+    <string name="page2_tag">Page 2</string>
+    <string name="page3_tag">Page 3</string>
+    <string name="page4_tag">Page 4</string>
 </resources>

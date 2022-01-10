@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.PageLayout
@@ -16,7 +17,7 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 @Composable
 fun SecondPage(modifier: Modifier) {
     PageLayout(
-        modifier = modifier,
+        modifier = modifier.testTag(stringResource(R.string.page2_tag)),
         pageNumber = stringResource(R.string.page_number_2)
     ) {
         SecondPageContent()

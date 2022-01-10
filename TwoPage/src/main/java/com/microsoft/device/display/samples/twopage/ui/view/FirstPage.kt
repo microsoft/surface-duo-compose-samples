@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,7 +29,7 @@ import com.microsoft.device.display.samples.twopage.utils.PageLayout
 @Composable
 fun FirstPage(modifier: Modifier) {
     PageLayout(
-        modifier = modifier,
+        modifier = modifier.testTag(stringResource(R.string.page1_tag)),
         pageNumber = stringResource(R.string.page_number_1)
     ) {
         FirstPageContent()
