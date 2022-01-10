@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.twopage.ui.home
+package com.microsoft.device.display.samples.twopage.ui.view
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
