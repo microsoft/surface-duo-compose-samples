@@ -24,7 +24,7 @@ fun ListDetailApp(windowState: WindowState) {
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { ListViewWithTopBar(selectedIndex, updateSelectedIndex) },
+        pane1 = { ListViewWithTopBar(windowState.isDualPortrait(), selectedIndex, updateSelectedIndex) },
         pane2 = { DetailViewWithTopBar(windowState.isDualPortrait(), selectedIndex) }
     )
 }

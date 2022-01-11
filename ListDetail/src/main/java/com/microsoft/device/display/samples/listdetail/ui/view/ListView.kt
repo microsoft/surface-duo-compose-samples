@@ -37,10 +37,9 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
-private val imageMargin = 1.dp
 
 @Composable
-fun ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun ListViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,13 +56,13 @@ fun ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
             )
         },
         content = {
-            ListView(selectedIndex, updateSelectedIndex)
+            ListView(isDualScreen, selectedIndex, updateSelectedIndex)
         }
     )
 }
 
 @Composable
-fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     val imageList = images
     val subImageList = imageList.chunked(3)
 
@@ -87,17 +86,10 @@ fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
                     for ((imageIndex, image) in item.withIndex()) {
                         val listIndex = 3 * index + imageIndex
                         val isSelected = (listIndex == selectedIndex)
-                        val outlineWidth = if (isSelected) imageMargin else 0.dp
                         DecorativeBox(
                             modifier = Modifier
                                 .wrapContentSize()
-                                .weight(1f)
-                                .padding(
-                                    top = outlineWidth,
-                                    bottom = outlineWidth,
-                                    start = outlineWidth,
-                                    end = outlineWidth
-                                ),
+                                .weight(1f),
                             isSelected
                         ) {
                             ImageView(
@@ -107,7 +99,9 @@ fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
                                             updateSelectedIndex(listIndex)
-                                            navigateToPane2()
+                                            if (!isDualScreen) {
+                                                navigateToPane2()
+                                            }
                                         }
                                     )
                             )
@@ -130,7 +124,7 @@ fun DecorativeBox(
             .clip(RoundedCornerShape(5.dp))
             .border(
                 width = 3.dp,
-                color = if (isSelected) colorResource(id = R.color.outline_blue) else Color.Transparent
+                color = if (isSelected) colorResource(id = R.color.purple_700) else Color.Transparent
             ),
         contentAlignment = Alignment.Center
     ) {
