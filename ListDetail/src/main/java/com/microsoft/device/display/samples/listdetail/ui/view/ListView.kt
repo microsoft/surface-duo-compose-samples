@@ -20,7 +20,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.listdetail.R
-import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 
@@ -42,7 +40,7 @@ private val horizontalPadding = 15.dp
 private val imageMargin = 1.dp
 
 @Composable
-fun ListViewWithTopBar(appStateViewModel: AppStateViewModel) {
+fun ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,15 +57,13 @@ fun ListViewWithTopBar(appStateViewModel: AppStateViewModel) {
             )
         },
         content = {
-            ListView(appStateViewModel)
+            ListView(selectedIndex, updateSelectedIndex)
         }
     )
 }
 
 @Composable
-fun ListView(appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
+fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     val imageList = images
     val subImageList = imageList.chunked(3)
 
@@ -110,7 +106,7 @@ fun ListView(appStateViewModel: AppStateViewModel) {
                                     .selectable(
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
-                                            appStateViewModel.imageSelectionLiveData.value = listIndex
+                                            updateSelectedIndex(listIndex)
                                             navigateToPane2()
                                         }
                                     )

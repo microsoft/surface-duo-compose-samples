@@ -24,7 +24,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.listdetail.R
-import com.microsoft.device.display.samples.listdetail.models.AppStateViewModel
 import com.microsoft.device.display.samples.listdetail.models.images
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
@@ -44,7 +42,7 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewModel) {
+fun DetailViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,7 +55,7 @@ fun DetailViewWithTopBar(isDualScreen: Boolean, appStateViewModel: AppStateViewM
             )
         },
         content = {
-            DetailView(appStateViewModel = appStateViewModel)
+            DetailView(selectedIndex)
         }
     )
 }
@@ -78,9 +76,7 @@ fun DetailViewTopBar() {
 }
 
 @Composable
-fun DetailView(appStateViewModel: AppStateViewModel) {
-    val imageSelectionLiveData = appStateViewModel.imageSelectionLiveData
-    val selectedIndex = imageSelectionLiveData.observeAsState(initial = 0).value
+fun DetailView(selectedIndex: Int) {
     val selectedImageId = images[selectedIndex]
 
     Column {
