@@ -47,7 +47,7 @@ fun FirstPageContent() {
     Spacer(modifier = Modifier.requiredHeight(5.dp))
     Image(
         painter = painterResource(id = R.drawable.two_page_rome_image),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.page1_image_description),
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
             .fillMaxWidth()
