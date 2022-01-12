@@ -31,12 +31,6 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 @ExperimentalFoundationApi
 @Composable
 fun NavigationRailApp(windowState: WindowState) {
-    // Extract window state information
-    val isDualScreen = windowState.isDualScreen()
-    val isDualPortrait = windowState.isDualPortrait()
-    val isDualLandscape = windowState.isDualLandscape()
-    val foldSize = windowState.foldSize.dp
-
     // Set up starting route for navigation in pane 1
     var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }
     val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
@@ -45,6 +39,33 @@ fun NavigationRailApp(windowState: WindowState) {
     var imageId: Int? by rememberSaveable { mutableStateOf(null) }
     val updateImageId: (Int?) -> Unit = { newId -> imageId = newId }
 
+    NavigationRailAppContent(
+        isDualScreen = windowState.isDualScreen(),
+        isDualPortrait = windowState.isDualPortrait(),
+        isDualLandscape = windowState.isDualLandscape(),
+        foldSize = windowState.foldSize.dp,
+        imageId = imageId,
+        updateImageId = updateImageId,
+        currentRoute = currentRoute,
+        updateRoute = updateRoute
+    )
+}
+
+@ExperimentalUnitApi
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+fun NavigationRailAppContent(
+    isDualScreen: Boolean,
+    isDualPortrait: Boolean,
+    isDualLandscape: Boolean,
+    foldSize: Dp,
+    imageId: Int?,
+    updateImageId: (Int?) -> Unit,
+    currentRoute: String,
+    updateRoute: (String) -> Unit
+) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = {
