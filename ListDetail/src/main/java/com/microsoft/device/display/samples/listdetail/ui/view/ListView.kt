@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -41,30 +42,30 @@ private val horizontalPadding = 15.dp
 @Composable
 fun ListViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    )
-                }
+        topBar = { ListViewTopBar() },
+        content = { ListView(isDualScreen, selectedIndex, updateSelectedIndex) }
+    )
+}
+
+@Composable
+fun ListViewTopBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
             )
-        },
-        content = {
-            ListView(isDualScreen, selectedIndex, updateSelectedIndex)
         }
     )
 }
 
 @Composable
 fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
-    val imageList = images
-    val subImageList = imageList.chunked(3)
+    val subImageList = images.chunked(3)
 
     Box(
         modifier = Modifier
@@ -75,7 +76,8 @@ fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (In
                 start = horizontalPadding,
                 end = horizontalPadding
             )
-    ) {
+        .testTag(stringResource(R.string.list_view)),
+        ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(imagePadding)
         ) {
@@ -95,6 +97,7 @@ fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (In
                             ImageView(
                                 imageId = image,
                                 modifier = Modifier
+                                    .testTag(listIndex.toString())
                                     .selectable(
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
