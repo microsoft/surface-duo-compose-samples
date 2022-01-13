@@ -1,12 +1,12 @@
 package com.microsoft.device.display.samples.listdetail
 
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.listdetail.models.images
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
-import com.microsoft.device.dualscreen.testutils.assertScreenshotMatchesReference
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
@@ -28,7 +28,6 @@ class ListDetailTest {
         RuleChain.outerRule(composeTestRule)
     }
 
-    @ExperimentalTestApi
     @Test
     fun app_verticalFold_showDetailAfterListClicks() {
         composeTestRule.setContent {
@@ -42,11 +41,35 @@ class ListDetailTest {
 
         images.forEachIndexed { index, _ ->
             // Click on list item
-            composeTestRule.onNodeWithTag(index.toString()
+            composeTestRule.onNodeWithTag(
+                index.toString()
             ).performClick()
 
-            composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.image_tag) + index.toString()
+            composeTestRule.onNodeWithTag(
+                composeTestRule.getString(R.string.image_tag) + index.toString()
             ).assertExists()
         }
+    }
+
+    @Test
+    fun app_horizontalFold_showsList() {
+        composeTestRule.setContent {
+            ListDetailComposeSampleTheme() {
+                ListDetailApp(WindowState(hasFold = true, isFoldHorizontal = true))
+            }
+        }
+
+        // Simulate horizontal fold
+        publisherRule.simulateHorizontalFold(composeTestRule)
+
+        // Assert the list view is not shown
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.list_view)
+        ).assertExists()
+
+        // Assert the detail view is now shown
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.detail_view)
+        ).assertDoesNotExist()
     }
 }

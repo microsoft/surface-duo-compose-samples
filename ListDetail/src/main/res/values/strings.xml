@@ -13,5 +13,6 @@
 
     <string name="back_to_list">Back to list</string>
     <string name="list_view">List view</string>
+    <string name="detail_view">Detail view</string>
     <string name="image_tag">image_</string>
 </resources>

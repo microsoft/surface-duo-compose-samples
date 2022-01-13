@@ -76,8 +76,8 @@ fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (In
                 start = horizontalPadding,
                 end = horizontalPadding
             )
-        .testTag(stringResource(R.string.list_view)),
-        ) {
+            .testTag(stringResource(R.string.list_view))
+    ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(imagePadding)
         ) {

@@ -9,6 +9,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
 import com.microsoft.device.display.samples.listdetail.ui.view.DetailViewTopBar
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
@@ -68,27 +69,35 @@ class TopAppBarTest {
             .assertExists()
     }
 
-//    @Test
-//    fun app_iconsSwitchViewsInSingleScreenMode() {
-//        composeTestRule.setContent {
-//            ListDetailComposeSampleTheme {
-//                ListDetailApp(WindowState())
-//            }
-//        }
-//
-//        // Assert detail view is shown first
-//        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
-//
-//        // Click map icon to switch views
-//        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map)).performClick()
-//
-//        // Assert map view is now shown
-//        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_top_bar)).assertExists()
-//
-//        // Click restaurant icon to switch views
-//        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest)).performClick()
-//
-//        // Assert restaurant view is shown again
-//        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.restaurant_top_bar)).assertExists()
-//    }
+    @Test
+    fun app_backToListButtonInSingleScreenMode() {
+        composeTestRule.setContent {
+            ListDetailComposeSampleTheme {
+                ListDetailApp(WindowState())
+            }
+        }
+
+        // Assert detail view is shown first
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
+
+        // Click the first image from the list
+        val index = 0
+        composeTestRule.onNodeWithTag(
+            index.toString()
+        ).performClick()
+
+        // Assert the correct detail image is not shown
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.image_tag) + index.toString()
+        ).assertExists()
+
+        // Click the back button to go back to the list view
+        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back_to_list)).performClick()
+
+        // Assert the detail view is now shown
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.detail_view)).assertDoesNotExist()
+
+        // Assert the list view is not shown
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
+    }
 }
