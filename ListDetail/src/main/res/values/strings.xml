@@ -5,8 +5,19 @@
 
 <resources>
     <string name="app_name">List Detail-Compose</string>
+
     <string name="camera">Camera</string>
     <string name="camera_info">f/2.0 &#160;&#160; 1/15 &#160;&#160; 2.51mm &#160;&#160; ISO 520</string>
     <string name="device">Device</string>
     <string name="device_info">Surface Duo</string>
+
+    <string name="back_to_list">Back to list</string>
+    <string name="list_view">List view</string>
+    <string name="detail_view">Detail view</string>
+    <string name="image_tag">image_</string>
+
+    <!-- image content description -->
+    <string name="info_icon">Info icon</string>
+    <string name="image_icon">Image icon</string>
+    <string name="camera_icon">Camera icon</string>
 </resources>
