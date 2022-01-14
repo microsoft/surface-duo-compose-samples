@@ -25,4 +25,3 @@ fun ListDetailApp(windowState: WindowState) {
         pane2 = { DetailViewWithTopBar(windowState.isDualPortrait(), selectedIndex) }
     )
 }
-
