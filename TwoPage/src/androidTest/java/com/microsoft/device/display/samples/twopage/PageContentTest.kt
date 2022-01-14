@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
@@ -34,16 +35,9 @@ class PageContentTest {
      */
     @Test
     fun page_contentIsScrollable() {
-        // Fill page with lots of content, so it's not all visible at the same time
         composeTestRule.setContent {
             TwoPageAppTheme {
-                PageLayout(modifier = Modifier.fillMaxSize(), pageNumber = "test page number") {
-                    for (i in 0..10) {
-                        Text(text = stringResource(R.string.page4_text1))
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    Text(text = stringResource(R.string.article_title), fontWeight = FontWeight.Bold)
-                }
+                FullPage()
             }
         }
 
@@ -65,16 +59,9 @@ class PageContentTest {
     fun page_pageNumberIsAlwaysVisible() {
         val pageNumberText = "Test page number"
 
-        // Fill page with lots of content, so it's not all visible at the same time
         composeTestRule.setContent {
             TwoPageAppTheme {
-                PageLayout(modifier = Modifier.fillMaxSize(), pageNumber = pageNumberText) {
-                    for (i in 0..10) {
-                        Text(text = stringResource(R.string.page4_text1))
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    Text(text = stringResource(R.string.article_title), fontWeight = FontWeight.Bold)
-                }
+                FullPage(pageNumberText)
             }
         }
 
@@ -84,5 +71,19 @@ class PageContentTest {
         // Scroll to end of page content and assert that page number is still visible
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.article_title)).performScrollTo()
         composeTestRule.onNodeWithText(pageNumberText).assertIsDisplayed()
+    }
+
+    /**
+     * Mock page with lots of content, so not all of it is visible at once
+     */
+    @Composable
+    private fun FullPage(pageNumber: String = "test page number") {
+        PageLayout(modifier = Modifier.fillMaxSize(), pageNumber = pageNumber) {
+            for (i in 0..10) {
+                Text(text = stringResource(R.string.page4_text1))
+                Spacer(Modifier.height(10.dp))
+            }
+            Text(text = stringResource(R.string.article_title), fontWeight = FontWeight.Bold)
+        }
     }
 }
