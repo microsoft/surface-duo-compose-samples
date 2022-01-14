@@ -1,6 +1,7 @@
 package com.microsoft.device.display.samples.listdetail
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
@@ -45,12 +46,12 @@ class ListDetailTest {
 
         images.forEachIndexed { index, _ ->
             // Click on list item
-            composeTestRule.onNodeWithTag(
+            composeTestRule.onNodeWithContentDescription(
                 index.toString()
             ).performClick()
 
             // Assert the shown detail image matches the item clicked from the list
-            composeTestRule.onNodeWithTag(
+            composeTestRule.onNodeWithContentDescription(
                 composeTestRule.getString(R.string.image_tag) + index.toString()
             ).assertExists()
         }

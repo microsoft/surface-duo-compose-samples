@@ -99,12 +99,12 @@ class TopAppBarTest {
 
         // Click the first image from the list
         val index = 0
-        composeTestRule.onNodeWithTag(
+        composeTestRule.onNodeWithContentDescription(
             index.toString()
         ).performClick()
 
         // Assert the correct detail image is shown
-        composeTestRule.onNodeWithTag(
+        composeTestRule.onNodeWithContentDescription(
             composeTestRule.getString(R.string.image_tag) + index.toString()
         ).assertExists()
 
