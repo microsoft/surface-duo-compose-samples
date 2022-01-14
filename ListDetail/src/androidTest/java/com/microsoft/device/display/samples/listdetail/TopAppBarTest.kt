@@ -88,7 +88,9 @@ class TopAppBarTest {
         }
 
         // Assert the list view is shown first
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.list_view)
+        ).assertExists()
 
         // Assert the back button is not shown yet
         composeTestRule.onNodeWithContentDescription(
@@ -112,12 +114,18 @@ class TopAppBarTest {
         ).assertExists()
 
         // Click the back button to go back to the list view
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back_to_list)).performClick()
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.back_to_list)
+        ).performClick()
 
         // Assert the detail view is not shown
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.detail_view)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.detail_view)
+        ).assertDoesNotExist()
 
         // Assert the list view is now shown
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
+        composeTestRule.onNodeWithTag(
+            composeTestRule.getString(R.string.list_view)
+        ).assertExists()
     }
 }
