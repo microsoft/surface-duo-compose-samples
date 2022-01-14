@@ -28,10 +28,14 @@ class ListDetailTest {
         RuleChain.outerRule(composeTestRule)
     }
 
+    /**
+     * Tests that the detail image will be shown accordingly after the image
+     * item is selected from the list on the vertical fold(dual-portrait) mode
+     */
     @Test
     fun app_verticalFold_showDetailAfterListClicks() {
         composeTestRule.setContent {
-            ListDetailComposeSampleTheme() {
+            ListDetailComposeSampleTheme {
                 ListDetailApp(WindowState(hasFold = true, isFoldHorizontal = false))
             }
         }
@@ -45,16 +49,21 @@ class ListDetailTest {
                 index.toString()
             ).performClick()
 
+            // Assert the shown detail image matches the item clicked from the list
             composeTestRule.onNodeWithTag(
                 composeTestRule.getString(R.string.image_tag) + index.toString()
             ).assertExists()
         }
     }
 
+    /**
+     * Tests that only the list view will be shown without the detail view
+     * on the horizontal fold(dual-landscape) mode
+     */
     @Test
     fun app_horizontalFold_showsList() {
         composeTestRule.setContent {
-            ListDetailComposeSampleTheme() {
+            ListDetailComposeSampleTheme {
                 ListDetailApp(WindowState(hasFold = true, isFoldHorizontal = true))
             }
         }
@@ -62,12 +71,12 @@ class ListDetailTest {
         // Simulate horizontal fold
         publisherRule.simulateHorizontalFold(composeTestRule)
 
-        // Assert the list view is not shown
+        // Assert the list view is now shown
         composeTestRule.onNodeWithTag(
             composeTestRule.getString(R.string.list_view)
         ).assertExists()
 
-        // Assert the detail view is now shown
+        // Assert the detail view is not shown
         composeTestRule.onNodeWithTag(
             composeTestRule.getString(R.string.detail_view)
         ).assertDoesNotExist()

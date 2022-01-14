@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -25,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -55,8 +55,7 @@ fun ListViewTopBar() {
                 text = stringResource(R.string.app_name),
                 style = TextStyle(
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    fontWeight = FontWeight.Bold
                 )
             )
         }
@@ -126,8 +125,8 @@ fun DecorativeBox(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .border(
-                width = 3.dp,
-                color = if (isSelected) colorResource(id = R.color.purple_700) else Color.Transparent
+                width = 5.dp,
+                color = if (isSelected) MaterialTheme.colors.primaryVariant else Color.Transparent
             ),
         contentAlignment = Alignment.Center
     ) {

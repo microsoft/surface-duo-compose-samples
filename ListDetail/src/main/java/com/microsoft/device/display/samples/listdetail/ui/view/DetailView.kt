@@ -26,7 +26,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -75,7 +74,6 @@ fun DetailViewTopBarButton() {
     ) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
-            tint = Color.White,
             contentDescription = stringResource(R.string.back_to_list)
         )
     }
@@ -153,8 +151,7 @@ fun CameraInfoTile() {
             text = stringResource(R.string.camera),
             style = TextStyle(
                 fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
+                fontWeight = FontWeight.Bold
             )
         )
         Spacer(modifier = Modifier.width(3.dp))
@@ -184,8 +181,7 @@ fun DeviceInfoTile() {
             text = stringResource(R.string.device),
             style = TextStyle(
                 fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
+                fontWeight = FontWeight.Bold
             )
         )
         Spacer(modifier = Modifier.height(3.dp))

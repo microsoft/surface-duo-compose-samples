@@ -50,8 +50,10 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back_to_list))
-            .assertDoesNotExist()
+        // Assert the back button is not shown
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.back_to_list)
+        ).assertDoesNotExist()
     }
 
     /**
@@ -65,20 +67,33 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back_to_list))
-            .assertExists()
+        // Assert the back button is shown
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.back_to_list)
+        ).assertExists()
     }
 
+    /**
+     * Tests that the back button can switch the UI from the detail
+     * view to the list view on the single screen mode
+     */
     @Test
     fun app_backToListButtonInSingleScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                ListDetailApp(WindowState())
+                // need to reset the state back to the single screen, even it is the default value
+                // to avoid the "leftover" from the previous test cases
+                ListDetailApp(WindowState(hasFold = false, isFoldHorizontal = false))
             }
         }
 
-        // Assert detail view is shown first
+        // Assert the list view is shown first
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
+
+        // Assert the back button is not shown yet
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.back_to_list)
+        ).assertDoesNotExist()
 
         // Click the first image from the list
         val index = 0
@@ -86,18 +101,23 @@ class TopAppBarTest {
             index.toString()
         ).performClick()
 
-        // Assert the correct detail image is not shown
+        // Assert the correct detail image is shown
         composeTestRule.onNodeWithTag(
             composeTestRule.getString(R.string.image_tag) + index.toString()
+        ).assertExists()
+
+        // Assert the back button is now shown
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.back_to_list)
         ).assertExists()
 
         // Click the back button to go back to the list view
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back_to_list)).performClick()
 
-        // Assert the detail view is now shown
+        // Assert the detail view is not shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.detail_view)).assertDoesNotExist()
 
-        // Assert the list view is not shown
+        // Assert the list view is now shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.list_view)).assertExists()
     }
 }
