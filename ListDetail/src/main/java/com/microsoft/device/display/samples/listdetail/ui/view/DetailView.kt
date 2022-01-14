@@ -97,9 +97,9 @@ fun DetailView(selectedIndex: Int) {
         ) {
             ImageView(
                 imageId = selectedImageId,
+                contentDescription = stringResource(R.string.image_tag) + selectedIndex.toString(),
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(stringResource(R.string.image_tag) + selectedIndex.toString())
             )
         }
         ImageInfoTile(
@@ -125,6 +125,7 @@ fun ImageInfoTile(modifier: Modifier) {
         ) {
             ImageView(
                 imageId = R.drawable.info_icon,
+                contentDescription = stringResource(R.string.info_icon),
                 modifier = Modifier
                     .height(15.dp)
                     .width(15.dp)
@@ -141,6 +142,7 @@ fun ImageInfoTile(modifier: Modifier) {
 fun CameraInfoTile() {
     ImageView(
         imageId = R.drawable.image_icon,
+        contentDescription = stringResource(R.string.image_icon),
         modifier = Modifier
             .width(imageSize)
             .height(imageSize)
@@ -171,6 +173,7 @@ fun DeviceInfoTile() {
     Spacer(modifier = Modifier.width(40.dp))
     ImageView(
         imageId = R.drawable.camera_icon,
+        contentDescription = stringResource(R.string.camera_icon),
         modifier = Modifier
             .width(imageSize)
             .height(imageSize)

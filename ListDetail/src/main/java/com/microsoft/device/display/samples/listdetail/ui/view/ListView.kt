@@ -95,8 +95,8 @@ fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (In
                         ) {
                             ImageView(
                                 imageId = image,
+                                contentDescription = listIndex.toString(),
                                 modifier = Modifier
-                                    .testTag(listIndex.toString())
                                     .selectable(
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
