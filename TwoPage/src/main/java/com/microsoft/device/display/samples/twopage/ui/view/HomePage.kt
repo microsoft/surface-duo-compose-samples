@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.display.samples.twopage.ui.home
+package com.microsoft.device.display.samples.twopage.ui.view
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,9 +32,14 @@ fun TwoPageApp(windowState: WindowState) {
         else -> (windowState.foldablePaneWidth / density).toInt()
     }
 
-    val isDualScreen = windowState.isDualPortrait()
+    TwoPageAppContent(viewWidth, windowState.isDualPortrait(), windowState.foldSize)
+}
+
+@Composable
+fun TwoPageAppContent(viewWidth: Int, isDualScreen: Boolean, foldSize: Int) {
     val pages = setupPages(viewWidth)
-    PageViews(pages, isDualScreen, windowState.foldSize / 2)
+
+    PageViews(pages, isDualScreen, foldSize / 2)
 }
 
 @Composable
@@ -52,9 +57,9 @@ fun PageViews(pages: List<@Composable () -> Unit>, isDualScreen: Boolean, pagePa
     }
 }
 
-fun setupPages(width: Int): List<@Composable () -> Unit> {
-    val modifier = if (width != 0) Modifier
-        .width(width.dp)
+private fun setupPages(pageWidth: Int): List<@Composable () -> Unit> {
+    val modifier = if (pageWidth != 0) Modifier
+        .width(pageWidth.dp)
         .fillMaxHeight()
         .clipToBounds() else Modifier.fillMaxSize()
     return listOf<@Composable () -> Unit>(

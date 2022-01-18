@@ -154,6 +154,9 @@ class TopAppBarTest {
         ).assertExists()
     }
 
+    /**
+     * Tests that the top bar icons switch between the restaurant and map views in single screen mode
+     */
     @Test
     fun app_iconsSwitchViewsInSingleScreenMode() {
         composeTestRule.setContent {

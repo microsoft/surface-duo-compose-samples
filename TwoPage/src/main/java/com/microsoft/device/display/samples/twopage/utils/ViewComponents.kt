@@ -6,42 +6,53 @@
 package com.microsoft.device.display.samples.twopage.utils
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+const val PAGE_END_PADDING = 25
+
 @Composable
-fun AlignedCaption(text: String, arrangement: Arrangement.Horizontal) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = arrangement
-    ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colors.onBackground,
-            style = MaterialTheme.typography.caption
-        )
-    }
+fun AlignedCaption(modifier: Modifier = Modifier, text: String, textAlign: TextAlign) {
+    Text(
+        modifier = modifier.fillMaxWidth(),
+        text = text,
+        color = MaterialTheme.colors.onBackground,
+        style = MaterialTheme.typography.caption,
+        textAlign = textAlign
+    )
 }
 
 @Composable
-fun PageLayout(modifier: Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier) {
+fun PageLayout(modifier: Modifier, pageNumber: String, content: @Composable () -> Unit) {
+    Scaffold(
+        modifier = modifier,
+        bottomBar = { PageNumber(pageNumber) },
+    ) { innerPadding ->
+        val layoutDir = LocalLayoutDirection.current
+
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(
-                    start = 30.dp,
-                    end = 25.dp
+                    start = innerPadding.calculateStartPadding(layoutDir) + 30.dp,
+                    top = innerPadding.calculateTopPadding(),
+                    end = innerPadding.calculateEndPadding(layoutDir) + PAGE_END_PADDING.dp,
+                    bottom = innerPadding.calculateBottomPadding(),
                 )
                 .verticalScroll(
                     rememberScrollState()
@@ -54,17 +65,15 @@ fun PageLayout(modifier: Modifier, content: @Composable () -> Unit) {
 }
 
 @Composable
-fun DualPageContainer(leftContent: @Composable () -> Unit, rightContent: @Composable () -> Unit) {
-    Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-        Box(
-            Modifier.weight(1f)
-        ) {
-            leftContent()
-        }
-        Box(
-            Modifier.weight(1f)
-        ) {
-            rightContent()
-        }
+fun PageNumber(pageNumber: String) {
+    BottomAppBar(
+        backgroundColor = MaterialTheme.colors.surface,
+        elevation = 0.dp
+    ) {
+        AlignedCaption(
+            modifier = Modifier.padding(end = PAGE_END_PADDING.dp),
+            text = pageNumber,
+            textAlign = TextAlign.End
+        )
     }
 }

@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.companionpane
 
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
@@ -32,6 +31,9 @@ class TopAppBarTest {
         RuleChain.outerRule(composeTestRule)
     }
 
+    /**
+     * Tests that the app title shows in the pane 1 top bar when in single portrait mode
+     */
     @Test
     fun pane1_testTitleAppearsInSinglePortrait() {
         composeTestRule.setContent {
@@ -48,6 +50,9 @@ class TopAppBarTest {
         ).assertTextEquals(composeTestRule.getString(R.string.app_name))
     }
 
+    /**
+     * Tests that the app title shows in the pane 1 top bar when in single landscape mode
+     */
     @Test
     fun pane1_testTitleAppearsInSingleLandscape() {
         composeTestRule.setContent {
@@ -64,6 +69,9 @@ class TopAppBarTest {
         ).assertTextEquals(composeTestRule.getString(R.string.app_name))
     }
 
+    /**
+     * Tests that the app title shows in the pane 1 top bar when in dual portrait mode
+     */
     @Test
     fun pane1_testTitleAppearsInDualPortrait() {
         composeTestRule.setContent {
@@ -80,6 +88,9 @@ class TopAppBarTest {
         ).assertTextEquals(composeTestRule.getString(R.string.app_name))
     }
 
+    /**
+     * Tests that the app title shows in the pane 1 top bar when in dual landscape mode
+     */
     @Test
     fun pane1_testTitleAppearsInDualLandscape() {
         composeTestRule.setContent {
@@ -96,6 +107,9 @@ class TopAppBarTest {
         ).assertTextEquals(composeTestRule.getString(R.string.app_name))
     }
 
+    /**
+     * Tests that pane 2 does not have a top bar in single portrait mode
+     */
     @Test
     fun pane2_testTopBarDoesNotExistInSinglePortrait() {
         composeTestRule.setContent {
@@ -109,6 +123,9 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
+    /**
+     * Tests that pane 2 does not have a top bar in single landscape mode
+     */
     @Test
     fun pane2_testTopBarDoesNotExistInSingleLandscape() {
         composeTestRule.setContent {
@@ -122,7 +139,9 @@ class TopAppBarTest {
             .assertDoesNotExist()
     }
 
-    @ExperimentalTestApi
+    /**
+     * Tests that the pane 2 top bar title is blank in dual portrait mode
+     */
     @Test
     fun pane2_testTitleIsBlankInDualPortrait() {
         composeTestRule.setContent {
@@ -139,6 +158,9 @@ class TopAppBarTest {
         ).assertTextEquals("")
     }
 
+    /**
+     * Tests that pane 2 does not have a top bar in dual landscape mode
+     */
     @Test
     fun pane2_testTopBarDoesNotExistInDualLandscape() {
         composeTestRule.setContent {
