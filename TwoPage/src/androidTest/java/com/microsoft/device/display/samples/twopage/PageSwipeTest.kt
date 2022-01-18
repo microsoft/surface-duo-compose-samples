@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.twopage
 
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -18,6 +19,7 @@ import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
+import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -101,6 +103,66 @@ class PageSwipeTest {
             // Assert current page is no longer visible (unless on the first page)
             when (page) {
                 0 ->
+                    composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
+                else ->
+                    composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsNotDisplayed()
+            }
+        }
+    }
+
+    /**
+     * Tests that the three dual-screen page pairs ([1,2], [2,3], and [3,4]) only swipe between each other when
+     * a vertical fold is present
+     */
+    @Test
+    fun app_verticalFold_pagesSwipeWithinLimits() {
+        composeTestRule.setContent {
+            val pageWidth = LocalConfiguration.current.screenWidthDp / 2
+
+            TwoPageAppTheme {
+                TwoPageAppContent(
+                    viewWidth = pageWidth,
+                    isDualScreen = true,
+                    foldSize = 0
+                )
+            }
+        }
+
+        // Simulate vertical fold
+        publisherRule.simulateVerticalFold(composeTestRule)
+
+        val pageTags = listOf(R.string.page1_tag, R.string.page2_tag, R.string.page3_tag, R.string.page4_tag)
+
+        // Swipe forwards
+        for (page in 0..2) {
+            // Assert current pages are visible
+            composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
+            composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page + 1])).assertIsDisplayed()
+
+            // Swipe to next page
+            composeTestRule.onRoot().performGesture { swipeLeft() }
+
+            // Assert current page is no longer visible (unless on the last page)
+            when (page) {
+                2 ->
+                    composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
+                else ->
+                    composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsNotDisplayed()
+            }
+        }
+
+        // Swipe backwards
+        for (page in 3 downTo 1) {
+            // Assert current pages are visible
+            composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
+            composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page - 1])).assertIsDisplayed()
+
+            // Swipe to previous page
+            composeTestRule.onRoot().performGesture { swipeRight() }
+
+            // Assert current page is no longer visible (unless on the first page)
+            when (page) {
+                1 ->
                     composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
                 else ->
                     composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsNotDisplayed()
