@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.twopage
 
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -19,7 +18,6 @@ import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
