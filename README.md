@@ -28,7 +28,11 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 - Jetpack Compose version: `1.0.5`
 
-- Jetpack WindowManager version: `1.0.0-beta03`
+- Jetpack WindowManager version: `1.0.0-rc01`
+
+## Microsoft Compose Libraries
+
+The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout) and [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState).
 
 ## Contents
 
