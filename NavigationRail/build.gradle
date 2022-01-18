@@ -43,7 +43,7 @@ dependencies {
     implementation androidxDependencies.appCompat
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation project(':WindowState')
+    implementation microsoftDependencies.windowState
 
     implementation composeDependencies.composeMaterialForNavRail
     implementation composeDependencies.composeRuntime

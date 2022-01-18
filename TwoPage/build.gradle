@@ -48,7 +48,7 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
-    implementation project(':WindowState')
+    implementation microsoftDependencies.windowState
 
     implementation googleDependencies.material
 
