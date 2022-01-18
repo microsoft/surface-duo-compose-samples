@@ -50,7 +50,7 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation project(':WindowState')
+    implementation microsoftDependencies.windowState
 
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules
