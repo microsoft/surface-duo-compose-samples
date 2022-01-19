@@ -7,25 +7,15 @@ package com.microsoft.device.display.samples.navigationrail
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.microsoft.device.display.samples.navigationrail.ui.components.BottomNavItemWithSelector
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
