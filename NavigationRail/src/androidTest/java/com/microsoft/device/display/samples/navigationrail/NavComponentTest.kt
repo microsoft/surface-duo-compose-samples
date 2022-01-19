@@ -1,0 +1,87 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+package com.microsoft.device.display.samples.navigationrail
+
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import com.microsoft.device.display.samples.navigationrail.ui.components.BottomNavItemWithSelector
+import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
+import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
+import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
+import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import org.junit.Rule
+import org.junit.Test
+
+@ExperimentalFoundationApi
+@ExperimentalUnitApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+class NavComponentTest {
+    @get: Rule
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    /**
+     * Tests that clicking each icon in the bottom navigation bar switches the gallery destination
+     */
+    @Test
+    fun app_bottomNav_testButtonClickSwitchesDestination() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState())
+            }
+        }
+
+        clickEachNavIcon()
+    }
+
+    /**
+     * Tests that clicking each icon in the navigation rail switches the gallery destination
+     */
+    @Test
+    fun app_navRail_testButtonClickSwitchesDestination() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState(hasFold = true))
+            }
+        }
+
+        clickEachNavIcon()
+    }
+
+    /**
+     * Helper function that clicks on each nav icon in the current nav component and then asserts that the
+     * destination was properly updated
+     */
+    private fun clickEachNavIcon() {
+        for (destination in GallerySections.values()) {
+            // Click on nav icon
+            composeTestRule.onNode(hasText(composeTestRule.getString(destination.title)) and hasClickAction())
+                .performClick()
+
+            // Assert that new destination route is shown in the top bar
+            composeTestRule.onNode(hasText(destination.route)).assertIsDisplayed()
+        }
+    }
+}
