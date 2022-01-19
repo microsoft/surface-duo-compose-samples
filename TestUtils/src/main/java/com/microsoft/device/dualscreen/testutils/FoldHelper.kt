@@ -84,6 +84,15 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
 }
 
 /**
+ * Simulate the absence of a fold
+ *
+ * @param activityRule: test activity rule
+ */
+fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.unfold(activityRule: ActivityScenarioRule<A>) {
+    activityRule.scenario.onActivity { overrideWindowLayoutInfo(TestWindowLayoutInfo(emptyList())) }
+}
+
+/**
  * Simulate a vertical fold in a Compose test
  *
  * @param composeTestRule: Compose android test rule
@@ -134,4 +143,15 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
     orientation: FoldingFeature.Orientation,
 ) {
     simulateFold(composeTestRule.activityRule, center, size, state, orientation)
+}
+
+/**
+ * Simulate the absence of a fold
+ *
+ * @param composeTestRule: Compose android test rule
+ */
+fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.unfold(
+    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+) {
+    unfold(composeTestRule.activityRule)
 }
