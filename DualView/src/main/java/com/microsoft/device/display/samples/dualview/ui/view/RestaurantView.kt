@@ -158,9 +158,9 @@ fun RestaurantTile(
     isSmallScreen: Boolean,
     modifier: Modifier
 ) {
-    val columnModifier = Modifier.fillMaxHeight()
-    if (isSmallScreen)
-        columnModifier.horizontalScroll(rememberScrollState())
+    val columnModifier = if (isSmallScreen) Modifier
+        .fillMaxHeight()
+        .horizontalScroll(rememberScrollState()) else Modifier.fillMaxHeight()
 
     Row(
         modifier = modifier.wrapContentHeight(),
