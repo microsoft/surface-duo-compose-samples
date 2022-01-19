@@ -21,8 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.Image
 
 private val BORDER_SIZE = 7.dp
@@ -75,7 +77,7 @@ fun GalleryView(
 fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Unit) {
     Image(
         painterResource(id = image.image),
-        contentDescription = image.name,
+        contentDescription = stringResource(R.string.image_description, image.name, image.id),
         modifier = Modifier
             .selectable(
                 onClick = { onImageSelected(image.id) },

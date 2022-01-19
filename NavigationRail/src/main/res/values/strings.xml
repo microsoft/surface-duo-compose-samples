@@ -24,4 +24,5 @@
     <string name="sea_level">Lake elevation/depth</string>
     <string name="animal_size">Animal size</string>
     <string name="bird_size">Bird wingspan/size</string>
+    <string name="image_description">Image of %1$s (id = %2$d)</string>
 </resources>

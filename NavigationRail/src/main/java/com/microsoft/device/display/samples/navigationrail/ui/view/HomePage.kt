@@ -43,6 +43,7 @@ fun NavigationRailApp(windowState: WindowState) {
         isDualScreen = windowState.isDualScreen(),
         isDualPortrait = windowState.isDualPortrait(),
         isDualLandscape = windowState.isDualLandscape(),
+        // REVISIT: fix when addressing https://github.com/microsoft/surface-duo-compose-samples/issues/74
         foldSize = windowState.foldSize.dp,
         imageId = imageId,
         updateImageId = updateImageId,
