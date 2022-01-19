@@ -5,10 +5,12 @@
 
 package com.microsoft.device.display.samples.navigationrail.models
 
+import androidx.annotation.VisibleForTesting
 import com.microsoft.device.display.samples.navigationrail.R
 
 object DataProvider {
-    private val images: List<Image> = listOf(
+    @VisibleForTesting
+    val images: List<Image> = listOf(
         Image(
             id = 1,
             image = R.drawable.plant_1,
