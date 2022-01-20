@@ -89,10 +89,11 @@ class DetailTest {
     }
 
     /**
-     * Tests that the back button successfully returns to the gallery view from the item detail view
+     * Tests that the back button successfully returns to the gallery view from the item detail view when
+     * in single screen mode
      */
     @Test
-    fun app_backButtonChangesPanes() {
+    fun app_backButtonChangesPanesInSingleScreenMode() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
                 NavigationRailApp(WindowState())
