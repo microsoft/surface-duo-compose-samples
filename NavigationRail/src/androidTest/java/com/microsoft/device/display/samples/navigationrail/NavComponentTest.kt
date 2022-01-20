@@ -12,8 +12,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
@@ -56,6 +58,70 @@ class NavComponentTest {
         }
 
         clickEachNavIcon()
+    }
+
+    /**
+     * Tests that a navigation rail component is used in the app when a vertical fold is present
+     */
+    @Test
+    fun app_verticalFold_navRailIsShown() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState(hasFold = true))
+            }
+        }
+
+        // Assert that nav rail, not bottom nav, is displayed
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+    }
+
+    /**
+     * Tests that a navigation rail component is used in the app when a horizontal fold is present
+     */
+    @Test
+    fun app_horizontalFold_navRailIsShown() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState(hasFold = true, isFoldHorizontal = true))
+            }
+        }
+
+        // Assert that nav rail, not bottom nav, is displayed
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+    }
+
+    /**
+     * Tests that a navigation rail component is used when the app is displayed on a large screen
+     */
+    @Test
+    fun app_largeScreen_navRailIsShown() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState(windowWidth = 1000.dp))
+            }
+        }
+
+        // Assert that nav rail, not bottom nav, is displayed
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+    }
+
+    /**
+     * Tests that a bottom navigation component is used in the app when in single screen mode
+     */
+    @Test
+    fun app_singleScreen_bottomNavIsShown() {
+        composeTestRule.setContent {
+            NavigationRailAppTheme {
+                NavigationRailApp(WindowState())
+            }
+        }
+
+        // Assert that bottom nav, not nav rail, is displayed
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertDoesNotExist()
     }
 
     /**

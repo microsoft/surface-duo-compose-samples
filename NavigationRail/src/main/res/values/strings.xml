@@ -5,6 +5,8 @@
 
 <resources>
     <string name="app_name">Compose NavRail</string>
+    <string name="nav_rail">Navigation Rail</string>
+    <string name="bottom_nav">Bottom Navigation</string>
 
     <!-- Icon labels -->
     <string name="plants">Plants</string>
