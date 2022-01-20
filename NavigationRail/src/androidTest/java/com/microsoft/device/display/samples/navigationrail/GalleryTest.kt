@@ -82,6 +82,9 @@ class GalleryTest {
             }
         }
 
+        // Assert "plants" title is visible in gallery view
+        composeTestRule.onNodeWithText("plants").assertIsDisplayed()
+
         // Assert that placeholder view isn't shown on start up (only one pane)
         val placeholderText = composeTestRule.activity.getString(R.string.placeholder_msg, "plants")
         composeTestRule.onNodeWithText(placeholderText).assertDoesNotExist()
