@@ -5,6 +5,8 @@
 
 <resources>
     <string name="app_name">Compose NavRail</string>
+    <string name="nav_rail">Navigation Rail</string>
+    <string name="bottom_nav">Bottom Navigation</string>
 
     <!-- Icon labels -->
     <string name="plants">Plants</string>
@@ -24,4 +26,6 @@
     <string name="sea_level">Lake elevation/depth</string>
     <string name="animal_size">Animal size</string>
     <string name="bird_size">Bird wingspan/size</string>
+    <string name="image_description">Image of %1$s (id = %2$d)</string>
+    <string name="content_drawer">Content Drawer</string>
 </resources>

@@ -26,8 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.display.samples.navigationrail.R
 
 private const val CONTENT_HORIZ_PADDING_PERECENT = 0.06f
 private val DrawerShape = RoundedCornerShape(
@@ -36,8 +42,10 @@ private val DrawerShape = RoundedCornerShape(
     bottomStart = 0.dp,
     bottomEnd = 0.dp
 )
+val DrawerStateKey = SemanticsPropertyKey<DrawerState>("DrawerStateKey")
+var SemanticsPropertyReceiver.drawerState by DrawerStateKey
 
-private enum class DrawerState { Collapsed, Expanded }
+enum class DrawerState { Collapsed, Expanded }
 
 /**
  * Reference: BottomDrawer component code
@@ -75,7 +83,10 @@ fun ContentDrawer(
     val anchors = mapOf(swipeHeightPx to DrawerState.Collapsed, 0f to DrawerState.Expanded)
 
     BoxWithConstraints(
-        modifier = modifier.swipeable(swipeableState, anchors, Orientation.Vertical),
+        modifier = modifier
+            .swipeable(swipeableState, anchors, Orientation.Vertical)
+            .semantics { this.drawerState = swipeableState.currentValue }
+            .testTag(stringResource(R.string.content_drawer)),
         contentAlignment = Alignment.TopStart,
     ) {
         // Check if a spacer needs to be included to render content around an occluding hinge

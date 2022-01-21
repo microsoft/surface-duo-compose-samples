@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 
@@ -71,7 +73,7 @@ fun ItemDetailView(
 private fun ItemImage(modifier: Modifier, image: Image) {
     Image(
         painter = painterResource(id = image.image),
-        contentDescription = (image.name),
+        contentDescription = stringResource(R.string.image_description, image.name, image.id),
         modifier = modifier.fillMaxWidth(),
         contentScale = ContentScale.FillWidth,
     )

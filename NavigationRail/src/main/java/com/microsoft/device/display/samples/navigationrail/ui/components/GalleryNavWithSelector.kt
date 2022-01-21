@@ -16,6 +16,7 @@ import androidx.compose.material.NavigationRail
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 
 private val NAV_RAIL_TOP_SPACING = 32.dp
@@ -39,6 +41,7 @@ fun GalleryNavRail(
     updateRoute: (String) -> Unit,
 ) {
     NavigationRail(
+        modifier = Modifier.testTag(stringResource(id = R.string.nav_rail)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Spacer(Modifier.height(NAV_RAIL_TOP_SPACING))
@@ -70,6 +73,7 @@ fun GalleryBottomNav(
     updateRoute: (String) -> Unit,
 ) {
     BottomNavigation(
+        modifier = Modifier.testTag(stringResource(id = R.string.bottom_nav)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         val currentDestination = navController.currentBackStackEntryAsState().value?.destination

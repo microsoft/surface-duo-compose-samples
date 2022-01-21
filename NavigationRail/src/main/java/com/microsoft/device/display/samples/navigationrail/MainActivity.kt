@@ -12,7 +12,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.microsoft.device.display.samples.navigationrail.ui.theme.ComposeSamplesTheme
+import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             windowState = rememberWindowState()
 
-            ComposeSamplesTheme {
+            NavigationRailAppTheme {
                 NavigationRailApp(windowState)
             }
         }
