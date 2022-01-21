@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.graphics.Rect
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope
@@ -57,10 +58,11 @@ private const val LONG_DETAILS_LINE_HEIGHT = 32f
 @ExperimentalMaterialApi
 @Composable
 fun BoxWithConstraintsScope.ItemDetailsDrawer(
-    modifier: Modifier,
     image: Image,
     isDualLandscape: Boolean,
-    foldSize: Dp,
+    foldOccludes: Boolean,
+    foldBounds: Rect,
+    windowHeight: Dp,
     gallerySection: GallerySections?,
 ) {
     // Set max/min height for drawer based on orientation
@@ -80,11 +82,11 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     }
 
     ContentDrawer(
-        modifier = modifier,
         expandHeight = expandedHeight,
         collapseHeight = collapsedHeight,
-        hingeOccludes = isDualLandscape,
-        foldSize = foldSize,
+        foldOccludes = foldOccludes && isDualLandscape,
+        foldBounds = foldBounds,
+        windowHeight = windowHeight,
         hiddenContent = { ItemDetailsLong(image.details) }
     ) {
         DrawerPill()

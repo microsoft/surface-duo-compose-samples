@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.graphics.Rect
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -16,7 +17,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
@@ -43,8 +43,9 @@ fun NavigationRailApp(windowState: WindowState) {
         isDualScreen = windowState.isDualScreen(),
         isDualPortrait = windowState.isDualPortrait(),
         isDualLandscape = windowState.isDualLandscape(),
-        // REVISIT: fix when addressing https://github.com/microsoft/surface-duo-compose-samples/issues/74
-        foldSize = windowState.foldSize.dp,
+        foldOccludes = windowState.foldOccludes,
+        foldBounds = windowState.foldBounds,
+        windowHeight = windowState.windowHeight,
         imageId = imageId,
         updateImageId = updateImageId,
         currentRoute = currentRoute,
@@ -61,7 +62,9 @@ fun NavigationRailAppContent(
     isDualScreen: Boolean,
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldSize: Dp,
+    foldOccludes: Boolean,
+    foldBounds: Rect,
+    windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
     currentRoute: String,
@@ -73,7 +76,16 @@ fun NavigationRailAppContent(
             Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
         },
         pane2 = {
-            Pane2(isDualPortrait, isDualLandscape, foldSize, imageId, updateImageId, currentRoute)
+            Pane2(
+                isDualPortrait = isDualPortrait,
+                isDualLandscape = isDualLandscape,
+                foldOccludes = foldOccludes,
+                foldBounds = foldBounds,
+                windowHeight = windowHeight,
+                imageId = imageId,
+                updateImageId = updateImageId,
+                currentRoute = currentRoute
+            )
         },
     )
 
@@ -107,7 +119,9 @@ fun Pane1(
 fun Pane2(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldSize: Dp,
+    foldOccludes: Boolean,
+    foldBounds: Rect,
+    windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
     currentRoute: String,
@@ -122,7 +136,15 @@ fun Pane2(
     }
     BackHandler { if (!isDualPortrait) onBackPressed() }
 
-    ItemDetailView(isDualPortrait, isDualLandscape, foldSize, selectedImage, currentRoute)
+    ItemDetailView(
+        isDualPortrait = isDualPortrait,
+        isDualLandscape = isDualLandscape,
+        foldOccludes = foldOccludes,
+        foldBounds = foldBounds,
+        windowHeight = windowHeight,
+        selectedImage = selectedImage,
+        currentRoute = currentRoute
+    )
     // If only one pane is being displayed, show a "back" icon
     if (!isDualPortrait) {
         ItemTopBar(
