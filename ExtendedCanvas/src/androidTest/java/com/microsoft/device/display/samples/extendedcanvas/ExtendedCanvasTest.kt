@@ -24,7 +24,7 @@ import org.junit.Test
 class ExtendedCanvasTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-    
+
     /**
      * Tests that the top bar shows in the app
      */
