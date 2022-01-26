@@ -69,7 +69,7 @@ fun ScaleImage() {
     }
     Image(
         painter = painterResource(id = R.drawable.mock_map),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.map_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
