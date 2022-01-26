@@ -11,6 +11,7 @@ import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -44,6 +45,7 @@ fun ExtendedCanvasApp() {
 @Composable
 fun TitleTopBar() {
     TopAppBar(
+        backgroundColor = MaterialTheme.colors.primary,
         modifier = Modifier.testTag(stringResource(R.string.top_bar)),
         title = {
             Text(

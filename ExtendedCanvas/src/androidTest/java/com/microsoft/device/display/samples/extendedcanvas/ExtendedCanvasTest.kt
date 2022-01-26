@@ -13,7 +13,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.swipeLeft
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.extendedcanvas.ui.ExtendedCanvasAppsTheme
 import com.microsoft.device.dualscreen.testutils.compare
 import com.microsoft.device.dualscreen.testutils.getString
@@ -21,21 +20,11 @@ import com.microsoft.device.dualscreen.testutils.zoomIn
 import com.microsoft.device.dualscreen.testutils.zoomOut
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
 
 class ExtendedCanvasTest {
-    private val composeTestRule = createAndroidComposeRule<MainActivity>()
-    private val publisherRule = WindowLayoutInfoPublisherRule()
-
     @get: Rule
-    val testRule: TestRule
-
-    init {
-        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-        RuleChain.outerRule(composeTestRule)
-    }
-
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    
     /**
      * Tests that the top bar shows in the app
      */
