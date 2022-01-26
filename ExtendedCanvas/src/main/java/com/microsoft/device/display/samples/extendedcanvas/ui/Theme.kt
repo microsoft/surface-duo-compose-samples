@@ -10,21 +10,23 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
     primary = teal700,
-    primaryVariant = teal500,
-    secondary = teal200
+    primaryVariant = teal700,
+    secondary = teal200,
+    onPrimary = Color.White
 )
 
 private val LightColorPalette = lightColors(
     primary = teal700,
-    primaryVariant = teal500,
+    primaryVariant = teal700,
     secondary = teal200
 )
 
 @Composable
-fun ExtendedCanvasAppsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun ExtendedCanvasAppsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

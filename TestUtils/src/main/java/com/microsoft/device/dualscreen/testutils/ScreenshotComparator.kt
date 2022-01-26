@@ -83,9 +83,8 @@ fun saveScreenshotToDevice(filename: String, node: SemanticsNodeInteraction) {
 @RequiresApi(Build.VERSION_CODES.O)
 fun Bitmap.compare(other: Bitmap): Boolean {
     if (this.width != other.width || this.height != other.height) {
-        throw AssertionError("Size of screenshot does not match golden file. Expected: $width $height Actual: ${other.width} ${other.height}")
+        return false
     }
-
     // Compare row by row to save memory on device
     val row1 = IntArray(width)
     val row2 = IntArray(width)

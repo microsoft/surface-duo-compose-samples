@@ -11,6 +11,10 @@ import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,13 +25,38 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 
 @Composable
-fun MainPage() {
-    ScaleImage()
+fun ExtendedCanvasApp() {
+    Scaffold(
+        topBar = { TitleTopBar() },
+        content = { ScaleImage() }
+    )
+}
+
+@Composable
+fun TitleTopBar() {
+    TopAppBar(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.testTag(stringResource(R.string.top_bar)),
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+    )
 }
 
 @Composable
@@ -42,7 +71,7 @@ fun ScaleImage() {
     }
     Image(
         painter = painterResource(id = R.drawable.mock_map),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.map_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
