@@ -4,7 +4,7 @@
  */
 
 ext {
-    gradlePluginVersion = '7.0.4'
+    gradlePluginVersion = '7.1.0'
     kotlinVersion = "1.5.31"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
