@@ -62,13 +62,13 @@ enum class DrawerState { Collapsed, Expanded }
  * fold
  *
  * @param modifier: optional Modifier to be applied to the layout
- * @param expandHeight: height of the drawer when expanded (in dp)
- * @param collapseHeight: height of the drawer when collpased (in dp)
+ * @param expandHeightDp: height of the drawer when expanded (in dp)
+ * @param collapseHeightDp: height of the drawer when collpased (in dp)
  * @param foldOccludes: optional param for foldable support, indicates whether there is a hinge
  * that occludes content in the current layout
- * @param foldBounds: optional param for foldable support, indicates the coordinates of the boundary
+ * @param foldBoundsPx: optional param for foldable support, indicates the coordinates of the boundary
  * of a fold
- * @param windowHeight: optional param for foldable support, indicates the full height of the window
+ * @param windowHeightDp: optional param for foldable support, indicates the full height of the window
  * in which a fold and the content drawer are being displayed
  * @param foldBottomPaddingDp: optional param for foldable support, will be added as padding below the fold to
  * make content more accessible to users
@@ -79,18 +79,18 @@ enum class DrawerState { Collapsed, Expanded }
 @Composable
 fun BoxWithConstraintsScope.ContentDrawer(
     modifier: Modifier = Modifier,
-    expandHeight: Dp,
-    collapseHeight: Dp,
+    expandHeightDp: Dp,
+    collapseHeightDp: Dp,
     foldOccludes: Boolean = false,
-    foldBounds: Rect = Rect(),
-    windowHeight: Dp = 0.dp,
+    foldBoundsPx: Rect = Rect(),
+    windowHeightDp: Dp = 0.dp,
     foldBottomPaddingDp: Dp = 0.dp,
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
     // Calculate drawer y coordinates for the collapsed and expanded states
-    val expandHeightPx = with(LocalDensity.current) { expandHeight.toPx() }
-    val collapseHeightPx = with(LocalDensity.current) { collapseHeight.toPx() }
+    val expandHeightPx = with(LocalDensity.current) { expandHeightDp.toPx() }
+    val collapseHeightPx = with(LocalDensity.current) { collapseHeightDp.toPx() }
     val swipeHeightPx = expandHeightPx - collapseHeightPx
 
     // Set up swipeable modifier fields
@@ -98,10 +98,10 @@ fun BoxWithConstraintsScope.ContentDrawer(
     val anchors = mapOf(swipeHeightPx to DrawerState.Collapsed, 0f to DrawerState.Expanded)
 
     // Calculate the height of each drawer component (top content, fold, bottom content)
-    val foldSizePx = foldBounds.height()
+    val foldSizePx = foldBoundsPx.height()
     val foldSizeDp = with(LocalDensity.current) { foldSizePx.toDp() }
-    val windowHeightPx = with(LocalDensity.current) { windowHeight.toPx() }
-    val bottomContentMaxHeightPx = windowHeightPx - foldBounds.bottom
+    val windowHeightPx = with(LocalDensity.current) { windowHeightDp.toPx() }
+    val bottomContentMaxHeightPx = windowHeightPx - foldBoundsPx.bottom
     val topContentMaxHeightPx: Float = if (foldOccludes) {
         expandHeightPx - foldSizePx - bottomContentMaxHeightPx
     } else {
@@ -126,11 +126,11 @@ fun BoxWithConstraintsScope.ContentDrawer(
 
         // Calculate drawer height in dp based on swipe state
         val swipeOffsetDp = with(LocalDensity.current) { swipeableState.offset.value.toDp() }
-        val drawerHeight = expandHeight - swipeOffsetDp
+        val drawerHeight = expandHeightDp - swipeOffsetDp
 
         Surface(
             modifier = Modifier
-                .heightIn(collapseHeight, expandHeight)
+                .heightIn(collapseHeightDp, expandHeightDp)
                 .height(drawerHeight)
                 .clip(DrawerShape)
                 .background(MaterialTheme.colors.surface),

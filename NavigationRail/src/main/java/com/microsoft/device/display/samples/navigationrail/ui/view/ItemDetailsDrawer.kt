@@ -103,11 +103,12 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     }
 
     ContentDrawer(
-        expandHeight = expandedHeight,
-        collapseHeight = collapsedHeight,
+        expandHeightDp = expandedHeight,
+        collapseHeightDp = collapsedHeight,
         foldOccludes = foldOccludes && isDualLandscape,
-        foldBounds = foldBounds,
-        windowHeight = windowHeight,
+        foldBoundsPx = foldBounds,
+        foldBottomPaddingDp = LONG_DETAILS_TOP_PADDING,
+        windowHeightDp = windowHeight,
         hiddenContent = { ItemDetailsLong(image.details) }
     ) {
         DrawerPill()
