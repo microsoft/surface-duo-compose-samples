@@ -67,6 +67,7 @@ fun ItemDetailView(
         ItemDetailsDrawer(
             image = selectedImage,
             isDualLandscape = isDualLandscape,
+            isDualPortrait = isDualPortrait,
             foldOccludes = foldOccludes,
             foldBounds = foldBounds,
             windowHeight = windowHeight,

@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffoldDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -30,14 +30,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.R
@@ -72,6 +70,8 @@ enum class DrawerState { Collapsed, Expanded }
  * of a fold
  * @param windowHeight: optional param for foldable support, indicates the full height of the window
  * in which a fold and the content drawer are being displayed
+ * @param foldBottomPaddingDp: optional param for foldable support, will be added as padding below the fold to
+ * make content more accessible to users
  * @param hiddenContent: the content that will only be shown when the drawer is expanded
  * @param peekContent: the content that will be shown even when the drawer is collapsed
  */
@@ -84,6 +84,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
     foldOccludes: Boolean = false,
     foldBounds: Rect = Rect(),
     windowHeight: Dp = 0.dp,
+    foldBottomPaddingDp: Dp = 0.dp,
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
@@ -101,7 +102,12 @@ fun BoxWithConstraintsScope.ContentDrawer(
     val foldSizeDp = with(LocalDensity.current) { foldSizePx.toDp() }
     val windowHeightPx = with(LocalDensity.current) { windowHeight.toPx() }
     val bottomContentMaxHeightPx = windowHeightPx - foldBounds.bottom
-    val topContentMaxHeightPx = expandHeightPx - foldSizePx - bottomContentMaxHeightPx
+    val topContentMaxHeightPx: Float = if (foldOccludes) {
+        expandHeightPx - foldSizePx - bottomContentMaxHeightPx
+    } else {
+        collapseHeightPx
+    }
+    val topContentMaxHeightDp = with(LocalDensity.current) { topContentMaxHeightPx.toDp() }
 
     BoxWithConstraints(
         modifier = modifier
@@ -112,7 +118,11 @@ fun BoxWithConstraintsScope.ContentDrawer(
         contentAlignment = Alignment.TopStart,
     ) {
         // Check if a spacer needs to be included to render content around an occluding hinge
-        val minSpacerHeight = calculateSpacerHeight(foldOccludes, swipeableState, foldSizeDp.value).toInt().dp
+        val minSpacerHeight = calculateSpacerHeight(
+            foldOccludes,
+            swipeableState,
+            foldSizeDp.value + foldBottomPaddingDp.value
+        ).toInt().dp
 
         // Calculate drawer height in dp based on swipe state
         val swipeOffsetDp = with(LocalDensity.current) { swipeableState.offset.value.toDp() }
@@ -130,28 +140,14 @@ fun BoxWithConstraintsScope.ContentDrawer(
             val paddingPx = CONTENT_HORIZ_PADDING_PERECENT * constraints.maxWidth.toFloat()
             val paddingDp = with(LocalDensity.current) { paddingPx.toDp() }
 
-//            Column(
-//                modifier = Modifier.padding(horizontal = paddingDp),
-//            ) {
-//                Column(Modifier.fillMaxWidth()) { peekContent() }
-//                Spacer(Modifier.heightIn(min = minSpacerHeight))
-//                Column(Modifier.fillMaxSize()) { hiddenContent() }
-//            }
-            SeparatedColumn(
+            val fillWidth = Modifier.fillMaxWidth()
+
+            Column(
                 modifier = Modifier.padding(horizontal = paddingDp),
-                firstChildMaxHeightPx = topContentMaxHeightPx,
-                foldSizePx = foldSizePx,
-                calculateSpacerHeight = { fullHeight ->
-                    calculateSpacerHeight(
-                        foldOccludes,
-                        swipeableState,
-                        fullHeight
-                    )
-                }
             ) {
-                Column(Modifier.fillMaxWidth()) { peekContent() }
-                Spacer(Modifier.heightIn(min = minSpacerHeight))
-                Column(Modifier.fillMaxSize()) { hiddenContent() }
+                Column(fillWidth.requiredHeight(topContentMaxHeightDp)) { peekContent() }
+                Spacer(Modifier.requiredHeight(minSpacerHeight))
+                hiddenContent()
             }
         }
     }
@@ -181,57 +177,4 @@ private fun calculateSpacerHeight(
     val progressHeight = (fullHeight * swipeableState.progress.fraction)
 
     return if (isExpanding) progressHeight else fullHeight - progressHeight
-}
-
-/**
- * Custom layout component that displays three children in a column, where the first and third children
- * are placed at fixed coordinates and the second child is expanded to fill the remaining space
- *
- * @param modifier: Modifier for the layout
- * @param firstChildMaxHeightPx: the maximum height of the first child
- * @param foldSizePx: the minimum height of the second child
- * @param calculateSpacerHeight: a method to calculate the final height of the second child
- * @param content: content to display in the layout
- */
-@Composable
-private fun SeparatedColumn(
-    modifier: Modifier,
-    firstChildMaxHeightPx: Float,
-    foldSizePx: Int,
-    calculateSpacerHeight: (Float) -> Float,
-    content: @Composable () -> Unit
-) {
-    Layout(
-        modifier = modifier,
-        content = content
-    ) { measurables, constraints ->
-        // Assert that the column has exactly 3 children
-        if (measurables.size != 3) {
-            throw IllegalArgumentException("Expected exactly 3 children for SeparatedColumn")
-        }
-
-        // Calculate the height of the children
-        val firstChildHeightPx = measurables[0].minIntrinsicHeight(constraints.maxWidth)
-        val thirdChildHeightPx = measurables[2].minIntrinsicHeight(constraints.maxWidth)
-        val firstChildSpacePx = firstChildMaxHeightPx - firstChildHeightPx
-        val secondChildHeightPx = calculateSpacerHeight(foldSizePx + firstChildSpacePx).toInt()
-        val heights = listOf(firstChildHeightPx, secondChildHeightPx, thirdChildHeightPx)
-
-        // Measure the children according to the custom layout constraints
-        val placeables = measurables.mapIndexed { index, measurable ->
-            measurable.measure(
-                Constraints(0, constraints.maxWidth, heights[index], heights[index])
-            )
-        }
-
-        // Layout the children vertically, like a column
-        layout(constraints.maxWidth, constraints.minHeight) {
-            var contentY = 0
-
-            for (placeable in placeables) {
-                placeable.placeRelative(x = 0, y = contentY)
-                contentY += placeable.height
-            }
-        }
-    }
 }
