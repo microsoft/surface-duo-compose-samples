@@ -11,6 +11,14 @@
     <string name="definition">Definition</string>
     <string name="vignette">Vignette</string>
     <string name="brightness">Brightness</string>
+    <string name="dot">Dot</string>
+    <string name="scale">Scale</string>
+    <string name="filter">Filter</string>
+    <string name="hdr">HDR</string>
+    <string name="ellipse">Ellipse</string>
+    <string name="vertical">Vertical</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="zoom">Zoom</string>
 
     <!-- Filters -->
     <string name="filters">Filters</string>
