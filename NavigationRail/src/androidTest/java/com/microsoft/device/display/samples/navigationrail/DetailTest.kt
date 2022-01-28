@@ -5,11 +5,13 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
+import android.graphics.Rect
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.SemanticsProperties.HorizontalScrollAxisRange
 import androidx.compose.ui.semantics.SemanticsProperties.VerticalScrollAxisRange
 import androidx.compose.ui.test.SemanticsMatcher
@@ -195,7 +197,9 @@ class DetailTest {
             Pane2(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
-                foldSize = 0.dp,
+                foldOccludes = false,
+                foldBounds = Rect(0, 0, 0, 0),
+                windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 0,
                 updateImageId = {},
                 currentRoute = "plants"
@@ -212,7 +216,9 @@ class DetailTest {
             ItemDetailView(
                 isDualPortrait = false,
                 isDualLandscape = false,
-                foldSize = 0.dp,
+                foldOccludes = false,
+                foldBounds = Rect(0, 0, 0, 0),
+                windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
                 currentRoute = "plants"
             )
