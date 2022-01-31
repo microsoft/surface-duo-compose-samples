@@ -45,7 +45,7 @@ dependencies {
     implementation microsoftDependencies.twoPaneLayout
     implementation microsoftDependencies.windowState
 
-    implementation composeDependencies.composeMaterialForNavRail
+    implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeRuntime
     implementation composeDependencies.navigationCompose
     implementation composeDependencies.composeAnimation
