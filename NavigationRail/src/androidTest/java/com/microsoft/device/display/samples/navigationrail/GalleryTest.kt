@@ -78,7 +78,7 @@ class GalleryTest {
     fun app_galleryShowsInDualLandscape() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true, isFoldHorizontal = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsHorizontal = true))
             }
         }
 

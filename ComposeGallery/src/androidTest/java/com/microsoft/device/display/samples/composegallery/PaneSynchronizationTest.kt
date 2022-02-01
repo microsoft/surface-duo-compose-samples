@@ -125,7 +125,7 @@ class PaneSynchronizationTest {
     fun app_testOnePaneShowsWithHorizontalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(WindowState(hasFold = true, isFoldHorizontal = true))
+                ComposeGalleryApp(WindowState(hasFold = true, foldIsHorizontal = true))
             }
         }
 

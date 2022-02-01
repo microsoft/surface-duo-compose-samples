@@ -83,7 +83,7 @@ class NavComponentTest {
     fun app_horizontalFold_navRailIsShown() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true, isFoldHorizontal = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsHorizontal = true))
             }
         }
 
