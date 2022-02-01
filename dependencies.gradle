@@ -27,7 +27,6 @@ ext {
     androidxDependencies = [
             appCompat       : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore         : "androidx.core:core-ktx:$ktxCoreVersion",
-            window          : "androidx.window:window:$windowVersion",
     ]
 
     // Compose dependencies
