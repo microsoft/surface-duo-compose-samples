@@ -5,7 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
-import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -39,6 +39,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.R
+import java.lang.IllegalArgumentException
 
 private const val CONTENT_HORIZ_PADDING_PERECENT = 0.06f
 private val DrawerShape = RoundedCornerShape(
@@ -62,11 +63,13 @@ enum class DrawerState { Collapsed, Expanded }
  * fold
  *
  * @param modifier: optional Modifier to be applied to the layout
- * @param expandHeightDp: height of the drawer when expanded (in dp)
- * @param collapseHeightDp: height of the drawer when collpased (in dp)
+ * @param expandedHeightPct: height of the drawer when expanded, expressed as percentage of maximum possible
+ * height (must be > 0, <= 1)
+ * @param collapsedHeightPct: height of the drawer when collapsed, expressed as percentage of maximum possible
+ * height (must be > 0, <= 1)
  * @param foldOccludes: optional param for foldable support, indicates whether there is a hinge
  * that occludes content in the current layout
- * @param foldBoundsPx: optional param for foldable support, indicates the coordinates of the boundary
+ * @param foldBoundsDp: optional param for foldable support, indicates the coordinates of the boundary
  * of a fold
  * @param windowHeightDp: optional param for foldable support, indicates the full height of the window
  * in which a fold and the content drawer are being displayed
@@ -79,35 +82,37 @@ enum class DrawerState { Collapsed, Expanded }
 @Composable
 fun BoxWithConstraintsScope.ContentDrawer(
     modifier: Modifier = Modifier,
-    expandHeightDp: Dp,
-    collapseHeightDp: Dp,
+    expandedHeightPct: Float,
+    collapsedHeightPct: Float,
     foldOccludes: Boolean = false,
-    foldBoundsPx: Rect = Rect(),
+    foldBoundsDp: RectF = RectF(),
     windowHeightDp: Dp = 0.dp,
     foldBottomPaddingDp: Dp = 0.dp,
     hiddenContent: @Composable ColumnScope.() -> Unit,
     peekContent: @Composable ColumnScope.() -> Unit,
 ) {
-    // Calculate drawer y coordinates for the collapsed and expanded states
-    val expandHeightPx = with(LocalDensity.current) { expandHeightDp.toPx() }
-    val collapseHeightPx = with(LocalDensity.current) { collapseHeightDp.toPx() }
+    // Calculate drawer y coordinates for the collapsed and expanded states - pixels
+    if (!expandedHeightPct.isInPctRange() || !collapsedHeightPct.isInPctRange())
+        throw IllegalArgumentException("expandedHeightPct $expandedHeightPct or collapsedHeightPct $collapsedHeightPct is not in range (0, 1]")
+    val fullHeight = constraints.maxHeight.toFloat()
+    val expandHeightPx = expandedHeightPct * fullHeight
+    val collapseHeightPx = collapsedHeightPct * fullHeight
     val swipeHeightPx = expandHeightPx - collapseHeightPx
 
     // Set up swipeable modifier fields
     val swipeableState = rememberSwipeableState(initialValue = DrawerState.Collapsed)
     val anchors = mapOf(swipeHeightPx to DrawerState.Collapsed, 0f to DrawerState.Expanded)
 
-    // Calculate the height of each drawer component (top content, fold, bottom content)
-    val foldSizePx = foldBoundsPx.height()
-    val foldSizeDp = with(LocalDensity.current) { foldSizePx.toDp() }
-    val windowHeightPx = with(LocalDensity.current) { windowHeightDp.toPx() }
-    val bottomContentMaxHeightPx = windowHeightPx - foldBoundsPx.bottom
-    val topContentMaxHeightPx: Float = if (foldOccludes) {
-        expandHeightPx - foldSizePx - bottomContentMaxHeightPx
+    // Calculate the height of each drawer component (top content, fold, bottom content) - dp
+    val expandHeightDp = with(LocalDensity.current) { expandHeightPx.toDp() }
+    val collapseHeightDp = with(LocalDensity.current) { collapseHeightPx.toDp() }
+    val foldSizeDp = foldBoundsDp.height().dp
+    val bottomContentMaxHeightDp = windowHeightDp - foldBoundsDp.bottom.dp
+    val topContentMaxHeightDp: Dp = if (foldOccludes) {
+        expandHeightDp - foldSizeDp - bottomContentMaxHeightDp
     } else {
-        collapseHeightPx
+        collapseHeightDp
     }
-    val topContentMaxHeightDp = with(LocalDensity.current) { topContentMaxHeightPx.toDp() }
 
     BoxWithConstraints(
         modifier = modifier
@@ -177,4 +182,11 @@ private fun calculateSpacerHeight(
     val progressHeight = (fullHeight * swipeableState.progress.fraction)
 
     return if (isExpanding) progressHeight else fullHeight - progressHeight
+}
+
+/**
+ * Helper method that checks if a percentage is valid
+ */
+private fun Float.isInPctRange(): Boolean {
+    return this > 0f && this <= 1f
 }

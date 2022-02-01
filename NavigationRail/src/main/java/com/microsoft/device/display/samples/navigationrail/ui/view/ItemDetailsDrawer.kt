@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope
@@ -89,9 +90,15 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
             collapsedHeightPct = COLLAPSED_HEIGHT_1PANE_LANDSCAPE
         }
     }
-    val fullHeight = constraints.maxHeight.toFloat()
-    val expandedHeight = with(LocalDensity.current) { (expandedHeightPct * fullHeight).toDp() }
-    val collapsedHeight = with(LocalDensity.current) { (collapsedHeightPct * fullHeight).toDp() }
+    val foldBoundsDp: RectF
+    with(LocalDensity.current) {
+        val leftDp = foldBounds.left.toDp().value
+        val topDp = foldBounds.top.toDp().value
+        val rightDp = foldBounds.right.toDp().value
+        val bottomDp = foldBounds.bottom.toDp().value
+
+        foldBoundsDp = RectF(leftDp, topDp, rightDp, bottomDp)
+    }
 
     // Set text size for drawer based on orientation
     if (isDualLandscape) {
@@ -103,10 +110,10 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     }
 
     ContentDrawer(
-        expandHeightDp = expandedHeight,
-        collapseHeightDp = collapsedHeight,
+        expandedHeightPct = expandedHeightPct,
+        collapsedHeightPct = collapsedHeightPct,
         foldOccludes = foldOccludes && isDualLandscape,
-        foldBoundsPx = foldBounds,
+        foldBoundsDp = foldBoundsDp,
         foldBottomPaddingDp = LONG_DETAILS_TOP_PADDING,
         windowHeightDp = windowHeight,
         hiddenContent = { ItemDetailsLong(image.details) }
