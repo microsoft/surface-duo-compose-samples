@@ -8,7 +8,7 @@ products:
 description: "Samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns."
 urlFragment: all
 ---
-![build-test-check](https://github.com/microsoft/surface-duo-compose-samples/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.0.5-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-samples/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0&#8208;rc03-brightgreen)
 
 # Surface Duo Jetpack Compose Samples
 
@@ -26,9 +26,11 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.0.5`
+- Jetpack Compose version: `1.1.0-rc03`
 
-- Jetpack WindowManager version: `1.0.0-rc01`
+- Jetpack WindowManager version: `1.0.0`
+
+- Android Studio version: Bumblebee `2021.1.1`
 
 ## Microsoft Compose Libraries
 
@@ -55,6 +57,8 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 ## Social links
 
+- [video: Jetpack Compose WindowState preview](https://www.twitch.tv/videos/1271211220)
+- [blog: Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/)
 - [video: Get started with Jetpack Compose Twitch](https://www.youtube.com/watch?v=ijXDWDtdiIE)
 - [blog: Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/)
 - [video: NavigationRail Compose sample Twitch](https://www.youtube.com/watch?v=pdoIyOU7Suk)
