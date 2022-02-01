@@ -5,7 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
-import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -197,8 +197,8 @@ class DetailTest {
             Pane2(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
-                foldBounds = Rect(0, 0, 0, 0),
                 foldIsOccluding = false,
+                foldBoundsDp = RectF(0f, 0f, 0f, 0f),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 0,
                 updateImageId = {},
@@ -216,8 +216,8 @@ class DetailTest {
             ItemDetailView(
                 isDualPortrait = false,
                 isDualLandscape = false,
-                foldBounds = Rect(0, 0, 0, 0),
                 foldIsOccluding = false,
+                foldBoundsDp = RectF(0f, 0f, 0f, 0f),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
                 currentRoute = "plants"
