@@ -29,8 +29,8 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
  *
  * @param isDualPortrait: true if device is in dual portrait mode
  * @param isDualLandscape: true if device is in dual landscape mode
- * @param foldOccludes: true if a fold is present and it occludes content, false otherwise
  * @param foldBounds: the bounds of a fold in the form of an Android Rect
+ * @param foldIsOccluding: true if a fold is present and it occludes content, false otherwise
  * @param windowHeight: full height in dp of the window this view is being shown in
  * @param selectedImage: currently selected image
  * @param currentRoute: current route in gallery NavHost
@@ -41,8 +41,8 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 fun ItemDetailView(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldOccludes: Boolean,
     foldBounds: Rect,
+    foldIsOccluding: Boolean,
     windowHeight: Dp,
     selectedImage: Image? = null,
     currentRoute: String,
@@ -68,8 +68,8 @@ fun ItemDetailView(
             image = selectedImage,
             isDualLandscape = isDualLandscape,
             isDualPortrait = isDualPortrait,
-            foldOccludes = foldOccludes,
             foldBounds = foldBounds,
+            foldIsOccluding = foldIsOccluding,
             windowHeight = windowHeight,
             gallerySection = gallerySection,
         )

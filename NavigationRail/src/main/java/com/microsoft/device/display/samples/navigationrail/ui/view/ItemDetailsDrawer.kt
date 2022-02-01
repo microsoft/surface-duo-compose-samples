@@ -66,8 +66,8 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     image: Image,
     isDualLandscape: Boolean,
     isDualPortrait: Boolean,
-    foldOccludes: Boolean,
     foldBounds: Rect,
+    foldIsOccluding: Boolean,
     windowHeight: Dp,
     gallerySection: GallerySections?,
 ) {
@@ -112,7 +112,7 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     ContentDrawer(
         expandedHeightPct = expandedHeightPct,
         collapsedHeightPct = collapsedHeightPct,
-        foldOccludes = foldOccludes && isDualLandscape,
+        foldIsOccluding = foldIsOccluding && isDualLandscape,
         foldBoundsDp = foldBoundsDp,
         foldBottomPaddingDp = LONG_DETAILS_TOP_PADDING,
         windowHeightDp = windowHeight,

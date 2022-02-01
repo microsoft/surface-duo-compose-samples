@@ -197,8 +197,8 @@ class DetailTest {
             Pane2(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
-                foldOccludes = false,
                 foldBounds = Rect(0, 0, 0, 0),
+                foldIsOccluding = false,
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 0,
                 updateImageId = {},
@@ -216,8 +216,8 @@ class DetailTest {
             ItemDetailView(
                 isDualPortrait = false,
                 isDualLandscape = false,
-                foldOccludes = false,
                 foldBounds = Rect(0, 0, 0, 0),
+                foldIsOccluding = false,
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
                 currentRoute = "plants"
