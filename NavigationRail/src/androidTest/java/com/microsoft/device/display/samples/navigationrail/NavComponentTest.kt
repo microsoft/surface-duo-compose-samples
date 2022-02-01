@@ -99,7 +99,7 @@ class NavComponentTest {
     fun app_largeScreen_navRailIsShown() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(windowWidth = 1000.dp))
+                NavigationRailApp(WindowState(windowWidthDp = 1000.dp))
             }
         }
 
