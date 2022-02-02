@@ -5,6 +5,9 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.content.res.Configuration
+import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope
@@ -22,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,9 +45,11 @@ import com.microsoft.device.display.samples.navigationrail.ui.components.InfoBox
 private lateinit var BodyTextStyle: TextStyle
 private lateinit var SubtitleTextStyle: TextStyle
 private const val EXPANDED_HEIGHT_2PANE = 0.7f
-private const val EXPANDED_HEIGHT_1PANE = 0.55f
+private const val EXPANDED_HEIGHT_1PANE_PORTRAIT = 0.55f
+private const val EXPANDED_HEIGHT_1PANE_LANDSCAPE = 0.65f
 private const val COLLAPSED_HEIGHT_2PANE = 0.4f
-private const val COLLAPSED_HEIGHT_1PANE = 0.28f
+private const val COLLAPSED_HEIGHT_1PANE_PORTRAIT = 0.28f
+private const val COLLAPSED_HEIGHT_1PANE_LANDSCAPE = 0.357f
 private val PILL_TOP_PADDING = 8.dp
 private val NAME_TOP_PADDING = 8.dp
 private val LOCATION_TOP_PADDING = 10.dp
@@ -57,18 +63,42 @@ private const val LONG_DETAILS_LINE_HEIGHT = 32f
 @ExperimentalMaterialApi
 @Composable
 fun BoxWithConstraintsScope.ItemDetailsDrawer(
-    modifier: Modifier,
     image: Image,
     isDualLandscape: Boolean,
-    foldSize: Dp,
+    isDualPortrait: Boolean,
+    foldOccludes: Boolean,
+    foldBounds: Rect,
+    windowHeight: Dp,
     gallerySection: GallerySections?,
 ) {
+    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+
     // Set max/min height for drawer based on orientation
-    val expandedHeightPct = if (isDualLandscape) EXPANDED_HEIGHT_2PANE else EXPANDED_HEIGHT_1PANE
-    val collapsedHeightPct = if (isDualLandscape) COLLAPSED_HEIGHT_2PANE else COLLAPSED_HEIGHT_1PANE
-    val fullHeight = constraints.maxHeight.toFloat()
-    val expandedHeight = with(LocalDensity.current) { (expandedHeightPct * fullHeight).toDp() }
-    val collapsedHeight = with(LocalDensity.current) { (collapsedHeightPct * fullHeight).toDp() }
+    val expandedHeightPct: Float
+    val collapsedHeightPct: Float
+    when {
+        isDualLandscape -> {
+            expandedHeightPct = EXPANDED_HEIGHT_2PANE
+            collapsedHeightPct = COLLAPSED_HEIGHT_2PANE
+        }
+        isDualPortrait || isPortrait -> {
+            expandedHeightPct = EXPANDED_HEIGHT_1PANE_PORTRAIT
+            collapsedHeightPct = COLLAPSED_HEIGHT_1PANE_PORTRAIT
+        }
+        else -> {
+            expandedHeightPct = EXPANDED_HEIGHT_1PANE_LANDSCAPE
+            collapsedHeightPct = COLLAPSED_HEIGHT_1PANE_LANDSCAPE
+        }
+    }
+    val foldBoundsDp: RectF
+    with(LocalDensity.current) {
+        val leftDp = foldBounds.left.toDp().value
+        val topDp = foldBounds.top.toDp().value
+        val rightDp = foldBounds.right.toDp().value
+        val bottomDp = foldBounds.bottom.toDp().value
+
+        foldBoundsDp = RectF(leftDp, topDp, rightDp, bottomDp)
+    }
 
     // Set text size for drawer based on orientation
     if (isDualLandscape) {
@@ -80,11 +110,12 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     }
 
     ContentDrawer(
-        modifier = modifier,
-        expandHeight = expandedHeight,
-        collapseHeight = collapsedHeight,
-        hingeOccludes = isDualLandscape,
-        foldSize = foldSize,
+        expandedHeightPct = expandedHeightPct,
+        collapsedHeightPct = collapsedHeightPct,
+        foldOccludes = foldOccludes && isDualLandscape,
+        foldBoundsDp = foldBoundsDp,
+        foldBottomPaddingDp = LONG_DETAILS_TOP_PADDING,
+        windowHeightDp = windowHeight,
         hiddenContent = { ItemDetailsLong(image.details) }
     ) {
         DrawerPill()
@@ -162,7 +193,6 @@ private fun ItemConditions(gallerySection: GallerySections?, fact1: String, fact
 private fun ItemDetailsLong(details: String) {
     val scrollState = rememberScrollState()
 
-    Spacer(Modifier.height(LONG_DETAILS_TOP_PADDING))
     Text(
         modifier = Modifier
             .padding(bottom = LONG_DETAILS_BOTTOM_PADDING)

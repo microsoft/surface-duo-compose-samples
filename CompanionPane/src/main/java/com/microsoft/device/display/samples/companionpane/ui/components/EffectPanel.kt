@@ -39,17 +39,19 @@ enum class Filters(@StringRes val title: Int, @DrawableRes val image: Int) {
     LUDWIG(R.string.ludwig, R.drawable.ludwig)
 }
 
+enum class Effects(@StringRes val title: Int, @DrawableRes val image: Int) {
+    FILTER(R.string.filter, R.drawable.filter_icon),
+    HDR(R.string.hdr, R.drawable.hdr_icon),
+    ELLIPSE(R.string.ellipse, R.drawable.ecllipse_icon),
+    HORIZONTAL(R.string.vertical, R.drawable.vertical_icon),
+    VERTICAL(R.string.horizontal, R.drawable.horizontal_icon),
+    ZOOM(R.string.zoom, R.drawable.zoom_icon),
+    BRIGHTNESS(R.string.brightness, R.drawable.brightness_icon)
+}
+
 private val filterList = Filters.values()
 
-private val fullIconList = listOf<@DrawableRes Int>(
-    R.drawable.filter_icon,
-    R.drawable.hdr_icon,
-    R.drawable.ecllipse_icon,
-    R.drawable.vertical_icon,
-    R.drawable.horizontal_icon,
-    R.drawable.zoom_icon,
-    R.drawable.brightness_icon
-)
+private val fullIconList = Effects.values().toList()
 
 private val shortIconList = fullIconList.subList(2, 5)
 
@@ -122,7 +124,7 @@ fun AdjustScale() {
                 .height(5.dp),
             contentScale = ContentScale.Inside,
             alignment = Alignment.Center,
-            contentDescription = null
+            contentDescription = stringResource(R.string.dot)
         )
         Image(
             painter = painterResource(R.drawable.scale_icon),
@@ -131,7 +133,7 @@ fun AdjustScale() {
                 .height(25.dp),
             contentScale = ContentScale.Inside,
             alignment = Alignment.Center,
-            contentDescription = null
+            contentDescription = stringResource(R.string.scale)
         )
     }
 }
@@ -146,8 +148,8 @@ fun FullIconsPanel() {
     ) {
         fullIconList.forEach { icon ->
             Image(
-                painter = painterResource(id = icon),
-                contentDescription = null,
+                painter = painterResource(id = icon.image),
+                contentDescription = stringResource(icon.title),
             )
         }
     }
@@ -163,8 +165,8 @@ fun ShortIconsPanel() {
     ) {
         shortIconList.forEach { icon ->
             Image(
-                painter = painterResource(id = icon),
-                contentDescription = null,
+                painter = painterResource(id = icon.image),
+                contentDescription = stringResource(icon.title),
             )
         }
     }

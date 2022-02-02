@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.graphics.Rect
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,9 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
  *
  * @param isDualPortrait: true if device is in dual portrait mode
  * @param isDualLandscape: true if device is in dual landscape mode
- * @param foldSize: size of fold in dp (0 if no fold)
+ * @param foldOccludes: true if a fold is present and it occludes content, false otherwise
+ * @param foldBounds: the bounds of a fold in the form of an Android Rect
+ * @param windowHeight: full height in dp of the window this view is being shown in
  * @param selectedImage: currently selected image
  * @param currentRoute: current route in gallery NavHost
  */
@@ -38,7 +41,9 @@ import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 fun ItemDetailView(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldSize: Dp,
+    foldOccludes: Boolean,
+    foldBounds: Rect,
+    windowHeight: Dp,
     selectedImage: Image? = null,
     currentRoute: String,
 ) {
@@ -60,10 +65,12 @@ fun ItemDetailView(
     ) {
         ItemImage(Modifier.align(Alignment.TopCenter), selectedImage)
         ItemDetailsDrawer(
-            modifier = Modifier.align(Alignment.BottomCenter),
             image = selectedImage,
             isDualLandscape = isDualLandscape,
-            foldSize = foldSize,
+            isDualPortrait = isDualPortrait,
+            foldOccludes = foldOccludes,
+            foldBounds = foldBounds,
+            windowHeight = windowHeight,
             gallerySection = gallerySection,
         )
     }
