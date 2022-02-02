@@ -14,12 +14,15 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
+import androidx.compose.ui.unit.dp
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
+import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -44,7 +47,7 @@ class PageSwipeTest {
     fun app_singlescreen_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
-                TwoPageAppContent(viewWidth = 0, isDualScreen = false, foldSize = 0)
+                TwoPageAppContent(pane1WidthDp = 0.dp, pane2WidthDp = 0.dp, isDualScreen = false, foldSizeDp = 0.dp)
             }
         }
 
@@ -58,7 +61,7 @@ class PageSwipeTest {
     fun app_horizontalFold_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
-                TwoPageAppContent(viewWidth = 0, isDualScreen = false, foldSize = 0)
+                TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true))
             }
         }
 
@@ -121,9 +124,10 @@ class PageSwipeTest {
 
             TwoPageAppTheme {
                 TwoPageAppContent(
-                    viewWidth = pageWidth,
+                    pane1WidthDp = pageWidth.dp,
+                    pane2WidthDp = pageWidth.dp,
                     isDualScreen = true,
-                    foldSize = 0
+                    foldSizeDp = 0.dp
                 )
             }
         }

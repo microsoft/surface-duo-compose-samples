@@ -124,7 +124,6 @@ fun ViewPager(
     state: PagerState,
     modifier: Modifier = Modifier,
     offscreenLimit: Int = 2, // the amount of non visible screens to be precomputed to either side of the current page
-    pagePadding: Int = 0,
     pageContent: @Composable PagerScope.() -> Unit
 ) {
     var pageSize by remember { mutableStateOf(0) }
@@ -187,8 +186,7 @@ fun ViewPager(
                         pageSize = placeable.width
                     }
 
-                    val padding = if (currentPage < page && state.isDualMode) pagePadding else 0
-                    val xItemOffset = ((page + offset - currentPage) * placeable.width + padding).roundToInt()
+                    val xItemOffset = ((page + offset - currentPage) * placeable.width).roundToInt()
 
                     placeable.place(
                         x = xItemOffset,
