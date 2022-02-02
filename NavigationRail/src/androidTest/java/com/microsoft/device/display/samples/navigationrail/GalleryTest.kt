@@ -18,8 +18,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
@@ -65,7 +65,7 @@ class GalleryTest {
 
         // Assert that gallery has vertical scroll action, then scroll to the end of the gallery
         composeTestRule.onNode(SemanticsMatcher.keyIsDefined(VerticalScrollAxisRange)).assertExists()
-            .performGesture { swipeUp() }
+            .performTouchInput { swipeUp() }
 
         // Scroll to last item and assert that it is now visible
         composeTestRule.onNodeWithContentDescription(lastEntryDescription).performScrollTo().assertIsDisplayed()

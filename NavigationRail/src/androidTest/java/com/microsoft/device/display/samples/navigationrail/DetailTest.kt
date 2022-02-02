@@ -25,10 +25,9 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performGesture
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.swipeDown
-import androidx.compose.ui.test.topCenter
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider.plantList
@@ -137,7 +136,7 @@ class DetailTest {
             .assertDrawerStateEquals(DrawerState.Collapsed)
 
         // Swipe content drawer up
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer)).performGesture {
+        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer)).performTouchInput {
             val start = this.topCenter
             val end = Offset(start.x, start.y - 200)
             swipe(start, end, 200)
@@ -149,7 +148,7 @@ class DetailTest {
 
         // Swipe content drawer back down
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))
-            .performGesture { swipeDown() }
+            .performTouchInput { swipeDown() }
 
         // Assert drawer is collapsed again
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))

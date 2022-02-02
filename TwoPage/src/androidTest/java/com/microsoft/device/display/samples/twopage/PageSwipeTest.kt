@@ -11,7 +11,7 @@ import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performGesture
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
@@ -81,7 +81,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
 
             // Swipe to next page
-            composeTestRule.onRoot().performGesture { swipeLeft() }
+            composeTestRule.onRoot().performTouchInput { swipeLeft() }
 
             // Assert current page is no longer visible (unless on the last page)
             when (page) {
@@ -98,7 +98,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
 
             // Swipe to previous page
-            composeTestRule.onRoot().performGesture { swipeRight() }
+            composeTestRule.onRoot().performTouchInput { swipeRight() }
 
             // Assert current page is no longer visible (unless on the first page)
             when (page) {
@@ -140,7 +140,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page + 1])).assertIsDisplayed()
 
             // Swipe to next page
-            composeTestRule.onRoot().performGesture { swipeLeft() }
+            composeTestRule.onRoot().performTouchInput { swipeLeft() }
 
             // Assert current page is no longer visible (unless on the last page)
             when (page) {
@@ -158,7 +158,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page - 1])).assertIsDisplayed()
 
             // Swipe to previous page
-            composeTestRule.onRoot().performGesture { swipeRight() }
+            composeTestRule.onRoot().performTouchInput { swipeRight() }
 
             // Assert current page is no longer visible (unless on the first page)
             when (page) {

@@ -20,8 +20,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
@@ -112,7 +112,7 @@ class PaneSynchronizationTest {
                     composeTestRule.onNode(
                         hasScrollAction() and
                             hasAnyChild(hasContentDescription(contentDescription))
-                    ).performGesture { swipeUp() }
+                    ).performTouchInput { swipeUp() }
                 }
 
                 // Scroll to the current entry and click on it
