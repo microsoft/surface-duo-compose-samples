@@ -33,10 +33,13 @@ fun TwoPageApp(windowState: WindowState) {
 
 @Composable
 fun TwoPageAppContent(pane1WidthDp: Dp, pane2WidthDp: Dp, isDualScreen: Boolean, foldSizeDp: Dp) {
+    // Calculate page text width based on the smallest pane width
     val pageTextWidth = min(pane1WidthDp, pane2WidthDp)
-    val pagePadding = abs(pane1WidthDp.value - pane2WidthDp.value).dp + (foldSizeDp / 2)
-    val pages = setupPages(pageTextWidth, pagePadding)
 
+    // Calculate the necessary page padding, based on pane width differences and fold width
+    val pagePadding = abs(pane1WidthDp.value - pane2WidthDp.value).dp + foldSizeDp
+
+    val pages = setupPages(pageTextWidth, pagePadding)
     PageViews(pages, isDualScreen)
 }
 
