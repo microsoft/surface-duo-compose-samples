@@ -51,7 +51,7 @@ class MapImageTest {
     fun app_horizontalFold_mapUpdatesAfterRestaurantClick() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                DualViewApp(WindowState(hasFold = true, foldIsHorizontal = true), viewSize = VIEW_SIZE)
+                DualViewApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true), viewSize = VIEW_SIZE)
             }
         }
 

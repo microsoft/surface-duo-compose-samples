@@ -61,7 +61,7 @@ class PageSwipeTest {
     fun app_horizontalFold_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
-                TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true))
+                TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
             }
         }
 

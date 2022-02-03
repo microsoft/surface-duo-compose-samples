@@ -60,7 +60,7 @@ class PaneSynchronizationTest {
     fun app_verticalFold_testPlaceholderViewAppearsOnStart() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 
@@ -85,7 +85,7 @@ class PaneSynchronizationTest {
     fun app_verticalFold_galleryClickUpdatesSelection() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 

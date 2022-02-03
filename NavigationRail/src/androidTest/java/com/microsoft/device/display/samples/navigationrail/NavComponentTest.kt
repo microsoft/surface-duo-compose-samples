@@ -53,7 +53,7 @@ class NavComponentTest {
     fun app_navRail_testButtonClickSwitchesDestination() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 
@@ -67,7 +67,7 @@ class NavComponentTest {
     fun app_verticalFold_navRailIsShown() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 
@@ -83,7 +83,7 @@ class NavComponentTest {
     fun app_horizontalFold_navRailIsShown() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true, foldIsHorizontal = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
             }
         }
 
