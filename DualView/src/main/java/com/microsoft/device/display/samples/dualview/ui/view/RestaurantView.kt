@@ -126,7 +126,7 @@ fun RestaurantListView(
 ) {
     // Note: not using WindowSizeClass because we are checking for very narrow window widths, not just
     // the compact size class
-    val isSmallScreen = viewWidth < narrowWidth && viewWidth != 0
+    val isSmallScreen = viewWidth < narrowWidth
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(outlinePadding.dp),

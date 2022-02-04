@@ -67,7 +67,7 @@ enum class DrawerState { Collapsed, Expanded }
  * height (must be > 0, <= 1)
  * @param collapsedHeightPct: height of the drawer when collapsed, expressed as percentage of maximum possible
  * height (must be > 0, <= 1)
- * @param foldOccludes: optional param for foldable support, indicates whether there is a hinge
+ * @param foldIsOccluding: optional param for foldable support, indicates whether there is a hinge
  * that occludes content in the current layout
  * @param foldBoundsDp: optional param for foldable support, indicates the coordinates of the boundary
  * of a fold
@@ -84,7 +84,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
     modifier: Modifier = Modifier,
     expandedHeightPct: Float,
     collapsedHeightPct: Float,
-    foldOccludes: Boolean = false,
+    foldIsOccluding: Boolean = false,
     foldBoundsDp: RectF = RectF(),
     windowHeightDp: Dp = 0.dp,
     foldBottomPaddingDp: Dp = 0.dp,
@@ -108,7 +108,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
     val collapseHeightDp = with(LocalDensity.current) { collapseHeightPx.toDp() }
     val foldSizeDp = foldBoundsDp.height().dp
     val bottomContentMaxHeightDp = windowHeightDp - foldBoundsDp.bottom.dp
-    val topContentMaxHeightDp: Dp = if (foldOccludes) {
+    val topContentMaxHeightDp: Dp = if (foldIsOccluding) {
         expandHeightDp - foldSizeDp - bottomContentMaxHeightDp
     } else {
         collapseHeightDp
@@ -124,7 +124,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
     ) {
         // Check if a spacer needs to be included to render content around an occluding hinge
         val minSpacerHeight = calculateSpacerHeight(
-            foldOccludes,
+            foldIsOccluding,
             swipeableState,
             foldSizeDp.value + foldBottomPaddingDp.value
         ).toInt().dp
@@ -162,7 +162,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
  * Helper method to calculate the animated height of the spacer used for foldable support. Height
  * is progressively increased or decreased based on the swipe state.
  *
- * @param foldOccludes: whether or not a fold is present and occluding content
+ * @param foldIsOccluding: whether or not a fold is present and occluding content
  * @param swipeableState: swipeable state of the component that contains a spacer
  * @param fullHeight: the desired full height of the spacer when the parent component has been swiped
  * to the expanded state
@@ -171,11 +171,11 @@ fun BoxWithConstraintsScope.ContentDrawer(
  */
 @ExperimentalMaterialApi
 private fun calculateSpacerHeight(
-    foldOccludes: Boolean,
+    foldIsOccluding: Boolean,
     swipeableState: SwipeableState<DrawerState>,
     fullHeight: Float
 ): Float {
-    if (!foldOccludes)
+    if (!foldIsOccluding)
         return 0f
 
     val isExpanding = swipeableState.progress.to == DrawerState.Expanded

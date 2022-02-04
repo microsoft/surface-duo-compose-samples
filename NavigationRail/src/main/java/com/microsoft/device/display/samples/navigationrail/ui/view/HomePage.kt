@@ -5,7 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.graphics.Rect
+import android.graphics.RectF
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -43,9 +43,9 @@ fun NavigationRailApp(windowState: WindowState) {
         isDualScreen = windowState.isDualScreen(),
         isDualPortrait = windowState.isDualPortrait(),
         isDualLandscape = windowState.isDualLandscape(),
-        foldOccludes = windowState.foldOccludes,
-        foldBounds = windowState.foldBounds,
-        windowHeight = windowState.windowHeight,
+        foldIsOccluding = windowState.foldIsOccluding,
+        foldBoundsDp = windowState.foldBoundsDp,
+        windowHeight = windowState.windowHeightDp,
         imageId = imageId,
         updateImageId = updateImageId,
         currentRoute = currentRoute,
@@ -62,8 +62,8 @@ fun NavigationRailAppContent(
     isDualScreen: Boolean,
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldOccludes: Boolean,
-    foldBounds: Rect,
+    foldIsOccluding: Boolean,
+    foldBoundsDp: RectF,
     windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
@@ -79,8 +79,8 @@ fun NavigationRailAppContent(
             Pane2(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
-                foldOccludes = foldOccludes,
-                foldBounds = foldBounds,
+                foldIsOccluding = foldIsOccluding,
+                foldBoundsDp = foldBoundsDp,
                 windowHeight = windowHeight,
                 imageId = imageId,
                 updateImageId = updateImageId,
@@ -119,8 +119,8 @@ fun Pane1(
 fun Pane2(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
-    foldOccludes: Boolean,
-    foldBounds: Rect,
+    foldIsOccluding: Boolean,
+    foldBoundsDp: RectF,
     windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
@@ -139,8 +139,8 @@ fun Pane2(
     ItemDetailView(
         isDualPortrait = isDualPortrait,
         isDualLandscape = isDualLandscape,
-        foldOccludes = foldOccludes,
-        foldBounds = foldBounds,
+        foldIsOccluding = foldIsOccluding,
+        foldBoundsDp = foldBoundsDp,
         windowHeight = windowHeight,
         selectedImage = selectedImage,
         currentRoute = currentRoute

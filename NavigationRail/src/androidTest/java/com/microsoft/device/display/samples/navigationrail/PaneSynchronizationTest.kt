@@ -20,8 +20,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
@@ -60,7 +60,7 @@ class PaneSynchronizationTest {
     fun app_verticalFold_testPlaceholderViewAppearsOnStart() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 
@@ -85,7 +85,7 @@ class PaneSynchronizationTest {
     fun app_verticalFold_galleryClickUpdatesSelection() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true))
+                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
             }
         }
 
@@ -112,7 +112,7 @@ class PaneSynchronizationTest {
                     composeTestRule.onNode(
                         hasScrollAction() and
                             hasAnyChild(hasContentDescription(contentDescription))
-                    ).performGesture { swipeUp() }
+                    ).performTouchInput { swipeUp() }
                 }
 
                 // Scroll to the current entry and click on it

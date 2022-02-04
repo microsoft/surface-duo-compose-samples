@@ -11,15 +11,18 @@ import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performGesture
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
+import androidx.compose.ui.unit.dp
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
+import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
 import com.microsoft.device.dualscreen.testutils.getString
 import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
 import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -44,7 +47,7 @@ class PageSwipeTest {
     fun app_singlescreen_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
-                TwoPageAppContent(viewWidth = 0, isDualScreen = false, foldSize = 0)
+                TwoPageAppContent(pane1WidthDp = 0.dp, pane2WidthDp = 0.dp, isDualScreen = false, foldSizeDp = 0.dp)
             }
         }
 
@@ -58,7 +61,7 @@ class PageSwipeTest {
     fun app_horizontalFold_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
-                TwoPageAppContent(viewWidth = 0, isDualScreen = false, foldSize = 0)
+                TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
             }
         }
 
@@ -81,7 +84,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
 
             // Swipe to next page
-            composeTestRule.onRoot().performGesture { swipeLeft() }
+            composeTestRule.onRoot().performTouchInput { swipeLeft() }
 
             // Assert current page is no longer visible (unless on the last page)
             when (page) {
@@ -98,7 +101,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page])).assertIsDisplayed()
 
             // Swipe to previous page
-            composeTestRule.onRoot().performGesture { swipeRight() }
+            composeTestRule.onRoot().performTouchInput { swipeRight() }
 
             // Assert current page is no longer visible (unless on the first page)
             when (page) {
@@ -121,9 +124,10 @@ class PageSwipeTest {
 
             TwoPageAppTheme {
                 TwoPageAppContent(
-                    viewWidth = pageWidth,
+                    pane1WidthDp = pageWidth.dp,
+                    pane2WidthDp = pageWidth.dp,
                     isDualScreen = true,
-                    foldSize = 0
+                    foldSizeDp = 0.dp
                 )
             }
         }
@@ -140,7 +144,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page + 1])).assertIsDisplayed()
 
             // Swipe to next page
-            composeTestRule.onRoot().performGesture { swipeLeft() }
+            composeTestRule.onRoot().performTouchInput { swipeLeft() }
 
             // Assert current page is no longer visible (unless on the last page)
             when (page) {
@@ -158,7 +162,7 @@ class PageSwipeTest {
             composeTestRule.onNodeWithTag(composeTestRule.getString(pageTags[page - 1])).assertIsDisplayed()
 
             // Swipe to previous page
-            composeTestRule.onRoot().performGesture { swipeRight() }
+            composeTestRule.onRoot().performTouchInput { swipeRight() }
 
             // Assert current page is no longer visible (unless on the first page)
             when (page) {

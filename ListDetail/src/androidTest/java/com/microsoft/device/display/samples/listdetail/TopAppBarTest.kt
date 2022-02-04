@@ -83,7 +83,7 @@ class TopAppBarTest {
             ListDetailComposeSampleTheme {
                 // need to reset the state back to the single screen, even it is the default value
                 // to avoid the "leftover" from the previous test cases
-                ListDetailApp(WindowState(hasFold = false, isFoldHorizontal = false))
+                ListDetailApp(WindowState(hasFold = false, foldIsHorizontal = false))
             }
         }
 

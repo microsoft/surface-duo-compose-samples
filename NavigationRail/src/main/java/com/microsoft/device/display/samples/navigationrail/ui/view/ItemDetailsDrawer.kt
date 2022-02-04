@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.content.res.Configuration
-import android.graphics.Rect
 import android.graphics.RectF
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -66,8 +64,8 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     image: Image,
     isDualLandscape: Boolean,
     isDualPortrait: Boolean,
-    foldOccludes: Boolean,
-    foldBounds: Rect,
+    foldIsOccluding: Boolean,
+    foldBoundsDp: RectF,
     windowHeight: Dp,
     gallerySection: GallerySections?,
 ) {
@@ -90,15 +88,6 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
             collapsedHeightPct = COLLAPSED_HEIGHT_1PANE_LANDSCAPE
         }
     }
-    val foldBoundsDp: RectF
-    with(LocalDensity.current) {
-        val leftDp = foldBounds.left.toDp().value
-        val topDp = foldBounds.top.toDp().value
-        val rightDp = foldBounds.right.toDp().value
-        val bottomDp = foldBounds.bottom.toDp().value
-
-        foldBoundsDp = RectF(leftDp, topDp, rightDp, bottomDp)
-    }
 
     // Set text size for drawer based on orientation
     if (isDualLandscape) {
@@ -112,7 +101,7 @@ fun BoxWithConstraintsScope.ItemDetailsDrawer(
     ContentDrawer(
         expandedHeightPct = expandedHeightPct,
         collapsedHeightPct = collapsedHeightPct,
-        foldOccludes = foldOccludes && isDualLandscape,
+        foldIsOccluding = foldIsOccluding && isDualLandscape,
         foldBoundsDp = foldBoundsDp,
         foldBottomPaddingDp = LONG_DETAILS_TOP_PADDING,
         windowHeightDp = windowHeight,

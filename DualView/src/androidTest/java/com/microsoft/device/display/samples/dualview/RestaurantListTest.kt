@@ -10,11 +10,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasScrollToIndexAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
@@ -27,6 +30,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody1
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantListView
 import com.microsoft.device.display.samples.dualview.ui.view.TextStyleKey
+import com.microsoft.device.display.samples.dualview.ui.view.narrowWidth
 import com.microsoft.device.dualscreen.testutils.getString
 import org.junit.Rule
 import org.junit.Test
@@ -73,6 +77,40 @@ class RestaurantListTest {
         }
 
         checkRestaurantListTextStyle()
+    }
+
+    @Test
+    fun restaurantList_narrowListIsHorizontallyScrollable() {
+        composeTestRule.setContent {
+            DualViewAppTheme {
+                // Display restaurant list in a narrow view
+                RestaurantListViewWithState(viewWidth = narrowWidth - 1)
+            }
+        }
+
+        // Assert that the details for the first restaurant are horizontally scrollable
+        composeTestRule.onNode(
+            matcher = hasAnyChild(hasText(composeTestRule.getString(R.string.pestle_rock)))
+                and SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange),
+            useUnmergedTree = true
+        ).assertExists()
+    }
+
+    @Test
+    fun restaurantList_normalListIsNotHorizontallyScrollable() {
+        composeTestRule.setContent {
+            DualViewAppTheme {
+                // Display restaurant list in a normal view
+                RestaurantListViewWithState(viewWidth = narrowWidth + 1)
+            }
+        }
+
+        // Assert that the details for the first restaurant are not horizontally scrollable
+        composeTestRule.onNode(
+            matcher = hasAnyChild(hasText(composeTestRule.getString(R.string.pestle_rock)))
+                and SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange),
+            useUnmergedTree = true
+        ).assertDoesNotExist()
     }
 
     /**
