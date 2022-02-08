@@ -61,7 +61,7 @@ dependencies {
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.windowTest
     androidTestImplementation testDependencies.uiAutomator
-    androidTestImplementation project(':TestUtils')
+    androidTestImplementation microsoftDependencies.composeTesting
 
     implementation googleDependencies.material
 }

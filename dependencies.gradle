@@ -72,8 +72,10 @@ ext {
     // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha10"
     windowStateVersion = "1.0.0-alpha02"
+    composeTestingVersion = "1.0.0-alpha01"
     microsoftDependencies = [
             twoPaneLayout       : "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
+            composeTesting     : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion"
     ]
 }
