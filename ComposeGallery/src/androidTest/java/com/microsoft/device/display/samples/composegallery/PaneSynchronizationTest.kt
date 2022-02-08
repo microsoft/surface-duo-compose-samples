@@ -5,27 +5,15 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasAnyAncestor
-import androidx.compose.ui.test.hasAnySibling
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasScrollAction
-import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToIndex
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -56,8 +44,8 @@ class PaneSynchronizationTest {
             }
         }
 
-        // Simulate a vertical fold so two panes are visible
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate a vertical foldFeature so two panes are visible
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Scroll to end of list
         val index = 7
@@ -107,8 +95,8 @@ class PaneSynchronizationTest {
         composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
             .performClick()
 
-        // Simulate a vertical fold so two panes are visible
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate a vertical foldFeature so two panes are visible
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Check that third surface duo image is still displayed
         composeTestRule.onNode(
@@ -129,8 +117,8 @@ class PaneSynchronizationTest {
             }
         }
 
-        // Simulate a horizontal fold so one pane is still visible
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate a horizontal foldFeature so one pane is still visible
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Check that the list view is displayed
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))

@@ -62,7 +62,7 @@ dependencies {
     androidTestImplementation testDependencies.composeUITest
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.windowTest
-    androidTestImplementation project(':TestUtils')
+    androidTestImplementation microsoftDependencies.composeTesting
 
     debugImplementation testDependencies.composeUITestManifest
 }
