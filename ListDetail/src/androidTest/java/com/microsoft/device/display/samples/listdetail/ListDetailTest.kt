@@ -8,9 +8,9 @@ import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.listdetail.models.images
 import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -41,8 +41,8 @@ class ListDetailTest {
             }
         }
 
-        // Simulate vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate vertical foldFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         images.forEachIndexed { index, _ ->
             // Click on list item
@@ -69,8 +69,8 @@ class ListDetailTest {
             }
         }
 
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate horizontal foldFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Assert the list view is now shown
         composeTestRule.onNodeWithTag(
