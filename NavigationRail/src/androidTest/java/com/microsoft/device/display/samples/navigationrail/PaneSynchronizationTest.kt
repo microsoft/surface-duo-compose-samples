@@ -29,8 +29,8 @@ import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -64,8 +64,8 @@ class PaneSynchronizationTest {
             }
         }
 
-        // Simulate a vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate a vertical foldFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         for (gallery in GallerySections.values()) {
             // Click on gallery
@@ -89,8 +89,8 @@ class PaneSynchronizationTest {
             }
         }
 
-        // Simulate a vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate a vertical foldFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         GallerySections.values().forEachIndexed { i, gallery ->
             // Click on gallery
