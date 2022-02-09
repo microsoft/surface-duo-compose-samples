@@ -6,23 +6,21 @@
 package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
-import com.microsoft.device.dualscreen.testutils.assertScreenshotMatchesReference
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -55,35 +53,11 @@ class MapImageTest {
             }
         }
 
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate horizontal foldFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
-        clickRestaurantsAndPerformAction()
-    }
-
-    /**
-     * Scrolls to and clicks each item in the restaurant list, and also performs the specified action
-     * on each restaurant item node/reference image pair. The default action asserts that a screenshot
-     * of the node matches the associated reference image.
-     *
-     * @param action: action to perform with Semantics Node and reference image pair
-     */
-    @ExperimentalTestApi
-    private fun clickRestaurantsAndPerformAction(action: (String, SemanticsNodeInteraction) -> Unit = ::assertScreenshotMatchesReference) {
-        // Create list of reference images file names (from src/androidTest/assets folder)
-        val referenceAssets =
-            mutableListOf("unselected", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth")
-        referenceAssets.forEachIndexed { index, prefix ->
-            referenceAssets[index] = prefix.plus("_map.png")
-        }
-
+        // Scrolls to and clicks each item in the restaurant list
         restaurants.forEachIndexed { index, rest ->
-            // Perform specified action
-            action(
-                referenceAssets[index],
-                composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_image))
-            )
-
             // Scroll to next restaurant item
             composeTestRule.onNode(hasScrollToIndexAction()).performScrollToIndex(index)
 
@@ -93,6 +67,18 @@ class MapImageTest {
                     hasAnySibling(hasText(composeTestRule.getString(R.string.list_title)))
                 )
             ).performClick()
+
+            if (index == -1) {
+                // Assert the unselected image placeholder is shown
+                composeTestRule.onNodeWithContentDescription(
+                    composeTestRule.getString(R.string.map_description)
+                ).assertExists()
+            } else {
+                // Assert the shown selected image matches the item clicked from the list
+                composeTestRule.onNodeWithContentDescription(
+                    composeTestRule.getString(rest.description)
+                ).assertExists()
+            }
         }
     }
 }

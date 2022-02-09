@@ -5,6 +5,8 @@
 
 package com.microsoft.device.display.samples.dualview.ui.view
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -90,14 +92,17 @@ fun MapTopBar(isDualScreen: Boolean, customViewSize: Boolean = false) {
 @Composable
 fun MapView(selectedIndex: Int, viewSize: Int? = null) {
     var selectedMapId = R.drawable.unselected_map
+    var selectedTitleId = R.string.map_description
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
+        selectedTitleId = restaurants[selectedIndex].description
     }
     val viewSizeDp = with(LocalDensity.current) { viewSize?.toDp() }
     val modifier = if (viewSizeDp == null) Modifier.clipToBounds() else Modifier.requiredSize(viewSizeDp)
 
+
     Box(modifier = modifier.testTag(stringResource(R.string.map_image))) {
-        ScalableImageView(imageId = selectedMapId)
+        ScalableImageView(imageId = selectedMapId, selectedTitleId)
     }
 }
 
@@ -110,7 +115,7 @@ fun MapViewScreenshotPreview() {
 }
 
 @Composable
-fun ScalableImageView(imageId: Int) {
+fun ScalableImageView(@DrawableRes imageId: Int, @StringRes descriptionId: Int) {
     val minScale = 1f
     val maxScale = 8f
     val defaultScale = 2f
@@ -124,7 +129,7 @@ fun ScalableImageView(imageId: Int) {
 
     Image(
         painter = painterResource(id = imageId),
-        contentDescription = stringResource(R.string.map_description),
+        contentDescription = stringResource(id = descriptionId),
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
