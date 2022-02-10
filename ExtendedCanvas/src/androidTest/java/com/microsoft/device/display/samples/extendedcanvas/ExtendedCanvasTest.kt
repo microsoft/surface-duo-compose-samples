@@ -5,20 +5,18 @@
 
 package com.microsoft.device.display.samples.extendedcanvas
 
-import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import com.microsoft.device.display.samples.extendedcanvas.ui.ExtendedCanvasAppsTheme
-import com.microsoft.device.dualscreen.testutils.compare
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.zoomIn
-import com.microsoft.device.dualscreen.testutils.zoomOut
+import com.microsoft.device.dualscreen.testing.getString
 import org.junit.Rule
 import org.junit.Test
 
@@ -52,84 +50,25 @@ class ExtendedCanvasTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .assertIsDisplayed()
+        // Get node for the map image
+        val mapImageNode =
+            composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
 
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .captureToImage()
-            .asAndroidBitmap()
+        // Assert the map image is shown
+        mapImageNode.assertIsDisplayed()
 
         // Drag the map to the left
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .performTouchInput { swipeLeft() }
+        mapImageNode.performTouchInput { swipeLeft() }
 
-        // Take screenshot of new map image state
-        val afterSwipe =
-            composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-                .captureToImage()
-                .asAndroidBitmap()
+        val defaultImageOffset = Offset.Zero
 
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterSwipe))
+        // Make sure bitmap offset is not the same anymore
+        mapImageNode.assertImageOffsetNotEquals(defaultImageOffset)
     }
 
     /**
-     * Tests that the map image can zoom in
+     * Asserts that the image offset of the node doesn't match the given text style
      */
-    @Test
-    fun mapView_testImageZoomsIn() {
-        composeTestRule.setContent {
-            ExtendedCanvasAppsTheme {
-                ExtendedCanvasApp()
-            }
-        }
-
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .captureToImage()
-            .asAndroidBitmap()
-
-        // Zoom in on map image map
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .performGesture { zoomIn() }
-
-        // Take screenshot of new state
-        val afterZoom =
-            composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-                .captureToImage()
-                .asAndroidBitmap()
-
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterZoom))
-    }
-
-    /**
-     * Test that the map image can zoom out
-     */
-    @Test
-    fun mapView_testImageZoomsOut() {
-        composeTestRule.setContent {
-            ExtendedCanvasAppsTheme {
-                ExtendedCanvasApp()
-            }
-        }
-
-        // Take screenshot of initial map image state
-        val original = composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .captureToImage()
-            .asAndroidBitmap()
-
-        // Zoom out on map image map and take screenshot of new state
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-            .performGesture { zoomOut() }
-
-        val afterZoom =
-            composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
-                .captureToImage()
-                .asAndroidBitmap()
-
-        // Make sure bitmaps are not the same anymore
-        assert(!original.compare(afterZoom))
-    }
+    private fun SemanticsNodeInteraction.assertImageOffsetNotEquals(imageOffset: Offset) =
+        assert(!SemanticsMatcher.expectValue(ImageOffsetKey, imageOffset))
 }

@@ -28,11 +28,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
+
+val ImageOffsetKey = SemanticsPropertyKey<Offset>("ImageOffsetKey")
+var SemanticsPropertyReceiver.imageOffset by ImageOffsetKey
+
 
 @Composable
 fun ExtendedCanvasApp() {
@@ -74,6 +81,9 @@ fun ScaleImage() {
         contentDescription = stringResource(R.string.map_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier
+            .semantics {
+                imageOffset = offset
+            }
             .graphicsLayer(
                 scaleX = maxOf(minScale, minOf(maxScale, scale)),
                 scaleY = maxOf(minScale, minOf(maxScale, scale)),
