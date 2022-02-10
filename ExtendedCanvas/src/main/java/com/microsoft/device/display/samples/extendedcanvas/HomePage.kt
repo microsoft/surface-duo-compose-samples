@@ -40,7 +40,6 @@ import kotlin.math.roundToInt
 val ImageOffsetKey = SemanticsPropertyKey<Offset>("ImageOffsetKey")
 var SemanticsPropertyReceiver.imageOffset by ImageOffsetKey
 
-
 @Composable
 fun ExtendedCanvasApp() {
     Scaffold(

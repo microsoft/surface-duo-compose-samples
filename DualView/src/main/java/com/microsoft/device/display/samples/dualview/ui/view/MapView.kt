@@ -100,7 +100,6 @@ fun MapView(selectedIndex: Int, viewSize: Int? = null) {
     val viewSizeDp = with(LocalDensity.current) { viewSize?.toDp() }
     val modifier = if (viewSizeDp == null) Modifier.clipToBounds() else Modifier.requiredSize(viewSizeDp)
 
-
     Box(modifier = modifier.testTag(stringResource(R.string.map_image))) {
         ScalableImageView(imageId = selectedMapId, selectedTitleId)
     }
