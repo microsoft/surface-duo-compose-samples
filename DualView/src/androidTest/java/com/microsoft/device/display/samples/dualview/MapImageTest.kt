@@ -28,6 +28,7 @@ import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
 const val VIEW_SIZE = 400
+const val nonSelectionOption = -1
 
 class MapImageTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -68,7 +69,7 @@ class MapImageTest {
                 )
             ).performClick()
 
-            if (index == -1) {
+            if (index == nonSelectionOption) {
                 // Assert the unselected image placeholder is shown
                 composeTestRule.onNodeWithContentDescription(
                     composeTestRule.getString(R.string.map_description)
