@@ -30,7 +30,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.0-rc03"
+    composeVersion = "1.1.0"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = '2.4.0'
     composeDependencies = [
