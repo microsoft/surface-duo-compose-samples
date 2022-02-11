@@ -18,7 +18,7 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 import kotlin.math.roundToInt
 
 @Composable
-fun DualViewApp(windowState: WindowState, viewSize: Int? = null) {
+fun DualViewApp(windowState: WindowState) {
     var selectedIndex by rememberSaveable { mutableStateOf(-1) }
     val updateSelectedIndex: (Int) -> Unit = { newIndex -> selectedIndex = newIndex }
     val pane1SizeWidthDp = windowState.pane1SizeDp().width.dp
@@ -30,7 +30,6 @@ fun DualViewApp(windowState: WindowState, viewSize: Int? = null) {
         viewWidth = with(LocalDensity.current) { viewWidth.toPx() }.roundToInt(),
         selectedIndex = selectedIndex,
         updateSelectedIndex = updateSelectedIndex,
-        viewSize = viewSize
     )
 }
 
@@ -40,10 +39,9 @@ fun DualViewAppContent(
     viewWidth: Int,
     selectedIndex: Int,
     updateSelectedIndex: (Int) -> Unit,
-    viewSize: Int? = null
 ) {
     TwoPaneLayout(
         pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, updateSelectedIndex) },
-        pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex, viewSize) }
+        pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex) }
     )
 }

@@ -14,8 +14,6 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -33,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,7 +38,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.restaurants
@@ -52,16 +48,16 @@ import kotlin.math.roundToInt
 private const val nonSelection = -1
 
 @Composable
-fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int, viewSize: Int?) {
+fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar(isDualScreen, viewSize != null) }
+        topBar = { MapTopBar(isDualScreen) }
     ) {
-        MapView(selectedIndex, viewSize)
+        MapView(selectedIndex)
     }
 }
 
 @Composable
-fun MapTopBar(isDualScreen: Boolean, customViewSize: Boolean = false) {
+fun MapTopBar(isDualScreen: Boolean) {
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.map_top_bar)),
         title = {
@@ -74,7 +70,6 @@ fun MapTopBar(isDualScreen: Boolean, customViewSize: Boolean = false) {
                 )
             )
         },
-        elevation = if (customViewSize) 0.dp else AppBarDefaults.TopAppBarElevation,
         actions = {
             if (!isDualScreen) {
                 IconButton(onClick = { navigateToPane1() }) {
@@ -90,18 +85,23 @@ fun MapTopBar(isDualScreen: Boolean, customViewSize: Boolean = false) {
 }
 
 @Composable
-fun MapView(selectedIndex: Int, viewSize: Int? = null) {
+fun MapView(selectedIndex: Int) {
     var selectedMapId = R.drawable.unselected_map
     var selectedTitleId = R.string.map_description
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
         selectedTitleId = restaurants[selectedIndex].description
     }
-    val viewSizeDp = with(LocalDensity.current) { viewSize?.toDp() }
-    val modifier = if (viewSizeDp == null) Modifier.clipToBounds() else Modifier.requiredSize(viewSizeDp)
-
-    Box(modifier = modifier.testTag(stringResource(R.string.map_image))) {
-        ScalableImageView(imageId = selectedMapId, selectedTitleId)
+    Box(
+        modifier = Modifier
+            .clipToBounds()
+            .testTag(
+                stringResource(R.string.map_image)
+            )
+    ) {
+        ScalableImageView(
+            imageId = selectedMapId, selectedTitleId
+        )
     }
 }
 
@@ -109,7 +109,7 @@ fun MapView(selectedIndex: Int, viewSize: Int? = null) {
 @Composable
 fun MapViewScreenshotPreview() {
     DualViewAppTheme {
-        MapView(7, 150)
+        MapView(7)
     }
 }
 
