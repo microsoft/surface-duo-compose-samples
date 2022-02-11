@@ -57,7 +57,6 @@ ext {
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
             uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
-            windowTest              : "androidx.window:window-testing:$windowVersion",
             espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
             androidJunit            : "junit:junit:$junitVersion",
             mockitoCore             : "org.mockito:mockito-core:$mockitoVersion",

@@ -61,7 +61,6 @@ dependencies {
     androidTestImplementation testDependencies.espressoCore
     androidTestImplementation testDependencies.composeUITest
     androidTestImplementation testDependencies.composeJunit
-    androidTestImplementation testDependencies.windowTest
     androidTestImplementation microsoftDependencies.composeTesting
 
     debugImplementation testDependencies.composeUITestManifest
