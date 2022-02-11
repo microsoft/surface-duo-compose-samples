@@ -67,7 +67,7 @@ class ExtendedCanvasTest {
     }
 
     /**
-     * Asserts that the image offset of the node doesn't match the given text style
+     * Asserts that the image offset of the node doesn't match the given offset
      */
     private fun SemanticsNodeInteraction.assertImageOffsetNotEquals(imageOffset: Offset) =
         assert(!SemanticsMatcher.expectValue(ImageOffsetKey, imageOffset))
