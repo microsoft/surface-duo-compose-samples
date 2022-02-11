@@ -36,12 +36,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.restaurants
-import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
 import kotlin.math.roundToInt
 
@@ -102,14 +100,6 @@ fun MapView(selectedIndex: Int) {
         ScalableImageView(
             imageId = selectedMapId, selectedTitleId
         )
-    }
-}
-
-@Preview
-@Composable
-fun MapViewScreenshotPreview() {
-    DualViewAppTheme {
-        MapView(7)
     }
 }
 
