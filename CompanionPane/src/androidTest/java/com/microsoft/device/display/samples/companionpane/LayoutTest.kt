@@ -13,9 +13,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
@@ -94,8 +94,8 @@ class LayoutTest {
             }
         }
 
-        // Simulate vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate vertical foldingFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Check that dual portrait panes are shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_port_pane1))
@@ -116,8 +116,8 @@ class LayoutTest {
             }
         }
 
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate horizontal foldingFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Check that dual landscape panes are shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane1))
@@ -137,8 +137,8 @@ class LayoutTest {
             }
         }
 
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate horizontal foldingFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Check that dual landscape panes are shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane1))
@@ -146,8 +146,8 @@ class LayoutTest {
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_land_pane2))
             .assertIsDisplayed()
 
-        // Simulate vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate vertical foldingFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Check that dual portrait panes are shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.dual_port_pane1))

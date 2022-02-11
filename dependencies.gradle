@@ -4,7 +4,7 @@
  */
 
 ext {
-    gradlePluginVersion = '7.1.0'
+    gradlePluginVersion = '7.1.1'
     kotlinVersion = "1.6.10"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
@@ -30,7 +30,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.0-rc03"
+    composeVersion = "1.1.0"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = '2.4.0'
     composeDependencies = [
@@ -57,7 +57,6 @@ ext {
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
             uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
-            windowTest              : "androidx.window:window-testing:$windowVersion",
             espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
             androidJunit            : "junit:junit:$junitVersion",
             mockitoCore             : "org.mockito:mockito-core:$mockitoVersion",
@@ -72,8 +71,10 @@ ext {
     // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha10"
     windowStateVersion = "1.0.0-alpha02"
+    composeTestingVersion = "1.0.0-alpha02"
     microsoftDependencies = [
             twoPaneLayout       : "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
+            composeTesting     : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion"
     ]
 }

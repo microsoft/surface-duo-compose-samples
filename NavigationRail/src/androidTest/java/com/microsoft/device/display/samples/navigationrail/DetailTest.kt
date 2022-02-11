@@ -37,7 +37,7 @@ import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRa
 import com.microsoft.device.display.samples.navigationrail.ui.view.ItemDetailView
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
 import com.microsoft.device.display.samples.navigationrail.ui.view.Pane2
-import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.testing.getString
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

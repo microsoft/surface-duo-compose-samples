@@ -53,6 +53,5 @@ dependencies {
     androidTestImplementation testDependencies.androidxTestRules
     androidTestImplementation testDependencies.composeUITest
     androidTestImplementation testDependencies.composeJunit
-    androidTestImplementation testDependencies.windowTest
-    androidTestImplementation project(':TestUtils')
+    androidTestImplementation microsoftDependencies.composeTesting
 }

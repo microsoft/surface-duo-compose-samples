@@ -19,9 +19,9 @@ import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
-import com.microsoft.device.dualscreen.testutils.getString
-import com.microsoft.device.dualscreen.testutils.simulateHorizontalFold
-import com.microsoft.device.dualscreen.testutils.simulateVerticalFold
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -65,8 +65,8 @@ class PageSwipeTest {
             }
         }
 
-        // Simulate horizontal fold
-        publisherRule.simulateHorizontalFold(composeTestRule)
+        // Simulate horizontal foldFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         swipeOnePageAtATime()
     }
@@ -132,8 +132,8 @@ class PageSwipeTest {
             }
         }
 
-        // Simulate vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate vertical foldFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         val pageTags = listOf(R.string.page1_tag, R.string.page2_tag, R.string.page3_tag, R.string.page4_tag)
 

@@ -14,7 +14,7 @@ import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailCompos
 import com.microsoft.device.display.samples.listdetail.ui.view.DetailViewTopBar
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
 import com.microsoft.device.display.samples.listdetail.ui.view.ListViewTopBar
-import com.microsoft.device.dualscreen.testutils.getString
+import com.microsoft.device.dualscreen.testing.getString
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
