@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
 import android.content.res.Configuration
-import android.graphics.RectF
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope

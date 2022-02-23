@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.graphics.RectF
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize

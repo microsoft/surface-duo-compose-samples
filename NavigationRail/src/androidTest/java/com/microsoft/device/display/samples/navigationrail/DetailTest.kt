@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
-import android.graphics.RectF
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -28,6 +27,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.swipeDown
+import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider.plantList
@@ -197,7 +197,7 @@ class DetailTest {
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
                 foldIsOccluding = false,
-                foldBoundsDp = RectF(0f, 0f, 0f, 0f),
+                foldBoundsDp = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 0,
                 updateImageId = {},
@@ -216,7 +216,7 @@ class DetailTest {
                 isDualPortrait = false,
                 isDualLandscape = false,
                 foldIsOccluding = false,
-                foldBoundsDp = RectF(0f, 0f, 0f, 0f),
+                foldBoundsDp = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
                 currentRoute = "plants"
