@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.graphics.RectF
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -16,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
@@ -63,7 +63,7 @@ fun NavigationRailAppContent(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
     foldIsOccluding: Boolean,
-    foldBoundsDp: RectF,
+    foldBoundsDp: DpRect,
     windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
@@ -120,7 +120,7 @@ fun Pane2(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
     foldIsOccluding: Boolean,
-    foldBoundsDp: RectF,
+    foldBoundsDp: DpRect,
     windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,

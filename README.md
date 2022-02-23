@@ -8,7 +8,7 @@ products:
 description: "Samples showing how to use Jetpack Compose to achieve dual-screen user interface patterns."
 urlFragment: all
 ---
-![build-test-check](https://github.com/microsoft/surface-duo-compose-samples/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-samples/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.1-brightgreen)
 
 # Surface Duo Jetpack Compose Samples
 
@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.1.0`
+- Jetpack Compose version: `1.1.1`
 
 - Jetpack WindowManager version: `1.0.0`
 

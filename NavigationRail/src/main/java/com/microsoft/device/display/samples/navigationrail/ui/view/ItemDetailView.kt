@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.Image
@@ -42,7 +43,7 @@ fun ItemDetailView(
     isDualPortrait: Boolean,
     isDualLandscape: Boolean,
     foldIsOccluding: Boolean,
-    foldBoundsDp: RectF,
+    foldBoundsDp: DpRect,
     windowHeight: Dp,
     selectedImage: Image? = null,
     currentRoute: String,
