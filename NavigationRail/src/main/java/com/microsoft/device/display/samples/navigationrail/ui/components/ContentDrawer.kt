@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
-import android.graphics.RectF
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -37,11 +36,12 @@ import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.height
 import com.microsoft.device.display.samples.navigationrail.R
-import java.lang.IllegalArgumentException
 
-private const val CONTENT_HORIZ_PADDING_PERECENT = 0.06f
+private const val CONTENT_HORIZ_PADDING_PERCENT = 0.06f
 private val DrawerShape = RoundedCornerShape(
     topStart = 25.dp,
     topEnd = 25.dp,
@@ -85,7 +85,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
     expandedHeightPct: Float,
     collapsedHeightPct: Float,
     foldIsOccluding: Boolean = false,
-    foldBoundsDp: RectF = RectF(),
+    foldBoundsDp: DpRect,
     windowHeightDp: Dp = 0.dp,
     foldBottomPaddingDp: Dp = 0.dp,
     hiddenContent: @Composable ColumnScope.() -> Unit,
@@ -106,8 +106,8 @@ fun BoxWithConstraintsScope.ContentDrawer(
     // Calculate the height of each drawer component (top content, fold, bottom content) - dp
     val expandHeightDp = with(LocalDensity.current) { expandHeightPx.toDp() }
     val collapseHeightDp = with(LocalDensity.current) { collapseHeightPx.toDp() }
-    val foldSizeDp = foldBoundsDp.height().dp
-    val bottomContentMaxHeightDp = windowHeightDp - foldBoundsDp.bottom.dp
+    val foldSizeDp = foldBoundsDp.height
+    val bottomContentMaxHeightDp = windowHeightDp - foldBoundsDp.bottom
     val topContentMaxHeightDp: Dp = if (foldIsOccluding) {
         expandHeightDp - foldSizeDp - bottomContentMaxHeightDp
     } else {
@@ -142,7 +142,7 @@ fun BoxWithConstraintsScope.ContentDrawer(
             elevation = BottomSheetScaffoldDefaults.SheetElevation
         ) {
             // Calculate horizontal padding for drawer content
-            val paddingPx = CONTENT_HORIZ_PADDING_PERECENT * constraints.maxWidth.toFloat()
+            val paddingPx = CONTENT_HORIZ_PADDING_PERCENT * constraints.maxWidth.toFloat()
             val paddingDp = with(LocalDensity.current) { paddingPx.toDp() }
 
             val fillWidth = Modifier.fillMaxWidth()

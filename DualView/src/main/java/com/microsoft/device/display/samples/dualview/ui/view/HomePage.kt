@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
 fun DualViewApp(windowState: WindowState) {
     var selectedIndex by rememberSaveable { mutableStateOf(-1) }
     val updateSelectedIndex: (Int) -> Unit = { newIndex -> selectedIndex = newIndex }
-    val pane1SizeWidthDp = windowState.pane1SizeDp().width.dp
+    val pane1SizeWidthDp = windowState.pane1SizeDp.width
     val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
     val viewWidth = if (windowState.isDualScreen()) pane1SizeWidthDp else screenWidthDp
 
