@@ -17,7 +17,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
 import com.microsoft.device.display.samples.dualview.ui.view.MapTopBar
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantTopBar
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

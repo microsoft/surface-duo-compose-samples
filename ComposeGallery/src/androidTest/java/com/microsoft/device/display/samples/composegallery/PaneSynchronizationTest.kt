@@ -23,9 +23,9 @@ import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
-import com.microsoft.device.dualscreen.testing.getString
-import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
-import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

@@ -19,8 +19,8 @@ import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.view.DualViewApp
-import com.microsoft.device.dualscreen.testing.getString
-import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

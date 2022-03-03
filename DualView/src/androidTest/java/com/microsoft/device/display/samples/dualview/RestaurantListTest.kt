@@ -31,7 +31,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.ui.view.RestaurantListView
 import com.microsoft.device.display.samples.dualview.ui.view.TextStyleKey
 import com.microsoft.device.display.samples.dualview.ui.view.narrowWidth
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain

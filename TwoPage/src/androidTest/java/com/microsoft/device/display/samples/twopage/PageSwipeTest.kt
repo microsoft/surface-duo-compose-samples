@@ -15,13 +15,13 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
 import androidx.compose.ui.unit.dp
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
-import com.microsoft.device.dualscreen.testing.getString
-import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
-import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +30,7 @@ import org.junit.rules.TestRule
 
 class PageSwipeTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
-    private val publisherRule = WindowLayoutInfoPublisherRule()
+    private val publisherRule = createWindowLayoutInfoPublisherRule()
 
     @get: Rule
     val testRule: TestRule
