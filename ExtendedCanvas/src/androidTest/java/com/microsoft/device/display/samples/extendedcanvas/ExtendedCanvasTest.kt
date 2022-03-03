@@ -16,7 +16,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import com.microsoft.device.display.samples.extendedcanvas.ui.ExtendedCanvasAppsTheme
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import org.junit.Rule
 import org.junit.Test
 

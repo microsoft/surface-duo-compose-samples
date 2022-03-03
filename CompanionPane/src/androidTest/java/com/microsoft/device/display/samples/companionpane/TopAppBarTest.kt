@@ -12,7 +12,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import org.junit.Rule
 import org.junit.Test

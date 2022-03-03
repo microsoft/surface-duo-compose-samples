@@ -20,7 +20,7 @@ import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryThem
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
 import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test

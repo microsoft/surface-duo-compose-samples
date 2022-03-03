@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.utils.PageLayout
-import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.compose.getString
 import org.junit.Rule
 import org.junit.Test
 

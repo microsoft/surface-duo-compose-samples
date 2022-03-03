@@ -13,9 +13,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPaneAppTheme
-import com.microsoft.device.dualscreen.testing.getString
-import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
-import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
