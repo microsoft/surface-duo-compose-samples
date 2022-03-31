@@ -68,7 +68,7 @@ ext {
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = "1.0.0-beta01"
+    twoPaneLayoutVersion = "1.0.0-beta02"
     windowStateVersion = "1.0.0-alpha04"
     composeTestingVersion = "1.0.0-alpha03"
     microsoftDependencies = [
