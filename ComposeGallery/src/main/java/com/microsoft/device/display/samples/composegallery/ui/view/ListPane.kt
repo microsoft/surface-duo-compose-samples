@@ -55,7 +55,6 @@ fun ListPane(
     ) {
         GalleryList(
             models = models,
-            isDualMode = isDualMode,
             selectedImageIndex = selectedImageIndex,
             updateImageIndex = updateImageIndex,
         )
@@ -76,7 +75,6 @@ private fun ListActions() {
 @Composable
 private fun GalleryList(
     models: List<ImageModel>,
-    isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
 ) {
@@ -86,7 +84,7 @@ private fun GalleryList(
             .testTag(stringResource(R.string.gallery_list)),
     ) {
         itemsIndexed(models) { index, item ->
-            ListEntry(isDualMode, selectedImageIndex, updateImageIndex, index, item)
+            ListEntry(selectedImageIndex, updateImageIndex, index, item)
             Divider(color = MaterialTheme.colors.onSurface)
         }
     }
@@ -94,7 +92,6 @@ private fun GalleryList(
 
 @Composable
 fun ListEntry(
-    isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
     index: Int,
@@ -104,7 +101,10 @@ fun ListEntry(
         modifier = Modifier
             .selectable(
                 selected = (index == selectedImageIndex),
-                onClick = { openDetailPane(isDualMode, updateImageIndex, index) }
+                onClick = {
+                    updateImageIndex(index)
+                    navigateToPane2()
+                }
             )
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -119,18 +119,6 @@ fun ListEntry(
             ListEntryTitle(item.id)
             ListEntryDescription(item.description)
         }
-    }
-}
-
-private fun openDetailPane(
-    isDualMode: Boolean,
-    updateImageIndex: (Int) -> Unit,
-    index: Int
-) {
-    updateImageIndex(index)
-
-    if (!isDualMode) {
-        navigateToPane2()
     }
 }
 
