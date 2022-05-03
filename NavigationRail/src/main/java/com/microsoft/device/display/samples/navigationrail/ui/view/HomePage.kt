@@ -99,7 +99,6 @@ fun NavigationRailAppContent(
 }
 
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun Pane1(

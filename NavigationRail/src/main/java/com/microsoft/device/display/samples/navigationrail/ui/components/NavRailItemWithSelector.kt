@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @Composable
 fun ColumnScope.NavRailItemWithSelector(
     icon: @Composable () -> Unit,

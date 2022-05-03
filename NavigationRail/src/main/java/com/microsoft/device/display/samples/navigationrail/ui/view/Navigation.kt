@@ -12,7 +12,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -127,7 +126,6 @@ fun NavGraphBuilder.addGalleryGraph(
  * component (BottomNavigation or NavigationRail)
  */
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun ShowWithNav(
