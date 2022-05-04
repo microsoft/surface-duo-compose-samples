@@ -151,7 +151,7 @@ class RestaurantListTest {
         var selectedIndex by remember { mutableStateOf(-1) }
         val updateIndex = { newIndex: Int -> selectedIndex = newIndex }
 
-        RestaurantListView(viewWidth, selectedIndex, updateIndex, true)
+        RestaurantListView(viewWidth, selectedIndex, updateIndex)
     }
 
     /**
