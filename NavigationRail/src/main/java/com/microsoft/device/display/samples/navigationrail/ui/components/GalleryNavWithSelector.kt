@@ -9,7 +9,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.NavigationRail
@@ -32,7 +31,6 @@ import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySectio
 private val NAV_RAIL_TOP_SPACING = 32.dp
 
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @Composable
 fun GalleryNavRail(
     navController: NavHostController,
@@ -64,7 +62,6 @@ fun GalleryNavRail(
 }
 
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @Composable
 fun GalleryBottomNav(
     navController: NavHostController,

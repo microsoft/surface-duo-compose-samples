@@ -5,8 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery
 
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
@@ -37,7 +35,6 @@ class TopAppBarTest {
     private val selectedImageIndex = 0
     private val updateImageIndex = { _: Int -> }
     private val index = 0
-    private val lazyListState @Composable get() = rememberLazyListState()
 
     /**
      * Test that picture/detail icon is hidden in the list pane when the app is spanned
@@ -46,7 +43,7 @@ class TopAppBarTest {
     fun listPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, selectedImageIndex, updateImageIndex, lazyListState)
+                ListPane(models, true, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -62,7 +59,7 @@ class TopAppBarTest {
     fun listPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, selectedImageIndex, updateImageIndex, lazyListState)
+                ListPane(models, false, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -110,7 +107,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, selectedImageIndex, updateImageIndex, lazyListState)
+                ListPane(models, false, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -127,7 +124,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, selectedImageIndex, updateImageIndex, lazyListState)
+                ListPane(models, true, selectedImageIndex, updateImageIndex)
             }
         }
 

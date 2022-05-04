@@ -40,10 +40,10 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
 
 @Composable
-fun ListViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
         topBar = { ListViewTopBar() },
-        content = { ListView(isDualScreen, selectedIndex, updateSelectedIndex) }
+        content = { ListView(selectedIndex, updateSelectedIndex) }
     )
 }
 
@@ -63,7 +63,7 @@ fun ListViewTopBar() {
 }
 
 @Composable
-fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     val subImageList = images.chunked(3)
 
     Box(
@@ -101,9 +101,7 @@ fun ListView(isDualScreen: Boolean, selectedIndex: Int, updateSelectedIndex: (In
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
                                             updateSelectedIndex(listIndex)
-                                            if (!isDualScreen) {
-                                                navigateToPane2()
-                                            }
+                                            navigateToPane2()
                                         }
                                     )
                             )

@@ -70,7 +70,7 @@ fun RestaurantViewWithTopBar(
     Scaffold(
         topBar = { RestaurantTopBar(isDualScreen) }
     ) {
-        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex, isDualScreen)
+        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 
@@ -104,7 +104,7 @@ private fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit, isDualScreen: Boolean) {
+fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -113,7 +113,7 @@ fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int
             text = stringResource(R.string.list_title),
             style = typography.subtitle1
         )
-        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex, isDualScreen)
+        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 
@@ -121,8 +121,7 @@ fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int
 fun RestaurantListView(
     viewWidth: Int,
     selectedIndex: Int,
-    updateSelectedIndex: (Int) -> Unit,
-    isDualScreen: Boolean
+    updateSelectedIndex: (Int) -> Unit
 ) {
     // Note: not using WindowSizeClass because we are checking for very narrow window widths, not just
     // the compact size class
@@ -142,8 +141,7 @@ fun RestaurantListView(
                     selected = isSelected,
                     onClick = {
                         updateSelectedIndex(index)
-                        if (!isDualScreen)
-                            navigateToPane2()
+                        navigateToPane2()
                     }
                 )
             )

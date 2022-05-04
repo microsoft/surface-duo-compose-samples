@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -49,7 +48,6 @@ fun GalleryView(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(count = NUM_COLUMNS),
-        state = rememberLazyListState(),
         verticalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.Top),
         horizontalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.CenterHorizontally),
         contentPadding = PaddingValues(

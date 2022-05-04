@@ -5,8 +5,6 @@
 
 package com.microsoft.device.display.samples.composegallery.ui.view
 
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -38,11 +36,10 @@ fun ComposeGalleryApp(windowState: WindowState) {
     val models = DataProvider.imageModels
 
     // Remember app state variables
-    val lazyListState = rememberLazyListState()
     var selectedImageIndex by rememberSaveable { mutableStateOf(0) }
     val updateImageIndex: (Int) -> Unit = { index -> selectedImageIndex = index }
 
-    ComposeGalleryAppContent(models, isDualMode, selectedImageIndex, updateImageIndex, lazyListState)
+    ComposeGalleryAppContent(models, isDualMode, selectedImageIndex, updateImageIndex)
 }
 
 @Composable
@@ -51,11 +48,10 @@ fun ComposeGalleryAppContent(
     isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
-    lazyListState: LazyListState
 ) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { ListPane(models, isDualMode, selectedImageIndex, updateImageIndex, lazyListState) },
+        pane1 = { ListPane(models, isDualMode, selectedImageIndex, updateImageIndex) },
         pane2 = { DetailPane(models, isDualMode, selectedImageIndex) }
     )
 }

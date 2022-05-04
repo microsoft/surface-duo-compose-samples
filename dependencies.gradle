@@ -31,7 +31,7 @@ ext {
     // Compose dependencies
     composeVersion = "1.1.1"
     activityComposeVersion = "1.4.0"
-    navigationComposeVersion = '2.4.0'
+    navigationComposeVersion = '2.4.2'
     composeDependencies = [
             composeAnimation        : "androidx.compose.animation:animation:$composeVersion",
             composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
@@ -68,7 +68,7 @@ ext {
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = "1.0.0-beta01"
+    twoPaneLayoutVersion = "1.0.0-beta05"
     windowStateVersion = "1.0.0-alpha04"
     composeTestingVersion = "1.0.0-alpha03"
     microsoftDependencies = [

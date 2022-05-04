@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Divider
@@ -45,7 +44,6 @@ fun ListPane(
     isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
-    lazyListState: LazyListState,
 ) {
     Scaffold(
         topBar = {
@@ -57,10 +55,8 @@ fun ListPane(
     ) {
         GalleryList(
             models = models,
-            isDualMode = isDualMode,
             selectedImageIndex = selectedImageIndex,
             updateImageIndex = updateImageIndex,
-            lazyListState = lazyListState,
         )
     }
 }
@@ -79,19 +75,16 @@ private fun ListActions() {
 @Composable
 private fun GalleryList(
     models: List<ImageModel>,
-    isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
-    lazyListState: LazyListState,
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .testTag(stringResource(R.string.gallery_list)),
-        state = lazyListState,
     ) {
         itemsIndexed(models) { index, item ->
-            ListEntry(isDualMode, selectedImageIndex, updateImageIndex, index, item)
+            ListEntry(selectedImageIndex, updateImageIndex, index, item)
             Divider(color = MaterialTheme.colors.onSurface)
         }
     }
@@ -99,7 +92,6 @@ private fun GalleryList(
 
 @Composable
 fun ListEntry(
-    isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
     index: Int,
@@ -109,7 +101,10 @@ fun ListEntry(
         modifier = Modifier
             .selectable(
                 selected = (index == selectedImageIndex),
-                onClick = { openDetailPane(isDualMode, updateImageIndex, index) }
+                onClick = {
+                    updateImageIndex(index)
+                    navigateToPane2()
+                }
             )
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -124,18 +119,6 @@ fun ListEntry(
             ListEntryTitle(item.id)
             ListEntryDescription(item.description)
         }
-    }
-}
-
-private fun openDetailPane(
-    isDualMode: Boolean,
-    updateImageIndex: (Int) -> Unit,
-    index: Int
-) {
-    updateImageIndex(index)
-
-    if (!isDualMode) {
-        navigateToPane2()
     }
 }
 
