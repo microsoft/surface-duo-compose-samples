@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 @Composable
-fun DetailPane(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
+fun TwoPaneScope.DetailPane(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int) {
     Scaffold(
         topBar = {
             ComposeGalleryTopAppBar(
@@ -43,7 +43,7 @@ fun DetailPane(models: List<ImageModel>, isDualMode: Boolean, selectedIndex: Int
 }
 
 @Composable
-private fun DetailActions() {
+private fun TwoPaneScope.DetailActions() {
     IconButton(onClick = { navigateToPane1() }) {
         Icon(
             painter = painterResource(R.drawable.ic_baseline_view_list_24),

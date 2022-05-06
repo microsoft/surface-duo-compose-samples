@@ -29,9 +29,6 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun ComposeGalleryApp(windowState: WindowState) {
-    // Check if app should be in dual mode
-    val isDualMode = windowState.isDualPortrait()
-
     // Get relevant image data for the panes
     val models = DataProvider.imageModels
 
@@ -39,20 +36,19 @@ fun ComposeGalleryApp(windowState: WindowState) {
     var selectedImageIndex by rememberSaveable { mutableStateOf(0) }
     val updateImageIndex: (Int) -> Unit = { index -> selectedImageIndex = index }
 
-    ComposeGalleryAppContent(models, isDualMode, selectedImageIndex, updateImageIndex)
+    ComposeGalleryAppContent(models, selectedImageIndex, updateImageIndex)
 }
 
 @Composable
 fun ComposeGalleryAppContent(
     models: List<ImageModel>,
-    isDualMode: Boolean,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
 ) {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = { ListPane(models, isDualMode, selectedImageIndex, updateImageIndex) },
-        pane2 = { DetailPane(models, isDualMode, selectedImageIndex) }
+        pane1 = { ListPane(models, !isSinglePane, selectedImageIndex, updateImageIndex) },
+        pane2 = { DetailPane(models, !isSinglePane, selectedImageIndex) }
     )
 }
 

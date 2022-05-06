@@ -41,7 +41,7 @@ fun DualViewAppContent(
     updateSelectedIndex: (Int) -> Unit,
 ) {
     TwoPaneLayout(
-        pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, updateSelectedIndex) },
+        pane1 = { RestaurantViewWithTopBar(viewWidth, selectedIndex, updateSelectedIndex) },
         pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex) }
     )
 }
