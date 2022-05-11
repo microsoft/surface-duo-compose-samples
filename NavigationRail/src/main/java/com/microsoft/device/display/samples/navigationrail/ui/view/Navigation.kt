@@ -10,31 +10,38 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.models.Image
-import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryBottomNav
-import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryNavRail
-import com.microsoft.device.display.samples.navigationrail.ui.components.GalleryTopBar
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
-
-// Dp values for UI design
-private val GALLERY_HORIZ_PADDING = 16.dp
+import com.microsoft.device.dualscreen.twopanelayout.Destination
 
 // Nav destinations for app
 val navDestinations = GallerySections.values()
+const val ITEM_DETAIL_ROUTE = "item detail"
+
+val defaultNavOptions: NavOptionsBuilder.() -> Unit = {
+    launchSingleTop = true
+    restoreState = true
+}
+
+private val GALLERY_HORIZ_PADDING = 16.dp
+
+const val NAV_TAG = "Navigation debugging"
+internal fun logBackQueue(navController: NavHostController, tag: String = NAV_TAG) {
+    Log.d(
+        tag,
+        "back queue (${navController.backQueue.size}) " +
+            navController.backQueue.map { it.destination.route }.joinToString(", ")
+    )
+}
 
 enum class GallerySections(
     @StringRes val title: Int,
@@ -96,98 +103,100 @@ enum class GallerySections(
     )
 }
 
-/**
- * Build nav graph with the different galleries as destinations
- */
-@ExperimentalFoundationApi
-fun NavGraphBuilder.addGalleryGraph(
-    currentImageId: Int?,
-    onImageSelected: (Int) -> Unit,
-    horizontalPadding: Dp
-) {
-    navDestinations.forEach { section ->
-        composable(section.route) {
-            Scaffold(
-                topBar = { GalleryTopBar(section.route, horizontalPadding) }
-            ) {
-                GalleryView(
-                    galleryList = section.list,
-                    currentImageId = currentImageId,
-                    onImageSelected = { id -> onImageSelected(id) },
-                    horizontalPadding = horizontalPadding,
-                )
-            }
-        }
-    }
-}
-
-/**
- * Show the NavHost with the gallery composables, surrounded by a top bar and the appropriate nav
- * component (BottomNavigation or NavigationRail)
- */
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun ShowWithNav(
+@ExperimentalMaterialApi
+@ExperimentalUnitApi
+fun appDestinations(
     isDualScreen: Boolean,
+    navController: NavHostController,
+    imageId: Int?,
+    updateImageId: (Int?) -> Unit,
+    currentRoute: String,
+    updateRoute: (String) -> Unit,
     isDualPortrait: Boolean,
+    isDualLandscape: Boolean,
+    foldIsOccluding: Boolean,
+    foldBoundsDp: DpRect,
+    windowHeight: Dp,
+): Array<Destination> {
+    return galleryDestinations(
+        isDualScreen = isDualScreen,
+        navController = navController,
+        imageId = imageId,
+        updateImageId = updateImageId,
+        currentRoute = currentRoute,
+        updateRoute = updateRoute
+    ).plus(
+        itemDetailDestination(
+            isDualPortrait = isDualPortrait,
+            isDualLandscape = isDualLandscape,
+            foldIsOccluding = foldIsOccluding,
+            foldBoundsDp = foldBoundsDp,
+            windowHeight = windowHeight,
+            imageId = imageId,
+            updateImageId = updateImageId,
+            currentRoute = currentRoute,
+            navController = navController
+        )
+    )
+}
+
+@ExperimentalAnimationApi
+@ExperimentalFoundationApi
+@Composable
+fun galleryDestinations(
+    isDualScreen: Boolean,
+    navController: NavHostController,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
     currentRoute: String,
     updateRoute: (String) -> Unit
-) {
-    val navController = rememberNavController()
+): Array<Destination> {
+    val horizontalPadding = GALLERY_HORIZ_PADDING
 
-    // Use navigation rail when dual screen (more space), otherwise use bottom navigation
-    Scaffold(
-        bottomBar = {
-            if (!isDualScreen)
-                GalleryBottomNav(navController, navDestinations, updateImageId, updateRoute)
-        },
-    ) { paddingValues ->
-        Row(Modifier.padding(paddingValues)) {
-            if (isDualScreen)
-                GalleryNavRail(navController, navDestinations, updateImageId, updateRoute)
-            NavHost(
-                modifier = Modifier.onGloballyPositioned {
-                    // Once layouts have been positioned, check that nav controller is at correct
-                    // current route. If not, try to navigate to the current route (unless nav
-                    // graph hasn't been created yet).
-                    if (navController.currentDestination?.route != currentRoute) {
-                        try {
-                            navController.navigate(currentRoute)
-                        } catch (e: NullPointerException) {
-                            // Nav graph may be null if this is the first run through
-                            Log.i(
-                                "Navigation Rail Sample",
-                                "Caught the following exception: ${e.message}"
-                            )
-                        }
-                    }
-                },
+    return navDestinations.map { section ->
+        Destination(route = section.route) {
+            GalleryViewWithTopBar(
+                section = section,
+                horizontalPadding = horizontalPadding,
                 navController = navController,
-                startDestination = currentRoute,
-            ) {
-                addGalleryGraph(
-                    currentImageId = imageId,
-                    onImageSelected = { id -> onImageSelected(id, updateImageId, isDualPortrait) },
-                    horizontalPadding = GALLERY_HORIZ_PADDING
-                )
-            }
+                isDualScreen = isDualScreen,
+                imageId = imageId,
+                updateImageId = updateImageId,
+                currentRoute = currentRoute,
+                updateRoute = updateRoute
+            )
         }
-    }
+    }.toTypedArray()
 }
 
-/**
- * When an image in a gallery is selected, update the id of the currently selected image and
- * show the detail view of the item
- */
-private fun onImageSelected(id: Int, updateImageId: (Int?) -> Unit, isDualPortrait: Boolean) {
-    // Update image id
-    updateImageId(id)
-
-    // Navigate to ItemDetailView (pane 2) if not showing two panes
-    if (!isDualPortrait) {
-        navigateToPane2()
+@ExperimentalMaterialApi
+@ExperimentalUnitApi
+@Composable
+fun itemDetailDestination(
+    isDualPortrait: Boolean,
+    isDualLandscape: Boolean,
+    foldIsOccluding: Boolean,
+    foldBoundsDp: DpRect,
+    windowHeight: Dp,
+    imageId: Int?,
+    updateImageId: (Int?) -> Unit,
+    currentRoute: String,
+    navController: NavHostController
+): Destination {
+    return Destination(ITEM_DETAIL_ROUTE) {
+        ItemDetailViewWithTopBar(
+            isDualPortrait = isDualPortrait,
+            isDualLandscape = isDualLandscape,
+            foldIsOccluding = foldIsOccluding,
+            foldBoundsDp = foldBoundsDp,
+            windowHeight = windowHeight,
+            imageId = imageId,
+            updateImageId = updateImageId,
+            currentRoute = currentRoute,
+            navController = navController
+        )
     }
 }
