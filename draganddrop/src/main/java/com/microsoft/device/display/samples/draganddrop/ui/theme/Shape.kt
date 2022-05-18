@@ -1,4 +1,4 @@
-package com.microsoft.device.display.draganddrop.ui.theme
+package com.microsoft.device.display.samples.draganddrop.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

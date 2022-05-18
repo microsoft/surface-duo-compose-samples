@@ -21,11 +21,11 @@ import androidx.compose.ui.layout.onGloballyPositioned
 @Composable
 fun <T> DropTarget(
     modifier: Modifier,
-    content: @Composable() (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
+    content: @Composable (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
 ) {
-    val dragInfo = LocalDragTargetInfo.current
-    val dragPosition = dragInfo.dragPosition
-    val dragOffset = dragInfo.dragOffset
+    val dragState = LocalDragTargetState.current
+    val dragPosition = dragState.dragPosition
+    val dragOffset = dragState.dragOffset
     var isCurrentDropTarget by remember {
         mutableStateOf(false)
     }
@@ -36,7 +36,7 @@ fun <T> DropTarget(
         }
     }) {
         val data =
-            if (isCurrentDropTarget && !dragInfo.isDragging) dragInfo.dataToDrop as T? else null
+            if (isCurrentDropTarget && !dragState.isDragging) dragState.dragData as T? else null
         content(isCurrentDropTarget, data)
     }
 }

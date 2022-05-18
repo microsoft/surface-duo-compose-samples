@@ -1,4 +1,4 @@
-package com.microsoft.device.display.draganddrop.ui.theme
+package com.microsoft.device.display.samples.draganddrop.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
