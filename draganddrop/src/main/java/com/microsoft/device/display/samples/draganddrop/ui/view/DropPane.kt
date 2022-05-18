@@ -27,20 +27,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.draganddrop.R
-import com.microsoft.device.display.samples.draganddrop.ui.theme.darkGray
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
 import com.microsoft.device.display.samples.draganddrop.utils.DropContainer
+import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
 @Composable
 fun DropPane() {
-    var textData = remember {
-        mutableStateOf<String>("")
+    var dragText = remember() {
+        mutableStateOf<String?>(null)
+    }
+    var dragImage = remember() {
+        mutableStateOf<Painter?>(null)
     }
 
     Scaffold(
@@ -48,29 +50,29 @@ fun DropPane() {
             TopAppBar(backgroundColor = colors.primary) {}
         }
     ) {
-        DropContainer<String>(
+        DropContainer(
             modifier = Modifier.fillMaxSize()
-        ) { isDropping, data ->
-            data?.let {
-                textData.value = data
+        ) { dragData ->
+            dragData?.let {
+                if (dragData.type == MimeType.TEXT_PLAIN) dragText.value = dragData.data as String
+                if (dragData.type == MimeType.IMAGE_JPEG) dragImage.value = dragData.data as Painter
             }
-
-            DropPaneContent(textData.value)
+            DropPaneContent(dragText.value, dragImage.value)
         }
     }
 }
 
 @Composable
-fun DropPaneContent(text: String) {
+fun DropPaneContent(dragText: String?, dragImage: Painter?) {
     Row {
-        DropImageBox()
+        DropImageBox(dragImage)
         Spacer(modifier = Modifier.width(10.dp))
-        DropTextBox(text)
+        DropTextBox(dragText)
     }
 }
 
 @Composable
-fun RowScope.DropImageBox() {
+fun RowScope.DropImageBox(dragImage: Painter?) {
     Box(modifier = Modifier
         .weight(1f)
         .fillMaxSize()
@@ -78,21 +80,33 @@ fun RowScope.DropImageBox() {
         .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column {
+        if (dragImage != null) {
             Image(
-                painter = painterResource(id = R.drawable.drag_and_drop_ic_photo_black),
-                contentDescription = stringResource(R.string.image_contentDescription)
+                painter = dragImage,
+                contentDescription = null
             )
-            Text(
-                text = stringResource(R.string.drag_image_text),
-                style = typography.caption
-            )
+        } else {
+            DropImagePlaceholder()
         }
     }
 }
 
 @Composable
-fun RowScope.DropTextBox(text: String) {
+fun DropImagePlaceholder() {
+    Column {
+        Image(
+            painter = painterResource(id = R.drawable.drag_and_drop_ic_photo_black),
+            contentDescription = stringResource(R.string.image_contentDescription)
+        )
+        Text(
+            text = stringResource(R.string.drag_image_text),
+            style = typography.caption
+        )
+    }
+}
+
+@Composable
+fun RowScope.DropTextBox(text: String?) {
     Box(modifier = Modifier
         .weight(1f)
         .fillMaxSize()
@@ -100,7 +114,7 @@ fun RowScope.DropTextBox(text: String) {
         .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (text.isNotEmpty()) {
+        if (text != null) {
             Text(text = text,
                 style = typography.body1
             )

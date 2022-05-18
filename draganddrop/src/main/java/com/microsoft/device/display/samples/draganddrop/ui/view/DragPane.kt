@@ -34,7 +34,9 @@ import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.draganddrop.R
 import com.microsoft.device.display.samples.draganddrop.ui.theme.darkGray
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
+import com.microsoft.device.display.samples.draganddrop.utils.DragData
 import com.microsoft.device.display.samples.draganddrop.utils.DragTarget
+import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
 @Composable
 fun DragPane() {
@@ -65,41 +67,47 @@ fun DragPaneContent() {
             .fillMaxSize()
             .background(lightGray)
     ) {
-        val dragText = stringResource(R.string.drag_and_drop_plain_text)
         DragImageBox()
         Spacer(modifier = Modifier.width(30.dp))
-        DragTextBox(dragText)
+        DragTextBox()
     }
 }
 
 @Composable
 fun RowScope.DragImageBox() {
+    val dragImage = painterResource(id = R.drawable.drag_and_drop_image)
+    val dragData = DragData(type = MimeType.IMAGE_JPEG, data = dragImage)
+
     Box(modifier = Modifier
         .weight(1f)
         .fillMaxHeight()
         .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.drag_and_drop_image),
-            contentDescription = stringResource(R.string.image_contentDescription),
-            modifier = Modifier
-                .fillMaxHeight()
-        )
+        DragTarget(dragData = dragData) {
+            Image(
+                painter = dragImage,
+                contentDescription = stringResource(R.string.image_contentDescription),
+                modifier = Modifier.fillMaxHeight()
+            )
+        }
     }
 }
 
 @Composable
-fun RowScope.DragTextBox(text: String) {
+fun RowScope.DragTextBox() {
+    val dragText = stringResource(R.string.drag_and_drop_plain_text)
+    val dragData = DragData(type = MimeType.TEXT_PLAIN, data = dragText)
+
     Box(modifier = Modifier
         .weight(1f)
         .fillMaxHeight()
         .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        DragTarget(dragData = text) {
+        DragTarget(dragData = dragData) {
             Text(
-                text = text,
+                text = dragText,
                 style = typography.body1
             )
         }

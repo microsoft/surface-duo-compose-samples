@@ -31,14 +31,14 @@ internal class DragState {
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
     var draggableContent by mutableStateOf<(@Composable () -> Unit)?>(null)
-    var dragData by mutableStateOf<Any?>(null)
+    var dragData by mutableStateOf<DragData?>(null)
 }
 
 internal val LocalDragTargetState = compositionLocalOf { DragState() }
 
 @Composable
-fun <T> DragTarget(
-    dragData: T,
+fun DragTarget(
+    dragData: DragData,
     content: @Composable (() -> Unit)
 ) {
     var currentPosition by remember { mutableStateOf(Offset.Zero) }

@@ -19,9 +19,9 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 
 @Composable
-fun <T> DropContainer(
+fun DropContainer(
     modifier: Modifier,
-    content: @Composable (BoxScope.(isDropping: Boolean, data: T?) -> Unit)
+    content: @Composable (BoxScope.(data: DragData?) -> Unit)
 ) {
     val dragState = LocalDragTargetState.current
     val dragPosition = dragState.dragPosition
@@ -35,7 +35,7 @@ fun <T> DropContainer(
             isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
         }
     }) {
-        val dragData = if (isCurrentDropTarget && !dragState.isDragging) dragState.dragData as? T else null
-        content(isCurrentDropTarget, dragData)
+        val dragData = if (isCurrentDropTarget && !dragState.isDragging) dragState.dragData else null
+        content(dragData)
     }
 }
