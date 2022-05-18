@@ -38,14 +38,13 @@ internal val LocalDragTargetState = compositionLocalOf { DragState() }
 
 @Composable
 fun <T> DragTarget(
-    modifier: Modifier,
     dragData: T,
     content: @Composable (() -> Unit)
 ) {
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
     val currentState = LocalDragTargetState.current
 
-    Box(modifier = modifier
+    Box(modifier = Modifier
         .onGloballyPositioned {
             currentPosition = it.localToWindow(Offset.Zero)
         }
@@ -71,7 +70,7 @@ fun <T> DragTarget(
 }
 
 @Composable
-fun DraggableContainer(
+fun DragContainer(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -91,9 +90,7 @@ fun DraggableContainer(
                 Box(modifier = Modifier
                     .graphicsLayer {
                         val offset = (state.dragPosition + state.dragOffset)
-                        scaleX = 1.3f
-                        scaleY = 1.3f
-                        alpha = if (targetSize == IntSize.Zero) 0f else .9f
+                        alpha = if (targetSize == IntSize.Zero) 0f else .7f
                         translationX = offset.x.minus(targetSize.width / 2)
                         translationY = offset.y.minus(targetSize.height / 2)
                     }
