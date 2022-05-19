@@ -34,7 +34,7 @@ internal class DragState {
     var dragData by mutableStateOf<DragData?>(null)
 }
 
-internal val LocalDragTargetState = compositionLocalOf { DragState() }
+internal val LocalDragState = compositionLocalOf { DragState() }
 
 @Composable
 fun DragTarget(
@@ -42,29 +42,36 @@ fun DragTarget(
     content: @Composable (() -> Unit)
 ) {
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
-    val currentState = LocalDragTargetState.current
+    val currentState = LocalDragState.current
 
-    Box(modifier = Modifier
-        .onGloballyPositioned {
-            currentPosition = it.localToWindow(Offset.Zero)
-        }
-        .pointerInput(Unit) {
-            detectDragGesturesAfterLongPress(onDragStart = {
-                currentState.isDragging = true
-                currentState.dragPosition = currentPosition + it
-                currentState.draggableContent = content
-                currentState.dragData = dragData
-            }, onDrag = { change, dragAmount ->
-                change.consumeAllChanges()
-                currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
-            }, onDragEnd = {
-                currentState.isDragging = false
-                currentState.dragOffset = Offset.Zero
-            }, onDragCancel = {
-                currentState.isDragging = false
-                currentState.dragOffset = Offset.Zero
-            })
-        }) {
+    Box(
+        modifier = Modifier
+            .onGloballyPositioned {
+                currentPosition = it.localToWindow(Offset.Zero)
+            }
+            .pointerInput(Unit) {
+                detectDragGesturesAfterLongPress(
+                    onDragStart = {
+                        currentState.dragData = dragData
+                        currentState.isDragging = true
+                        currentState.dragPosition = currentPosition + it
+                        currentState.draggableContent = content
+                    },
+                    onDrag = { change, dragAmount ->
+                        change.consumeAllChanges()
+                        currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
+                    },
+                    onDragEnd = {
+                        currentState.isDragging = false
+                        currentState.dragOffset = Offset.Zero
+                    },
+                    onDragCancel = {
+                        currentState.dragOffset = Offset.Zero
+                        currentState.isDragging = false
+                    }
+                )
+            }
+    ) {
         content()
     }
 }
@@ -76,7 +83,7 @@ fun DragContainer(
 ) {
     val state = remember { DragState() }
     CompositionLocalProvider(
-        LocalDragTargetState provides state
+        LocalDragState provides state
     ) {
         Box(
             modifier = modifier.fillMaxSize()
@@ -88,16 +95,17 @@ fun DragContainer(
                     mutableStateOf(IntSize.Zero)
                 }
                 // create drag shadow
-                Box(modifier = Modifier
-                    .graphicsLayer {
-                        val offset = (state.dragPosition + state.dragOffset)
-                        alpha = if (targetSize == IntSize.Zero) 0f else .7f
-                        translationX = offset.x.minus(targetSize.width / 2)
-                        translationY = offset.y.minus(targetSize.height / 2)
-                    }
-                    .onGloballyPositioned {
-                        targetSize = it.size
-                    }
+                Box(
+                    modifier = Modifier
+                        .graphicsLayer {
+                            val offset = (state.dragPosition + state.dragOffset)
+                            alpha = if (targetSize == IntSize.Zero) 0f else .6f
+                            translationX = offset.x.minus(targetSize.width / 2)
+                            translationY = offset.y.minus(targetSize.height / 2)
+                        }
+                        .onGloballyPositioned {
+                            targetSize = it.size
+                        }
                 ) {
                     state.draggableContent?.invoke()
                 }

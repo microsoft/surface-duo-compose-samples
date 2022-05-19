@@ -23,18 +23,20 @@ fun DropContainer(
     modifier: Modifier,
     content: @Composable (BoxScope.(data: DragData?) -> Unit)
 ) {
-    val dragState = LocalDragTargetState.current
+    val dragState = LocalDragState.current
     val dragPosition = dragState.dragPosition
     val dragOffset = dragState.dragOffset
     var isCurrentDropTarget by remember {
         mutableStateOf(false)
     }
 
-    Box(modifier = modifier.onGloballyPositioned {
-        it.boundsInWindow().let { rect ->
-            isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
+    Box(
+        modifier = modifier.onGloballyPositioned {
+            it.boundsInWindow().let { rect ->
+                isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
+            }
         }
-    }) {
+    ) {
         val dragData = if (isCurrentDropTarget && !dragState.isDragging) dragState.dragData else null
         content(dragData)
     }

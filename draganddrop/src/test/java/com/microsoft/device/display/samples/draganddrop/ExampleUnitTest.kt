@@ -1,4 +1,4 @@
-package com.microsoft.device.display.draganddrop
+package com.microsoft.device.display.samples.draganddrop
 
 import org.junit.Test
 

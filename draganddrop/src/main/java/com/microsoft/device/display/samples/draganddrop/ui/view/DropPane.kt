@@ -73,11 +73,12 @@ fun DropPaneContent(dragText: String?, dragImage: Painter?) {
 
 @Composable
 fun RowScope.DropImageBox(dragImage: Painter?) {
-    Box(modifier = Modifier
-        .weight(1f)
-        .fillMaxSize()
-        .background(lightGray)
-        .padding(20.dp),
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxSize()
+            .background(lightGray)
+            .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
         if (dragImage != null) {
@@ -107,15 +108,17 @@ fun DropImagePlaceholder() {
 
 @Composable
 fun RowScope.DropTextBox(text: String?) {
-    Box(modifier = Modifier
-        .weight(1f)
-        .fillMaxSize()
-        .background(lightGray)
-        .padding(20.dp),
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxSize()
+            .background(lightGray)
+            .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
         if (text != null) {
-            Text(text = text,
+            Text(
+                text = text,
                 style = typography.body1
             )
         } else {
