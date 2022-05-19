@@ -18,20 +18,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.draganddrop.R
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
 import com.microsoft.device.display.samples.draganddrop.utils.DragData
@@ -39,21 +34,10 @@ import com.microsoft.device.display.samples.draganddrop.utils.DragTarget
 import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
 @Composable
-fun DragPane() {
+fun DragPaneWithTopBar() {
     Scaffold(
         topBar = {
-            TopAppBar(
-                backgroundColor = MaterialTheme.colors.primary,
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    )
-                }
-            )
+            TopBarWithTitle()
         }
     ) {
         DragPaneContent()
@@ -61,9 +45,14 @@ fun DragPane() {
 }
 
 @Composable
-fun DragPaneContent() {
+fun DragPane(modifier: Modifier) {
+    DragPaneContent(modifier)
+}
+
+@Composable
+fun DragPaneContent(modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(lightGray)
     ) {

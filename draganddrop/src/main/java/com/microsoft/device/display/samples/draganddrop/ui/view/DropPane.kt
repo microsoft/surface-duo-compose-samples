@@ -37,7 +37,18 @@ import com.microsoft.device.display.samples.draganddrop.utils.DropContainer
 import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
 @Composable
-fun DropPane() {
+fun DropPaneWithTopBar() {
+    Scaffold(
+        topBar = {
+            TopAppBar(backgroundColor = colors.primary) {}
+        }
+    ) {
+        DropPane()
+    }
+}
+
+@Composable
+fun DropPane(modifier: Modifier = Modifier) {
     var dragText = remember() {
         mutableStateOf<String?>(null)
     }
@@ -45,20 +56,14 @@ fun DropPane() {
         mutableStateOf<Painter?>(null)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(backgroundColor = colors.primary) {}
+    DropContainer(
+        modifier = modifier.fillMaxSize()
+    ) { dragData ->
+        dragData?.let {
+            if (dragData.type == MimeType.TEXT_PLAIN) dragText.value = dragData.data as String
+            if (dragData.type == MimeType.IMAGE_JPEG) dragImage.value = dragData.data as Painter
         }
-    ) {
-        DropContainer(
-            modifier = Modifier.fillMaxSize()
-        ) { dragData ->
-            dragData?.let {
-                if (dragData.type == MimeType.TEXT_PLAIN) dragText.value = dragData.data as String
-                if (dragData.type == MimeType.IMAGE_JPEG) dragImage.value = dragData.data as Painter
-            }
-            DropPaneContent(dragText.value, dragImage.value)
-        }
+        DropPaneContent(dragText.value, dragImage.value)
     }
 }
 
