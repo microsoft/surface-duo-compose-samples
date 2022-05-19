@@ -6,4 +6,3 @@ val mainBlue = Color(0xFF0085FF)
 val lightGray = Color(0xFFEDEDED)
 val mediumGray = Color(0xFFB1B1B1)
 val darkGray = Color(0xFF757575)
-//<color name="colorAccent">#D81B60</color>

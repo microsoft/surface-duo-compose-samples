@@ -82,6 +82,7 @@ fun DragContainer(
             modifier = modifier.fillMaxSize()
         ) {
             content()
+
             if (state.isDragging) {
                 var targetSize by remember {
                     mutableStateOf(IntSize.Zero)
