@@ -23,8 +23,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -37,33 +35,40 @@ import com.microsoft.device.display.samples.draganddrop.utils.DropContainer
 import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
 @Composable
-fun DropPaneWithTopBar() {
+fun DropPaneWithTopBar(
+    dragText: String?,
+    updateDragText: (String?) -> Unit,
+    dragImage: Painter?,
+    updateDragImage: (Painter?) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = colors.primary) {}
+        },
+        floatingActionButton = {
+            ResetFloatingActionButton(updateDragText, updateDragImage)
         }
     ) {
-        DropPane()
+        DropPane(dragText, updateDragText, dragImage, updateDragImage)
     }
 }
 
 @Composable
-fun DropPane(modifier: Modifier = Modifier) {
-    var dragText = remember() {
-        mutableStateOf<String?>(null)
-    }
-    var dragImage = remember() {
-        mutableStateOf<Painter?>(null)
-    }
-
+fun DropPane(
+    dragText: String?,
+    updateDragText: (String?) -> Unit,
+    dragImage: Painter?,
+    updateDragImage: (Painter?) -> Unit,
+    modifier: Modifier = Modifier
+) {
     DropContainer(
         modifier = modifier.fillMaxSize()
     ) { dragData ->
         dragData?.let {
-            if (dragData.type == MimeType.TEXT_PLAIN) dragText.value = dragData.data as String
-            if (dragData.type == MimeType.IMAGE_JPEG) dragImage.value = dragData.data as Painter
+            if (dragData.type == MimeType.TEXT_PLAIN) updateDragText(dragData.data as String)
+            if (dragData.type == MimeType.IMAGE_JPEG) updateDragImage(dragData.data as Painter)
         }
-        DropPaneContent(dragText.value, dragImage.value)
+        DropPaneContent(dragText, dragImage)
     }
 }
 
