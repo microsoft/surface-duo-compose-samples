@@ -23,6 +23,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -31,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.draganddrop.R
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
+import com.microsoft.device.display.samples.draganddrop.ui.theme.mediumGray
 import com.microsoft.device.display.samples.draganddrop.utils.DropContainer
 import com.microsoft.device.display.samples.draganddrop.utils.MimeType
 
@@ -61,33 +66,55 @@ fun DropPane(
     updateDragImage: (Painter?) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isDroppingText by remember { mutableStateOf(false) }
+    var isDroppingImage by remember { mutableStateOf(false) }
+    var isDroppingItem by remember { mutableStateOf(false) }
+
     DropContainer(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        onDrag = { inBounds, isDragging ->
+            if (!inBounds || !isDragging) {
+                isDroppingText = false
+                isDroppingImage = false
+            }
+            isDroppingItem = isDragging
+        },
     ) { dragData ->
         dragData?.let {
-            if (dragData.type == MimeType.TEXT_PLAIN) updateDragText(dragData.data as String)
-            if (dragData.type == MimeType.IMAGE_JPEG) updateDragImage(dragData.data as Painter)
+            if (dragData.type == MimeType.TEXT_PLAIN) {
+                isDroppingText = isDroppingItem
+                if (!isDroppingItem) {
+                    updateDragText(dragData.data as String)
+                }
+            }
+            if (dragData.type == MimeType.IMAGE_JPEG) {
+                isDroppingImage = isDroppingItem
+                if (!isDroppingItem) {
+                    updateDragImage(dragData.data as Painter)
+                }
+            }
         }
-        DropPaneContent(dragText, dragImage)
+        DropPaneContent(dragText, isDroppingText, dragImage, isDroppingImage)
     }
 }
 
 @Composable
-fun DropPaneContent(dragText: String?, dragImage: Painter?) {
+fun DropPaneContent(dragText: String?, isDroppingText: Boolean, dragImage: Painter?, isDroppingImage: Boolean) {
     Row {
-        DropImageBox(dragImage)
+        DropImageBox(dragImage, isDroppingImage)
         Spacer(modifier = Modifier.width(10.dp))
-        DropTextBox(dragText)
+        DropTextBox(dragText, isDroppingText)
     }
 }
 
 @Composable
-fun RowScope.DropImageBox(dragImage: Painter?) {
+fun RowScope.DropImageBox(dragImage: Painter?, isDroppingImage: Boolean) {
+    val boxColor = if (isDroppingImage) mediumGray else lightGray
     Box(
         modifier = Modifier
             .weight(1f)
             .fillMaxSize()
-            .background(lightGray)
+            .background(boxColor)
             .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -117,12 +144,13 @@ fun DropImagePlaceholder() {
 }
 
 @Composable
-fun RowScope.DropTextBox(text: String?) {
+fun RowScope.DropTextBox(text: String?, isDroppingText: Boolean) {
+    val boxColor = if (isDroppingText) mediumGray else lightGray
     Box(
         modifier = Modifier
             .weight(1f)
             .fillMaxSize()
-            .background(lightGray)
+            .background(boxColor)
             .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {

@@ -21,23 +21,23 @@ import androidx.compose.ui.layout.onGloballyPositioned
 @Composable
 fun DropContainer(
     modifier: Modifier,
+    onDrag: (inBounds: Boolean, isDragging: Boolean) -> Unit,
     content: @Composable (BoxScope.(data: DragData?) -> Unit)
 ) {
     val dragState = LocalDragState.current
     val dragPosition = dragState.dragPosition
     val dragOffset = dragState.dragOffset
-    var isCurrentDropTarget by remember {
-        mutableStateOf(false)
-    }
+    var inBounds by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier.onGloballyPositioned {
             it.boundsInWindow().let { rect ->
-                isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
+                inBounds = rect.contains(dragPosition + dragOffset)
             }
         }
     ) {
-        val dragData = if (isCurrentDropTarget && !dragState.isDragging) dragState.dragData else null
+        val dragData = if (inBounds) dragState.dragData else null
+        onDrag(inBounds, dragState.isDragging)
         content(dragData)
     }
 }

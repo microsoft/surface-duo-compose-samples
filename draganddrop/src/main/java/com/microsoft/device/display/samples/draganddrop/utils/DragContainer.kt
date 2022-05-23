@@ -94,7 +94,6 @@ fun DragContainer(
                 var targetSize by remember {
                     mutableStateOf(IntSize.Zero)
                 }
-                // create drag shadow
                 Box(
                     modifier = Modifier
                         .graphicsLayer {

@@ -7,7 +7,6 @@
 
 package com.microsoft.device.display.samples.draganddrop.ui.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
