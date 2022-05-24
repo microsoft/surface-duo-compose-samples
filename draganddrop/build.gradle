@@ -52,8 +52,7 @@ dependencies {
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
 
-    implementation microsoftDependencies.twoPaneLayout
-    implementation microsoftDependencies.windowState
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha01"
 
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules

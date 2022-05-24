@@ -78,6 +78,7 @@ fun RowScope.DragImageBox() {
             Image(
                 painter = dragImage,
                 contentDescription = stringResource(R.string.image_contentDescription),
+                // to get a fix frame of the shadow
                 modifier = Modifier.size(width = 300.dp, height = 120.dp)
             )
         }
@@ -100,6 +101,7 @@ fun RowScope.DragTextBox() {
             Text(
                 text = dragText,
                 style = typography.body1,
+                // to get a fix frame of the shadow
                 modifier = Modifier.size(width = 250.dp, height = 300.dp)
             )
         }
