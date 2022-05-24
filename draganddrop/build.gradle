@@ -17,13 +17,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
     buildFeatures {
         compose true
     }
@@ -52,7 +45,7 @@ dependencies {
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
 
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha01"
+    implementation microsoftDependencies.twoPaneLayout
 
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules

@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -71,7 +72,9 @@ fun DropPane(
     var isDroppingItem by remember { mutableStateOf(false) }
 
     DropContainer(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag(stringResource(R.string.drop_pane)),
         onDrag = { inBounds, isDragging ->
             if (!inBounds || !isDragging) {
                 isDroppingText = false

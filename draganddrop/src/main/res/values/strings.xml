@@ -5,4 +5,8 @@
     <string name="drag_image_text">Drag image here</string>
     <string name="drag_text_text">Drag text here</string>
     <string name="icon_contentDescription">Floating_icon</string>
+
+    <string name="drag_pane">Drag pane</string>
+    <string name="drop_pane">Drop pane</string>
+    <string name="reset_button">Reset button</string>
 </resources>
