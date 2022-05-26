@@ -15,6 +15,7 @@ import com.microsoft.device.display.samples.listdetail.ui.view.DetailViewTopBar
 import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
 import com.microsoft.device.display.samples.listdetail.ui.view.ListViewTopBar
 import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -46,7 +47,7 @@ class TopAppBarTest {
     fun detailBar_buttonHiddenInDualScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                DetailViewTopBar(isDualScreen = true)
+                TwoPaneScopeTest().DetailViewTopBar(isDualScreen = true)
             }
         }
 
@@ -63,7 +64,7 @@ class TopAppBarTest {
     fun detailBar_buttonShowsInSingleScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                DetailViewTopBar(isDualScreen = false)
+                TwoPaneScopeTest().DetailViewTopBar(isDualScreen = false)
             }
         }
 

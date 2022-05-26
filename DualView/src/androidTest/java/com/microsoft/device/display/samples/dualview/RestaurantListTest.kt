@@ -32,6 +32,7 @@ import com.microsoft.device.display.samples.dualview.ui.view.RestaurantListView
 import com.microsoft.device.display.samples.dualview.ui.view.TextStyleKey
 import com.microsoft.device.display.samples.dualview.ui.view.narrowWidth
 import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -151,7 +152,7 @@ class RestaurantListTest {
         var selectedIndex by remember { mutableStateOf(-1) }
         val updateIndex = { newIndex: Int -> selectedIndex = newIndex }
 
-        RestaurantListView(viewWidth, selectedIndex, updateIndex)
+        TwoPaneScopeTest().RestaurantListView(viewWidth, selectedIndex, updateIndex)
     }
 
     /**

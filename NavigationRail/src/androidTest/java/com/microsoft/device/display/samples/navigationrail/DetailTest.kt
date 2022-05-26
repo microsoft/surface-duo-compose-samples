@@ -30,14 +30,16 @@ import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider.plantList
 import com.microsoft.device.display.samples.navigationrail.ui.components.DrawerState
 import com.microsoft.device.display.samples.navigationrail.ui.components.DrawerStateKey
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.ItemDetailView
+import com.microsoft.device.display.samples.navigationrail.ui.view.ItemDetailViewWithTopBar
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
-import com.microsoft.device.display.samples.navigationrail.ui.view.Pane2
 import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeTest
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -193,7 +195,7 @@ class DetailTest {
     @Composable
     private fun Pane2Plants(isDualPortrait: Boolean, isDualLandscape: Boolean) {
         NavigationRailAppTheme {
-            Pane2(
+            TwoPaneNavScopeTest().ItemDetailViewWithTopBar(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
                 foldIsOccluding = false,
@@ -201,7 +203,8 @@ class DetailTest {
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 0,
                 updateImageId = {},
-                currentRoute = "plants"
+                currentRoute = "plants",
+                navController = rememberNavController()
             )
         }
     }
@@ -212,14 +215,15 @@ class DetailTest {
     @Composable
     private fun DetailViewForFirstPlant() {
         NavigationRailAppTheme {
-            ItemDetailView(
+            TwoPaneNavScopeTest().ItemDetailView(
                 isDualPortrait = false,
                 isDualLandscape = false,
                 foldIsOccluding = false,
                 foldBoundsDp = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
-                currentRoute = "plants"
+                currentRoute = "plants",
+                navController = rememberNavController()
             )
         }
     }
