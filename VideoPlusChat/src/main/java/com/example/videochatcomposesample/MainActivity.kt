@@ -16,7 +16,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
-//TODO Animate Using Constraint Layouts
+// TODO Animate Using Constraint Layouts
 
 /*
 Levi O. Notes:
@@ -26,7 +26,6 @@ I have tried to work with shifting focuses as you can see a small example in the
 I implemented it. I believe a better way to do this is to embed the app's composable into views and use constraint layouts and a global keyboard listener,
 however I believe this would take away from the idea of creating a pure compose application and thus I have not done it.
  */
-
 
 class MainActivity : ComponentActivity() {
 
@@ -45,8 +44,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     MainPage(windowState = windowState, player = player)
                 }
-
-
             }
         }
     }
@@ -82,8 +79,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-data class ChatMessage(val author:String, val message: String, val color: Color)
-
-
-
+data class ChatMessage(val author: String, val message: String, val color: Color)

@@ -1,20 +1,41 @@
 package com.example.videochatcomposesample.ui.views
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalElevationOverlay
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.*
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -25,7 +46,7 @@ import com.example.videochatcomposesample.models.ChatModel
 var chatModel: ChatModel = ChatModel()
 
 @Composable
-fun ChatPage(focusManager: FocusManager){
+fun ChatPage(focusManager: FocusManager) {
     Scaffold(
         topBar = { ChatTitle() },
         content = { Chat() },
@@ -34,28 +55,28 @@ fun ChatPage(focusManager: FocusManager){
 }
 
 @Composable
-fun Chat(){
+fun Chat() {
 
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(0.85f)
-                .fillMaxWidth()
-                .background(MaterialTheme.colors.secondary)
-        ){
-            ChatList()
-        }
-
+    Box(
+        modifier = Modifier
+            .fillMaxHeight(0.85f)
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.secondary)
+    ) {
+        ChatList()
+    }
 }
 
 @Composable
-fun ChatTitle(){
+fun ChatTitle() {
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(40.dp)){
-        Text("STREAM CHAT",modifier=Modifier.align(Alignment.Center), color=MaterialTheme.colors.onBackground)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+    ) {
+        Text("STREAM CHAT", modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colors.onBackground)
     }
-
 }
 
 @Composable
@@ -64,7 +85,6 @@ fun ChatInputBar(focusManager: FocusManager) {
     var text by remember { mutableStateOf("") }
     fun closeKeyBoard() {
         focusManager.clearFocus()
-
     }
 
     CompositionLocalProvider(LocalElevationOverlay provides null) {
@@ -84,7 +104,7 @@ fun ChatInputBar(focusManager: FocusManager) {
                             modifier = Modifier
                                 .clickable
                                 {
-                                    //TODO Handle Chat Sending here
+                                    // TODO Handle Chat Sending here
                                     closeKeyBoard()
                                 },
                             tint = MaterialTheme.colors.onBackground
@@ -107,7 +127,7 @@ fun ChatInputBar(focusManager: FocusManager) {
                         .align(Alignment.Center)
                         .clip(RoundedCornerShape(10.dp))
                         .background(MaterialTheme.colors.primaryVariant)
-                        //.focusOrder(ourPane) { next = otherPane }
+                        // .focusOrder(ourPane) { next = otherPane }
                         .fillMaxWidth(0.95f),
                     textStyle = TextStyle(
                         color = MaterialTheme.colors.onBackground,
@@ -118,9 +138,9 @@ fun ChatInputBar(focusManager: FocusManager) {
                     ),
                     keyboardActions = KeyboardActions(
                         onAny = {
-                            //focusManager.moveFocus(FocusDirection.Next)
+                            // focusManager.moveFocus(FocusDirection.Next)
                             closeKeyBoard()
-                             }
+                        }
                     ),
                 )
             }
@@ -128,42 +148,37 @@ fun ChatInputBar(focusManager: FocusManager) {
     }
 }
 
-
-
 @Composable
-fun ChatList(){
+fun ChatList() {
     LazyColumn(
         modifier = Modifier.padding(all = 10.dp)
     ) {
         items(chatModel.chatHistory) { chat ->
-            Column(){
+            Column() {
                 IndividualChatMessage(chat = chat)
                 Spacer(modifier = Modifier.size(10.dp))
             }
-
         }
     }
-
 }
 
-
 @Composable
-fun IndividualChatMessage(chat: ChatMessage){
+fun IndividualChatMessage(chat: ChatMessage) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
 
-    ){
+    ) {
         Text(
             chat.author + ":",
-            color=chat.color,
+            color = chat.color,
             fontSize = 15.sp,
             modifier = Modifier.align(Alignment.Top)
         )
         Spacer(modifier = Modifier.size(5.dp))
         Text(
             chat.message,
-            color= MaterialTheme.colors.onBackground,
+            color = MaterialTheme.colors.onBackground,
             fontSize = 15.sp
         )
     }

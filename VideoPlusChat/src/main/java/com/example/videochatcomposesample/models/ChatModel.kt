@@ -1,6 +1,5 @@
 package com.example.videochatcomposesample.models
 
-
 import androidx.compose.ui.graphics.Color
 import com.example.videochatcomposesample.ChatMessage
 
@@ -37,6 +36,4 @@ class ChatModel {
         ),
 
     )
-
-
 }

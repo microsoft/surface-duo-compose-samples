@@ -61,7 +61,7 @@ dependencies {
     androidTestImplementation testDependencies.androidxTestRunner
     androidTestImplementation testDependencies.espressoCore
     androidTestImplementation testDependencies.composeUITest
-    androidTestImplementation testDependencies.composeJunit
+    testImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.uiAutomator
     androidTestImplementation microsoftDependencies.composeTesting
 

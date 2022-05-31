@@ -18,7 +18,6 @@ private val DarkColorPalette = darkColors(
     onBackground = Color.White,
     onSurface = Color.White,
 
-
 )
 
 private val LightColorPalette = lightColors(
@@ -39,7 +38,7 @@ fun VideoChatComposeSampleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
- val colors = //if (darkTheme) {
+    val colors = // if (darkTheme) {
         DarkColorPalette
 //    } else {
 //        LightColorPalette
