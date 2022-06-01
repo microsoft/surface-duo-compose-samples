@@ -46,16 +46,16 @@ import kotlin.math.roundToInt
 private const val nonSelection = -1
 
 @Composable
-fun TwoPaneScope.MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
+fun TwoPaneScope.MapViewWithTopBar(selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar(isDualScreen) }
+        topBar = { MapTopBar() }
     ) {
         MapView(selectedIndex)
     }
 }
 
 @Composable
-fun TwoPaneScope.MapTopBar(isDualScreen: Boolean) {
+fun TwoPaneScope.MapTopBar() {
     val twoPaneScope = this
 
     TopAppBar(

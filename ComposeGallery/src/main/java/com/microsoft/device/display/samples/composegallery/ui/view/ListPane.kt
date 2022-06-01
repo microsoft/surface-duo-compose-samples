@@ -41,14 +41,13 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 @Composable
 fun TwoPaneScope.ListPane(
     models: List<ImageModel>,
-    isDualMode: Boolean,
     selectedImageIndex: Int,
-    updateImageIndex: (Int) -> Unit,
+    updateImageIndex: (Int) -> Unit
 ) {
     Scaffold(
         topBar = {
             ComposeGalleryTopAppBar(
-                actions = { if (!isDualMode) ListActions() },
+                actions = { if (isSinglePane) ListActions() },
                 title = stringResource(R.string.app_name),
             )
         }
