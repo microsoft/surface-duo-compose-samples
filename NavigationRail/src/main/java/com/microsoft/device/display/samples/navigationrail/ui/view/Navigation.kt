@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -33,15 +32,6 @@ val defaultNavOptions: NavOptionsBuilder.() -> Unit = {
 }
 
 private val GALLERY_HORIZ_PADDING = 16.dp
-
-const val NAV_TAG = "Navigation debugging"
-internal fun logBackQueue(navController: NavHostController, tag: String = NAV_TAG) {
-    Log.d(
-        tag,
-        "back queue (${navController.backQueue.size}) " +
-            navController.backQueue.map { it.destination.route }.joinToString(", ")
-    )
-}
 
 enum class GallerySections(
     @StringRes val title: Int,

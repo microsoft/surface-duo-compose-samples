@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,7 +23,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
-import com.microsoft.device.display.samples.navigationrail.ui.view.NAV_TAG
 import com.microsoft.device.display.samples.navigationrail.ui.view.defaultNavOptions
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
@@ -136,7 +134,6 @@ private fun TwoPaneNavScope.navItemOnClick(
 ) {
     // Navigate to new destination
     navController.navigateTo(navItem, Screen.Pane1, defaultNavOptions)
-    Log.d(NAV_TAG, "navItemOnClick -> navigating to $navItem")
 
     // Update current route to new destination
     updateRoute(navItem)

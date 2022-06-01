@@ -48,7 +48,6 @@ fun TwoPaneNavScope.ItemDetailViewWithTopBar(
     val onBackPressed = {
         updateImageId(null)
         navController.navigateUp()
-        logBackQueue(navController)
     }
     BackHandler(enabled = isSinglePane) { onBackPressed() }
 

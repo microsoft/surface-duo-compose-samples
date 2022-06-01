@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,6 +26,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -67,10 +69,15 @@ fun TwoPaneNavScope.GalleryViewWithTopBar(
         onDispose { }
     }
 
-    BackHandler(enabled = isSinglePane && navController.backQueue.size > 2) {
+    val activity = (LocalContext.current as? Activity)
+    BackHandler(enabled = isSinglePane) {
+        // Update gallery route to previous back stack entry and navigate up
         navController.previousBackStackEntry?.destination?.route?.let { updateRoute(it) }
-        navController.navigateUp()
-        logBackQueue(navController)
+        val success = navController.navigateUp()
+
+        // If navigate up fails, we're at the start destination of the graph, so exit the activity
+        if (!success)
+            activity?.finish()
     }
 
     val twoPaneNavScope = this
