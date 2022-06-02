@@ -3,6 +3,7 @@ package com.example.videochatcomposesample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,14 +19,14 @@ import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 // TODO Animate Using Constraint Layouts
 
-/*
+/**
 Levi O. Notes:
 Currently the keyboard toggle is not the best when it comes to the vertical fold dual alignment (it is meant to go from video on top and chat on bottom
 to a single pane row with chat and video alongside and keyboard on bottom).
 I have tried to work with shifting focuses as you can see a small example in the MainPage.kt at the bottom, but this does not work, at least with how
 I implemented it. I believe a better way to do this is to embed the app's composable into views and use constraint layouts and a global keyboard listener,
 however I believe this would take away from the idea of creating a pure compose application and thus I have not done it.
- */
+*/
 
 class MainActivity : ComponentActivity() {
 
@@ -79,4 +80,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-data class ChatMessage(val author: String, val message: String, val color: Color)
+data class ChatMessage(@StringRes val author: Int, @StringRes val message: Int, val color: Color)

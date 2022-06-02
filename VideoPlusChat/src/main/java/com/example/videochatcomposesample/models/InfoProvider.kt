@@ -13,12 +13,6 @@ class InfoProvider {
 
     var isFullScreen: Boolean by (mutableStateOf(paneMode == TwoPaneMode.VerticalSingle))
 
-    val isKeyboardOpen
-        @Composable get() = keyboardAsState()
-
-    val keyBoardToggle
-        @Composable get() = isKeyboardOpen.value === Keyboard.Opened
-
     fun updatePaneMode(newPaneMode: TwoPaneMode) = run {
         paneMode = newPaneMode
         isFullScreen = (paneMode == TwoPaneMode.VerticalSingle)

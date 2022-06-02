@@ -1,22 +1,21 @@
 package com.example.videochatcomposesample.ui.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.videochatcomposesample.R
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 @Composable
@@ -32,28 +31,39 @@ fun VideoPage(player: ExoPlayer) {
     }
 }
 
+
+
 @Composable
 fun FullscreenButton(modifier: Modifier) {
-    Button(
-        modifier = modifier, colors = ButtonDefaults.buttonColors(MaterialTheme.colors.background),
-        onClick = {
-            if (infoProvider.isFullScreen) infoProvider.updatePaneMode(TwoPaneMode.TwoPane) else infoProvider.updatePaneMode(TwoPaneMode.VerticalSingle)
-        }
-    ) {
-        if (infoProvider.isFullScreen) Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Full") else Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "Min")
-    }
+    fun onClick() = if (infoProvider.isFullScreen) infoProvider.updatePaneMode(TwoPaneMode.TwoPane) else infoProvider.updatePaneMode(TwoPaneMode.VerticalSingle)
+
+    if (infoProvider.isFullScreen) Icon(
+        tint = MaterialTheme.colors.onBackground,
+        painter = painterResource(id = R.drawable.exitfullscreen),
+        contentDescription = stringResource(
+        id = R.string.contentFull),
+        modifier = modifier.clickable(onClick = { onClick() })
+
+    ) else Icon(
+        tint = MaterialTheme.colors.onBackground,
+        painter = painterResource(id = R.drawable.fullscreen),
+        contentDescription = stringResource(
+        id = R.string.contentMin),
+        modifier = modifier.clickable(onClick = { onClick() })
+    )
 }
 
 @Composable
 fun Video(modifier: Modifier, player: ExoPlayer) {
-    Box(modifier = modifier) { // Fetching the Local Context
         val context = LocalContext.current
-        val playerView = PlayerView(context)
+        val playerView = StyledPlayerView(context)
         playerView.player = player
+        playerView.setShowPreviousButton(false)
+        playerView.setShowNextButton(false)
         AndroidView(
+            modifier = modifier,
             factory = {
                 playerView
             }
         )
-    }
 }

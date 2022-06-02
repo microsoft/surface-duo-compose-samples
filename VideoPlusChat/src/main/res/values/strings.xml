@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">VideoChatComposeSample</string>
+    <string name="chat_text_1">HHelloooo WORLLLDdddddd</string>
+    <string name="chat_text_2">This movie reminds me of Sonic 2</string>
+    <string name="chat_text_3">It\'s morbin time</string>
+    <string name="chat_text_4">this rabbit is not very nice</string>
+    <string name="chat_text_5">kan i have some popcorn</string>
+    <string name="chat_text_6">bye bye</string>
+    <string name="chat_text_7">DOWNLOAD MORE RAM HERE: h11ps://installmoreramforfree.com</string>
+    <string name="chat_text_8">this is my official 12th time watching this</string>
+    <string name="chat_text_9">chicken wing chicken wing</string>
+    <string name="chat_text_10">hotdogs and bologna</string>
+
+    <string name="auth1">lunchluver26</string>
+    <string name="auth2">mikeJFox</string>
+    <string name="auth3">MorbiusIs100</string>
+    <string name="auth4">loldoodad</string>
+    <string name="auth5">mr8popcorn</string>
+    <string name="auth6">FREERAM</string>
+    <string name="auth7">hansolo</string>
+
+    <string name="contentFull">Full</string>
+    <string name="contentMin">Min</string>
 </resources>

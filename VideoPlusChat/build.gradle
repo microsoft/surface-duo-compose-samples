@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.example.videochatcomposesample"
-        minSdk 23
-        targetSdk 32
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
 

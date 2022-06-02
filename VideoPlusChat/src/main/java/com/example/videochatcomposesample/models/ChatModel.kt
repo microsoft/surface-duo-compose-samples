@@ -2,38 +2,24 @@ package com.example.videochatcomposesample.models
 
 import androidx.compose.ui.graphics.Color
 import com.example.videochatcomposesample.ChatMessage
+import com.example.videochatcomposesample.R
+
 
 class ChatModel {
 
-    val chatHistory = listOf<ChatMessage>(
+    val chatHistory = listOf(
 
-        ChatMessage(
-            "LolforDoodad", "HHelloooo WORLLLDdddddd", Color.Green
-        ),
-        ChatMessage(
-            "hoiiii", "Goodbye", Color.Blue
-        ),
-        ChatMessage(
-            "bellweather", "We are ready to watch da movie", Color.Cyan
-        ),
-        ChatMessage(
-            "wigwag", "Movie time!", Color.Yellow
-        ),
-        ChatMessage(
-            "dinodancer22", "When is this gonna start?", Color.Cyan
-        ),
-        ChatMessage(
-            "redrobinbun", "ive got popcorn", Color.Green
-        ),
-        ChatMessage(
-            "cattidudE", "was i supposed to watch the last one?!!?!", Color.Cyan
-        ),
-        ChatMessage(
-            "SmoothCriminal89", "Sign up for our free 20 day trial here: hllps://freedancelessions.com ", Color.Red
-        ),
-        ChatMessage(
-            "LolforDoodad", "I wanna go ged lunch", Color.Green
-        ),
+        ChatMessage(R.string.auth1, R.string.chat_text_1, Color.Red),
+        ChatMessage(R.string.auth2, R.string.chat_text_2, Color.Green),
+        ChatMessage(R.string.auth3, R.string.chat_text_3, Color.Cyan),
+        ChatMessage(R.string.auth4, R.string.chat_text_4, Color.Blue),
+        ChatMessage(R.string.auth5, R.string.chat_text_5, Color.Magenta),
+        ChatMessage(R.string.auth1, R.string.chat_text_6, Color.Red),
+        ChatMessage(R.string.auth6, R.string.chat_text_7, Color.Yellow),
+        ChatMessage(R.string.auth3, R.string.chat_text_8, Color.Cyan),
+        ChatMessage(R.string.auth7, R.string.chat_text_9, Color.LightGray),
+        ChatMessage(R.string.auth7, R.string.chat_text_10, Color.LightGray)
+
 
     )
 }

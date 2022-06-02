@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -49,14 +50,14 @@ var chatModel: ChatModel = ChatModel()
 fun ChatPage(focusManager: FocusManager) {
     Scaffold(
         topBar = { ChatTitle() },
-        content = { Chat() },
         bottomBar = { ChatInputBar(focusManager = focusManager) }
-    )
+    ) {
+        Chat()
+    }
 }
 
 @Composable
 fun Chat() {
-
     Box(
         modifier = Modifier
             .fillMaxHeight(0.85f)
@@ -69,7 +70,6 @@ fun Chat() {
 
 @Composable
 fun ChatTitle() {
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,7 +81,6 @@ fun ChatTitle() {
 
 @Composable
 fun ChatInputBar(focusManager: FocusManager) {
-
     var text by remember { mutableStateOf("") }
     fun closeKeyBoard() {
         focusManager.clearFocus()
@@ -127,7 +126,6 @@ fun ChatInputBar(focusManager: FocusManager) {
                         .align(Alignment.Center)
                         .clip(RoundedCornerShape(10.dp))
                         .background(MaterialTheme.colors.primaryVariant)
-                        // .focusOrder(ourPane) { next = otherPane }
                         .fillMaxWidth(0.95f),
                     textStyle = TextStyle(
                         color = MaterialTheme.colors.onBackground,
@@ -138,7 +136,6 @@ fun ChatInputBar(focusManager: FocusManager) {
                     ),
                     keyboardActions = KeyboardActions(
                         onAny = {
-                            // focusManager.moveFocus(FocusDirection.Next)
                             closeKeyBoard()
                         }
                     ),
@@ -170,14 +167,14 @@ fun IndividualChatMessage(chat: ChatMessage) {
 
     ) {
         Text(
-            chat.author + ":",
+            stringResource(id = chat.author) + ":",
             color = chat.color,
             fontSize = 15.sp,
             modifier = Modifier.align(Alignment.Top)
         )
         Spacer(modifier = Modifier.size(5.dp))
         Text(
-            chat.message,
+            stringResource(id = chat.message),
             color = MaterialTheme.colors.onBackground,
             fontSize = 15.sp
         )

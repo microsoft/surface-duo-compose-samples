@@ -21,8 +21,8 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
 
     // very strange bug with Exoplayer and Windowstate so I have to define them here or else the player will not show
     // Most likely due to the fact that it does not recompose this main page
-    var dual = (windowState.isDualScreen())
-    var horizontal = windowState.isSingleLandscape()
+    val dual = windowState.isDualScreen()
+    val horizontal = windowState.isSingleLandscape()
 
     val focusManager = LocalFocusManager.current
     TwoPaneLayout(
@@ -31,42 +31,22 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
             if (infoProvider.isFullScreen) {
                 VideoPage(player = player)
             } else {
-                if (dual) {
-                    VideoPage(player = player)
-                } else {
-                    if (horizontal) {
-                        RowView(focusManager = focusManager, player = player)
-                    } else {
-                        ColumnView(focusManager = focusManager, player = player)
-                    }
+                when {
+                    dual -> VideoPage(player = player)
+                    horizontal -> RowView(focusManager = focusManager, player = player)
+                    else -> ColumnView(focusManager = focusManager, player = player)
                 }
             }
         },
         pane2 = {
             ChatPage(focusManager = focusManager)
         }
-
     )
 }
 
-// Focus shift example
-
-// @Composable
-// fun TF(focusManager: FocusManager, ourPane: FocusRequester, otherPane: FocusRequester){
-//    var text by remember { mutableStateOf("") }
-//    TextField(value = text, onValueChange = {text= it },  keyboardOptions = KeyboardOptions(
-//        imeAction = ImeAction.Done,
-//    ),
-//        keyboardActions = KeyboardActions(
-//            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-//        ),
-//        modifier = Modifier.focusOrder(ourPane) { next = otherPane }
-//    )
-// }
-
 @Composable
 fun ColumnView(focusManager: FocusManager, player: ExoPlayer) {
-    Column() {
+    Column{
         Box(modifier = Modifier.fillMaxHeight(0.45f)) {
             VideoPage(player = player)
         }
@@ -79,7 +59,7 @@ fun ColumnView(focusManager: FocusManager, player: ExoPlayer) {
 
 @Composable
 fun RowView(focusManager: FocusManager, player: ExoPlayer) {
-    Row() {
+    Row{
         Box(modifier = Modifier.fillMaxWidth(0.65f)) {
             VideoPage(player = player)
         }
