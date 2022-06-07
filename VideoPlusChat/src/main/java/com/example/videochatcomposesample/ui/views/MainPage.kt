@@ -46,7 +46,7 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
 
 @Composable
 fun ColumnView(focusManager: FocusManager, player: ExoPlayer) {
-    Column{
+    Column {
         Box(modifier = Modifier.fillMaxHeight(0.45f)) {
             VideoPage(player = player)
         }
@@ -59,7 +59,7 @@ fun ColumnView(focusManager: FocusManager, player: ExoPlayer) {
 
 @Composable
 fun RowView(focusManager: FocusManager, player: ExoPlayer) {
-    Row{
+    Row {
         Box(modifier = Modifier.fillMaxWidth(0.65f)) {
             VideoPage(player = player)
         }

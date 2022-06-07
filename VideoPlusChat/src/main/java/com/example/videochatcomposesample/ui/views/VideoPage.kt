@@ -1,12 +1,12 @@
 package com.example.videochatcomposesample.ui.views
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +22,6 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 fun VideoPage(player: ExoPlayer) {
     Box(
         modifier = Modifier
-            .background(MaterialTheme.colors.background)
             .fillMaxSize()
 
     ) {
@@ -30,8 +29,6 @@ fun VideoPage(player: ExoPlayer) {
         FullscreenButton(modifier = Modifier.align(Alignment.TopEnd))
     }
 }
-
-
 
 @Composable
 fun FullscreenButton(modifier: Modifier) {
@@ -41,29 +38,36 @@ fun FullscreenButton(modifier: Modifier) {
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.exitfullscreen),
         contentDescription = stringResource(
-        id = R.string.contentFull),
+            id = R.string.contentFull
+        ),
         modifier = modifier.clickable(onClick = { onClick() })
 
     ) else Icon(
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.fullscreen),
         contentDescription = stringResource(
-        id = R.string.contentMin),
+            id = R.string.contentMin
+        ),
         modifier = modifier.clickable(onClick = { onClick() })
     )
 }
 
 @Composable
 fun Video(modifier: Modifier, player: ExoPlayer) {
-        val context = LocalContext.current
-        val playerView = StyledPlayerView(context)
-        playerView.player = player
-        playerView.setShowPreviousButton(false)
-        playerView.setShowNextButton(false)
-        AndroidView(
-            modifier = modifier,
-            factory = {
-                playerView
-            }
-        )
+    DisposableEffect(true) {
+        onDispose {
+            player.pause()
+        }
+    }
+    val context = LocalContext.current
+    val playerView = StyledPlayerView(context)
+    playerView.player = player
+    playerView.setShowPreviousButton(false)
+    playerView.setShowNextButton(false)
+    AndroidView(
+        modifier = modifier,
+        factory = {
+            playerView
+        }
+    )
 }

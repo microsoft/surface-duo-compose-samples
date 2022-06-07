@@ -39,6 +39,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.videochatcomposesample.ChatMessage
@@ -52,31 +53,26 @@ fun ChatPage(focusManager: FocusManager) {
         topBar = { ChatTitle() },
         bottomBar = { ChatInputBar(focusManager = focusManager) }
     ) {
-        Chat()
-    }
-}
-
-@Composable
-fun Chat() {
-    Box(
-        modifier = Modifier
-            .fillMaxHeight(0.85f)
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.secondary)
-    ) {
-        ChatList()
+        ChatList(
+            modifier = Modifier
+                .fillMaxHeight(0.85f)
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondary)
+        )
     }
 }
 
 @Composable
 fun ChatTitle() {
-    Box(
+    Text(
+        "STREAM CHAT",
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
-    ) {
-        Text("STREAM CHAT", modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colors.onBackground)
-    }
+            .padding(10.dp)
+            .height(20.dp),
+        color = MaterialTheme.colors.onBackground,
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable
@@ -92,7 +88,6 @@ fun ChatInputBar(focusManager: FocusManager) {
                 modifier = Modifier
                     .fillMaxHeight(0.8f)
                     .fillMaxWidth()
-                    .background(MaterialTheme.colors.background)
                     .align(Alignment.CenterVertically)
             ) {
                 TextField(
@@ -146,9 +141,9 @@ fun ChatInputBar(focusManager: FocusManager) {
 }
 
 @Composable
-fun ChatList() {
+fun ChatList(modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = Modifier.padding(all = 10.dp)
+        modifier = modifier.padding(all = 10.dp)
     ) {
         items(chatModel.chatHistory) { chat ->
             Column() {

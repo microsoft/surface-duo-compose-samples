@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import com.example.videochatcomposesample.ChatMessage
 import com.example.videochatcomposesample.R
 
-
 class ChatModel {
 
     val chatHistory = listOf(
@@ -19,7 +18,6 @@ class ChatModel {
         ChatMessage(R.string.auth3, R.string.chat_text_8, Color.Cyan),
         ChatMessage(R.string.auth7, R.string.chat_text_9, Color.LightGray),
         ChatMessage(R.string.auth7, R.string.chat_text_10, Color.LightGray)
-
 
     )
 }
