@@ -52,7 +52,7 @@ import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody2
 import com.microsoft.device.display.samples.dualview.ui.theme.typography
 import com.microsoft.device.display.samples.dualview.utils.formatPriceRange
 import com.microsoft.device.display.samples.dualview.utils.formatRating
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 const val outlinePadding = 25
 const val narrowWidth = 1100
@@ -61,24 +61,25 @@ val TextStyleKey = SemanticsPropertyKey<TextStyle>("TextStyleKey")
 var SemanticsPropertyReceiver.textStyle by TextStyleKey
 
 @Composable
-fun RestaurantViewWithTopBar(
-    isDualScreen: Boolean,
+fun TwoPaneScope.RestaurantViewWithTopBar(
     viewWidth: Int,
     selectedIndex: Int,
     updateSelectedIndex: (Int) -> Unit
 ) {
     Scaffold(
-        topBar = { RestaurantTopBar(isDualScreen) }
+        topBar = { RestaurantTopBar() }
     ) {
         RestaurantView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 
 @Composable
-fun RestaurantTopBar(isDualScreen: Boolean) {
+fun TwoPaneScope.RestaurantTopBar() {
+    val twoPaneScope = this
+
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.restaurant_top_bar)),
-        actions = { if (!isDualScreen) RestaurantActionButton() },
+        actions = { if (!twoPaneScope.isSinglePane) twoPaneScope.RestaurantActionButton() },
         title = {
             Text(
                 text = stringResource(R.string.app_name),
@@ -93,7 +94,7 @@ fun RestaurantTopBar(isDualScreen: Boolean) {
 }
 
 @Composable
-private fun RestaurantActionButton() {
+private fun TwoPaneScope.RestaurantActionButton() {
     IconButton(onClick = { navigateToPane2() }) {
         Icon(
             painter = painterResource(R.drawable.ic_map),
@@ -104,7 +105,9 @@ private fun RestaurantActionButton() {
 }
 
 @Composable
-fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun TwoPaneScope.RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+    val twoPaneScope = this
+
     Column(
         modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -113,12 +116,12 @@ fun RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int
             text = stringResource(R.string.list_title),
             style = typography.subtitle1
         )
-        RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
+        twoPaneScope.RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 
 @Composable
-fun RestaurantListView(
+fun TwoPaneScope.RestaurantListView(
     viewWidth: Int,
     selectedIndex: Int,
     updateSelectedIndex: (Int) -> Unit

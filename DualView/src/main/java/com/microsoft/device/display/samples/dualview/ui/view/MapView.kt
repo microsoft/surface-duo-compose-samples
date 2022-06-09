@@ -40,27 +40,29 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.dualview.R
 import com.microsoft.device.display.samples.dualview.models.restaurants
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 import kotlin.math.roundToInt
 
 private const val nonSelection = -1
 
 @Composable
-fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
+fun TwoPaneScope.MapViewWithTopBar(selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar(isDualScreen) }
+        topBar = { MapTopBar() }
     ) {
         MapView(selectedIndex)
     }
 }
 
 @Composable
-fun MapTopBar(isDualScreen: Boolean) {
+fun TwoPaneScope.MapTopBar() {
+    val twoPaneScope = this
+
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.map_top_bar)),
         title = {
             Text(
-                text = if (!isDualScreen) stringResource(R.string.app_name) else "",
+                text = if (!isSinglePane) stringResource(R.string.app_name) else "",
                 style = TextStyle(
                     fontSize = 19.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -69,8 +71,8 @@ fun MapTopBar(isDualScreen: Boolean) {
             )
         },
         actions = {
-            if (!isDualScreen) {
-                IconButton(onClick = { navigateToPane1() }) {
+            if (!twoPaneScope.isSinglePane) {
+                IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_list),
                         contentDescription = stringResource(R.string.switch_to_rest),
