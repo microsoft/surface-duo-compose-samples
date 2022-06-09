@@ -1,4 +1,4 @@
-# Compose Gallery
+# Calculator
 
 This sample is built with Jetpack Compose, the new UI framework in Android.
 
