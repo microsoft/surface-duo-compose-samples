@@ -3,8 +3,6 @@ package com.microsoft.device.display.samples.calculator.models
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.microsoft.device.display.samples.calculator.R
-
-
 import com.microsoft.device.display.samples.calculator.ui.pages.calculatorModel
 
 // Equations that take multiple parameters

@@ -2,9 +2,7 @@ package com.microsoft.device.display.samples.calculator.ui.pages
 
 import androidx.compose.runtime.Composable
 import com.microsoft.device.display.samples.calculator.models.CalculatorModel
-import com.microsoft.device.display.samples.calculator.ui.pages.BasicCalculatorPage
 import com.microsoft.device.display.samples.calculator.models.HistoryModel
-import com.microsoft.device.display.samples.calculator.ui.pages.AdvancedCalculatorPage
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
