@@ -55,6 +55,7 @@ dependencies {
     implementation composeDependencies.activityCompose
     implementation microsoftDependencies.twoPaneLayout
     implementation microsoftDependencies.windowState
+    implementation googleDependencies.systemUiController
 
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules
