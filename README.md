@@ -40,7 +40,7 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 | Sample | | Description |
 |---|:---:|---|
-| [Calculator](https://github.com/microsoft/surface-duo-compose-samples/tree/main/Calculator) | Calculator sample that shows how to build a Calculator with a ticker tape and make use of second pane for more advanced functions.
+| [Calculator](https://github.com/microsoft/surface-duo-compose-samples/tree/main/Calculator) | | Calculator sample that shows how to build a Calculator with a ticker tape and make use of second pane for more advanced functions.
 | | |
 | [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
 | | |
