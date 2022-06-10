@@ -21,14 +21,9 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun MainPage(windowState: WindowState, player: ExoPlayer) {
-
-    // very strange bug with Exoplayer and Windowstate so I have to define them here or else the player will not show
-    // Most likely due to the fact that it does not recompose this main page
-    val dual = windowState.isDualScreen()
-    val horizontal = windowState.isSingleLandscape()
     val infoProvider: InfoProvider = InfoProvider()
-
     val focusManager = LocalFocusManager.current
+
     TwoPaneLayout(
         paneMode = infoProvider.paneMode,
         pane1 = {
@@ -36,8 +31,8 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
                 VideoPage(player = player, infoProvider)
             } else {
                 when {
-                    dual -> VideoPage(player = player, infoProvider)
-                    horizontal -> RowView(focusManager = focusManager, player = player, infoProvider)
+                    windowState.isDualScreen() -> VideoPage(player = player)
+                    windowState.isSingleLandscape() -> RowView(focusManager = focusManager, player = player, infoProvider)
                     else -> ColumnView(focusManager = focusManager, player = player, infoProvider)
                 }
             }

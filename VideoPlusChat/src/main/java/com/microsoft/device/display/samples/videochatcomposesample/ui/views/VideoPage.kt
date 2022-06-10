@@ -60,20 +60,22 @@ fun FullscreenButton(modifier: Modifier, infoProvider: InfoProvider) {
 
 @Composable
 fun Video(modifier: Modifier, player: ExoPlayer) {
+    val context = LocalContext.current
+
     DisposableEffect(true) {
         onDispose {
             player.pause()
         }
     }
-    val context = LocalContext.current
-    val playerView = StyledPlayerView(context)
-    playerView.player = player
-    playerView.setShowPreviousButton(false)
-    playerView.setShowNextButton(false)
+
     AndroidView(
         modifier = modifier,
         factory = {
-            playerView
+            StyledPlayerView(context).apply {
+                this.player = player
+                setShowPreviousButton(false)
+                setShowNextButton(false)
+            }
         }
     )
 }
