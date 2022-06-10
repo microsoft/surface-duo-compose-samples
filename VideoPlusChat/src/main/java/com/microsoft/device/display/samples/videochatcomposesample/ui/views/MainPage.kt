@@ -19,8 +19,6 @@ import com.microsoft.device.display.samples.videochatcomposesample.models.InfoPr
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-
-
 @Composable
 fun MainPage(windowState: WindowState, player: ExoPlayer) {
 

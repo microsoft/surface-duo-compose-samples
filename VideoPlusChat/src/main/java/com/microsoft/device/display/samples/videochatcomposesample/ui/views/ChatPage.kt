@@ -51,7 +51,6 @@ import com.microsoft.device.display.samples.videochatcomposesample.R
 import com.microsoft.device.display.samples.videochatcomposesample.models.ChatMessage
 import com.microsoft.device.display.samples.videochatcomposesample.models.ChatModel
 
-
 @Composable
 fun ChatPage(focusManager: FocusManager) {
     Scaffold(
@@ -169,7 +168,7 @@ fun IndividualChatMessage(chat: ChatMessage) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
 
-        ) {
+    ) {
         Text(
             stringResource(id = chat.author) + ":",
             color = chat.color,
