@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.models
 
 import androidx.compose.runtime.getValue
@@ -9,8 +14,10 @@ import kotlin.math.roundToInt
 class CalculatorModel() {
     var x: String by mutableStateOf("0")
     var y: String by mutableStateOf("0")
+
     // if we are editing x or y
     var isOnX: Boolean by (mutableStateOf(true))
+
     // if we are overwriting the current variable by typing, or adding to it by typing
     var overWrite: Boolean by (mutableStateOf(true))
     var degrees: Boolean by (mutableStateOf(true))
@@ -29,7 +36,14 @@ class CalculatorModel() {
             else -> {}
         }
         decimalReformat()
-        if (currentEquation != Equation.NONE) historyModel.addToRecords(Record(prevX, prevY, currentEquation, this.x))
+        if (currentEquation != Equation.NONE) historyModel.addToRecords(
+            Record(
+                prevX,
+                prevY,
+                currentEquation,
+                this.x
+            )
+        )
         resetToX()
         overWrite = true
     }
@@ -58,30 +72,54 @@ class CalculatorModel() {
         decimalReformat()
     }
 
-    private fun toggleDegree() { degrees = !degrees }
-    private fun subValues() { if (isOnX) subX() else subY() }
-    private fun toggleNegative() { if (isOnX) { x = (x.toFloat() * -1.0f).toString() } else { y = (y.toFloat() * -1.0f).toString() } }
+    private fun toggleDegree() {
+        degrees = !degrees
+    }
+
+    private fun subValues() {
+        if (isOnX) subX() else subY()
+    }
+
+    private fun toggleNegative() {
+        if (isOnX) {
+            x = (x.toFloat() * -1.0f).toString()
+        } else {
+            y = (y.toFloat() * -1.0f).toString()
+        }
+    }
 
     // remove hanging 0's and convert float to int when possible
     private fun decimalReformat() {
         val floatX = this.x.toFloat()
         val floatY = this.y.toFloat()
 
-        if (floatX == 0.0f) { this.x = "0" } else if ((floatX - floatX.roundToInt()) == 0.0f) { this.x = (floatX.roundToInt()).toString() }
+        if (floatX == 0.0f) {
+            this.x = "0"
+        } else if ((floatX - floatX.roundToInt()) == 0.0f) {
+            this.x = (floatX.roundToInt()).toString()
+        }
 
-        if (floatY == 0.0f) { this.y = "0" } else if ((floatY - floatY.roundToInt()) == 0.0f) { this.y = (floatY.roundToInt()).toString() }
+        if (floatY == 0.0f) {
+            this.y = "0"
+        } else if ((floatY - floatY.roundToInt()) == 0.0f) {
+            this.y = (floatY.roundToInt()).toString()
+        }
     }
 
     private fun clearValues() {
         // if the user clears when x is 0, we will do an all clear
-        if (x == "0" && isOnX) { historyModel.clearRecords() }
+        if (x == "0" && isOnX) {
+            historyModel.clearRecords()
+        }
         resetValues()
     }
+
     private fun resetToX() {
         y = "0"
         isOnX = true
         currentEquation = Equation.NONE
     }
+
     private fun resetValues() {
         x = "0"
         resetToX()
@@ -98,6 +136,7 @@ class CalculatorModel() {
             this.x += x
         }
     }
+
     private fun subX() {
         if (x.length > 1) {
             x = x.substring(0, x.length - 1)
@@ -117,6 +156,7 @@ class CalculatorModel() {
             this.y += y
         }
     }
+
     private fun subY() {
         if (y.length > 1) {
             y = y.substring(0, y.length - 1)

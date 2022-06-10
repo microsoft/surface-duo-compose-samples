@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.ui.pages.components
 
 import androidx.compose.foundation.layout.padding
@@ -20,9 +25,7 @@ fun Answer(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(
                 start = 20.dp,
-                top = 0.dp,
                 end = 20.dp,
-                bottom = 0.dp
             )
     ) {
         item {

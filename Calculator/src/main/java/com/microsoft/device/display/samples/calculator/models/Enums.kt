@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.models
 
 import androidx.compose.runtime.Composable
@@ -48,6 +53,8 @@ fun actionStringEquivalent(ac: Action): String {
         Action.SQRD -> stringResource(id = R.string.squared)
         Action.PRCT -> stringResource(id = R.string.percent)
         Action.SIGN -> stringResource(id = R.string.sign)
-        Action.DEG -> if (calculatorModel.degrees) stringResource(id = R.string.degree) else stringResource(id = R.string.radian)
+        Action.DEG -> if (calculatorModel.degrees) stringResource(id = R.string.degree) else stringResource(
+            id = R.string.radian
+        )
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.ui.pages
 
 import androidx.compose.runtime.Composable
@@ -13,12 +18,7 @@ val historyModel: HistoryModel = HistoryModel()
 @Composable
 fun MainPage(windowState: WindowState) {
     TwoPaneLayout(
-        paneMode = TwoPaneMode.TwoPane,
-        pane1 = {
-            BasicCalculatorPage(windowState = windowState)
-        },
-        pane2 = {
-            AdvancedCalculatorPage(windowState = windowState)
-        }
+        pane1 = { BasicCalculatorPage(windowState = windowState) },
+        pane2 = { AdvancedCalculatorPage(windowState = windowState) }
     )
 }

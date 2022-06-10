@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.ui.pages
 
 import androidx.compose.foundation.layout.Box
@@ -37,7 +42,7 @@ fun BasicCalculatorWithHistory() {
 
             Answer(modifier = Modifier.align(Alignment.End))
 
-            Row() {
+            Row {
                 NumericGrid(modifier = Modifier.fillMaxWidth(0.6f))
                 BasicCalculationGrid()
             }
@@ -50,7 +55,7 @@ fun BasicCalculator() {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.BottomCenter)) {
             Answer(modifier = Modifier.align(Alignment.End))
-            Row() {
+            Row {
                 NumericGrid(modifier = Modifier.fillMaxWidth(0.6f))
                 BasicCalculationGrid()
             }

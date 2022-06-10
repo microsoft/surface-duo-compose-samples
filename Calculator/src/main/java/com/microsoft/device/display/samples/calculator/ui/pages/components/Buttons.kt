@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.ui.pages.components
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,8 +36,9 @@ import com.microsoft.device.display.samples.calculator.ui.pages.calculatorModel
 fun EquationButton(eq: Equation, color: Color = MaterialTheme.colors.primary) {
     ButtonLayout(
         color = color,
-        content = equationStringEquivalent(eq)
-    ) { calculatorModel.updateEquation(eq) }
+        content = equationStringEquivalent(eq),
+        onClick = { calculatorModel.updateEquation(eq) }
+    )
 }
 
 @Composable
@@ -41,15 +47,17 @@ fun ActionButton(ac: Action, color: Color = MaterialTheme.colors.primary) {
         color = color,
         content = actionStringEquivalent(ac),
         useIcon = ac == Action.DEL,
-    ) { calculatorModel.assertAction(ac) }
+        onClick = { calculatorModel.assertAction(ac) }
+    )
 }
 
 @Composable
 fun NumericButton(num: String, color: Color = MaterialTheme.colors.primary) {
     ButtonLayout(
         color = color,
-        content = num
-    ) { calculatorModel.addValues(num) }
+        content = num,
+        onClick = { calculatorModel.addValues(num) }
+    )
 }
 
 @Composable

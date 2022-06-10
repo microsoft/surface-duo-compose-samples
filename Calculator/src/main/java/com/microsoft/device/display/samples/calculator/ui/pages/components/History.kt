@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.calculator.ui.pages.components
 
 import androidx.compose.foundation.clickable
@@ -34,8 +39,7 @@ fun History(addRecordToTop: Boolean, modifier: Modifier = Modifier) {
             ),
         state = listState,
     ) {
-        items(historyModel.records.size) {
-            index ->
+        items(historyModel.records.size) { index ->
             Column {
                 if (addRecordToTop) {
                     HistoryRecord(record = historyModel.records[historyModel.records.size - 1 - index])
@@ -64,12 +68,16 @@ fun HistoryRecord(record: Record) {
         Text(
             text = record.x + " " + equationStringEquivalent(record.equation) + " " + record.y + " =",
             style = MaterialTheme.typography.body2,
-            modifier = Modifier.clickable { calculatorModel.setValuesFromRecord(record) }.alpha(0.6f)
+            modifier = Modifier
+                .clickable { calculatorModel.setValuesFromRecord(record) }
+                .alpha(0.6f)
         )
         Text(
             text = record.answer,
             style = MaterialTheme.typography.body2,
-            modifier = Modifier.clickable { calculatorModel.setValueFromRecordAnswer(record) }.alpha(0.9f)
+            modifier = Modifier
+                .clickable { calculatorModel.setValueFromRecordAnswer(record) }
+                .alpha(0.9f)
         )
     }
 }
