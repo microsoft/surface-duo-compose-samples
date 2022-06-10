@@ -6,12 +6,12 @@
 package com.microsoft.device.display.samples.calculator.models
 
 import com.microsoft.device.display.samples.calculator.ui.pages.calculatorModel
+import kotlin.math.cos
 import kotlin.math.log10
 import kotlin.math.pow
-import kotlin.math.sqrt
 import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.math.tan
-import kotlin.math.cos
 
 fun add() {
     calculatorModel.x = (calculatorModel.x.toFloat() + calculatorModel.y.toFloat()).toString()
