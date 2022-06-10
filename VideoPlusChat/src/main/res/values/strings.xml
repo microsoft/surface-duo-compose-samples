@@ -26,4 +26,6 @@
 
     <string name="contentFull">Full</string>
     <string name="contentMin">Min</string>
+
+    <string name="sendchat">"Send a Chat Message..."</string>
 </resources>

@@ -47,10 +47,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.microsoft.device.display.samples.videochatcomposesample.R
 import com.microsoft.device.display.samples.videochatcomposesample.models.ChatMessage
 import com.microsoft.device.display.samples.videochatcomposesample.models.ChatModel
 
-var chatModel: ChatModel = ChatModel()
 
 @Composable
 fun ChatPage(focusManager: FocusManager) {
@@ -88,7 +88,10 @@ fun ChatInputBar(focusManager: FocusManager) {
     }
 
     CompositionLocalProvider(LocalElevationOverlay provides null) {
-        BottomAppBar(backgroundColor = MaterialTheme.colors.background, modifier = Modifier.fillMaxWidth()) {
+        BottomAppBar(
+            backgroundColor = MaterialTheme.colors.background,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)
@@ -114,7 +117,7 @@ fun ChatInputBar(focusManager: FocusManager) {
                     onValueChange = { text = it },
                     placeholder = {
                         Text(
-                            "Send a Chat Message...",
+                            stringResource(id = R.string.sendchat),
                             style = TextStyle(
                                 color = MaterialTheme.colors.onBackground,
                                 fontSize = 10.sp
@@ -147,11 +150,12 @@ fun ChatInputBar(focusManager: FocusManager) {
 
 @Composable
 fun ChatList(modifier: Modifier = Modifier) {
+    var chatModel = ChatModel()
     LazyColumn(
         modifier = modifier.padding(all = 10.dp)
     ) {
         items(chatModel.chatHistory) { chat ->
-            Column() {
+            Column {
                 IndividualChatMessage(chat = chat)
                 Spacer(modifier = Modifier.size(10.dp))
             }
@@ -165,7 +169,7 @@ fun IndividualChatMessage(chat: ChatMessage) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
 
-    ) {
+        ) {
         Text(
             stringResource(id = chat.author) + ":",
             color = chat.color,

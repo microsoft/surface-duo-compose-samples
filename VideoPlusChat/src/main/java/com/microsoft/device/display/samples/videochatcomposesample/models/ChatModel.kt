@@ -9,9 +9,7 @@ import androidx.compose.ui.graphics.Color
 import com.microsoft.device.display.samples.videochatcomposesample.R
 
 class ChatModel {
-
     val chatHistory = listOf(
-
         ChatMessage(R.string.auth1, R.string.chat_text_1, Color.Red),
         ChatMessage(R.string.auth2, R.string.chat_text_2, Color.Green),
         ChatMessage(R.string.auth3, R.string.chat_text_3, Color.Cyan),
@@ -22,6 +20,5 @@ class ChatModel {
         ChatMessage(R.string.auth3, R.string.chat_text_8, Color.Cyan),
         ChatMessage(R.string.auth7, R.string.chat_text_9, Color.LightGray),
         ChatMessage(R.string.auth7, R.string.chat_text_10, Color.LightGray)
-
     )
 }

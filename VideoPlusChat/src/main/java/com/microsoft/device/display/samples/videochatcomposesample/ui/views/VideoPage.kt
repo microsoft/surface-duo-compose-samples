@@ -18,25 +18,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
-import com.microsoft.device.display.samples.videochatcomposesample.R
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.microsoft.device.display.samples.videochatcomposesample.R
+import com.microsoft.device.display.samples.videochatcomposesample.models.InfoProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 @Composable
-fun VideoPage(player: ExoPlayer) {
+fun VideoPage(player: ExoPlayer, infoProvider: InfoProvider) {
     Box(
         modifier = Modifier
             .fillMaxSize()
 
     ) {
         Video(modifier = Modifier.align(Alignment.Center), player = player)
-        FullscreenButton(modifier = Modifier.align(Alignment.TopEnd))
+        FullscreenButton(modifier = Modifier.align(Alignment.TopEnd), infoProvider)
     }
 }
 
 @Composable
-fun FullscreenButton(modifier: Modifier) {
+fun FullscreenButton(modifier: Modifier, infoProvider: InfoProvider) {
     fun onClick() = if (infoProvider.isFullScreen) infoProvider.updatePaneMode(TwoPaneMode.TwoPane) else infoProvider.updatePaneMode(TwoPaneMode.VerticalSingle)
 
     if (infoProvider.isFullScreen) Icon(
