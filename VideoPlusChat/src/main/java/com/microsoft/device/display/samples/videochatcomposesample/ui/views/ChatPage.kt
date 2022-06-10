@@ -54,6 +54,7 @@ import com.microsoft.device.display.samples.videochatcomposesample.models.ChatMo
 @Composable
 fun ChatPage(focusManager: FocusManager) {
     Scaffold(
+        modifier = Modifier.fillMaxWidth(),
         topBar = { ChatTitle() },
         bottomBar = { ChatInputBar(focusManager = focusManager) }
     ) {
@@ -109,7 +110,6 @@ fun ChatInputBar(focusManager: FocusManager) {
                                     closeKeyBoard()
                                 },
                             tint = MaterialTheme.colors.onBackground
-
                         )
                     },
                     value = text,
@@ -123,7 +123,6 @@ fun ChatInputBar(focusManager: FocusManager) {
                             )
                         )
                     },
-
                     modifier = Modifier
                         .align(Alignment.Center)
                         .clip(RoundedCornerShape(10.dp))
@@ -167,7 +166,6 @@ fun IndividualChatMessage(chat: ChatMessage) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-
     ) {
         Text(
             stringResource(id = chat.author) + ":",

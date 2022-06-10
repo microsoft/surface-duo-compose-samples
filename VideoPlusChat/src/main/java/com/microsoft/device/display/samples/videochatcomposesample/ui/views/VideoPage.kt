@@ -7,7 +7,8 @@ package com.microsoft.device.display.samples.videochatcomposesample.ui.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -25,11 +26,11 @@ import com.microsoft.device.display.samples.videochatcomposesample.models.InfoPr
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 @Composable
-fun VideoPage(player: ExoPlayer, infoProvider: InfoProvider) {
+fun VideoPage(width: Float = 1f, height: Float = 1f, player: ExoPlayer, infoProvider: InfoProvider) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-
+            .fillMaxWidth(width)
+            .fillMaxHeight(height)
     ) {
         Video(modifier = Modifier.align(Alignment.Center), player = player)
         FullscreenButton(modifier = Modifier.align(Alignment.TopEnd), infoProvider)
@@ -43,17 +44,13 @@ fun FullscreenButton(modifier: Modifier, infoProvider: InfoProvider) {
     if (infoProvider.isFullScreen) Icon(
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.exitfullscreen),
-        contentDescription = stringResource(
-            id = R.string.contentFull
-        ),
+        contentDescription = stringResource(id = R.string.contentFull),
         modifier = modifier.clickable(onClick = { onClick() })
 
     ) else Icon(
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.fullscreen),
-        contentDescription = stringResource(
-            id = R.string.contentMin
-        ),
+        contentDescription = stringResource(id = R.string.contentMin),
         modifier = modifier.clickable(onClick = { onClick() })
     )
 }

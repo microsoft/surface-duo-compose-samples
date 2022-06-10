@@ -11,7 +11,6 @@ import androidx.compose.runtime.setValue
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 class InfoProvider {
-
     var paneMode: TwoPaneMode by (mutableStateOf(TwoPaneMode.TwoPane))
         private set
 
