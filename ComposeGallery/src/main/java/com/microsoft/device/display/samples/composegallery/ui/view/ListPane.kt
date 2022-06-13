@@ -36,19 +36,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.composegallery.R
 import com.microsoft.device.display.samples.composegallery.models.ImageModel
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 @Composable
-fun ListPane(
+fun TwoPaneScope.ListPane(
     models: List<ImageModel>,
-    isDualMode: Boolean,
     selectedImageIndex: Int,
-    updateImageIndex: (Int) -> Unit,
+    updateImageIndex: (Int) -> Unit
 ) {
     Scaffold(
         topBar = {
             ComposeGalleryTopAppBar(
-                actions = { if (!isDualMode) ListActions() },
+                actions = { if (isSinglePane) ListActions() },
                 title = stringResource(R.string.app_name),
             )
         }
@@ -62,7 +61,7 @@ fun ListPane(
 }
 
 @Composable
-private fun ListActions() {
+private fun TwoPaneScope.ListActions() {
     IconButton(onClick = { navigateToPane2() }) {
         Icon(
             painter = painterResource(R.drawable.ic_baseline_photo_24),
@@ -73,7 +72,7 @@ private fun ListActions() {
 }
 
 @Composable
-private fun GalleryList(
+private fun TwoPaneScope.GalleryList(
     models: List<ImageModel>,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
@@ -91,7 +90,7 @@ private fun GalleryList(
 }
 
 @Composable
-fun ListEntry(
+fun TwoPaneScope.ListEntry(
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
     index: Int,

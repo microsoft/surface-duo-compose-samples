@@ -29,6 +29,7 @@ import org.junit.Test
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 class NavComponentTest {
+
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 

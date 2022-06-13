@@ -33,14 +33,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.images
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 private val imagePadding = 10.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 15.dp
 
 @Composable
-fun ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun TwoPaneScope.ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
         topBar = { ListViewTopBar() },
         content = { ListView(selectedIndex, updateSelectedIndex) }
@@ -63,8 +63,9 @@ fun ListViewTopBar() {
 }
 
 @Composable
-fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun TwoPaneScope.ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     val subImageList = images.chunked(3)
+    val twoPaneScope = this
 
     Box(
         modifier = Modifier
@@ -101,7 +102,7 @@ fun ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
                                             updateSelectedIndex(listIndex)
-                                            navigateToPane2()
+                                            twoPaneScope.navigateToPane2()
                                         }
                                     )
                             )

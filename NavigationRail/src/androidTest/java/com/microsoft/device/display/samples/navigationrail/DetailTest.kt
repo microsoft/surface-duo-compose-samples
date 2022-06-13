@@ -30,14 +30,17 @@ import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider.plantList
 import com.microsoft.device.display.samples.navigationrail.ui.components.DrawerState
 import com.microsoft.device.display.samples.navigationrail.ui.components.DrawerStateKey
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
+import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.display.samples.navigationrail.ui.view.ItemDetailView
+import com.microsoft.device.display.samples.navigationrail.ui.view.ItemDetailViewWithTopBar
 import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
-import com.microsoft.device.display.samples.navigationrail.ui.view.Pane2
 import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeTest
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -56,7 +59,7 @@ class DetailTest {
     @Test
     fun pane2_backButtonAppearsInSingleScreenMode() {
         composeTestRule.setContent {
-            Pane2Plants(isDualPortrait = false, isDualLandscape = false)
+            Pane2Plants(isSinglePane = true, isDualPortrait = false, isDualLandscape = false)
         }
 
         // Assert that back button is visible
@@ -69,7 +72,7 @@ class DetailTest {
     @Test
     fun pane2_backButtonAppearsInDualLandscapeMode() {
         composeTestRule.setContent {
-            Pane2Plants(isDualPortrait = false, isDualLandscape = true)
+            Pane2Plants(isSinglePane = true, isDualPortrait = false, isDualLandscape = true)
         }
 
         // Assert that back button is visible
@@ -82,7 +85,7 @@ class DetailTest {
     @Test
     fun pane2_backButtonHiddenInDualPortraitMode() {
         composeTestRule.setContent {
-            Pane2Plants(isDualPortrait = true, isDualLandscape = false)
+            Pane2Plants(isSinglePane = false, isDualPortrait = true, isDualLandscape = false)
         }
 
         // Assert that back button does not exist
@@ -191,17 +194,18 @@ class DetailTest {
      * Composable for testing that shows the first plant image in pane 2
      */
     @Composable
-    private fun Pane2Plants(isDualPortrait: Boolean, isDualLandscape: Boolean) {
+    private fun Pane2Plants(isSinglePane: Boolean, isDualPortrait: Boolean, isDualLandscape: Boolean) {
         NavigationRailAppTheme {
-            Pane2(
+            TwoPaneNavScopeTest(isSinglePane = isSinglePane).ItemDetailViewWithTopBar(
                 isDualPortrait = isDualPortrait,
                 isDualLandscape = isDualLandscape,
                 foldIsOccluding = false,
                 foldBoundsDp = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
-                imageId = 0,
+                imageId = 1,
                 updateImageId = {},
-                currentRoute = "plants"
+                currentRoute = "plants",
+                navController = rememberNavController()
             )
         }
     }
@@ -219,7 +223,7 @@ class DetailTest {
                 foldBoundsDp = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 selectedImage = plantList[0],
-                currentRoute = "plants"
+                gallerySection = GallerySections.PLANTS
             )
         }
     }

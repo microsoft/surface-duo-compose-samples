@@ -26,7 +26,6 @@ fun DualViewApp(windowState: WindowState) {
     val viewWidth = if (windowState.isDualScreen()) pane1SizeWidthDp else screenWidthDp
 
     DualViewAppContent(
-        isDualScreen = windowState.isDualScreen(),
         viewWidth = with(LocalDensity.current) { viewWidth.toPx() }.roundToInt(),
         selectedIndex = selectedIndex,
         updateSelectedIndex = updateSelectedIndex,
@@ -35,13 +34,12 @@ fun DualViewApp(windowState: WindowState) {
 
 @Composable
 fun DualViewAppContent(
-    isDualScreen: Boolean,
     viewWidth: Int,
     selectedIndex: Int,
     updateSelectedIndex: (Int) -> Unit,
 ) {
     TwoPaneLayout(
-        pane1 = { RestaurantViewWithTopBar(isDualScreen, viewWidth, selectedIndex, updateSelectedIndex) },
-        pane2 = { MapViewWithTopBar(isDualScreen, selectedIndex) }
+        pane1 = { RestaurantViewWithTopBar(viewWidth, selectedIndex, updateSelectedIndex) },
+        pane2 = { MapViewWithTopBar(selectedIndex) }
     )
 }
