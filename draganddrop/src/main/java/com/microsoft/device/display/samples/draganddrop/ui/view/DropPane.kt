@@ -124,7 +124,7 @@ fun RowScope.DropImageBox(dragImage: Painter?, isDroppingImage: Boolean) {
         if (dragImage != null) {
             Image(
                 painter = dragImage,
-                contentDescription = null
+                contentDescription = stringResource(id = R.string.drop_image_image),
             )
         } else {
             DropImagePlaceholder()

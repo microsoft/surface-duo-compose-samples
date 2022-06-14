@@ -8,6 +8,7 @@
 package com.microsoft.device.display.samples.draganddrop
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.draganddrop.ui.theme.DragAndDropSamplesTheme
@@ -54,8 +55,8 @@ class DragAndDropTest {
         ).assertExists()
 
         // Assert the reset button is now shown
-        composeTestRule.onNodeWithTag(
-            composeTestRule.getString(R.string.reset_button)
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.reset_button_icon)
         ).assertExists()
 
         // Simulate horizontal foldFeature
@@ -72,8 +73,8 @@ class DragAndDropTest {
         ).assertExists()
 
         // Assert the reset button is still shown
-        composeTestRule.onNodeWithTag(
-            composeTestRule.getString(R.string.reset_button)
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.getString(R.string.reset_button_icon)
         ).assertExists()
     }
 }

@@ -4,9 +4,9 @@
     <string name="drag_and_drop_plain_text">The perfect balance of productivity and mobility. Surface Duo is a new dual-screen device that fits in your pocket. With two screens connected by a revolutionary 360° hinge, Surface Duo brings together the best of Microsoft and Android to reimagine productivity on the go.</string>
     <string name="drag_image_text">Drag image here</string>
     <string name="drag_text_text">Drag text here</string>
-    <string name="icon_contentDescription">Floating_icon</string>
+    <string name="drop_image_image">Drop image</string>
+    <string name="reset_button_icon">Reset button icon</string>
 
     <string name="drag_pane">Drag pane</string>
     <string name="drop_pane">Drop pane</string>
-    <string name="reset_button">Reset button</string>
 </resources>

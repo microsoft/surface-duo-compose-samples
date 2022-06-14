@@ -27,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -123,7 +122,6 @@ fun ResetFloatingActionButton(
 ) {
     FloatingActionButton(
         backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier.testTag(stringResource(R.string.reset_button)),
         onClick = {
             updateDragText(null)
             updateDragImage(null)
@@ -131,7 +129,7 @@ fun ResetFloatingActionButton(
     ) {
         Icon(
             imageVector = Icons.Filled.Refresh,
-            contentDescription = stringResource(id = R.string.icon_contentDescription),
+            contentDescription = stringResource(id = R.string.reset_button_icon),
             tint = Color.White
         )
     }

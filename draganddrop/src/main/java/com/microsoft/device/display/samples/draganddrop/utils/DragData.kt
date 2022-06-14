@@ -8,9 +8,6 @@
 package com.microsoft.device.display.samples.draganddrop.utils
 
 class DragData(
-    type: MimeType = MimeType.TEXT_PLAIN,
-    data: Any? = null
-) {
-    val type = type
-    val data = data
-}
+    val type: MimeType = MimeType.TEXT_PLAIN,
+    val data: Any? = null
+)
