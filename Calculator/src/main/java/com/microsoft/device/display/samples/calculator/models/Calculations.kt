@@ -13,152 +13,88 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-fun add() {
-    calculatorModel.x = (calculatorModel.x.toFloat() + calculatorModel.y.toFloat()).toString()
+fun add(param1: Float, param2: Float): Float {
+    return param1 + param2
 }
 
-fun sub() {
-    calculatorModel.x = (calculatorModel.x.toFloat() - calculatorModel.y.toFloat()).toString()
+fun sub(param1: Float, param2: Float): Float {
+    return param1 - param2
 }
 
-fun mul() {
-    calculatorModel.x = (calculatorModel.x.toFloat() * calculatorModel.y.toFloat()).toString()
+fun mul(param1: Float, param2: Float): Float {
+    return param1 * param2
 }
 
-fun div() {
-    calculatorModel.x =
-        if (calculatorModel.y == "0") "0.0" else (calculatorModel.x.toFloat() / calculatorModel.y.toFloat()).toString()
+fun div(param1: Float, param2: Float): Float {
+    return if (param2 == 0.0f) param2 else param1 / param2
 }
 
-fun pi() {
-    calculatorModel.overWrite = true
-    calculatorModel.addValues(Math.PI.toFloat().toString())
+fun power(param1: Float, param2: Float): Float {
+    return param1.pow(param2)
 }
 
-fun sin() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = executeTrigFunction(::sin, calculatorModel.x)
+fun modulus(param1: Float, param2: Float): Float {
+    return param1 % param2
+}
+
+fun pi(): Float {
+    return Math.PI.toFloat()
+}
+
+fun e(): Float {
+    return Math.E.toFloat()
+}
+
+fun sin(param1: Float): Float {
+    return executeTrigFunction(::sin, param1)
+}
+
+fun cos(param1: Float): Float {
+    return executeTrigFunction(::cos, param1)
+}
+
+fun tan(param1: Float): Float {
+    return executeTrigFunction(::tan, param1)
+}
+
+fun squareRoot(param1: Float): Float {
+    return if (param1 >= 0.0f) {
+        sqrt(param1)
     } else {
-        calculatorModel.y = executeTrigFunction(::sin, calculatorModel.y)
+        param1
     }
 }
 
-fun cos() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = executeTrigFunction(::cos, calculatorModel.x)
+fun ln(param1: Float): Float {
+    return if (param1 >= 0.0f) {
+        kotlin.math.ln(param1)
     } else {
-        calculatorModel.y = executeTrigFunction(::cos, calculatorModel.y)
+        param1
     }
 }
 
-fun tan() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = executeTrigFunction(::tan, calculatorModel.x)
+fun log(param1: Float): Float {
+    return if (param1 >= 0.0f) {
+        log10(param1)
     } else {
-        calculatorModel.y = executeTrigFunction(::tan, calculatorModel.y)
+        param1
     }
 }
 
-private fun executeTrigFunction(trigFunction: (Double) -> Double, rawInput: String): String {
+fun squared(param1: Float): Float {
+    return param1 * param1
+}
+
+fun inverse(param1: Float): Float {
+    return if (param1 != 0.0f) 1 / param1 else 0.0f
+}
+
+fun percent(param1: Float): Float {
+    return param1 / 100.0f
+}
+
+private fun executeTrigFunction(trigFunction: (Double) -> Double, rawInput: Float): Float {
     val radiansInput =
         if (calculatorModel.degrees) Math.toRadians(rawInput.toDouble()) else rawInput.toDouble()
-    return trigFunction(radiansInput).toFloat().toString()
-}
-
-fun squareRoot() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = if (calculatorModel.x.toFloat() >= 0.0f) {
-            sqrt(calculatorModel.x.toDouble()).toFloat().toString()
-        } else {
-            calculatorModel.x
-        }
-    } else {
-        calculatorModel.y = if (calculatorModel.y.toFloat() >= 0.0f) {
-            sqrt(calculatorModel.y.toDouble()).toFloat().toString()
-        } else {
-            calculatorModel.y
-        }
-    }
-}
-
-fun squared() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = calculatorModel.x.toDouble().pow(2.0).toFloat().toString()
-    } else {
-        calculatorModel.y = calculatorModel.y.toDouble().pow(2.0).toFloat().toString()
-    }
-}
-
-fun e() {
-    calculatorModel.overWrite = true
-    calculatorModel.addValues(Math.E.toFloat().toString())
-}
-
-fun ln() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = if (calculatorModel.x.toFloat() >= 0.0f) {
-            kotlin.math.ln(
-                calculatorModel.x.toDouble()
-            ).toFloat().toString()
-        } else {
-            calculatorModel.x
-        }
-    } else {
-        calculatorModel.y = if (calculatorModel.y.toFloat() >= 0.0f) {
-            kotlin.math.ln(
-                calculatorModel.y.toDouble()
-            ).toFloat().toString()
-        } else {
-            calculatorModel.y
-        }
-    }
-}
-
-fun log() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = if (calculatorModel.x.toFloat() >= 0.0f) {
-            log10(calculatorModel.x.toDouble()).toFloat().toString()
-        } else {
-            calculatorModel.x
-        }
-    } else {
-        calculatorModel.y = if (calculatorModel.y.toFloat() >= 0.0f) {
-            log10(calculatorModel.y.toDouble()).toFloat().toString()
-        } else {
-            calculatorModel.y
-        }
-    }
-}
-
-fun inverse() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = if (calculatorModel.x.toFloat() != 0.0f) {
-            (1 / calculatorModel.x.toFloat()).toString()
-        } else {
-            calculatorModel.x
-        }
-    } else {
-        calculatorModel.y = if (calculatorModel.y.toFloat() != 0.0f) {
-            (1 / calculatorModel.y.toFloat()).toString()
-        } else {
-            calculatorModel.y
-        }
-    }
-}
-
-fun power() {
-    calculatorModel.x =
-        calculatorModel.x.toDouble().pow(calculatorModel.y.toDouble()).toFloat().toString()
-}
-
-fun percent() {
-    if (calculatorModel.isOnX) {
-        calculatorModel.x = (calculatorModel.x.toFloat() / 100).toString()
-    } else {
-        calculatorModel.y = (calculatorModel.y.toFloat() / 100).toString()
-    }
-}
-
-fun modulus() {
-    calculatorModel.x = (calculatorModel.x.toFloat() % calculatorModel.y.toFloat()).toString()
+    return trigFunction(radiansInput).toFloat()
 }

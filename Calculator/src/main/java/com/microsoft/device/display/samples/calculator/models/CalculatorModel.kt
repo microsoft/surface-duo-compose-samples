@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.calculator.models
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.microsoft.device.display.samples.calculator.ui.pages.calculatorModel
 import com.microsoft.device.display.samples.calculator.ui.pages.historyModel
 import kotlin.math.roundToInt
 
@@ -27,12 +28,12 @@ class CalculatorModel() {
         val prevX = this.x
         val prevY = this.y
         when (currentEquation) {
-            Equation.ADD -> add()
-            Equation.SUB -> sub()
-            Equation.MUL -> mul()
-            Equation.DIV -> div()
-            Equation.POW -> power()
-            Equation.MOD -> modulus()
+            Equation.ADD -> varToEquation(::add)
+            Equation.SUB -> varToEquation(::sub)
+            Equation.MUL -> varToEquation(::mul)
+            Equation.DIV -> varToEquation(::div)
+            Equation.POW -> varToEquation(::power)
+            Equation.MOD -> varToEquation(::modulus)
             else -> {}
         }
         decimalReformat()
@@ -54,22 +55,39 @@ class CalculatorModel() {
             Action.DEL -> subValues()
             Action.EQL -> assertEquation()
             Action.CLR -> clearValues()
-            Action.INV -> inverse()
-            Action.SIN -> sin()
-            Action.COS -> cos()
-            Action.TAN -> tan()
-            Action.LOG -> log()
-            Action.LN -> ln()
-            Action.E -> e()
-            Action.PI -> pi()
-            Action.SQRT -> squareRoot()
-            Action.SQRD -> squared()
             Action.DEG -> toggleDegree()
-            Action.PRCT -> percent()
             Action.SIGN -> toggleNegative()
-            else -> {}
+            Action.INV -> varToAction(::inverse)
+            Action.SIN -> varToAction(::sin)
+            Action.COS -> varToAction(::cos)
+            Action.TAN -> varToAction(::tan)
+            Action.LOG -> varToAction(::log)
+            Action.LN -> varToAction(::ln)
+            Action.SQRT -> varToAction(::squareRoot)
+            Action.SQRD -> varToAction(::squared)
+            Action.PRCT -> varToAction(::percent)
+            Action.E -> {
+                calculatorModel.overWrite = true
+                addValues(e().toString())
+            }
+            Action.PI -> {
+                calculatorModel.overWrite = true
+                addValues(pi().toString())
+            }
         }
         decimalReformat()
+    }
+
+    private fun varToEquation(eq: (Float, Float) -> Float) {
+        x = eq(x.toFloat(), y.toFloat()).toString()
+    }
+
+    private fun varToAction(ac: (Float) -> Float) {
+        if (isOnX) {
+            x = ac(x.toFloat()).toString()
+        } else {
+            y = ac(y.toFloat()).toString()
+        }
     }
 
     private fun toggleDegree() {

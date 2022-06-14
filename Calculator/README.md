@@ -8,7 +8,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample uses the [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern to show a basic Calculator on one pane, and additional more advanced grid of equations on the other pane. This sample also has a ticker tape, which is a history of entered equations that can be accessed later. Depending on the orientation, this ticker tape will be on the first or second pane.
+The sample uses the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern to show a basic Calculator on one pane, and additional more advanced grid of equations on the other pane. This sample also has a ticker tape, which is a history of entered equations that can be accessed later. Depending on the orientation, this ticker tape will be on the first or second pane.
 
 ![Screenshot](screenshots/single_portrait.png)
 ![Screenshot](screenshots/single_landscape.png)
