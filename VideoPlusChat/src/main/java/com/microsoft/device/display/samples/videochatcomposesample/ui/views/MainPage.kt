@@ -17,17 +17,17 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
 fun MainPage(windowState: WindowState, player: ExoPlayer) {
-    val infoProvider: InfoProvider = InfoProvider()
+    val infoProvider = InfoProvider()
     val focusManager = LocalFocusManager.current
 
     TwoPaneLayout(
         paneMode = infoProvider.paneMode,
         pane1 = {
             if (infoProvider.isFullScreen) {
-                VideoPage(player, infoProvider)
+                VideoPage(player = player, infoProvider = infoProvider)
             } else {
                 when {
-                    windowState.isDualScreen() -> VideoPage(player)
+                    windowState.isDualScreen() -> VideoPage(player = player, infoProvider = infoProvider)
                     windowState.isSingleLandscape() -> RowView(focusManager, player, infoProvider)
                     else -> ColumnView(focusManager, player, infoProvider)
                 }
@@ -43,7 +43,7 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
 fun ColumnView(focusManager: FocusManager, player: ExoPlayer, infoProvider: InfoProvider) {
     Column {
         VideoPage(height = 0.45f, player = player, infoProvider = infoProvider)
-        ChatPage(focusManager = focusManager, infoProvider = infoProvider)
+        ChatPage(focusManager = focusManager)
     }
 }
 
@@ -51,6 +51,6 @@ fun ColumnView(focusManager: FocusManager, player: ExoPlayer, infoProvider: Info
 fun RowView(focusManager: FocusManager, player: ExoPlayer, infoProvider: InfoProvider) {
     Row {
         VideoPage(width = 0.65f, player = player, infoProvider = infoProvider)
-        ChatPage(focusManager = focusManager, infoProvider = infoProvider)
+        ChatPage(focusManager = focusManager)
     }
 }

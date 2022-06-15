@@ -26,7 +26,7 @@ import com.microsoft.device.display.samples.videochatcomposesample.models.InfoPr
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 @Composable
-fun VideoPage(width: Float = 1f, height: Float = 1f, player: ExoPlayer, infoProvider: InfoProvider) {
+fun VideoPage(width: Float = 1.0f, height: Float = 1.0f, player: ExoPlayer, infoProvider: InfoProvider) {
     Box(
         modifier = Modifier
             .fillMaxWidth(width)
