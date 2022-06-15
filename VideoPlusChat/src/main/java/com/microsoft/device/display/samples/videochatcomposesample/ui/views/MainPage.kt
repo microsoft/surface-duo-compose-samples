@@ -15,21 +15,23 @@ import com.microsoft.device.display.samples.videochatcomposesample.models.InfoPr
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
+val infoProvider = InfoProvider()
+
 @Composable
 fun MainPage(windowState: WindowState, player: ExoPlayer) {
-    val infoProvider = InfoProvider()
+
     val focusManager = LocalFocusManager.current
 
     TwoPaneLayout(
         paneMode = infoProvider.paneMode,
         pane1 = {
             if (infoProvider.isFullScreen) {
-                VideoPage(player = player, infoProvider = infoProvider)
+                VideoPage(player = player)
             } else {
                 when {
-                    windowState.isDualScreen() -> VideoPage(player = player, infoProvider = infoProvider)
-                    windowState.isSingleLandscape() -> RowView(focusManager, player, infoProvider)
-                    else -> ColumnView(focusManager, player, infoProvider)
+                    windowState.isDualScreen() -> VideoPage(player = player)
+                    windowState.isSingleLandscape() -> RowView(focusManager, player)
+                    else -> ColumnView(focusManager, player)
                 }
             }
         },
@@ -40,17 +42,17 @@ fun MainPage(windowState: WindowState, player: ExoPlayer) {
 }
 
 @Composable
-fun ColumnView(focusManager: FocusManager, player: ExoPlayer, infoProvider: InfoProvider) {
+fun ColumnView(focusManager: FocusManager, player: ExoPlayer) {
     Column {
-        VideoPage(height = 0.45f, player = player, infoProvider = infoProvider)
+        VideoPage(height = 0.45f, player = player)
         ChatPage(focusManager = focusManager)
     }
 }
 
 @Composable
-fun RowView(focusManager: FocusManager, player: ExoPlayer, infoProvider: InfoProvider) {
+fun RowView(focusManager: FocusManager, player: ExoPlayer) {
     Row {
-        VideoPage(width = 0.65f, player = player, infoProvider = infoProvider)
+        VideoPage(width = 0.65f, player = player)
         ChatPage(focusManager = focusManager)
     }
 }
