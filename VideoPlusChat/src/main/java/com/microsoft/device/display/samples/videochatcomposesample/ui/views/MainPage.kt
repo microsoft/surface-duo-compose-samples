@@ -14,31 +14,46 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
-import com.microsoft.device.display.samples.videochatcomposesample.models.InfoProvider
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
-
-val infoProvider = InfoProvider()
 
 @Composable
 fun MainPage(windowState: WindowState) {
     val focusManager = LocalFocusManager.current
+
+    var isFullScreen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val updateFullScreen: (Boolean) -> Unit = { newValue -> isFullScreen = newValue }
 
     var currentPosition by rememberSaveable {
         mutableStateOf(0L)
     }
     val updatePosition: (Long) -> Unit = { newPosition -> currentPosition = newPosition }
 
+    val paneMode = if (isFullScreen) TwoPaneMode.VerticalSingle else TwoPaneMode.TwoPane
+
     TwoPaneLayout(
-        paneMode = infoProvider.paneMode,
+        paneMode = paneMode,
         pane1 = {
-            if (infoProvider.isFullScreen) {
-                VideoPage(currentPosition = currentPosition, updatePosition = updatePosition)
+            if (isFullScreen) {
+                VideoPage(
+                    isFullScreen = isFullScreen,
+                    updateFullScreen = updateFullScreen,
+                    currentPosition = currentPosition,
+                    updatePosition = updatePosition
+                )
             } else {
                 when {
-                    windowState.isDualScreen() -> VideoPage(currentPosition = currentPosition, updatePosition = updatePosition)
-                    windowState.isSingleLandscape() -> RowView(focusManager, currentPosition, updatePosition)
-                    else -> ColumnView(focusManager, currentPosition, updatePosition)
+                    windowState.isDualScreen() -> VideoPage(
+                        isFullScreen = isFullScreen,
+                        updateFullScreen = updateFullScreen,
+                        currentPosition = currentPosition,
+                        updatePosition = updatePosition
+                    )
+                    windowState.isSingleLandscape() -> RowView(focusManager, isFullScreen, updateFullScreen, currentPosition, updatePosition)
+                    else -> ColumnView(focusManager, isFullScreen, updateFullScreen, currentPosition, updatePosition)
                 }
             }
         },
@@ -51,20 +66,27 @@ fun MainPage(windowState: WindowState) {
 @Composable
 fun ColumnView(
     focusManager: FocusManager,
+    isFullScreen: Boolean,
+    updateFullScreen: (Boolean) -> Unit,
     currentPosition: Long,
-    updatePosition: (Long) -> Unit) {
+    updatePosition: (Long) -> Unit
+) {
     Column {
-        VideoPage(height = 0.45f, currentPosition = currentPosition, updatePosition = updatePosition)
+        VideoPage(height = 0.45f, isFullScreen = isFullScreen, updateFullScreen = updateFullScreen, currentPosition = currentPosition, updatePosition = updatePosition)
         ChatPage(focusManager = focusManager)
     }
 }
 
 @Composable
-fun RowView(focusManager: FocusManager,
-            currentPosition: Long,
-            updatePosition: (Long) -> Unit) {
+fun RowView(
+    focusManager: FocusManager,
+    isFullScreen: Boolean,
+    updateFullScreen: (Boolean) -> Unit,
+    currentPosition: Long,
+    updatePosition: (Long) -> Unit
+) {
     Row {
-        VideoPage(width = 0.65f, currentPosition = currentPosition, updatePosition = updatePosition)
+        VideoPage(width = 0.65f, isFullScreen = isFullScreen, updateFullScreen = updateFullScreen, currentPosition = currentPosition, updatePosition = updatePosition)
         ChatPage(focusManager = focusManager)
     }
 }

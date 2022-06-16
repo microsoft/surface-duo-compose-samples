@@ -24,12 +24,13 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.microsoft.device.display.samples.videochatcomposesample.R
-import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 @Composable
 fun VideoPage(
     width: Float = 1.0f,
     height: Float = 1.0f,
+    isFullScreen: Boolean,
+    updateFullScreen: (Boolean) -> Unit,
     currentPosition: Long,
     updatePosition: (Long) -> Unit
 ) {
@@ -43,28 +44,32 @@ fun VideoPage(
             currentPosition = currentPosition,
             updatePosition = updatePosition
         )
-        FullscreenButton(modifier = Modifier.align(Alignment.TopEnd))
+        FullscreenButton(modifier = Modifier.align(Alignment.TopEnd), isFullScreen, updateFullScreen)
     }
 }
 
 @Composable
-fun FullscreenButton(modifier: Modifier) {
-    fun onClick() = if (infoProvider.isFullScreen) infoProvider.updatePaneMode(TwoPaneMode.TwoPane) else infoProvider.updatePaneMode(TwoPaneMode.VerticalSingle)
+fun FullscreenButton(modifier: Modifier, isFullScreen: Boolean, updateFullScreen: (Boolean) -> Unit) {
+    fun onClick() = updateFullScreen(!isFullScreen)
 
-    if (infoProvider.isFullScreen) Icon(
+    if (isFullScreen) Icon(
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.exitfullscreen),
         contentDescription = stringResource(id = R.string.contentFull),
-        modifier = modifier.clickable(onClick = {
-            onClick()
-        })
+        modifier = modifier.clickable(
+            onClick = {
+                onClick()
+            }
+        )
 
     ) else Icon(
         tint = MaterialTheme.colors.onBackground,
         painter = painterResource(id = R.drawable.fullscreen),
         contentDescription = stringResource(id = R.string.contentMin),
-        modifier = modifier.clickable(onClick = {
-            onClick() }
+        modifier = modifier.clickable(
+            onClick = {
+                onClick()
+            }
         )
     )
 }

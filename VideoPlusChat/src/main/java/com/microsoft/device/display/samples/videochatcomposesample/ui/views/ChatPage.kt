@@ -148,7 +148,7 @@ fun ChatInputBar(focusManager: FocusManager) {
 
 @Composable
 fun ChatList(modifier: Modifier = Modifier) {
-    var chatModel = ChatModel()
+    val chatModel = ChatModel()
     LazyColumn(
         modifier = modifier.padding(all = 10.dp)
     ) {
