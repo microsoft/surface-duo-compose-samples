@@ -4,7 +4,7 @@
   -->
 
 <resources>
-    <string name="app_name">Calculator</string>
+    <string name="app_name">DyAdd</string>
     <string name="add">+</string>
     <string name="subtract">-</string>
     <string name="multiply">x</string>
