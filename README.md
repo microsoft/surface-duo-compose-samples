@@ -51,7 +51,7 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 | | |
 | [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
 | | |
-| [DyAdd](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DyAdd) | [DyAdd app icon](screenshots/dyadd.svg) | Calculator sample that uses the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+| [DyAdd](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DyAdd) | ![DyAdd app icon](screenshots/dyadd.svg) | Calculator sample that uses the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 | | |
 | [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
 | | |
