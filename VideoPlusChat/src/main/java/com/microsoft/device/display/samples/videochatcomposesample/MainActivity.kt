@@ -11,8 +11,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.microsoft.device.display.samples.videochatcomposesample.ui.theme.VideoChatComposeSampleTheme
 import com.microsoft.device.display.samples.videochatcomposesample.ui.views.MainPage
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -31,48 +29,16 @@ however I believe this would take away from the idea of creating a pure compose 
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var player: ExoPlayer
     private lateinit var windowState: WindowState
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        player = ExoPlayer.Builder(this).build()
         setContent {
             windowState = rememberWindowState()
             VideoChatComposeSampleTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    MainPage(windowState = windowState, player = player)
+                    MainPage(windowState = windowState)
                 }
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val mediaItem =
-            MediaItem.fromUri("https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4")
-        player.setMediaItem(mediaItem)
-        player.prepare()
-    }
-
-    companion object {
-        const val STATE_PLAY_WHEN_READY = "playerPlayWhenReady"
-        const val STATE_CURRENT_POSITION = "playerPlaybackPosition"
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        player.playWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY)
-        player.seekTo(savedInstanceState.getLong(STATE_CURRENT_POSITION))
-        player.prepare()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.run {
-            putBoolean(STATE_PLAY_WHEN_READY, player.playWhenReady)
-            putLong(STATE_CURRENT_POSITION, player.currentPosition)
-        }
-
-        super.onSaveInstanceState(outState)
     }
 }
