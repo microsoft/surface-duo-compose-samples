@@ -40,7 +40,6 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 | Sample | | Description |
 |---|:---:|---|
-| [Calculator](https://github.com/microsoft/surface-duo-compose-samples/tree/main/Calculator) | | Calculator sample that shows how to build a Calculator with a ticker tape and make use of second pane for more advanced functions.
 | | |
 | [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
 | | |
@@ -51,6 +50,8 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 | [ListDetail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ListDetail) | ![ListDetail app icon](screenshots/list_detail.svg) | Photo gallery sample that shows how to build the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern in Jetpack Compose. |
 | | |
 | [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
+| | |
+| [DyAdd](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DyAdd) | [DyAdd app icon](screenshots/dyadd.svg) | Calculator sample that uses the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
 | | |
 | [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
 | | |
