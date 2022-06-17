@@ -63,8 +63,10 @@ ext {
 
     // Google dependencies
     materialVersion = '1.5.0'
+    systemUiControllerVersion = '0.17.0'
     googleDependencies = [
-            material: "com.google.android.material:material:$materialVersion"
+            material: "com.google.android.material:material:$materialVersion",
+            systemUiController: "com.google.accompanist:accompanist-systemuicontroller:$systemUiControllerVersion"
     ]
 
     // Microsoft dependencies
