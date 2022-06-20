@@ -16,7 +16,6 @@ import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
 import com.microsoft.device.display.samples.listdetail.ui.view.ListViewTopBar
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
-import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 

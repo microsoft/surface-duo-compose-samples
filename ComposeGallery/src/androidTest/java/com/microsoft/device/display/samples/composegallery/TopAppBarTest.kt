@@ -20,7 +20,6 @@ import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
-import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 
@@ -125,7 +124,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                TwoPaneScopeTest(isSinglePane = false). ListPane(models, selectedImageIndex, updateImageIndex)
+                TwoPaneScopeTest(isSinglePane = false).ListPane(models, selectedImageIndex, updateImageIndex)
             }
         }
 
