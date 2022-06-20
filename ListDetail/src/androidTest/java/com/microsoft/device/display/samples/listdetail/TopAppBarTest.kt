@@ -47,7 +47,7 @@ class TopAppBarTest {
     fun detailBar_buttonHiddenInDualScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                TwoPaneScopeTest().DetailViewTopBar(isDualScreen = true)
+                TwoPaneScopeTest(isSinglePane = false).DetailViewTopBar()
             }
         }
 
@@ -64,7 +64,7 @@ class TopAppBarTest {
     fun detailBar_buttonShowsInSingleScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                TwoPaneScopeTest().DetailViewTopBar(isDualScreen = false)
+                TwoPaneScopeTest().DetailViewTopBar()
             }
         }
 
@@ -82,9 +82,7 @@ class TopAppBarTest {
     fun app_backToListButtonInSingleScreenMode() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                // need to reset the state back to the single screen, even it is the default value
-                // to avoid the "leftover" from the previous test cases
-                ListDetailApp(WindowState(hasFold = false, foldIsHorizontal = false))
+                ListDetailApp()
             }
         }
 

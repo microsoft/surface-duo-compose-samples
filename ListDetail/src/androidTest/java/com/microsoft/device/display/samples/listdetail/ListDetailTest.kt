@@ -37,7 +37,7 @@ class ListDetailTest {
     fun app_verticalFold_showDetailAfterListClicks() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                ListDetailApp(WindowState(hasFold = true, foldIsHorizontal = false, foldIsSeparating = true))
+                ListDetailApp()
             }
         }
 
@@ -65,7 +65,7 @@ class ListDetailTest {
     fun app_horizontalFold_showsList() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                ListDetailApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
+                ListDetailApp()
             }
         }
 
