@@ -19,7 +19,7 @@ import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGaller
 import com.microsoft.device.display.samples.composegallery.ui.view.DetailPane
 import com.microsoft.device.display.samples.composegallery.ui.view.ListPane
 import com.microsoft.device.dualscreen.testing.compose.getString
-import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -43,7 +43,7 @@ class TopAppBarTest {
     fun listPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, selectedImageIndex, updateImageIndex)
+                TwoPaneScopeTest(isSinglePane = false).ListPane(models, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -59,7 +59,7 @@ class TopAppBarTest {
     fun listPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, selectedImageIndex, updateImageIndex)
+                TwoPaneScopeTest().ListPane(models, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -75,7 +75,7 @@ class TopAppBarTest {
     fun detailPane_iconHiddenInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                DetailPane(models, true, index)
+                TwoPaneScopeTest(isSinglePane = false).DetailPane(models, index)
             }
         }
 
@@ -91,7 +91,7 @@ class TopAppBarTest {
     fun detailPane_iconShowsInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                DetailPane(models, false, index)
+                TwoPaneScopeTest().DetailPane(models, index)
             }
         }
 
@@ -107,7 +107,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, false, selectedImageIndex, updateImageIndex)
+                TwoPaneScopeTest().ListPane(models, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -124,7 +124,7 @@ class TopAppBarTest {
     fun listPane_showsAppNameInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ListPane(models, true, selectedImageIndex, updateImageIndex)
+                TwoPaneScopeTest(isSinglePane = false).ListPane(models, selectedImageIndex, updateImageIndex)
             }
         }
 
@@ -141,7 +141,7 @@ class TopAppBarTest {
     fun detailPane_showsAppNameInSingleMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                DetailPane(models, false, index)
+                TwoPaneScopeTest().DetailPane(models, index)
             }
         }
 
@@ -158,7 +158,7 @@ class TopAppBarTest {
     fun detailPane_blankTitleInDualMode() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                DetailPane(models, true, index)
+                TwoPaneScopeTest(isSinglePane = false).DetailPane(models, index)
             }
         }
 
@@ -175,7 +175,7 @@ class TopAppBarTest {
     fun app_testTopBarIconsSwitchPanes() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
-                ComposeGalleryApp(WindowState())
+                ComposeGalleryApp()
             }
         }
 

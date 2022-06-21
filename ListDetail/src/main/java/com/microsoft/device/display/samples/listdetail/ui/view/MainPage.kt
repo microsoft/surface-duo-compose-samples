@@ -12,16 +12,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
-import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @Composable
-fun ListDetailApp(windowState: WindowState) {
+fun ListDetailApp() {
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
     val updateSelectedIndex: (Int) -> Unit = { newIndex -> selectedIndex = newIndex }
 
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = { ListViewWithTopBar(selectedIndex, updateSelectedIndex) },
-        pane2 = { DetailViewWithTopBar(windowState.isDualPortrait(), selectedIndex) }
+        pane2 = { DetailViewWithTopBar(selectedIndex) }
     )
 }
