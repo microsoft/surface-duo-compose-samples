@@ -28,4 +28,6 @@
     <string name="contentMin">Min</string>
 
     <string name="sendchat">"Send a Chat Message..."</string>
+    <string name="stream_chat">STREAM CHAT</string>
+    <string name="send">Send</string>
 </resources>

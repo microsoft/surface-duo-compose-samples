@@ -70,7 +70,7 @@ fun ChatPage(focusManager: FocusManager) {
 @Composable
 fun ChatTitle() {
     Text(
-        "STREAM CHAT",
+        stringResource(id = R.string.sendchat),
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
@@ -102,7 +102,7 @@ fun ChatInputBar(focusManager: FocusManager) {
                     trailingIcon = {
                         Icon(
                             imageVector = Icons.Default.ArrowForward,
-                            "Send",
+                            stringResource(id = R.string.send),
                             modifier = Modifier
                                 .clickable
                                 {
