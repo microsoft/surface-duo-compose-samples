@@ -42,10 +42,10 @@ private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun TwoPaneScope.DetailViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
+fun TwoPaneScope.DetailViewWithTopBar(selectedIndex: Int) {
     Scaffold(
         topBar = {
-            DetailViewTopBar(isDualScreen)
+            DetailViewTopBar()
         },
         content = {
             DetailView(selectedIndex)
@@ -54,11 +54,11 @@ fun TwoPaneScope.DetailViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int)
 }
 
 @Composable
-fun TwoPaneScope.DetailViewTopBar(isDualScreen: Boolean) {
+fun TwoPaneScope.DetailViewTopBar() {
     TopAppBar(
         title = { },
         navigationIcon = {
-            if (!isDualScreen) {
+            if (isSinglePane) {
                 DetailViewTopBarButton()
             }
         }
