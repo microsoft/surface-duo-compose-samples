@@ -103,7 +103,6 @@ fun DragContainer(
                             translationY = offset.y.minus(targetSize.height / 2)
                         }
                         .onGloballyPositioned {
-                            println("####### it: $it, size: ${it.size}")
                             targetSize = it.size
                         }
                 ) {
