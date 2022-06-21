@@ -54,7 +54,7 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 | | |
 | [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
 | | |
-| [VideoPlusChat](https://github.com/microsoft/surface-duo-compose-samples/tree/main/VideoPlusChat) | | Video streaming platform sample that displays a video and accompanying chat in a [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern. |
+| [VideoPlusChat](https://github.com/microsoft/surface-duo-compose-samples/tree/main/VideoPlusChat) | | Video streaming platform sample that displays a video and accompanying chat in a [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern. |
 | | |
 ## Social links
 
