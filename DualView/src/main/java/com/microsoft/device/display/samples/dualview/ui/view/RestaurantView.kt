@@ -79,7 +79,7 @@ fun TwoPaneScope.RestaurantTopBar() {
 
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.restaurant_top_bar)),
-        actions = { if (!twoPaneScope.isSinglePane) twoPaneScope.RestaurantActionButton() },
+        actions = { if (twoPaneScope.isSinglePane) twoPaneScope.RestaurantActionButton() },
         title = {
             Text(
                 text = stringResource(R.string.app_name),

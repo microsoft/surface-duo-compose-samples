@@ -4,5 +4,5 @@
  */
 
 rootProject.name = "ComposeSamples"
-include ':ListDetail', ':CompanionPane', ':DualView', ':ExtendedCanvas', ':ComposeGallery',
+include ':ListDetail', ':CompanionPane', ':DualView', ':DyAdd', ':ExtendedCanvas', ':ComposeGallery',
         ':TwoPage', ':NavigationRail', ':VideoPlusChat'

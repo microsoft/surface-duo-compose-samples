@@ -62,7 +62,7 @@ fun TwoPaneScope.MapTopBar() {
         modifier = Modifier.testTag(stringResource(R.string.map_top_bar)),
         title = {
             Text(
-                text = if (!isSinglePane) stringResource(R.string.app_name) else "",
+                text = if (isSinglePane) stringResource(R.string.app_name) else "",
                 style = TextStyle(
                     fontSize = 19.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -71,7 +71,7 @@ fun TwoPaneScope.MapTopBar() {
             )
         },
         actions = {
-            if (!twoPaneScope.isSinglePane) {
+            if (twoPaneScope.isSinglePane) {
                 IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_list),

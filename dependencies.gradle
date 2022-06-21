@@ -65,10 +65,12 @@ ext {
 
     // Google dependencies
     materialVersion = '1.5.0'
-    exoPlayerVersion = '2.17.1'
+    exoPlayerVersion = '2.17.1' 
+    systemUiControllerVersion = '0.17.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion",
-            exoPlayer:  "com.google.android.exoplayer:exoplayer:$exoPlayerVersion"
+            exoPlayer:  "com.google.android.exoplayer:exoplayer:$exoPlayerVersion",
+            systemUiController: "com.google.accompanist:accompanist-systemuicontroller:$systemUiControllerVersion"
     ]
 
     // Microsoft dependencies

@@ -49,7 +49,7 @@ class TopAppBarTest {
     fun restaurantBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                TwoPaneScopeTest().RestaurantTopBar()
+                TwoPaneScopeTest(isSinglePane = false).RestaurantTopBar()
             }
         }
 
@@ -64,7 +64,7 @@ class TopAppBarTest {
     fun mapBar_iconShowsInSingleScreenMode() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                TwoPaneScopeTest().MapTopBar(isDualScreen = false)
+                TwoPaneScopeTest().MapTopBar()
             }
         }
 
@@ -79,7 +79,7 @@ class TopAppBarTest {
     fun mapBar_iconHiddenInDualScreenMode() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                TwoPaneScopeTest().MapTopBar(isDualScreen = true)
+                TwoPaneScopeTest(isSinglePane = false).MapTopBar()
             }
         }
 
@@ -128,7 +128,7 @@ class TopAppBarTest {
     fun mapBar_showsAppTitleInSingleScreenMode() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                TwoPaneScopeTest().MapTopBar(isDualScreen = false)
+                TwoPaneScopeTest().MapTopBar()
             }
         }
 
@@ -145,7 +145,7 @@ class TopAppBarTest {
     fun mapBar_isBlankInDualScreenMode() {
         composeTestRule.setContent {
             DualViewAppTheme {
-                TwoPaneScopeTest().MapTopBar(isDualScreen = true)
+                TwoPaneScopeTest(isSinglePane = false).MapTopBar()
             }
         }
 
