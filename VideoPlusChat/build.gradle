@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.display.samples.videochatcomposesample"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.compileSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.lifeCycleRuntime
+
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
+    androidTestImplementation testDependencies.composeUITest
+    testImplementation testDependencies.composeJunit
+    androidTestImplementation testDependencies.uiAutomator
+    androidTestImplementation microsoftDependencies.composeTesting
+
+    implementation microsoftDependencies.twoPaneLayout
+
+    implementation googleDependencies.exoPlayer
+}

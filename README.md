@@ -57,6 +57,8 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 | | |
 | [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
 | | |
+| [VideoPlusChat](https://github.com/microsoft/surface-duo-compose-samples/tree/main/VideoPlusChat) | | Video streaming platform sample that displays a video and accompanying chat in a [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern. |
+| | |
 | [DragAndDrop](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DragAndDrop) | ![DragAndDrop app icon](screenshots/drag_and_drop.svg) | Drag and Drop sample that shows how to implement drag and drop in your Android app, following the Android [drag and drop guidance](https://developer.android.com/guide/topics/ui/drag-drop) in Jetpack Compose. |
 | | |
 

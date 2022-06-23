@@ -23,9 +23,11 @@ ext {
     // AndroidX versions
     appCompatVersion = '1.4.1'
     ktxCoreVersion = '1.7.0'
+    lcRunVersion = '2.4.1'
     androidxDependencies = [
             appCompat       : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore         : "androidx.core:core-ktx:$ktxCoreVersion",
+            lifeCycleRuntime: "androidx.lifecycle:lifecycle-runtime-ktx:$lcRunVersion",
     ]
 
     // Compose dependencies
@@ -63,9 +65,11 @@ ext {
 
     // Google dependencies
     materialVersion = '1.5.0'
+    exoPlayerVersion = '2.17.1' 
     systemUiControllerVersion = '0.17.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion",
+            exoPlayer:  "com.google.android.exoplayer:exoplayer:$exoPlayerVersion",
             systemUiController: "com.google.accompanist:accompanist-systemuicontroller:$systemUiControllerVersion"
     ]
 
