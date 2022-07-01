@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Jetpack Window Manager for foldable devices</h1>
+
+<p>Jetpack Window Manager provides a standard API for working with all foldable devices.</p>
+
+<img src="https://devblogs.microsoft.com/surface-duo/wp-content/uploads/sites/53/2021/03/a-screenshot-of-a-computer-description-automatica.png" width="400"><br>
+
+<i>Figure 1: single- and dual-screen foldable devices</i>
+</p>
+
+<p>It contains two important classes:</p>
+
+<ul>
+    <li><b>DisplayFeature</b> - Identifies disruptions in the continuous flat screen surface such as hinges or folds. Window Manager will return a collection of display features from a layout change callback.</li>
+    <li><b>FoldingFeature</b> - Provides information about a specific feature of the device - while the Surface Duo only has one folding feature, it's possible that other devices might have more. The FoldingFeature class provides information about the state of that part of the device, with properties for bounds, occlusionType, orientation, state, and isSeparating.</li>
+</ul>
+
+For more information, visit our <a href="https://docs.microsoft.com/dual-screen/android/platform/jetpack-window-manager/">Jetpack Window Manager docs</a>
+and this <a href="https://github.com/googlecodelabs/android-foldable-codelab/">Google Codelab</a>, and the <a href="https://medium.com/androiddevelopers/support-new-form-factors-with-the-new-jetpack-windowmanager-library-4be98f5450da">Android developers blog</a>.
+
+</body>
+</html>

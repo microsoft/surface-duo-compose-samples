@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Source Editor Compose</string>
+    <string name="editor_button">Editor</string>
+    <string name="preview_button">Preview</string>
+</resources>
