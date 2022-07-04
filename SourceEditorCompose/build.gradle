@@ -59,7 +59,7 @@ dependencies {
     implementation composeDependencies.composeRuntime
     implementation composeDependencies.activityCompose
 
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha02"
+    implementation microsoftDependencies.twoPaneLayout
 
     debugImplementation testDependencies.composeUITestManifest
 
