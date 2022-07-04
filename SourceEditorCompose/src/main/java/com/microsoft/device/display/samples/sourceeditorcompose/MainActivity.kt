@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 /**
  * PreviewPage Composable displays the preview for the HTML code present in the editor and updates it if there are any changes in the editor file
  */
@@ -76,21 +75,23 @@ fun TwoPaneScope.PreviewPage(text: String) {
             )
         }
     ) {
-        AndroidView(factory = {
-            WebView(it).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                webViewClient = WebViewClient()
-                loadData(text, "text/html", "UTF-8")
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    webViewClient = WebViewClient()
+                    loadData(text, "text/html", "UTF-8")
+                }
+            },
+            update = {
+                it.loadData(text, "text/html", "UTF-8")
             }
-        }, update = {
-            it.loadData(text, "text/html", "UTF-8")
-        })
+        )
     }
 }
-
 
 /**
  * EditorPage Composable contains the Editor for the HTML file
@@ -123,7 +124,6 @@ fun TwoPaneScope.EditorPage(text: String, updateText: (String) -> Unit) {
         )
     }
 }
-
 
 /**
  * For handling window navigation for Surface Duo, this acts as a main Controller for both the Composable
