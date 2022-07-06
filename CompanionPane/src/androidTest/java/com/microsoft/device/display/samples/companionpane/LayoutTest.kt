@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.companionpane
 
+import android.app.UiAutomation
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -16,6 +17,7 @@ import com.microsoft.device.display.samples.companionpane.ui.theme.CompanionPane
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.filters.DeviceOrientation
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import org.junit.Rule
@@ -41,10 +43,8 @@ class LayoutTest {
      * the portrait orientation
      */
     @Test
+    @DeviceOrientation(orientation = UiAutomation.ROTATION_FREEZE_0)
     fun app_testSinglePortraitLayout() {
-        // Lock in portrait orientation
-        device.setOrientationNatural()
-
         composeTestRule.setContent {
             CompanionPaneAppTheme {
                 CompanionPaneAppContent(WindowMode.SINGLE_PORTRAIT)
@@ -54,9 +54,6 @@ class LayoutTest {
         // Check that single portrait layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_port))
             .assertIsDisplayed()
-
-        // Unfreeze orientation
-        device.unfreezeRotation()
     }
 
     /**
@@ -64,10 +61,8 @@ class LayoutTest {
      * the landscape orientation
      */
     @Test
+    @DeviceOrientation(orientation = UiAutomation.ROTATION_FREEZE_90)
     fun app_testSingleLandscapeLayout() {
-        // Lock in landscape orientation
-        device.setOrientationLeft()
-
         composeTestRule.setContent {
             CompanionPaneAppTheme {
                 CompanionPaneAppContent(WindowMode.SINGLE_LANDSCAPE)
@@ -77,9 +72,6 @@ class LayoutTest {
         // Check that single landscape layout is shown
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.single_land))
             .assertIsDisplayed()
-
-        // Unfreeze orientation
-        device.unfreezeRotation()
     }
 
     /**
