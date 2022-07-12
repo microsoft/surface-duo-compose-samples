@@ -22,19 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.microsoft.device.display.samples.diary.FileOps
 import com.microsoft.device.display.samples.diary.R
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
-import java.io.File
+
 import java.time.LocalDate
 
+
+/**
+ *  The CalendarView Composable which also contains the Diary Content for the selected day
+ */
 @Composable
 fun TwoPaneScope.CalendarPage(
     content: String,
@@ -42,10 +44,6 @@ fun TwoPaneScope.CalendarPage(
     updateDate: (LocalDate) -> Unit,
     updateContent: () -> Unit
 ) {
-    val context = LocalContext.current
-    val rootDataDir: File = context.applicationContext.dataDir
-    val fileOps = FileOps()
-    val diaryToday: String = fileOps.readDayFile(selectedDate.toString(), rootDataDir, context)
     val twoPaneScope = this
     Scaffold(
         topBar = {
@@ -60,7 +58,10 @@ fun TwoPaneScope.CalendarPage(
                         IconButton(
                             onClick = { twoPaneScope.navigateToPane2() }
                         ) {
-                            Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit diary")
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Edit diary"
+                            )
                         }
                     }
                 }
@@ -68,12 +69,11 @@ fun TwoPaneScope.CalendarPage(
         }
     ) {
 
-        Column() {
+        Column {
             AndroidView(
                 {
                     CalendarView(it)
                         .apply {
-                            // centering the Calendar view vertically but letting it expand on width
                             layoutParams = ViewGroup.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -82,7 +82,7 @@ fun TwoPaneScope.CalendarPage(
                 },
                 modifier = Modifier.wrapContentWidth(),
                 update = {
-                    it.setOnDateChangeListener { view, year, month, dayOfMonth ->
+                    it.setOnDateChangeListener { _, year, month, dayOfMonth ->
                         val currentSelectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                         updateDate(currentSelectedDate)
                         updateContent()

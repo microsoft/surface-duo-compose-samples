@@ -16,7 +16,7 @@ import java.time.LocalDate
  *  For handling window navigation for Surface Duo, this acts as a main Controller for both the Composable
  */
 @Composable
-fun ControllerLayer() {
+fun MainApp() {
     val context = LocalContext.current
     val fileOps = FileOps()
     val rootDataDir: File = context.applicationContext.dataDir
@@ -31,7 +31,7 @@ fun ControllerLayer() {
         currentSelectedDate = date
     }
     val updateContent: () -> Unit = {
-        content = fileOps.readDayFile(currentSelectedDate.toString(), rootDataDir, context)
+        content = fileOps.readDayFile(currentSelectedDate.toString(), rootDataDir)
     }
     val updateText: (String) -> Unit = { newText ->
         text = newText

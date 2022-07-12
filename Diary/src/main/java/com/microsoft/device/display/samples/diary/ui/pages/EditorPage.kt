@@ -28,7 +28,7 @@ import java.io.File
 import java.time.LocalDate
 
 /**
- *  EditorPage Composable contains the Editor for the HTML file
+ *  EditorPage Composable contains the Editor for the Diary for selected date on the CalendarView
  */
 @Composable
 fun TwoPaneScope.DiaryPage(
@@ -40,7 +40,7 @@ fun TwoPaneScope.DiaryPage(
     val twoPaneScope = this
     val context = LocalContext.current
     val rootDataDir: File = context.applicationContext.dataDir
-    val fileOps: FileOps = FileOps()
+    val fileOps = FileOps()
 
     Scaffold(
         topBar = {
@@ -57,14 +57,17 @@ fun TwoPaneScope.DiaryPage(
                         IconButton(
                             onClick = { twoPaneScope.navigateToPane1() }
                         ) {
-                            Icon(imageVector = Icons.Rounded.DateRange, contentDescription = "Date Range Icon")
+                            Icon(
+                                imageVector = Icons.Rounded.DateRange,
+                                contentDescription = "Date Range Icon"
+                            )
                         }
                     }
                 }
             )
         }
     ) {
-        Column() {
+        Column {
             Row(modifier = Modifier.weight(0.9f)) {
                 TextField(
                     value = text,
@@ -83,15 +86,15 @@ fun TwoPaneScope.DiaryPage(
                     onClick = {
                         if (fileOps.checkPermission(context)) {
 
-                            fileOps.saveFile(selectedDate.toString(), text, context, rootDataDir)
+                            fileOps.saveFile(selectedDate.toString(), text, rootDataDir)
                             updateContent()
                         } else {
-                            fileOps.saveFile(selectedDate.toString(), text, context, rootDataDir)
+                            fileOps.saveFile(selectedDate.toString(), text, rootDataDir)
                             updateContent()
                         }
                     }
                 ) {
-                    Text(text = "Save Diary")
+                    Text(text = stringResource(R.string.save_button))
                 }
             }
         }

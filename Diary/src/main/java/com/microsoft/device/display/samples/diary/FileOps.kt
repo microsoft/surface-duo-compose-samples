@@ -15,31 +15,31 @@ import java.io.IOException
 
 class FileOps {
 
-    fun readDayFile(fileName: String, rootDir: File, context: Context): String {
+    fun readDayFile(fileName: String, rootDir: File): String {
         val file = File(rootDir, "/$fileName")
-        var DayContent = String()
+
         if (!file.exists()) {
             return "Let's start writing for the day"
 
         }
 
-        val fileReader: FileReader = FileReader(file)
+        val fileReader = FileReader(file)
 
-        DayContent =  BufferedReader(fileReader).useLines { lines ->
+        val dayContent = BufferedReader(fileReader).useLines { lines ->
             val content = StringBuilder()
             lines.forEach { content.append(it + System.getProperty("line.separator")) }
             content.toString()
         }
         fileReader.close()
-        return  DayContent
+        return dayContent
     }
 
     /**
      *  To save a txt file to a specified file path
      */
-    fun saveFile(fileName: String, content: String, context: Context, rootDir: File) {
+    fun saveFile(fileName: String, content: String, rootDir: File) {
         val file = File(rootDir, "/$fileName")
-        val out: FileWriter = FileWriter(file)
+        val out = FileWriter(file)
         try {
             out.write(content)
             out.close()
