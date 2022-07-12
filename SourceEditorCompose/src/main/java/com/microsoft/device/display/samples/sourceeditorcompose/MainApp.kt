@@ -7,7 +7,6 @@
 
 package com.microsoft.device.display.samples.sourceeditorcompose
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,4 +33,3 @@ fun MainApp() {
         pane2 = { PreviewPage(text = text) }
     )
 }
-
