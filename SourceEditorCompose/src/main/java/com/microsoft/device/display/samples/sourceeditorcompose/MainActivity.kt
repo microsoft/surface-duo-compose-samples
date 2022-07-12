@@ -158,11 +158,3 @@ private fun readFile(file: String, context: Context?): String {
         results.toString()
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TwoPaneExampleTheme {
-        Text("Test")
-    }
-}
