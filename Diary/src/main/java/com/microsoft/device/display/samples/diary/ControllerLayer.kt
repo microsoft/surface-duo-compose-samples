@@ -18,7 +18,7 @@ import java.time.LocalDate
 @Composable
 fun ControllerLayer() {
     val context = LocalContext.current
-    val fileOps: FileOps = FileOps()
+    val fileOps = FileOps()
     val rootDataDir: File = context.applicationContext.dataDir
 
     var text by rememberSaveable { mutableStateOf("") }
@@ -41,7 +41,6 @@ fun ControllerLayer() {
         pane1 = {
             CalendarPage(
                 content = content,
-                text = text,
                 selectedDate = currentSelectedDate,
                 updateDate = updateDate,
                 updateContent = updateContent

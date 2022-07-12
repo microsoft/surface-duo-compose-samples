@@ -38,14 +38,13 @@ import java.time.LocalDate
 @Composable
 fun TwoPaneScope.CalendarPage(
     content: String,
-    text: String,
     selectedDate: LocalDate,
     updateDate: (LocalDate) -> Unit,
     updateContent: () -> Unit
 ) {
     val context = LocalContext.current
     val rootDataDir: File = context.applicationContext.dataDir
-    val fileOps: FileOps = FileOps()
+    val fileOps = FileOps()
     val diaryToday: String = fileOps.readDayFile(selectedDate.toString(), rootDataDir, context)
     val twoPaneScope = this
     Scaffold(
