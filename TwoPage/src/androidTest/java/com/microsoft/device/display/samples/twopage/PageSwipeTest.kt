@@ -19,9 +19,9 @@ import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
 import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
 import com.microsoft.device.dualscreen.testing.compose.getString
-import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
-import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
+import com.microsoft.device.dualscreen.testing.filters.MockFoldingFeature
+import com.microsoft.device.dualscreen.testing.filters.SingleScreenTest
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
@@ -44,6 +44,7 @@ class PageSwipeTest {
      * Tests that the pages swipe only between 1 and 4 in single screen mode
      */
     @Test
+    @SingleScreenTest
     fun app_singlescreen_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
@@ -58,15 +59,13 @@ class PageSwipeTest {
      * Tests that the pages swipe only between 1 and 4 when a horizontal fold is present
      */
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.HORIZONTAL)
     fun app_horizontalFold_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             TwoPageAppTheme {
                 TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
             }
         }
-
-        // Simulate horizontal foldFeature
-        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         swipeOnePageAtATime()
     }
@@ -118,6 +117,7 @@ class PageSwipeTest {
      * a vertical fold is present
      */
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.VERTICAL)
     fun app_verticalFold_pagesSwipeWithinLimits() {
         composeTestRule.setContent {
             val pageWidth = LocalConfiguration.current.screenWidthDp / 2
@@ -131,9 +131,6 @@ class PageSwipeTest {
                 )
             }
         }
-
-        // Simulate vertical foldFeature
-        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         val pageTags = listOf(R.string.page1_tag, R.string.page2_tag, R.string.page3_tag, R.string.page4_tag)
 

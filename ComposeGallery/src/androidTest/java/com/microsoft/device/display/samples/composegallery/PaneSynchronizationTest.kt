@@ -24,8 +24,8 @@ import com.microsoft.device.display.samples.composegallery.models.DataProvider
 import com.microsoft.device.display.samples.composegallery.ui.ComposeGalleryTheme
 import com.microsoft.device.display.samples.composegallery.ui.view.ComposeGalleryApp
 import com.microsoft.device.dualscreen.testing.compose.getString
-import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.filters.MockFoldingFeature
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -48,15 +48,13 @@ class PaneSynchronizationTest {
      */
     @ExperimentalTestApi
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.VERTICAL)
     fun app_verticalFold_testListItemClickUpdatesDetailPane() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp()
             }
         }
-
-        // Simulate a vertical foldFeature so two panes are visible
-        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Scroll to end of list
         val index = 7
@@ -121,15 +119,13 @@ class PaneSynchronizationTest {
      * introduced
      */
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.HORIZONTAL)
     fun app_testOnePaneShowsWithHorizontalFold() {
         composeTestRule.setContent {
             ComposeGalleryTheme {
                 ComposeGalleryApp()
             }
         }
-
-        // Simulate a horizontal foldFeature so one pane is still visible
-        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Check that the list view is displayed
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
