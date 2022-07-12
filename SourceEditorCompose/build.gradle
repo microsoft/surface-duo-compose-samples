@@ -60,16 +60,4 @@ dependencies {
     implementation composeDependencies.activityCompose
 
     implementation microsoftDependencies.twoPaneLayout
-
-    debugImplementation testDependencies.composeUITestManifest
-
-    androidTestImplementation testDependencies.androidxTestCore
-    androidTestImplementation testDependencies.androidxTestRules
-    androidTestImplementation testDependencies.androidxTestRunner
-    androidTestImplementation testDependencies.espressoCore
-    androidTestImplementation testDependencies.composeUITest
-    androidTestImplementation testDependencies.composeJunit
-    androidTestImplementation testDependencies.uiAutomator
-    androidTestImplementation microsoftDependencies.composeTesting
-
 }
