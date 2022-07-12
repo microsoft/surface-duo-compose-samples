@@ -3,4 +3,5 @@
     <string name="calendar_button">Calendar</string>
     <string name="diary_editor">Diary Editor</string>
     <string name="save_button">Save Diary</string>
+    <string name="diary_placeholder">Start writing...</string>
 </resources>
