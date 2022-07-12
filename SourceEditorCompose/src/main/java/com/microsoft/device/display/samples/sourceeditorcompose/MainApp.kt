@@ -26,8 +26,7 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 fun MainApp() {
     val fileOperations = FileOperations()
     val context = LocalContext.current
-    val fileName = "Source.html"
-    var text by rememberSaveable { mutableStateOf(fileOperations.readFile(fileName, context)) }
+    var text by rememberSaveable { mutableStateOf(fileOperations.readFile("Source.html", context)) }
     val updateText: (String) -> Unit = { newText -> text = newText }
 
     TwoPaneLayout(
