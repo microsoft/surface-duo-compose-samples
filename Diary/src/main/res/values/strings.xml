@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Compose Diary</string>
+    <string name="calendar_button">Calendar</string>
+    <string name="diary_editor">Diary Editor</string>
+</resources>
