@@ -20,7 +20,6 @@ class FileOps {
 
         if (!file.exists()) {
             return "Let's start writing for the day"
-
         }
 
         val fileReader = FileReader(file)

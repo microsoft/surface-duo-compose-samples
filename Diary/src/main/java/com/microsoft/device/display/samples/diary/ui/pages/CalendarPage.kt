@@ -30,9 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.microsoft.device.display.samples.diary.R
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
-
 import java.time.LocalDate
-
 
 /**
  *  The CalendarView Composable which also contains the Diary Content for the selected day
