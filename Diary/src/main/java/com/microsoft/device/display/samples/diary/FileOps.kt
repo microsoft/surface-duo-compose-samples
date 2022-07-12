@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import java.io.BufferedReader
 import java.io.File
@@ -18,18 +17,21 @@ class FileOps {
 
     fun readDayFile(fileName: String, rootDir: File, context: Context): String {
         val file = File(rootDir, "/$fileName")
+        var DayContent = String()
         if (!file.exists()) {
             return "Let's start writing for the day"
+
         }
 
         val fileReader: FileReader = FileReader(file)
 
-        return BufferedReader(fileReader).useLines { lines ->
+        DayContent =  BufferedReader(fileReader).useLines { lines ->
             val content = StringBuilder()
             lines.forEach { content.append(it + System.getProperty("line.separator")) }
             content.toString()
         }
         fileReader.close()
+        return  DayContent
     }
 
     /**
