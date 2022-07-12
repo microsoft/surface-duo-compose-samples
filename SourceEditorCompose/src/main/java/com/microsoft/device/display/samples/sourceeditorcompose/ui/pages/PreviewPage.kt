@@ -10,11 +10,15 @@ package com.microsoft.device.display.samples.sourceeditorcompose.ui.pages
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -41,7 +45,10 @@ fun TwoPaneScope.PreviewPage(text: String) {
                 actions = {
                     if (twoPaneScope.isSinglePane) {
                         IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
-                            Text(text = stringResource(R.string.editor_button))
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Show Source"
+                            )
                         }
                     }
                 }

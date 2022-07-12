@@ -53,6 +53,7 @@ android {
 dependencies {
 
     implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
