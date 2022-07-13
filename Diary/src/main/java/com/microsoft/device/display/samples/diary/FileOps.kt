@@ -1,5 +1,6 @@
 package com.microsoft.device.display.samples.diary
 
+import android.content.Context
 import android.util.Log
 import java.io.BufferedReader
 import java.io.File
@@ -7,10 +8,10 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
 
-fun readDayFile(fileName: String, rootDir: File): String {
+fun readDayFile(fileName: String, rootDir: File, context: Context): String {
     val file = File(rootDir, "/$fileName")
     if (!file.exists()) {
-        return "No data"
+        return context.getString(R.string.no_diary_content)
     }
     val fileReader = FileReader(file)
 

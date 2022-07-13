@@ -30,7 +30,7 @@ fun MainApp() {
         currentSelectedDate = date
     }
     val updateContent: () -> Unit = {
-        content = readDayFile(currentSelectedDate.toString(), rootDataDir)
+        content = readDayFile(currentSelectedDate.toString(), rootDataDir, context)
     }
     val updateText: (String) -> Unit = { newText ->
         text = newText
