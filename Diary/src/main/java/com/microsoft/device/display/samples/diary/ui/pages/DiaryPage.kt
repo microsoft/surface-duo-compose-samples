@@ -15,10 +15,8 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -74,24 +72,22 @@ fun TwoPaneScope.DiaryPage(
                     onValueChange = { newText -> updateText(newText) },
                     modifier = Modifier.fillMaxSize(),
 
-                )
+                    )
             }
-            Row(
+
+            Button(
                 modifier = Modifier
-                    .weight(0.1f)
-            ) {
-                Button(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .padding(all = 10.dp),
-                    onClick = {
-                        saveFile(selectedDate.toString(), text, rootDataDir)
-                        updateContent()
-                    }
-                ) {
-                    Text(text = stringResource(R.string.save_button))
+                    .width(150.dp)
+                    .padding(all = 10.dp)
+                    .weight(0.1f),
+                onClick = {
+                    saveFile(selectedDate.toString(), text, rootDataDir)
+                    updateContent()
                 }
+            ) {
+                Text(text = stringResource(R.string.save_button))
             }
+
         }
     }
 }
