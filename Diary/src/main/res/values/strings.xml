@@ -5,4 +5,6 @@
     <string name="save_button">Save Diary</string>
     <string name="diary_placeholder">Start writing...</string>
     <string name="no_diary_content">No data available for the day</string>
+    <string name="edit_diary">Edit Diary</string>
+    <string name="date_picker">Date Selector</string>
 </resources>

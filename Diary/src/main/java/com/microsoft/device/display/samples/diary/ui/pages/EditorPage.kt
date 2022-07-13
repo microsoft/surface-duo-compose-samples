@@ -14,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -50,15 +51,14 @@ fun TwoPaneScope.DiaryPage(
                     }
                 },
                 backgroundColor = MaterialTheme.colors.primaryVariant,
-                contentColor = Color.White,
                 actions = {
                     if (twoPaneScope.isSinglePane) {
                         IconButton(
                             onClick = { twoPaneScope.navigateToPane1() }
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.DateRange,
-                                contentDescription = "Date Range Icon"
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = stringResource(R.string.date_picker)
                             )
                         }
                     }
@@ -74,7 +74,7 @@ fun TwoPaneScope.DiaryPage(
                     onValueChange = { newText -> updateText(newText) },
                     modifier = Modifier.fillMaxSize(),
 
-                    )
+                )
             }
             Row(
                 modifier = Modifier

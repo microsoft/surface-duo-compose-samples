@@ -49,7 +49,6 @@ fun TwoPaneScope.CalendarPage(
                 title = {
                     Text(text = stringResource(id = R.string.app_name))
                 },
-                contentColor = Color.White,
                 backgroundColor = MaterialTheme.colors.primaryVariant,
                 actions = {
                     if (twoPaneScope.isSinglePane) {
@@ -58,7 +57,7 @@ fun TwoPaneScope.CalendarPage(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit diary"
+                                contentDescription = stringResource(R.string.edit_diary)
                             )
                         }
                     }
