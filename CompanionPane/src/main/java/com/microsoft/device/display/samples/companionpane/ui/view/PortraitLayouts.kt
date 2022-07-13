@@ -27,6 +27,7 @@ import com.microsoft.device.display.samples.companionpane.ui.components.FullFilt
 import com.microsoft.device.display.samples.companionpane.ui.components.ImagePanel
 import com.microsoft.device.display.samples.companionpane.ui.components.MagicWandPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.ShortFilterControl
+import com.microsoft.device.display.samples.companionpane.ui.components.SliderState
 import com.microsoft.device.display.samples.companionpane.ui.components.VignettePanel
 
 private val longSliderWidth = 350.dp
@@ -45,7 +46,7 @@ fun DualPortraitPane1() {
 }
 
 @Composable
-fun DualPortraitPane2() {
+fun DualPortraitPane2(sliderState: SliderState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,10 +55,18 @@ fun DualPortraitPane2() {
         verticalArrangement = Arrangement.spacedBy(80.dp, Alignment.CenterVertically)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(35.dp)) {
-            MagicWandPanel(modifier = Modifier.width(longSliderWidth))
-            DefinitionPanel(modifier = Modifier.width(longSliderWidth))
-            VignettePanel(modifier = Modifier.width(longSliderWidth))
-            BrightnessPanel(modifier = Modifier.width(longSliderWidth))
+            MagicWandPanel(modifier = Modifier.width(longSliderWidth), sliderState.magicWand) {
+                sliderState.magicWand = it
+            }
+            DefinitionPanel(modifier = Modifier.width(longSliderWidth), sliderState.definition) {
+                sliderState.definition = it
+            }
+            VignettePanel(modifier = Modifier.width(longSliderWidth), sliderState.vignette) {
+                sliderState.vignette = it
+            }
+            BrightnessPanel(modifier = Modifier.width(longSliderWidth), sliderState.brightness) {
+                sliderState.brightness = it
+            }
         }
         ShortFilterControl()
     }

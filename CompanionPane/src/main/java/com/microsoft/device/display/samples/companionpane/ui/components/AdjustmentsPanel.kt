@@ -18,29 +18,41 @@ private val iconWidth = 25.dp
 private val controlWidth = 70.dp
 
 @Composable
-fun MagicWandPanel(modifier: Modifier) {
-    AdjustmentPanel(modifier, R.drawable.filter_icon, R.string.magic_wand)
+fun MagicWandPanel(modifier: Modifier, sliderPosition: Float, onValueChange: (Float) -> Unit) {
+    AdjustmentPanel(
+        modifier,
+        R.drawable.filter_icon,
+        R.string.magic_wand,
+        sliderPosition,
+        onValueChange
+    )
 }
 
 @Composable
-fun DefinitionPanel(modifier: Modifier) {
-    AdjustmentPanel(modifier, R.drawable.hdr_icon, R.string.definition)
+fun DefinitionPanel(modifier: Modifier, sliderPosition: Float, onValueChange: (Float) -> Unit) {
+    AdjustmentPanel(modifier, R.drawable.hdr_icon, R.string.definition, sliderPosition, onValueChange)
 }
 
 @Composable
-fun VignettePanel(modifier: Modifier) {
-    AdjustmentPanel(modifier, R.drawable.zoom_icon, R.string.vignette)
+fun VignettePanel(modifier: Modifier, sliderPosition: Float, onValueChange: (Float) -> Unit) {
+    AdjustmentPanel(modifier, R.drawable.zoom_icon, R.string.vignette, sliderPosition, onValueChange)
 }
 
 @Composable
-fun BrightnessPanel(modifier: Modifier) {
-    AdjustmentPanel(modifier, R.drawable.brightness_icon, R.string.brightness)
+fun BrightnessPanel(modifier: Modifier, sliderPosition: Float, onValueChange: (Float) -> Unit) {
+    AdjustmentPanel(modifier, R.drawable.brightness_icon, R.string.brightness, sliderPosition, onValueChange)
 }
 
 @Composable
-private fun AdjustmentPanel(modifier: Modifier, @DrawableRes icon: Int, @StringRes label: Int) {
+private fun AdjustmentPanel(
+    modifier: Modifier,
+    @DrawableRes icon: Int,
+    @StringRes label: Int,
+    sliderPosition: Float,
+    onValueChange: (Float) -> Unit
+) {
     Row {
         ImageWithText(icon, stringResource(label), iconWidth, controlWidth)
-        SliderControl(modifier)
+        SliderControl(modifier, sliderPosition, onValueChange)
     }
 }

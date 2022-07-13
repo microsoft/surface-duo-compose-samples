@@ -33,6 +33,7 @@ import com.microsoft.device.display.samples.companionpane.ui.components.FilterPa
 import com.microsoft.device.display.samples.companionpane.ui.components.ImagePanel
 import com.microsoft.device.display.samples.companionpane.ui.components.MagicWandPanel
 import com.microsoft.device.display.samples.companionpane.ui.components.ShortFilterControl
+import com.microsoft.device.display.samples.companionpane.ui.components.SliderState
 import com.microsoft.device.display.samples.companionpane.ui.components.VignettePanel
 
 private val shortSlideWidth = 200.dp
@@ -52,7 +53,7 @@ fun DualLandscapePane1() {
 }
 
 @Composable
-fun DualLandscapePane2() {
+fun DualLandscapePane2(sliderState: SliderState) {
     Surface {
         Column(
             modifier = Modifier
@@ -69,14 +70,34 @@ fun DualLandscapePane2() {
                     .horizontalScroll(rememberScrollState())
             ) {
                 Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                    MagicWandPanel(modifier = Modifier.width(shortSlideWidth))
+                    MagicWandPanel(
+                        modifier = Modifier.width(shortSlideWidth),
+                        sliderState.magicWand
+                    ) {
+                        sliderState.magicWand = it
+                    }
                     Spacer(Modifier.height(20.dp))
-                    DefinitionPanel(modifier = Modifier.width(shortSlideWidth))
+                    DefinitionPanel(
+                        modifier = Modifier.width(shortSlideWidth),
+                        sliderState.definition
+                    ) {
+                        sliderState.definition = it
+                    }
                 }
                 Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                    VignettePanel(modifier = Modifier.width(shortSlideWidth))
+                    VignettePanel(
+                        modifier = Modifier.width(shortSlideWidth),
+                        sliderState.vignette
+                    ) {
+                        sliderState.vignette = it
+                    }
                     Spacer(Modifier.height(20.dp))
-                    BrightnessPanel(modifier = Modifier.width(shortSlideWidth))
+                    BrightnessPanel(
+                        modifier = Modifier.width(shortSlideWidth),
+                        sliderState.brightness
+                    ) {
+                        sliderState.brightness = it
+                    }
                 }
             }
             ShortFilterControl()
@@ -85,7 +106,7 @@ fun DualLandscapePane2() {
 }
 
 @Composable
-fun LandscapeLayout() {
+fun LandscapeLayout(sliderState: SliderState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -108,10 +129,24 @@ fun LandscapeLayout() {
                     .padding(top = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                MagicWandPanel(modifier = Modifier.width(shortSlideWidth))
-                DefinitionPanel(modifier = Modifier.width(shortSlideWidth))
-                VignettePanel(modifier = Modifier.width(shortSlideWidth))
-                BrightnessPanel(modifier = Modifier.width(shortSlideWidth))
+                MagicWandPanel(modifier = Modifier.width(shortSlideWidth), sliderState.magicWand) {
+                    sliderState.magicWand = it
+                }
+                DefinitionPanel(
+                    modifier = Modifier.width(shortSlideWidth),
+                    sliderState.definition
+                ) {
+                    sliderState.definition = it
+                }
+                VignettePanel(modifier = Modifier.width(shortSlideWidth), sliderState.vignette) {
+                    sliderState.vignette = it
+                }
+                BrightnessPanel(
+                    modifier = Modifier.width(shortSlideWidth),
+                    sliderState.brightness
+                ) {
+                    sliderState.brightness = it
+                }
             }
         }
         ShortFilterControl()
