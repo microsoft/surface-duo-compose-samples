@@ -1,7 +1,6 @@
 package com.microsoft.device.display.samples.diary.ui.pages
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -65,15 +64,15 @@ fun TwoPaneScope.DiaryPage(
         }
     ) {
         Column {
-            Row(modifier = Modifier.weight(0.9f)) {
-                TextField(
-                    value = text,
-                    placeholder = { Text(stringResource(R.string.diary_placeholder)) },
-                    onValueChange = { newText -> updateText(newText) },
-                    modifier = Modifier.fillMaxSize(),
 
-                )
-            }
+            TextField(
+                value = text,
+                placeholder = { Text(stringResource(R.string.diary_placeholder)) },
+                onValueChange = { newText -> updateText(newText) },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(0.9f)
+            )
 
             Button(
                 modifier = Modifier
