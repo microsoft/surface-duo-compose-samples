@@ -88,7 +88,8 @@ fun RestaurantTopBar(isDualScreen: Boolean) {
                     color = MaterialTheme.colors.onPrimary
                 )
             )
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

@@ -10,3 +10,4 @@ import androidx.compose.ui.graphics.Color
 val teal200 = Color(0xFF03DAC5)
 val teal500 = Color(0xFF017374)
 val teal700 = Color(0xFF01A299)
+val lightBlue = Color(0xFF0085FF)

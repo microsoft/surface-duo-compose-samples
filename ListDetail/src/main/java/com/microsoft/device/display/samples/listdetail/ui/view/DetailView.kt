@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -61,7 +62,8 @@ fun DetailViewTopBar(isDualScreen: Boolean) {
             if (!isDualScreen) {
                 DetailViewTopBarButton()
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 
