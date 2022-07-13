@@ -10,15 +10,21 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Single Screen Mode
 
-In single screen mode, users are able to view one of two screens at a time: editor or preview. A button appears in the editor window that allows users to view a preview of the source code. 
+In single screen mode, users are able to view one of two screens at a time: editor or preview. A button appears in the editor window that allows users to view a preview of the source code.
+![Screenshot_20220713-152801](https://user-images.githubusercontent.com/20245964/178848516-d75f68c0-2661-4afc-b181-6f189b0f02be.png)
+![Screenshot_20220713-152823](https://user-images.githubusercontent.com/20245964/178848554-7abf73fe-ee28-4853-817f-a5fab9055fa2.png)
 
 ## Dual Screen Mode
 
 In dual screen mode, both windows are visible, so no buttons are visible to enable toggle.
+![Screenshot_20220713-152813](https://user-images.githubusercontent.com/20245964/178848621-a92aad9e-27c1-47f1-b2d8-36058cf21e11.png)
+
 
 ## Orientation
 
 This project supports various rotation configurations. In order to enable orientation changes within the application, ensure that rotation is enabled within the Duo emulator/device itself.
+![Screenshot_20220713-152837](https://user-images.githubusercontent.com/20245964/178848634-97394f3f-537b-4af8-a5cb-2108a6d9edbf.png)
+
 
 ## Contributing
 
