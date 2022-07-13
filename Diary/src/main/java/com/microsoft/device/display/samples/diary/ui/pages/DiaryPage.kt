@@ -68,6 +68,7 @@ fun TwoPaneScope.DiaryPage(
             TextField(
                 value = text,
                 placeholder = { Text(stringResource(R.string.diary_placeholder)) },
+                textStyle = MaterialTheme.typography.h5,
                 onValueChange = { newText -> updateText(newText) },
                 modifier = Modifier
                     .fillMaxSize()
