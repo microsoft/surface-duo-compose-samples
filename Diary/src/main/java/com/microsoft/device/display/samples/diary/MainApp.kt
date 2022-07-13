@@ -18,7 +18,6 @@ import java.time.LocalDate
 @Composable
 fun MainApp() {
     val context = LocalContext.current
-    val fileOps = FileOps()
     val rootDataDir: File = context.applicationContext.dataDir
 
     var text by rememberSaveable { mutableStateOf("") }
@@ -31,7 +30,7 @@ fun MainApp() {
         currentSelectedDate = date
     }
     val updateContent: () -> Unit = {
-        content = fileOps.readDayFile(currentSelectedDate.toString(), rootDataDir)
+        content = readDayFile(currentSelectedDate.toString(), rootDataDir)
     }
     val updateText: (String) -> Unit = { newText ->
         text = newText

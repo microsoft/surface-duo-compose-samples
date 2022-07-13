@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.diary.FileOps
 import com.microsoft.device.display.samples.diary.R
+import com.microsoft.device.display.samples.diary.saveFile
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 import java.io.File
 import java.time.LocalDate
@@ -40,7 +40,6 @@ fun TwoPaneScope.DiaryPage(
     val twoPaneScope = this
     val context = LocalContext.current
     val rootDataDir: File = context.applicationContext.dataDir
-    val fileOps = FileOps()
 
     Scaffold(
         topBar = {
@@ -71,11 +70,11 @@ fun TwoPaneScope.DiaryPage(
             Row(modifier = Modifier.weight(0.9f)) {
                 TextField(
                     value = text,
-                    placeholder = {Text(stringResource(R.string.diary_placeholder))},
+                    placeholder = { Text(stringResource(R.string.diary_placeholder)) },
                     onValueChange = { newText -> updateText(newText) },
                     modifier = Modifier.fillMaxSize(),
 
-                )
+                    )
             }
             Row(
                 modifier = Modifier
@@ -86,14 +85,8 @@ fun TwoPaneScope.DiaryPage(
                         .width(150.dp)
                         .padding(all = 10.dp),
                     onClick = {
-                        if (fileOps.checkPermission(context)) {
-
-                            fileOps.saveFile(selectedDate.toString(), text, rootDataDir)
-                            updateContent()
-                        } else {
-                            fileOps.saveFile(selectedDate.toString(), text, rootDataDir)
-                            updateContent()
-                        }
+                        saveFile(selectedDate.toString(), text, rootDataDir)
+                        updateContent()
                     }
                 ) {
                     Text(text = stringResource(R.string.save_button))
