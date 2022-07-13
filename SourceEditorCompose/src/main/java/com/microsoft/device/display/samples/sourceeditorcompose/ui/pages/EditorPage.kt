@@ -43,7 +43,7 @@ fun TwoPaneScope.EditorPage(text: String, updateText: (String) -> Unit) {
                         IconButton(onClick = { twoPaneScope.navigateToPane2() }) {
                             Icon(
                                 imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Show HTML"
+                                contentDescription = stringResource(R.string.show_html)
                             )
                         }
                     }

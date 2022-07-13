@@ -27,7 +27,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun TwoPaneExampleTheme(
+fun SourceEditorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
