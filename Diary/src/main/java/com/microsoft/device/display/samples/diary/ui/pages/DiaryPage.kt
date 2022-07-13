@@ -72,7 +72,7 @@ fun TwoPaneScope.DiaryPage(
                     onValueChange = { newText -> updateText(newText) },
                     modifier = Modifier.fillMaxSize(),
 
-                    )
+                )
             }
 
             Button(
@@ -87,7 +87,6 @@ fun TwoPaneScope.DiaryPage(
             ) {
                 Text(text = stringResource(R.string.save_button))
             }
-
         }
     }
 }
