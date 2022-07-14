@@ -8,7 +8,7 @@
 
 <resources>
 
-    <style name="Theme.ComposeSamples.NoActionBar" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.ComposeSamples" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>
 </resources>
