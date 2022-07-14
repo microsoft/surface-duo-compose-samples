@@ -49,7 +49,7 @@ private const val nonSelection = -1
 @Composable
 fun TwoPaneScope.MapViewWithTopBar(isHorizontalFold: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = { if(!isHorizontalFold) MapTopBar() }
+        topBar = { if (!isHorizontalFold) MapTopBar() }
     ) {
         MapView(selectedIndex)
     }
