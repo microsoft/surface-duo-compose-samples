@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.microsoft.device.display.samples.companionpane.ui.components
 
 import androidx.compose.runtime.Composable
@@ -9,8 +14,9 @@ import androidx.compose.runtime.setValue
 
 const val MAGIC_WAND_KEY = "magicWandKey"
 const val DEFINITION_KEY = "definitionKey"
-const val VIGNETTED_KEY = "vignettedKey"
+const val VIGNETTE_KEY = "vignetteKey"
 const val BRIGHTNESS_KEY = "brightnessKey"
+const val DEFAULT_SLIDER_VALUE = 50f
 
 class SliderState(
     magicWand: Float,
@@ -54,7 +60,7 @@ class SliderState(
                     mapOf(
                         MAGIC_WAND_KEY to it.magicWand,
                         DEFINITION_KEY to it.definition,
-                        VIGNETTED_KEY to it.vignette,
+                        VIGNETTE_KEY to it.vignette,
                         BRIGHTNESS_KEY to it.brightness,
                     )
                 },
@@ -62,7 +68,7 @@ class SliderState(
                     SliderState(
                         it[MAGIC_WAND_KEY] as Float,
                         it[DEFINITION_KEY] as Float,
-                        it[VIGNETTED_KEY] as Float,
+                        it[VIGNETTE_KEY] as Float,
                         it[BRIGHTNESS_KEY] as Float
                     )
                 }
@@ -73,10 +79,10 @@ class SliderState(
 
 @Composable
 fun rememberSliderState(
-    magicWand: Float = 50f,
-    definition: Float = 50f,
-    vignette: Float = 50f,
-    brightness: Float = 50f,
+    magicWand: Float = DEFAULT_SLIDER_VALUE,
+    definition: Float = DEFAULT_SLIDER_VALUE,
+    vignette: Float = DEFAULT_SLIDER_VALUE,
+    brightness: Float = DEFAULT_SLIDER_VALUE,
 ): SliderState = rememberSaveable(saver = SliderState.Saver) {
     SliderState(
         magicWand = magicWand,

@@ -43,12 +43,6 @@ fun TwoPageApp(windowState: WindowState) {
             )
         }
     )
-/*    TwoPageAppContent(
-        pane1WidthDp = windowState.pane1SizeDp.width,
-        pane2WidthDp = windowState.pane2SizeDp.width,
-        isDualScreen = windowState.isDualPortrait(),
-        foldSizeDp = windowState.foldSizeDp
-    )*/
 }
 
 @Composable
