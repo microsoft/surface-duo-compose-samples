@@ -46,7 +46,7 @@ fun TwoPaneScope.PreviewPage(text: String) {
                         IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
                             Icon(
                                 imageVector = Icons.Filled.Edit,
-                                contentDescription = "Show Source"
+                                contentDescription = stringResource(R.string.show_source)
                             )
                         }
                     }
