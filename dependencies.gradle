@@ -23,9 +23,11 @@ ext {
     // AndroidX versions
     appCompatVersion = '1.4.1'
     ktxCoreVersion = '1.7.0'
+    lcRunVersion = '2.4.1'
     androidxDependencies = [
             appCompat       : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore         : "androidx.core:core-ktx:$ktxCoreVersion",
+            lifeCycleRuntime: "androidx.lifecycle:lifecycle-runtime-ktx:$lcRunVersion",
     ]
 
     // Compose dependencies
@@ -63,14 +65,18 @@ ext {
 
     // Google dependencies
     materialVersion = '1.5.0'
+    exoPlayerVersion = '2.17.1' 
+    systemUiControllerVersion = '0.17.0'
     googleDependencies = [
-            material: "com.google.android.material:material:$materialVersion"
+            material: "com.google.android.material:material:$materialVersion",
+            exoPlayer:  "com.google.android.exoplayer:exoplayer:$exoPlayerVersion",
+            systemUiController: "com.google.accompanist:accompanist-systemuicontroller:$systemUiControllerVersion"
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = "1.0.0-beta05"
+    twoPaneLayoutVersion = "1.0.1-alpha02"
     windowStateVersion = "1.0.0-alpha04"
-    composeTestingVersion = "1.0.0-alpha03"
+    composeTestingVersion = "1.0.0-alpha04"
     microsoftDependencies = [
             twoPaneLayout       : "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",

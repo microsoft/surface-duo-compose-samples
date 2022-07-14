@@ -19,31 +19,36 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
+import com.microsoft.device.display.samples.navigationrail.ui.view.defaultNavOptions
+import com.microsoft.device.dualscreen.twopanelayout.Screen
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 
 private val NAV_RAIL_TOP_SPACING = 32.dp
 
 @ExperimentalAnimationApi
 @Composable
-fun GalleryNavRail(
+fun TwoPaneNavScope.GalleryNavRail(
     navController: NavHostController,
     galleries: Array<GallerySections>,
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
+    val twoPaneNavScope = this
+
     NavigationRail(
         modifier = Modifier.testTag(stringResource(id = R.string.nav_rail)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Spacer(Modifier.height(NAV_RAIL_TOP_SPACING))
-        val currentDestination = navController.currentBackStackEntryAsState().value?.destination
+        val currentDestination =
+            if (twoPaneNavScope.isSinglePane)
+                navController.currentBackStackEntryAsState().value?.destination?.route
+            else
+                twoPaneNavScope.currentPane1Destination
         galleries.forEach { gallery ->
             NavRailItemWithSelector(
                 icon = {
@@ -52,7 +57,7 @@ fun GalleryNavRail(
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    twoPaneNavScope.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
@@ -63,17 +68,23 @@ fun GalleryNavRail(
 
 @ExperimentalAnimationApi
 @Composable
-fun GalleryBottomNav(
+fun TwoPaneNavScope.GalleryBottomNav(
     navController: NavHostController,
     galleries: Array<GallerySections>,
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
+    val twoPaneNavScope = this
+
     BottomNavigation(
         modifier = Modifier.testTag(stringResource(id = R.string.bottom_nav)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
-        val currentDestination = navController.currentBackStackEntryAsState().value?.destination
+        val currentDestination =
+            if (twoPaneNavScope.isSinglePane)
+                navController.currentBackStackEntryAsState().value?.destination?.route
+            else
+                twoPaneNavScope.currentPane1Destination
         galleries.forEach { gallery ->
             BottomNavItemWithSelector(
                 icon = {
@@ -82,7 +93,7 @@ fun GalleryBottomNav(
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    twoPaneNavScope.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
@@ -106,29 +117,23 @@ private fun NavItemLabel(navItem: String) {
  */
 @Composable
 private fun isNavItemSelected(
-    currentDestination: NavDestination?,
+    currentDestination: String?,
     navItemRoute: String,
 ): Boolean {
-    return currentDestination?.hierarchy?.any { it.route == navItemRoute } == true
+    return currentDestination == navItemRoute
 }
 
 /**
  * Reference: https://developer.android.com/jetpack/compose/navigation#bottom-nav
  */
-private fun navItemOnClick(
-    navController: NavController,
+private fun TwoPaneNavScope.navItemOnClick(
+    navController: NavHostController,
     navItem: String,
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
     // Navigate to new destination
-    navController.navigate(navItem) {
-        popUpTo(navController.graph.findStartDestination().id) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
-    }
+    navController.navigateTo(navItem, Screen.Pane1, defaultNavOptions)
 
     // Update current route to new destination
     updateRoute(navItem)

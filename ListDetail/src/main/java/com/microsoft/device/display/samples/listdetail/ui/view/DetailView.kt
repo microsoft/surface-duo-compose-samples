@@ -36,17 +36,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.listdetail.R
 import com.microsoft.device.display.samples.listdetail.models.images
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 private val imageSize = 25.dp
 private val verticalPadding = 35.dp
 private val horizontalPadding = 20.dp
 
 @Composable
-fun DetailViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
+fun TwoPaneScope.DetailViewWithTopBar(selectedIndex: Int) {
     Scaffold(
         topBar = {
-            DetailViewTopBar(isDualScreen)
+            DetailViewTopBar()
         },
         content = {
             DetailView(selectedIndex)
@@ -55,11 +55,11 @@ fun DetailViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
 }
 
 @Composable
-fun DetailViewTopBar(isDualScreen: Boolean) {
+fun TwoPaneScope.DetailViewTopBar() {
     TopAppBar(
         title = { },
         navigationIcon = {
-            if (!isDualScreen) {
+            if (isSinglePane) {
                 DetailViewTopBarButton()
             }
         },
@@ -68,7 +68,7 @@ fun DetailViewTopBar(isDualScreen: Boolean) {
 }
 
 @Composable
-fun DetailViewTopBarButton() {
+fun TwoPaneScope.DetailViewTopBarButton() {
     IconButton(
         onClick = {
             navigateToPane1()

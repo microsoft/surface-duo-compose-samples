@@ -1,0 +1,60 @@
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.display.samples.draganddrop"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/licenses/**']
+        }
+        resources {
+            excludes += ['META-INF/licenses/**', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
+    }
+}
+
+dependencies {
+    implementation kotlinDependencies.kotlinStdlib
+
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeRuntime
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+
+    implementation microsoftDependencies.twoPaneLayout
+
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
+    androidTestImplementation testDependencies.composeUITest
+    androidTestImplementation testDependencies.composeJunit
+    androidTestImplementation testDependencies.uiAutomator
+    androidTestImplementation microsoftDependencies.composeTesting
+
+    implementation googleDependencies.material
+}

@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -17,12 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.microsoft.device.display.samples.navigationrail.models.DataProvider
-import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
-import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayoutNav
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane1
-import com.microsoft.device.dualscreen.twopanelayout.navigateToPane2
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 @ExperimentalAnimationApi
@@ -32,7 +28,7 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 @Composable
 fun NavigationRailApp(windowState: WindowState) {
     // Set up starting route for navigation in pane 1
-    var currentRoute by rememberSaveable { mutableStateOf(navDestinations[0].route) }
+    var currentRoute by rememberSaveable { mutableStateOf(navDestinations.first().route) }
     val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
 
     // Set up variable to store selected image id
@@ -70,84 +66,30 @@ fun NavigationRailAppContent(
     currentRoute: String,
     updateRoute: (String) -> Unit
 ) {
-    TwoPaneLayout(
-        paneMode = TwoPaneMode.HorizontalSingle,
-        pane1 = {
-            Pane1(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
-        },
-        pane2 = {
-            Pane2(
-                isDualPortrait = isDualPortrait,
-                isDualLandscape = isDualLandscape,
-                foldIsOccluding = foldIsOccluding,
-                foldBoundsDp = foldBoundsDp,
-                windowHeight = windowHeight,
-                imageId = imageId,
-                updateImageId = updateImageId,
-                currentRoute = currentRoute
-            )
-        },
-    )
+    // Create nav controller
+    val navController = rememberNavController()
 
-    // If only one pane is being displayed, make sure the correct pane is displayed
-    if (!isDualPortrait) {
-        if (imageId != null)
-            navigateToPane2()
-        else
-            navigateToPane1()
-    }
-}
-
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
-@Composable
-fun Pane1(
-    isDualScreen: Boolean,
-    isDualPortrait: Boolean,
-    imageId: Int?,
-    updateImageId: (Int?) -> Unit,
-    currentRoute: String,
-    updateRoute: (String) -> Unit
-) {
-    ShowWithNav(isDualScreen, isDualPortrait, imageId, updateImageId, currentRoute, updateRoute)
-}
-
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
-@Composable
-fun Pane2(
-    isDualPortrait: Boolean,
-    isDualLandscape: Boolean,
-    foldIsOccluding: Boolean,
-    foldBoundsDp: DpRect,
-    windowHeight: Dp,
-    imageId: Int?,
-    updateImageId: (Int?) -> Unit,
-    currentRoute: String,
-) {
-    // Retrieve selected image information
-    val selectedImage = imageId?.let { DataProvider.getImage(imageId) }
-
-    // Set up back press action to return to pane 1 and clear image selection
-    val onBackPressed = {
-        navigateToPane1()
-        updateImageId(null)
-    }
-    BackHandler { if (!isDualPortrait) onBackPressed() }
-
-    ItemDetailView(
+    // Create app destinations for TwoPaneLayoutNav
+    val appDestinations = appDestinations(
+        isDualScreen = isDualScreen,
+        navController = navController,
+        imageId = imageId,
+        updateImageId = updateImageId,
+        currentRoute = currentRoute,
+        updateRoute = updateRoute,
         isDualPortrait = isDualPortrait,
         isDualLandscape = isDualLandscape,
         foldIsOccluding = foldIsOccluding,
         foldBoundsDp = foldBoundsDp,
-        windowHeight = windowHeight,
-        selectedImage = selectedImage,
-        currentRoute = currentRoute
+        windowHeight = windowHeight
     )
-    // If only one pane is being displayed, show a "back" icon
-    if (!isDualPortrait) {
-        ItemTopBar(
-            onClick = { onBackPressed() }
-        )
-    }
+
+    TwoPaneLayoutNav(
+        paneMode = TwoPaneMode.HorizontalSingle,
+        navController = navController,
+        destinations = appDestinations,
+        singlePaneStartDestination = navDestinations.first().route,
+        pane1StartDestination = navDestinations.first().route,
+        pane2StartDestination = ITEM_DETAIL_ROUTE
+    )
 }

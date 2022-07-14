@@ -11,7 +11,6 @@ import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
-import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -37,7 +36,7 @@ class ListDetailTest {
     fun app_verticalFold_showDetailAfterListClicks() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                ListDetailApp(WindowState(hasFold = true, foldIsHorizontal = false, foldIsSeparating = true))
+                ListDetailApp()
             }
         }
 
@@ -65,7 +64,7 @@ class ListDetailTest {
     fun app_horizontalFold_showsList() {
         composeTestRule.setContent {
             ListDetailComposeSampleTheme {
-                ListDetailApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
+                ListDetailApp()
             }
         }
 

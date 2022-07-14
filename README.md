@@ -40,6 +40,7 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 | Sample | | Description |
 |---|:---:|---|
+| | |
 | [ComposeGallery](https://github.com/microsoft/surface-duo-compose-samples/tree/main/ComposeGallery) | ![ComposeGallery app icon](screenshots/compose_gallery.svg) | Sample with a Microsoft Surface Duo theme that shows how to use the [List Detail](https://docs.microsoft.com/dual-screen/introduction#list-detail) app pattern. |
 | | |
 | [CompanionPane](https://github.com/microsoft/surface-duo-compose-samples/tree/main/CompanionPane) | ![CompanionPane app icon](screenshots/companion_pane.svg) | Photo editor sample that shows how to build the [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern in Jetpack Compose. |
@@ -50,15 +51,23 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 | | |
 | [DualView](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DualView) | ![DualView app icon](screenshots/dual_view.svg) | Restaurant finder sample that shows how to build the [Dual View](https://docs.microsoft.com/dual-screen/introduction#dual-view) app pattern in Jetpack Compose. |
 | | |
+| [DyAdd](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DyAdd) | ![DyAdd app icon](screenshots/dyadd.svg) | Calculator sample that uses the [Extended Canvas](https://docs.microsoft.com/dual-screen/introduction#extended-canvas) app pattern in Jetpack Compose.
+| | |
 | [Two Page](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPage) | ![TwoPage app icon](screenshots/two_page.svg) | E-reader sample that shows how to build the [Two Page](https://docs.microsoft.com/dual-screen/introduction#two-page) app pattern in Jetpack Compose. |
 | | |
 | [NavigationRail](https://github.com/microsoft/surface-duo-compose-samples/tree/main/NavigationRail) | ![NavigationRail app icon](screenshots/navigation_rail.svg) | Nature-themed sample that shows how to use a combination of [NavigationRail](https://material.io/components/navigation-rail) and [BottomNavigation](https://material.io/components/bottom-navigation) when building apps for large screen and foldable devices in Jetpack Compose. |
+| | |
+| [VideoPlusChat](https://github.com/microsoft/surface-duo-compose-samples/tree/main/VideoPlusChat) | | Video streaming platform sample that displays a video and accompanying chat in a [Companion Pane](https://docs.microsoft.com/dual-screen/introduction#companion-pane) app pattern. |
+| | |
+| [DragAndDrop](https://github.com/microsoft/surface-duo-compose-samples/tree/main/DragAndDrop) | ![DragAndDrop app icon](screenshots/drag_and_drop.svg) | Drag and Drop sample that shows how to implement drag and drop in your Android app, following the Android [drag and drop guidance](https://developer.android.com/guide/topics/ui/drag-drop) in Jetpack Compose. |
 | | |
 
 ## Social links
 
 | Blog post | Video |
 |---|---|
+| [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.twitch.tv/videos/1519558235) |
+| [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo)|
 | [Write foldable tests quickly with Test Kit](https://devblogs.microsoft.com/surface-duo/foldable-ui-test-kit/) | [Twitch #63: Test Kit for foldable apps](https://www.youtube.com/watch?v=3I0qU5SeUBM) |
 | [Jetpack Compose UI testing](https://devblogs.microsoft.com/surface-duo/jetpack-compose-ui-test/) | [Twitch #59: Jetpack Compose testing](https://www.youtube.com/watch?v=Q3lDz7PjO7U) |
 | [Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/) | [Twitch #53: Jetpack Compose WindowState for foldable devices](https://www.youtube.com/watch?v=qOIliow-uS4) |
