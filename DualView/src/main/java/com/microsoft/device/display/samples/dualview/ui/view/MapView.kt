@@ -47,9 +47,9 @@ import kotlin.math.roundToInt
 private const val nonSelection = -1
 
 @Composable
-fun MapViewWithTopBar(isDualScreen: Boolean, selectedIndex: Int) {
+fun MapViewWithTopBar(isDualScreen: Boolean, isHorizontalFold: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar(isDualScreen) }
+        topBar = { if (isDualScreen && !isHorizontalFold) MapTopBar(isDualScreen) }
     ) {
         MapView(selectedIndex)
     }
