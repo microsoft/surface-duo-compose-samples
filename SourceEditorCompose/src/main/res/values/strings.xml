@@ -1,0 +1,14 @@
+<!--
+  ~
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">Source Editor Compose</string>
+    <string name="editor_button">Editor</string>
+    <string name="preview_button">Preview</string>
+    <string name="show_html">Show HTML</string>
+    <string name="show_source">Show Source</string>
+</resources>

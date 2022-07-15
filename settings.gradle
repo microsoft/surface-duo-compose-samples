@@ -5,4 +5,4 @@
 
 rootProject.name = "ComposeSamples"
 include ':ListDetail', ':CompanionPane', ':DualView', ':ExtendedCanvas', ':ComposeGallery',
-        ':TwoPage', ':NavigationRail', ':DyAdd', ':DragAndDrop', ':VideoPlusChat', ':Diary'
+':TwoPage', ':NavigationRail', ':DyAdd', ':DragAndDrop', ':VideoPlusChat', ':SourceEditorCompose', ':Diary'
