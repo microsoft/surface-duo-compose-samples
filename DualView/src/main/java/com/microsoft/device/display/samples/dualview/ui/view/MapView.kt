@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.dualview.ui.view
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
