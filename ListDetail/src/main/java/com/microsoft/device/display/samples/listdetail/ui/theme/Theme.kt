@@ -13,19 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = purple500,
-    primaryVariant = purple200,
+    primary = lightBlue,
+    primaryVariant = lightBlue,
     secondary = teal200,
     background = Color.Black,
-    onBackground = Color.White
+    onBackground = Color.White,
+    onPrimary = Color.White,
 )
 
 private val LightColorPalette = lightColors(
-    primary = purple500,
-    primaryVariant = purple200,
+    primary = lightBlue,
+    primaryVariant = lightBlue,
     secondary = teal200,
     background = Color.Black,
-    onBackground = Color.White
+    onBackground = Color.White,
+    onPrimary = Color.White,
 )
 
 @Composable

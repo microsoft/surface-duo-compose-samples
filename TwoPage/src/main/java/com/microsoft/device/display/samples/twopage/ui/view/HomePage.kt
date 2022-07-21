@@ -9,13 +9,22 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.compose.ui.unit.sp
+import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.PagerState
 import com.microsoft.device.display.samples.twopage.utils.ViewPager
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -23,11 +32,32 @@ import kotlin.math.abs
 
 @Composable
 fun TwoPageApp(windowState: WindowState) {
-    TwoPageAppContent(
-        pane1WidthDp = windowState.pane1SizeDp.width,
-        pane2WidthDp = windowState.pane2SizeDp.width,
-        isDualScreen = windowState.isDualPortrait(),
-        foldSizeDp = windowState.foldSizeDp
+    Scaffold(
+        topBar = { TwoPageTopBar() },
+        content = {
+            TwoPageAppContent(
+                pane1WidthDp = windowState.pane1SizeDp.width,
+                pane2WidthDp = windowState.pane2SizeDp.width,
+                isDualScreen = windowState.isDualPortrait(),
+                foldSizeDp = windowState.foldSizeDp
+            )
+        }
+    )
+}
+
+@Composable
+fun TwoPageTopBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

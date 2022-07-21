@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -46,9 +47,9 @@ import kotlin.math.roundToInt
 private const val nonSelection = -1
 
 @Composable
-fun TwoPaneScope.MapViewWithTopBar(selectedIndex: Int) {
+fun TwoPaneScope.MapViewWithTopBar(isDualLandscape: Boolean, selectedIndex: Int) {
     Scaffold(
-        topBar = { MapTopBar() }
+        topBar = { if (!isDualLandscape) MapTopBar() }
     ) {
         MapView(selectedIndex)
     }
@@ -80,7 +81,8 @@ fun TwoPaneScope.MapTopBar() {
                     )
                 }
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

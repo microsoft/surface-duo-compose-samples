@@ -58,7 +58,8 @@ fun ListViewTopBar() {
                     fontWeight = FontWeight.Bold
                 )
             )
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

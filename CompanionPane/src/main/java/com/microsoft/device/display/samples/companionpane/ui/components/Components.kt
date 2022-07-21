@@ -15,10 +15,6 @@ import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -28,17 +24,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.companionpane.R
-import kotlin.random.Random
 
 @Composable
-fun SliderControl(modifier: Modifier) {
-    val defaultValue = Random.nextInt(0, 100)
-    var sliderPosition by remember { mutableStateOf(defaultValue.toFloat()) }
-
+fun SliderControl(modifier: Modifier, sliderPosition: Float, onValueChange: (Float) -> Unit) {
     Slider(
         modifier = modifier,
         value = sliderPosition,
-        onValueChange = { sliderPosition = it },
+        onValueChange = onValueChange,
         valueRange = 0f..100f,
         colors = SliderDefaults.colors(
             thumbColor = MaterialTheme.colors.secondary,

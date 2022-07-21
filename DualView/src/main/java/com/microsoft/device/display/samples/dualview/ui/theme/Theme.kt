@@ -5,37 +5,22 @@
 
 package com.microsoft.device.display.samples.dualview.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = red200,
-    primaryVariant = red500,
-    secondary = gray500,
-    onPrimary = Color.White,
-)
-
 private val LightColorPalette = lightColors(
-    primary = red200,
-    primaryVariant = red500,
+    primary = lightBlue,
+    primaryVariant = lightBlue,
     secondary = gray500,
     onPrimary = Color.White,
 )
 
 @Composable
-fun DualViewAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
+fun DualViewAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = colors,
+        colors = LightColorPalette,
         typography = typography,
         shapes = shapes,
         content = content

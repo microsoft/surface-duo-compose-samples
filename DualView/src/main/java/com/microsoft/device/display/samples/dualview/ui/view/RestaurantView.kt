@@ -89,7 +89,8 @@ fun TwoPaneScope.RestaurantTopBar() {
                     color = MaterialTheme.colors.onPrimary
                 )
             )
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

@@ -2,14 +2,14 @@
 <rect width="96" height="96" fill="white"/>
 <rect x="21" y="30" width="54.5957" height="36" rx="3" stroke="black" stroke-width="2"/>
 <path d="M48.6172 29V67" stroke="black" stroke-width="2"/>
-<rect x="24.6172" y="34" width="20" height="29" rx="1" fill="#888888"/>
-<rect x="51.6172" y="56" width="20" height="1" rx="0.5" fill="#888888"/>
-<rect x="51.6172" y="52" width="20" height="1" rx="0.5" fill="#888888"/>
-<circle cx="53.1172" cy="52.5" r="1.5" fill="#888888"/>
-<circle cx="70.1172" cy="56.5" r="1.5" fill="#888888"/>
-<circle cx="53.1172" cy="47.5" r="1.5" fill="#888888"/>
-<circle cx="57.1172" cy="47.5" r="1.5" fill="#888888"/>
-<circle cx="61.1172" cy="47.5" r="1.5" fill="#888888"/>
-<circle cx="65.1172" cy="47.5" r="1.5" fill="#888888"/>
-<circle cx="69.1172" cy="47.5" r="1.5" fill="#888888"/>
+<rect x="24.6172" y="34" width="20" height="29" rx="1" fill="#0085FF"/>
+<rect x="51.6172" y="56" width="20" height="1" rx="0.5" fill="#0085FF"/>
+<rect x="51.6172" y="52" width="20" height="1" rx="0.5" fill="#0085FF"/>
+<circle cx="53.1172" cy="52.5" r="1.5" fill="#0085FF"/>
+<circle cx="70.1172" cy="56.5" r="1.5" fill="#0085FF"/>
+<circle cx="53.1172" cy="47.5" r="1.5" fill="#0085FF"/>
+<circle cx="57.1172" cy="47.5" r="1.5" fill="#0085FF"/>
+<circle cx="61.1172" cy="47.5" r="1.5" fill="#0085FF"/>
+<circle cx="65.1172" cy="47.5" r="1.5" fill="#0085FF"/>
+<circle cx="69.1172" cy="47.5" r="1.5" fill="#0085FF"/>
 </svg>

@@ -17,6 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.microsoft.device.display.samples.companionpane.ui.components.SliderState
+import com.microsoft.device.display.samples.companionpane.ui.components.rememberSliderState
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane1
 import com.microsoft.device.display.samples.companionpane.ui.view.DualLandscapePane2
 import com.microsoft.device.display.samples.companionpane.ui.view.DualPortraitPane1
@@ -32,14 +34,17 @@ fun CompanionPaneApp(windowState: WindowState) {
     var windowMode by remember { mutableStateOf(WindowMode.SINGLE_PORTRAIT) }
     windowMode = windowState.windowMode
 
-    CompanionPaneAppContent(windowMode)
+    CompanionPaneAppContent(windowMode, rememberSliderState())
 }
 
 @Composable
-fun CompanionPaneAppContent(windowMode: WindowMode) {
+fun CompanionPaneAppContent(
+    windowMode: WindowMode,
+    sliderState: SliderState = rememberSliderState()
+) {
     TwoPaneLayout(
-        pane1 = { Pane1(windowMode) },
-        pane2 = { Pane2(windowMode) },
+        pane1 = { Pane1(windowMode, sliderState) },
+        pane2 = { Pane2(windowMode, sliderState) },
     )
 }
 
@@ -53,13 +58,13 @@ fun CompanionPaneTopBar(title: String? = null) {
 }
 
 @Composable
-fun Pane1(windowMode: WindowMode) {
+fun Pane1(windowMode: WindowMode, sliderState: SliderState = rememberSliderState()) {
     Scaffold(
         topBar = { CompanionPaneTopBar(stringResource(R.string.app_name)) }
     ) {
         when (windowMode) {
             WindowMode.SINGLE_PORTRAIT -> PortraitLayout()
-            WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout()
+            WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout(sliderState)
             WindowMode.DUAL_PORTRAIT -> DualPortraitPane1()
             WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1()
         }
@@ -67,16 +72,16 @@ fun Pane1(windowMode: WindowMode) {
 }
 
 @Composable
-fun Pane2(windowMode: WindowMode) {
+fun Pane2(windowMode: WindowMode, sliderState: SliderState = rememberSliderState()) {
     when (windowMode) {
         WindowMode.DUAL_PORTRAIT -> {
             Scaffold(
                 topBar = { CompanionPaneTopBar() }
             ) {
-                DualPortraitPane2()
+                DualPortraitPane2(sliderState)
             }
         }
-        WindowMode.DUAL_LANDSCAPE -> DualLandscapePane2()
+        WindowMode.DUAL_LANDSCAPE -> DualLandscapePane2(sliderState)
         else -> {}
     }
 }

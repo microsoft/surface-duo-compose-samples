@@ -14,17 +14,17 @@
         android:pathData="M23,30L71.5957,30A3,3 0,0 1,74.5957 33L74.5957,63A3,3 0,0 1,71.5957 66L23,66A3,3 0,0 1,20 63L20,33A3,3 0,0 1,23 30z"
         android:strokeWidth="2"
         android:fillColor="#00000000"
-        android:strokeColor="#000000"/>
+        android:strokeColor="#9E9E9E"/>
     <path
         android:pathData="M24.8086,34L42.8086,34A1,1 0,0 1,43.8086 35L43.8086,62A1,1 0,0 1,42.8086 63L24.8086,63A1,1 0,0 1,23.8086 62L23.8086,35A1,1 0,0 1,24.8086 34z"
-        android:fillColor="#6200EE"/>
+        android:fillColor="#0085FF"/>
     <path
         android:pathData="M50.8086,34L69.8086,34A1,1 0,0 1,70.8086 35L70.8086,62A1,1 0,0 1,69.8086 63L50.8086,63A1,1 0,0 1,49.8086 62L49.8086,35A1,1 0,0 1,50.8086 34z"
-        android:fillColor="#6200EE"/>
+        android:fillColor="#0085FF"/>
     <path
         android:pathData="M46.8086,29V67"
         android:strokeWidth="2"
         android:fillColor="#00000000"
-        android:strokeColor="#000000"/>
+        android:strokeColor="#9E9E9E"/>
   </group>
 </vector>
