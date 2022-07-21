@@ -70,6 +70,7 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 | Blog post | Video |
 |---|---|
+| [Source Editor & Diary samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-source-editor-diary-samples/) | [Twitch #79: More new Jetpack Compose samples] (https://www.youtube.com/watch?v=eO0D3MHvKLA)
 | [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.twitch.tv/videos/1519558235) |
 | [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo)|
 | [Write foldable tests quickly with Test Kit](https://devblogs.microsoft.com/surface-duo/foldable-ui-test-kit/) | [Twitch #63: Test Kit for foldable apps](https://www.youtube.com/watch?v=3I0qU5SeUBM) |
