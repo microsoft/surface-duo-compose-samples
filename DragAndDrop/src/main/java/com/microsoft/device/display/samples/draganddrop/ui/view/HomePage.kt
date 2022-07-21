@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.microsoft.device.display.samples.draganddrop.R
-import com.microsoft.device.display.samples.draganddrop.utils.DragContainer
+import com.microsoft.device.dualscreen.draganddrop.DragContainer
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 

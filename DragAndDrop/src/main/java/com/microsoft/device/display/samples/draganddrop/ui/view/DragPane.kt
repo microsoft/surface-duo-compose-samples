@@ -30,9 +30,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.draganddrop.R
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
-import com.microsoft.device.display.samples.draganddrop.utils.DragData
-import com.microsoft.device.display.samples.draganddrop.utils.DragTarget
-import com.microsoft.device.display.samples.draganddrop.utils.MimeType
+import com.microsoft.device.dualscreen.draganddrop.DragData
+import com.microsoft.device.dualscreen.draganddrop.DragTarget
+import com.microsoft.device.dualscreen.draganddrop.MimeType
 
 @Composable
 fun DragPaneWithTopBar() {
