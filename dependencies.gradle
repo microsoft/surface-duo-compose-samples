@@ -77,9 +77,11 @@ ext {
     twoPaneLayoutVersion = "1.0.1-alpha02"
     windowStateVersion = "1.0.0-alpha04"
     composeTestingVersion = "1.0.0-alpha04"
+    dragAndDropVersion = "1.0.0-alpha01"
     microsoftDependencies = [
             twoPaneLayout       : "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
-            composeTesting      : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion"
+            composeTesting      : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion",
+            dragAndDrop         : "com.microsoft.device.dualscreen:draganddrop:$dragAndDropVersion"
     ]
 }

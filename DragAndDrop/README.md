@@ -8,7 +8,7 @@ To learn how to load apps on the Surface Duo emulator, see the [documentation](h
 
 ## Features
 
-The sample showcases how to implement drag and drop in your Android app, following the Android [drag and drop guidance](https://developer.android.com/guide/topics/ui/drag-drop) in Jetpack Compose.
+The sample showcases how to implement drag and drop in your Android app using Microsoft Compose library [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop), following the Android [drag and drop guidance](https://developer.android.com/guide/topics/ui/drag-drop) in Jetpack Compose.
 
 ![Single screen](screenshots/single-screen.gif)
 

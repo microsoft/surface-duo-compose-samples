@@ -46,6 +46,7 @@ dependencies {
     implementation composeDependencies.activityCompose
 
     implementation microsoftDependencies.twoPaneLayout
+    implementation microsoftDependencies.dragAndDrop
 
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules
