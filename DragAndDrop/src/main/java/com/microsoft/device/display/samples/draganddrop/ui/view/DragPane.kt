@@ -41,17 +41,12 @@ fun DragPaneWithTopBar() {
             TopBarWithTitle()
         }
     ) {
-        DragPaneContent()
+        DragPane()
     }
 }
 
 @Composable
-fun DragPane(modifier: Modifier) {
-    DragPaneContent(modifier)
-}
-
-@Composable
-fun DragPaneContent(modifier: Modifier = Modifier) {
+fun DragPane(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxSize()

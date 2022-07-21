@@ -73,7 +73,6 @@ fun DropPane(
 
     DropContainer(
         modifier = modifier
-            .fillMaxSize()
             .testTag(stringResource(R.string.drop_pane)),
         onDrag = { inBounds, isDragging ->
             if (!inBounds || !isDragging) {
