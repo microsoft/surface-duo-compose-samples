@@ -30,11 +30,11 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 - Jetpack WindowManager version: `1.0.0`
 
-- Android Studio version: Bumblebee `2021.1.1`
+- Android Studio version: Chipmunk `2021.2.1`
 
 ## Microsoft Compose Libraries
 
-The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout), [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState) and [ComposeTesting](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting).
+The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout), [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState), [ComposeTesting](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting) and [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop).
 
 ## Contents
 
