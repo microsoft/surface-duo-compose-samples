@@ -15,7 +15,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
-import com.microsoft.device.display.samples.extendedcanvas.ui.ExtendedCanvasAppsTheme
 import com.microsoft.device.dualscreen.testing.compose.getString
 import org.junit.Rule
 import org.junit.Test
@@ -29,12 +28,6 @@ class ExtendedCanvasTest {
      */
     @Test
     fun topBar_shows() {
-        composeTestRule.setContent {
-            ExtendedCanvasAppsTheme {
-                ExtendedCanvasApp()
-            }
-        }
-
         composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.top_bar))
             .assertIsDisplayed()
     }
@@ -44,12 +37,6 @@ class ExtendedCanvasTest {
      */
     @Test
     fun mapView_testImageDrags() {
-        composeTestRule.setContent {
-            ExtendedCanvasAppsTheme {
-                ExtendedCanvasApp()
-            }
-        }
-
         // Get node for the map image
         val mapImageNode =
             composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.map_image))
