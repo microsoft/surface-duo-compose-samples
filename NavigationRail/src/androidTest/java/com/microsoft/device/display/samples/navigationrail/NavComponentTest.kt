@@ -11,7 +11,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -29,9 +29,8 @@ import org.junit.Test
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 class NavComponentTest {
-
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that clicking each icon in the bottom navigation bar switches the gallery destination
@@ -73,8 +72,8 @@ class NavComponentTest {
         }
 
         // Assert that nav rail, not bottom nav, is displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(getString(R.string.bottom_nav)).assertDoesNotExist()
     }
 
     /**
@@ -89,8 +88,8 @@ class NavComponentTest {
         }
 
         // Assert that nav rail, not bottom nav, is displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(getString(R.string.bottom_nav)).assertDoesNotExist()
     }
 
     /**
@@ -105,8 +104,8 @@ class NavComponentTest {
         }
 
         // Assert that nav rail, not bottom nav, is displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertIsDisplayed()
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(getString(R.string.nav_rail)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(getString(R.string.bottom_nav)).assertDoesNotExist()
     }
 
     /**
@@ -121,8 +120,8 @@ class NavComponentTest {
         }
 
         // Assert that bottom nav, not nav rail, is displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.bottom_nav)).assertIsDisplayed()
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.nav_rail)).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(getString(R.string.bottom_nav)).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(getString(R.string.nav_rail)).assertDoesNotExist()
     }
 
     /**
@@ -132,7 +131,7 @@ class NavComponentTest {
     private fun clickEachNavIcon() {
         for (destination in GallerySections.values()) {
             // Click on nav icon
-            composeTestRule.onNode(hasText(composeTestRule.getString(destination.title)) and hasClickAction())
+            composeTestRule.onNode(hasText(getString(destination.title)) and hasClickAction())
                 .performClick()
 
             // Assert that new destination route is shown in the top bar

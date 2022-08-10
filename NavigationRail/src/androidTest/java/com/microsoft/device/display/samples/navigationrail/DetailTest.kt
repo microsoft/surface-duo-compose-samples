@@ -19,7 +19,7 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -51,7 +51,7 @@ import org.junit.Test
 @ExperimentalAnimationApi
 class DetailTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that the back button appears in pane 2 in single screen mode
@@ -63,7 +63,7 @@ class DetailTest {
         }
 
         // Assert that back button is visible
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back)).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back)).assertIsDisplayed()
     }
 
     /**
@@ -76,7 +76,7 @@ class DetailTest {
         }
 
         // Assert that back button is visible
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back)).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back)).assertIsDisplayed()
     }
 
     /**
@@ -89,7 +89,7 @@ class DetailTest {
         }
 
         // Assert that back button does not exist
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back)).assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back)).assertDoesNotExist()
     }
 
     /**
@@ -105,24 +105,24 @@ class DetailTest {
         }
 
         // Assert "plants" title is visible
-        composeTestRule.onNodeWithText("plants").assertIsDisplayed()
+        composeTestRule.onNodeWithText(getString(R.string.plants).lowercase()).assertIsDisplayed()
 
         // Click on first plant item
         val firstEntryDescription =
-            composeTestRule.getString(R.string.image_description, plantList[0].name, plantList[0].id)
+            getString(R.string.image_description, plantList[0].name, plantList[0].id)
         composeTestRule.onNodeWithContentDescription(firstEntryDescription).performClick()
 
         // Assert that back button is visible
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back)).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back)).assertIsDisplayed()
 
         // Assert that "plants" title is no longer visible
-        composeTestRule.onNodeWithText("plants").assertDoesNotExist()
+        composeTestRule.onNodeWithText(getString(R.string.plants).lowercase()).assertDoesNotExist()
 
         // Click back button
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.back)).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back)).performClick()
 
         // Assert that "plants" title is visible again
-        composeTestRule.onNodeWithText("plants").assertIsDisplayed()
+        composeTestRule.onNodeWithText(getString(R.string.plants).lowercase()).assertIsDisplayed()
     }
 
     /**
@@ -135,26 +135,26 @@ class DetailTest {
         }
 
         // Assert drawer is collapsed on start
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))
+        composeTestRule.onNodeWithTag(getString(R.string.content_drawer))
             .assertDrawerStateEquals(DrawerState.Collapsed)
 
         // Swipe content drawer up
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer)).performTouchInput {
+        composeTestRule.onNodeWithTag(getString(R.string.content_drawer)).performTouchInput {
             val start = this.topCenter
             val end = Offset(start.x, start.y - 200)
             swipe(start, end, 200)
         }
 
         // Assert drawer is now expanded
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))
+        composeTestRule.onNodeWithTag(getString(R.string.content_drawer))
             .assertDrawerStateEquals(DrawerState.Expanded)
 
         // Swipe content drawer back down
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))
+        composeTestRule.onNodeWithTag(getString(R.string.content_drawer))
             .performTouchInput { swipeDown() }
 
         // Assert drawer is collapsed again
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.content_drawer))
+        composeTestRule.onNodeWithTag(getString(R.string.content_drawer))
             .assertDrawerStateEquals(DrawerState.Collapsed)
     }
 

@@ -24,49 +24,36 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
-import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
-import com.microsoft.device.display.samples.navigationrail.ui.view.NavigationRailApp
+import com.microsoft.device.dualscreen.testing.compose.foldableRuleChain
 import com.microsoft.device.dualscreen.testing.compose.getString
-import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
-import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.testing.filters.MockFoldingFeature
+import com.microsoft.device.dualscreen.testing.rules.FoldableTestRule
+import com.microsoft.device.dualscreen.testing.runner.FoldableJUnit4ClassRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 
 @ExperimentalFoundationApi
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
+@RunWith(FoldableJUnit4ClassRunner::class)
 class PaneSynchronizationTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
-    private val publisherRule = WindowLayoutInfoPublisherRule()
+    private val foldableTestRule = FoldableTestRule()
 
-    @get: Rule
-    val testRule: TestRule
-
-    init {
-        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-        RuleChain.outerRule(composeTestRule)
-    }
+    @get:Rule
+    val testRule: TestRule = foldableRuleChain(composeTestRule, foldableTestRule)
 
     /**
      * Tests that the correct placeholder views appear when a gallery is first opened and no items are selected
      */
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.VERTICAL)
     fun app_verticalFold_testPlaceholderViewAppearsOnStart() {
-        composeTestRule.setContent {
-            NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
-            }
-        }
-
-        // Simulate a vertical foldFeature
-        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
-
         for (gallery in GallerySections.values()) {
             // Click on gallery
             composeTestRule.onNode(hasText(gallery.route, ignoreCase = true) and hasClickAction()).performClick()
@@ -82,16 +69,8 @@ class PaneSynchronizationTest {
      * for the clicked item when a vertical fold is present
      */
     @Test
+    @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.VERTICAL)
     fun app_verticalFold_galleryClickUpdatesSelection() {
-        composeTestRule.setContent {
-            NavigationRailAppTheme {
-                NavigationRailApp(WindowState(hasFold = true, foldIsSeparating = true))
-            }
-        }
-
-        // Simulate a vertical foldFeature
-        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
-
         GallerySections.values().forEachIndexed { i, gallery ->
             // Click on gallery
             composeTestRule.onNode(hasText(gallery.route, ignoreCase = true) and hasClickAction())
