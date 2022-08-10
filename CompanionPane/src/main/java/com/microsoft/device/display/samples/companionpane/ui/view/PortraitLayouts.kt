@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.companionpane.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -33,10 +34,11 @@ import com.microsoft.device.display.samples.companionpane.ui.components.Vignette
 private val longSliderWidth = 350.dp
 
 @Composable
-fun DualPortraitPane1() {
+fun DualPortraitPane1(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .testTag(stringResource(R.string.dual_port_pane1)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -46,10 +48,11 @@ fun DualPortraitPane1() {
 }
 
 @Composable
-fun DualPortraitPane2(sliderState: SliderState) {
+fun DualPortraitPane2(sliderState: SliderState, paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .testTag(stringResource(R.string.dual_port_pane2)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(80.dp, Alignment.CenterVertically)
@@ -73,10 +76,11 @@ fun DualPortraitPane2(sliderState: SliderState) {
 }
 
 @Composable
-fun PortraitLayout() {
+fun PortraitLayout(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .testTag(stringResource(R.string.single_port)),
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalAlignment = Alignment.CenterHorizontally

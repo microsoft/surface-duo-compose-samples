@@ -9,6 +9,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,10 +40,11 @@ import com.microsoft.device.display.samples.companionpane.ui.components.Vignette
 private val shortSlideWidth = 200.dp
 
 @Composable
-fun DualLandscapePane1() {
+fun DualLandscapePane1(paddingValues: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .padding(bottom = 20.dp)
             .clipToBounds()
             .testTag(stringResource(R.string.dual_land_pane1)),
@@ -53,11 +55,12 @@ fun DualLandscapePane1() {
 }
 
 @Composable
-fun DualLandscapePane2(sliderState: SliderState) {
+fun DualLandscapePane2(sliderState: SliderState, paddingValues: PaddingValues = PaddingValues()) {
     Surface {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(start = 5.dp, end = 5.dp, bottom = 5.dp)
                 .testTag(stringResource(R.string.dual_land_pane2)),
             verticalArrangement = Arrangement.SpaceEvenly,
@@ -67,6 +70,7 @@ fun DualLandscapePane2(sliderState: SliderState) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(paddingValues)
                     .horizontalScroll(rememberScrollState())
             ) {
                 Column(verticalArrangement = Arrangement.SpaceEvenly) {
@@ -106,10 +110,11 @@ fun DualLandscapePane2(sliderState: SliderState) {
 }
 
 @Composable
-fun LandscapeLayout(sliderState: SliderState) {
+fun LandscapeLayout(sliderState: SliderState, paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .padding(top = 20.dp, start = 20.dp, end = 10.dp, bottom = 10.dp)
             .verticalScroll(rememberScrollState())
             .testTag(stringResource(R.string.single_land)),

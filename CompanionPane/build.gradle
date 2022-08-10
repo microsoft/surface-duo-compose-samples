@@ -54,6 +54,8 @@ dependencies {
     implementation microsoftDependencies.twoPaneLayout
     implementation microsoftDependencies.windowState
 
+    implementation googleDependencies.material
+
     androidTestImplementation testDependencies.androidxTestCore
     androidTestImplementation testDependencies.androidxTestRules
     androidTestImplementation testDependencies.androidxTestRunner
@@ -63,5 +65,5 @@ dependencies {
     androidTestImplementation testDependencies.uiAutomator
     androidTestImplementation microsoftDependencies.composeTesting
 
-    implementation googleDependencies.material
+    debugImplementation testDependencies.composeUITestManifest
 }
