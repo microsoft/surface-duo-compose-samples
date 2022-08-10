@@ -37,18 +37,16 @@ fun TwoPaneNavScope.GalleryNavRail(
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
-    val twoPaneNavScope = this
-
     NavigationRail(
         modifier = Modifier.testTag(stringResource(id = R.string.nav_rail)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Spacer(Modifier.height(NAV_RAIL_TOP_SPACING))
         val currentDestination =
-            if (twoPaneNavScope.isSinglePane)
+            if (this@GalleryNavRail.isSinglePane)
                 navController.currentBackStackEntryAsState().value?.destination?.route
             else
-                twoPaneNavScope.currentPane1Destination
+                this@GalleryNavRail.currentPane1Destination
         galleries.forEach { gallery ->
             NavRailItemWithSelector(
                 icon = {
@@ -57,7 +55,7 @@ fun TwoPaneNavScope.GalleryNavRail(
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    twoPaneNavScope.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    this@GalleryNavRail.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
@@ -74,17 +72,15 @@ fun TwoPaneNavScope.GalleryBottomNav(
     updateImageId: (Int?) -> Unit,
     updateRoute: (String) -> Unit,
 ) {
-    val twoPaneNavScope = this
-
     BottomNavigation(
         modifier = Modifier.testTag(stringResource(id = R.string.bottom_nav)),
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         val currentDestination =
-            if (twoPaneNavScope.isSinglePane)
+            if (this@GalleryBottomNav.isSinglePane)
                 navController.currentBackStackEntryAsState().value?.destination?.route
             else
-                twoPaneNavScope.currentPane1Destination
+                this@GalleryBottomNav.currentPane1Destination
         galleries.forEach { gallery ->
             BottomNavItemWithSelector(
                 icon = {
@@ -93,7 +89,7 @@ fun TwoPaneNavScope.GalleryBottomNav(
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    twoPaneNavScope.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    this@GalleryBottomNav.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
