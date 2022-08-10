@@ -10,6 +10,7 @@ package com.microsoft.device.display.samples.draganddrop.ui.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -37,19 +38,18 @@ import com.microsoft.device.dualscreen.draganddrop.MimeType
 @Composable
 fun DragPaneWithTopBar() {
     Scaffold(
-        topBar = {
-            TopBarWithTitle()
-        }
+        topBar = { TopBarWithTitle() }
     ) {
-        DragPane()
+        DragPane(paddingValues = it)
     }
 }
 
 @Composable
-fun DragPane(modifier: Modifier = Modifier) {
+fun DragPane(modifier: Modifier = Modifier, paddingValues: PaddingValues = PaddingValues()) {
     Row(
         modifier = modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .background(lightGray)
             .testTag(stringResource(R.string.drag_pane))
     ) {
