@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.twopage
 
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -14,31 +13,24 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
-import androidx.compose.ui.unit.dp
-import com.microsoft.device.display.samples.twopage.ui.theme.TwoPageAppTheme
-import com.microsoft.device.display.samples.twopage.ui.view.TwoPageApp
-import com.microsoft.device.display.samples.twopage.ui.view.TwoPageAppContent
+import com.microsoft.device.dualscreen.testing.compose.foldableRuleChain
 import com.microsoft.device.dualscreen.testing.compose.getString
-import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
 import com.microsoft.device.dualscreen.testing.filters.MockFoldingFeature
 import com.microsoft.device.dualscreen.testing.filters.SingleScreenTest
-import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.testing.rules.FoldableTestRule
+import com.microsoft.device.dualscreen.testing.runner.FoldableJUnit4ClassRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 
+@RunWith(FoldableJUnit4ClassRunner::class)
 class PageSwipeTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
-    private val publisherRule = createWindowLayoutInfoPublisherRule()
+    private val foldableTestRule = FoldableTestRule()
 
-    @get: Rule
-    val testRule: TestRule
-
-    init {
-        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-        RuleChain.outerRule(composeTestRule)
-    }
+    @get:Rule
+    val testRule: TestRule = foldableRuleChain(composeTestRule, foldableTestRule)
 
     /**
      * Tests that the pages swipe only between 1 and 4 in single screen mode
@@ -46,12 +38,6 @@ class PageSwipeTest {
     @Test
     @SingleScreenTest
     fun app_singlescreen_pagesSwipeWithinLimits() {
-        composeTestRule.setContent {
-            TwoPageAppTheme {
-                TwoPageAppContent(pane1WidthDp = 0.dp, pane2WidthDp = 0.dp, isDualScreen = false, foldSizeDp = 0.dp)
-            }
-        }
-
         swipeOnePageAtATime()
     }
 
@@ -61,12 +47,6 @@ class PageSwipeTest {
     @Test
     @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.HORIZONTAL)
     fun app_horizontalFold_pagesSwipeWithinLimits() {
-        composeTestRule.setContent {
-            TwoPageAppTheme {
-                TwoPageApp(WindowState(hasFold = true, foldIsHorizontal = true, foldIsSeparating = true))
-            }
-        }
-
         swipeOnePageAtATime()
     }
 
@@ -119,19 +99,6 @@ class PageSwipeTest {
     @Test
     @MockFoldingFeature(orientation = MockFoldingFeature.FoldingFeatureOrientation.VERTICAL)
     fun app_verticalFold_pagesSwipeWithinLimits() {
-        composeTestRule.setContent {
-            val pageWidth = LocalConfiguration.current.screenWidthDp / 2
-
-            TwoPageAppTheme {
-                TwoPageAppContent(
-                    pane1WidthDp = pageWidth.dp,
-                    pane2WidthDp = pageWidth.dp,
-                    isDualScreen = true,
-                    foldSizeDp = 0.dp
-                )
-            }
-        }
-
         val pageTags = listOf(R.string.page1_tag, R.string.page2_tag, R.string.page3_tag, R.string.page4_tag)
 
         // Swipe forwards

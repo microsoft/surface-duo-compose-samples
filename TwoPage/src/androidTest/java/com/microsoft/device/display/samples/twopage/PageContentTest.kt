@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasScrollAction
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +28,7 @@ import org.junit.Test
 
 class PageContentTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that page content is scrollable
@@ -42,14 +42,14 @@ class PageContentTest {
         }
 
         // Assert last text element in not visible
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.article_title)).assertIsNotDisplayed()
+        composeTestRule.onNodeWithText(getString(R.string.article_title)).assertIsNotDisplayed()
 
         // Assert page has scroll action
         composeTestRule.onNode(hasScrollAction()).assertExists()
 
         // Scroll to end of page content and assert last element is now visible
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.article_title)).performScrollTo()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.article_title)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(getString(R.string.article_title)).performScrollTo()
+        composeTestRule.onNodeWithText(getString(R.string.article_title)).assertIsDisplayed()
     }
 
     /**
@@ -69,7 +69,7 @@ class PageContentTest {
         composeTestRule.onNodeWithText(pageNumberText).assertIsDisplayed()
 
         // Scroll to end of page content and assert that page number is still visible
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.article_title)).performScrollTo()
+        composeTestRule.onNodeWithText(getString(R.string.article_title)).performScrollTo()
         composeTestRule.onNodeWithText(pageNumberText).assertIsDisplayed()
     }
 
