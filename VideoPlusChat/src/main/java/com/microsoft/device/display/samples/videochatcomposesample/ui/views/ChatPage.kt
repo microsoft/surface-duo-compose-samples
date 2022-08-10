@@ -62,6 +62,7 @@ fun ChatPage(focusManager: FocusManager) {
             modifier = Modifier
                 .fillMaxHeight(0.85f)
                 .fillMaxWidth()
+                .padding(it)
                 .background(MaterialTheme.colors.secondary)
         )
     }
@@ -149,6 +150,7 @@ fun ChatInputBar(focusManager: FocusManager) {
 @Composable
 fun ChatList(modifier: Modifier = Modifier) {
     val chatModel = ChatModel()
+
     LazyColumn(
         modifier = modifier.padding(all = 10.dp)
     ) {
