@@ -10,7 +10,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -38,7 +40,7 @@ fun TwoPaneScope.DetailPane(models: List<ImageModel>, selectedIndex: Int) {
             )
         }
     ) {
-        GalleryItemDetail(models = models, selectedIndex = selectedIndex)
+        GalleryItemDetail(models = models, selectedIndex = selectedIndex, paddingValues = it)
     }
 }
 
@@ -54,7 +56,7 @@ private fun TwoPaneScope.DetailActions() {
 }
 
 @Composable
-private fun GalleryItemDetail(models: List<ImageModel>, selectedIndex: Int) {
+private fun GalleryItemDetail(models: List<ImageModel>, selectedIndex: Int, paddingValues: PaddingValues) {
     val selectedImageModel = models[selectedIndex]
 
     Crossfade(
@@ -62,7 +64,7 @@ private fun GalleryItemDetail(models: List<ImageModel>, selectedIndex: Int) {
         animationSpec = tween(600)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)
         ) {
