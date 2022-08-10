@@ -6,7 +6,7 @@
 package com.microsoft.device.display.samples.listdetail
 
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -21,7 +21,7 @@ import org.junit.Test
 
 class TopAppBarTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that app title shows in the top bar of the list view
@@ -34,9 +34,7 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNode(
-            hasText(composeTestRule.getString(R.string.app_name))
-        ).assertExists()
+        composeTestRule.onNode(hasText(getString(R.string.app_name))).assertExists()
     }
 
     /**
@@ -51,9 +49,7 @@ class TopAppBarTest {
         }
 
         // Assert the back button is not shown
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.back_to_list)
-        ).assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back_to_list)).assertDoesNotExist()
     }
 
     /**
@@ -68,9 +64,7 @@ class TopAppBarTest {
         }
 
         // Assert the back button is shown
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.back_to_list)
-        ).assertExists()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back_to_list)).assertExists()
     }
 
     /**
@@ -86,44 +80,29 @@ class TopAppBarTest {
         }
 
         // Assert the list view is shown first
-        composeTestRule.onNodeWithTag(
-            composeTestRule.getString(R.string.list_view)
-        ).assertExists()
+        composeTestRule.onNodeWithTag(getString(R.string.list_view)).assertExists()
 
         // Assert the back button is not shown yet
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.back_to_list)
-        ).assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back_to_list)).assertDoesNotExist()
 
         // Click the first image from the list
         val index = 0
-        composeTestRule.onNodeWithContentDescription(
-            index.toString()
-        ).performClick()
+        composeTestRule.onNodeWithContentDescription(index.toString()).performClick()
 
         // Assert the correct detail image is shown
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.image_tag) + index.toString()
-        ).assertExists()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.image_tag) + index.toString())
+            .assertExists()
 
         // Assert the back button is now shown
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.back_to_list)
-        ).assertExists()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back_to_list)).assertExists()
 
         // Click the back button to go back to the list view
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.getString(R.string.back_to_list)
-        ).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.back_to_list)).performClick()
 
         // Assert the detail view is not shown
-        composeTestRule.onNodeWithTag(
-            composeTestRule.getString(R.string.detail_view)
-        ).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(getString(R.string.detail_view)).assertDoesNotExist()
 
         // Assert the list view is now shown
-        composeTestRule.onNodeWithTag(
-            composeTestRule.getString(R.string.list_view)
-        ).assertExists()
+        composeTestRule.onNodeWithTag(getString(R.string.list_view)).assertExists()
     }
 }

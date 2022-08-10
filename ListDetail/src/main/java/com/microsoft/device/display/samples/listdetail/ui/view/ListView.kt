@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.listdetail.ui.view
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -43,8 +44,9 @@ private val horizontalPadding = 15.dp
 fun TwoPaneScope.ListViewWithTopBar(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
     Scaffold(
         topBar = { ListViewTopBar() },
-        content = { ListView(selectedIndex, updateSelectedIndex) }
-    )
+    ) {
+        ListView(selectedIndex, updateSelectedIndex, it)
+    }
 }
 
 @Composable
@@ -64,19 +66,14 @@ fun ListViewTopBar() {
 }
 
 @Composable
-fun TwoPaneScope.ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
+fun TwoPaneScope.ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit, paddingValues: PaddingValues) {
     val subImageList = images.chunked(3)
-    val twoPaneScope = this
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = verticalPadding,
-                bottom = verticalPadding,
-                start = horizontalPadding,
-                end = horizontalPadding
-            )
+            .padding(paddingValues)
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding)
             .testTag(stringResource(R.string.list_view))
     ) {
         LazyColumn(
@@ -103,7 +100,7 @@ fun TwoPaneScope.ListView(selectedIndex: Int, updateSelectedIndex: (Int) -> Unit
                                         selected = (listIndex == selectedIndex),
                                         onClick = {
                                             updateSelectedIndex(listIndex)
-                                            twoPaneScope.navigateToPane2()
+                                            this@ListView.navigateToPane2()
                                         }
                                     )
                             )

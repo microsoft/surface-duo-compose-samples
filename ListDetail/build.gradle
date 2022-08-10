@@ -64,4 +64,6 @@ dependencies {
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.uiAutomator
     androidTestImplementation microsoftDependencies.composeTesting
+
+    debugImplementation testDependencies.composeUITestManifest
 }
