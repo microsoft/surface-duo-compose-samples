@@ -68,10 +68,10 @@ fun ButtonLayout(
     onClick: () -> Unit
 ) {
     Button(
-        onClick = { onClick() },
         modifier = Modifier
             .padding(5.dp)
             .size(90.dp),
+        onClick = { onClick() },
         colors = ButtonDefaults.buttonColors(backgroundColor = color),
         shape = MaterialTheme.shapes.large
     ) {
@@ -88,6 +88,7 @@ fun ButtonText(content: String) {
     val button = MaterialTheme.typography.button
     var textStyle by remember { mutableStateOf(button) }
     var readyToDraw by remember { mutableStateOf(false) }
+
     Text(
         text = content,
         style = textStyle,

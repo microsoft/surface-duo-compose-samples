@@ -33,6 +33,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.microsoft.device.display.samples.navigationrail'
 }
 
 dependencies {
@@ -59,4 +60,6 @@ dependencies {
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.uiAutomator
     androidTestImplementation microsoftDependencies.composeTesting
+
+    debugImplementation testDependencies.composeUITestManifest
 }

@@ -12,8 +12,10 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -51,14 +53,12 @@ fun TwoPaneScope.MapViewWithTopBar(isDualLandscape: Boolean, selectedIndex: Int)
     Scaffold(
         topBar = { if (!isDualLandscape) MapTopBar() }
     ) {
-        MapView(selectedIndex)
+        MapView(selectedIndex, it)
     }
 }
 
 @Composable
 fun TwoPaneScope.MapTopBar() {
-    val twoPaneScope = this
-
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.map_top_bar)),
         title = {
@@ -72,8 +72,8 @@ fun TwoPaneScope.MapTopBar() {
             )
         },
         actions = {
-            if (twoPaneScope.isSinglePane) {
-                IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
+            if (this@MapTopBar.isSinglePane) {
+                IconButton(onClick = { this@MapTopBar.navigateToPane1() }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_list),
                         contentDescription = stringResource(R.string.switch_to_rest),
@@ -87,15 +87,18 @@ fun TwoPaneScope.MapTopBar() {
 }
 
 @Composable
-fun MapView(selectedIndex: Int) {
+fun MapView(selectedIndex: Int, paddingValues: PaddingValues) {
     var selectedMapId = R.drawable.unselected_map
     var selectedTitleId = R.string.map_description
+
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
         selectedTitleId = restaurants[selectedIndex].description
     }
+
     Box(
         modifier = Modifier
+            .padding(paddingValues)
             .clipToBounds()
             .testTag(
                 stringResource(R.string.map_image)

@@ -5,6 +5,7 @@
 
 package com.microsoft.device.display.samples.twopage.ui.view
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -39,7 +40,8 @@ fun TwoPageApp(windowState: WindowState) {
                 pane1WidthDp = windowState.pane1SizeDp.width,
                 pane2WidthDp = windowState.pane2SizeDp.width,
                 isDualScreen = windowState.isDualPortrait(),
-                foldSizeDp = windowState.foldSizeDp
+                foldSizeDp = windowState.foldSizeDp,
+                paddingValues = it
             )
         }
     )
@@ -62,7 +64,13 @@ fun TwoPageTopBar() {
 }
 
 @Composable
-fun TwoPageAppContent(pane1WidthDp: Dp, pane2WidthDp: Dp, isDualScreen: Boolean, foldSizeDp: Dp) {
+fun TwoPageAppContent(
+    pane1WidthDp: Dp,
+    pane2WidthDp: Dp,
+    isDualScreen: Boolean,
+    foldSizeDp: Dp,
+    paddingValues: PaddingValues
+) {
     // Calculate page text width based on the smallest pane width
     val pageTextWidth = min(pane1WidthDp, pane2WidthDp)
 
@@ -70,18 +78,20 @@ fun TwoPageAppContent(pane1WidthDp: Dp, pane2WidthDp: Dp, isDualScreen: Boolean,
     val pagePadding = abs(pane1WidthDp.value - pane2WidthDp.value).dp + foldSizeDp
 
     val pages = setupPages(pageTextWidth, pagePadding)
-    PageViews(pages, isDualScreen)
+    PageViews(pages, isDualScreen, paddingValues)
 }
 
 @Composable
-fun PageViews(pages: List<@Composable () -> Unit>, isDualScreen: Boolean) {
+fun PageViews(pages: List<@Composable () -> Unit>, isDualScreen: Boolean, paddingValues: PaddingValues) {
     val maxPage = (pages.size - 1).coerceAtLeast(0)
     val pagerState: PagerState =
         remember { PagerState(currentPage = 0, minPage = 0, maxPage = maxPage) }
     pagerState.isDualMode = isDualScreen
     ViewPager(
         state = pagerState,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
     ) {
         pages[page]()
     }

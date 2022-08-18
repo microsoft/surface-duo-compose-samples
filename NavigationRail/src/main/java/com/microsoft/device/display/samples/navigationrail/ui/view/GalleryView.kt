@@ -15,9 +15,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -80,8 +79,6 @@ fun TwoPaneNavScope.GalleryViewWithTopBar(
             activity?.finish()
     }
 
-    val twoPaneNavScope = this
-
     // Use navigation rail when dual screen (more space), otherwise use bottom navigation
     Scaffold(
         bottomBar = {
@@ -91,15 +88,16 @@ fun TwoPaneNavScope.GalleryViewWithTopBar(
     ) { paddingValues ->
         Row(Modifier.padding(paddingValues)) {
             if (isDualScreen)
-                twoPaneNavScope.GalleryNavRail(navController, navDestinations, updateImageId, updateRoute)
+                this@GalleryViewWithTopBar.GalleryNavRail(navController, navDestinations, updateImageId, updateRoute)
             Scaffold(
                 topBar = { GalleryTopBar(section.route, horizontalPadding) }
-            ) {
+            ) { paddingValues ->
                 GalleryView(
                     galleryList = section.list,
                     currentImageId = imageId,
-                    onImageSelected = { id -> twoPaneNavScope.onImageSelected(id, updateImageId, navController) },
+                    onImageSelected = { id -> this@GalleryViewWithTopBar.onImageSelected(id, updateImageId, navController) },
                     horizontalPadding = horizontalPadding,
+                    paddingValues = paddingValues
                 )
             }
         }
@@ -137,10 +135,12 @@ fun GalleryView(
     galleryList: List<Image>,
     currentImageId: Int?,
     onImageSelected: (Int) -> Unit,
-    horizontalPadding: Dp
+    horizontalPadding: Dp,
+    paddingValues: PaddingValues
 ) {
     LazyVerticalGrid(
-        cells = GridCells.Fixed(count = NUM_COLUMNS),
+        modifier = Modifier.padding(paddingValues),
+        columns = GridCells.Fixed(count = NUM_COLUMNS),
         verticalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.Top),
         horizontalArrangement = Arrangement.spacedBy(GALLERY_SPACING, Alignment.CenterHorizontally),
         contentPadding = PaddingValues(
@@ -149,8 +149,10 @@ fun GalleryView(
             bottom = GALLERY_SPACING
         )
     ) {
-        items(galleryList) { item ->
-            GalleryItem(item, currentImageId, onImageSelected)
+        galleryList.forEach { item ->
+            item {
+                GalleryItem(item, currentImageId, onImageSelected)
+            }
         }
     }
 }

@@ -69,17 +69,15 @@ fun TwoPaneScope.RestaurantViewWithTopBar(
     Scaffold(
         topBar = { RestaurantTopBar() }
     ) {
-        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex)
+        RestaurantView(viewWidth, selectedIndex, updateSelectedIndex, it)
     }
 }
 
 @Composable
 fun TwoPaneScope.RestaurantTopBar() {
-    val twoPaneScope = this
-
     TopAppBar(
         modifier = Modifier.testTag(stringResource(R.string.restaurant_top_bar)),
-        actions = { if (twoPaneScope.isSinglePane) twoPaneScope.RestaurantActionButton() },
+        actions = { if (this@RestaurantTopBar.isSinglePane) this@RestaurantTopBar.RestaurantActionButton() },
         title = {
             Text(
                 text = stringResource(R.string.app_name),
@@ -106,18 +104,23 @@ private fun TwoPaneScope.RestaurantActionButton() {
 }
 
 @Composable
-fun TwoPaneScope.RestaurantView(viewWidth: Int, selectedIndex: Int, updateSelectedIndex: (Int) -> Unit) {
-    val twoPaneScope = this
-
+fun TwoPaneScope.RestaurantView(
+    viewWidth: Int,
+    selectedIndex: Int,
+    updateSelectedIndex: (Int) -> Unit,
+    paddingValues: PaddingValues
+) {
     Column(
-        modifier = Modifier.padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(top = outlinePadding.dp, start = outlinePadding.dp, end = outlinePadding.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         Text(
             text = stringResource(R.string.list_title),
             style = typography.subtitle1
         )
-        twoPaneScope.RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
+        this@RestaurantView.RestaurantListView(viewWidth, selectedIndex, updateSelectedIndex)
     }
 }
 

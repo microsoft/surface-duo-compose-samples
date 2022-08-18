@@ -9,8 +9,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -43,9 +45,10 @@ var SemanticsPropertyReceiver.imageOffset by ImageOffsetKey
 @Composable
 fun ExtendedCanvasApp() {
     Scaffold(
-        topBar = { TitleTopBar() },
-        content = { ScaleImage() }
-    )
+        topBar = { TitleTopBar() }
+    ) {
+        ScaleImage(it)
+    }
 }
 
 @Composable
@@ -66,7 +69,7 @@ fun TitleTopBar() {
 }
 
 @Composable
-fun ScaleImage() {
+fun ScaleImage(paddingValues: PaddingValues) {
     val minScale = 0.8f
     val maxScale = 6f
     var scale by remember { mutableStateOf(1.5f) }
@@ -75,10 +78,9 @@ fun ScaleImage() {
         scale *= zoomChange
         offset += offsetChange
     }
+
     Image(
-        painter = painterResource(id = R.drawable.mock_map),
-        contentDescription = stringResource(R.string.map_image),
-        contentScale = ContentScale.Crop,
+
         modifier = Modifier
             .semantics {
                 imageOffset = offset
@@ -96,6 +98,10 @@ fun ScaleImage() {
                     }
                 )
             }
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(paddingValues),
+        painter = painterResource(id = R.drawable.mock_map),
+        contentDescription = stringResource(R.string.map_image),
+        contentScale = ContentScale.Crop,
     )
 }

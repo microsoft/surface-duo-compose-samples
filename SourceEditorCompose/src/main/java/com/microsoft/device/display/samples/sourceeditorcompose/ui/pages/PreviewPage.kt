@@ -10,6 +10,7 @@ package com.microsoft.device.display.samples.sourceeditorcompose.ui.pages
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
@@ -30,31 +32,11 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
  */
 @Composable
 fun TwoPaneScope.PreviewPage(text: String) {
-    val twoPaneScope = this
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    if (isSinglePane) {
-                        Text(text = stringResource(id = R.string.app_name))
-                    }
-                },
-                contentColor = Color.White,
-                backgroundColor = MaterialTheme.colors.primaryVariant,
-                actions = {
-                    if (twoPaneScope.isSinglePane) {
-                        IconButton(onClick = { twoPaneScope.navigateToPane1() }) {
-                            Icon(
-                                imageVector = Icons.Filled.Edit,
-                                contentDescription = stringResource(R.string.show_source)
-                            )
-                        }
-                    }
-                }
-            )
-        }
-    ) {
+        topBar = { PreviewTopBar() }
+    ) { paddingValues ->
         AndroidView(
+            modifier = Modifier.padding(paddingValues),
             factory = {
                 WebView(it).apply {
                     layoutParams = ViewGroup.LayoutParams(
@@ -70,4 +52,26 @@ fun TwoPaneScope.PreviewPage(text: String) {
             }
         )
     }
+}
+
+@Composable
+fun TwoPaneScope.PreviewTopBar() {
+    TopAppBar(
+        title = {
+            if (isSinglePane)
+                Text(text = stringResource(id = R.string.app_name))
+        },
+        contentColor = Color.White,
+        backgroundColor = MaterialTheme.colors.primaryVariant,
+        actions = {
+            if (this@PreviewTopBar.isSinglePane) {
+                IconButton(onClick = { this@PreviewTopBar.navigateToPane1() }) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = stringResource(R.string.show_source)
+                    )
+                }
+            }
+        }
+    )
 }

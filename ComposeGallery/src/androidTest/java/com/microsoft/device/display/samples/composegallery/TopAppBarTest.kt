@@ -9,7 +9,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -29,7 +29,7 @@ import org.junit.Test
  */
 class TopAppBarTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     private val models = DataProvider.imageModels
     private val selectedImageIndex = 0
@@ -48,7 +48,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is true, icon should be hidden
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail))
             .assertDoesNotExist()
     }
 
@@ -64,7 +64,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is false, icon should show
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail))
             .assertIsDisplayed()
     }
 
@@ -80,7 +80,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is true, icon should be hidden
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
             .assertDoesNotExist()
     }
 
@@ -96,7 +96,7 @@ class TopAppBarTest {
         }
 
         // isDualMode is false, icon should show
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
             .assertIsDisplayed()
     }
 
@@ -112,8 +112,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.top_app_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -129,8 +129,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.top_app_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -146,8 +146,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.top_app_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertIsDisplayed()
     }
 
@@ -163,7 +163,7 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.top_app_bar)))
+            hasParent(hasTestTag(getString(R.string.top_app_bar)))
                 and hasText("")
         ).assertExists()
     }
@@ -180,23 +180,23 @@ class TopAppBarTest {
         }
 
         // Check that list pane is currently displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list))
             .assertIsDisplayed()
 
         // Click on picture/detail icon
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_detail))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_detail))
             .performClick()
 
         // Check that list pane is no longer displayed
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list))
             .assertDoesNotExist()
 
         // Click on list icon
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_list))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_list))
             .performClick()
 
         // Check that list pane is displayed again
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.gallery_list))
+        composeTestRule.onNodeWithTag(getString(R.string.gallery_list))
             .assertIsDisplayed()
     }
 }

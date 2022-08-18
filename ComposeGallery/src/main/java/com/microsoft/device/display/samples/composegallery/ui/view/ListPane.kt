@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.composegallery.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -56,6 +57,7 @@ fun TwoPaneScope.ListPane(
             models = models,
             selectedImageIndex = selectedImageIndex,
             updateImageIndex = updateImageIndex,
+            paddingValues = it
         )
     }
 }
@@ -76,10 +78,12 @@ private fun TwoPaneScope.GalleryList(
     models: List<ImageModel>,
     selectedImageIndex: Int,
     updateImageIndex: (Int) -> Unit,
+    paddingValues: PaddingValues
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .testTag(stringResource(R.string.gallery_list)),
     ) {
         itemsIndexed(models) { index, item ->

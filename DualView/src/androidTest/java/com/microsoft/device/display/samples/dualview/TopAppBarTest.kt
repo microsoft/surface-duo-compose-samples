@@ -9,7 +9,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -25,7 +25,7 @@ import org.junit.Test
 
 class TopAppBarTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that the map icon shows in the restaurant top bar when single screen
@@ -38,7 +38,7 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_map))
             .assertIsDisplayed()
     }
 
@@ -53,7 +53,7 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_map))
             .assertDoesNotExist()
     }
 
@@ -68,7 +68,7 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_rest))
             .assertIsDisplayed()
     }
 
@@ -83,7 +83,7 @@ class TopAppBarTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest))
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_rest))
             .assertDoesNotExist()
     }
 
@@ -99,8 +99,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.restaurant_top_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.restaurant_top_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertExists()
     }
 
@@ -116,8 +116,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.restaurant_top_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.restaurant_top_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertExists()
     }
 
@@ -133,8 +133,8 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.map_top_bar)))
-                and hasText(composeTestRule.getString(R.string.app_name))
+            hasParent(hasTestTag(getString(R.string.map_top_bar)))
+                and hasText(getString(R.string.app_name))
         ).assertExists()
     }
 
@@ -150,7 +150,7 @@ class TopAppBarTest {
         }
 
         composeTestRule.onNode(
-            hasParent(hasTestTag(composeTestRule.getString(R.string.map_top_bar)))
+            hasParent(hasTestTag(getString(R.string.map_top_bar)))
                 and hasText("")
         ).assertExists()
     }
@@ -167,18 +167,18 @@ class TopAppBarTest {
         }
 
         // Assert restaurant view is shown first
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.restaurant_top_bar)).assertExists()
+        composeTestRule.onNodeWithTag(getString(R.string.restaurant_top_bar)).assertExists()
 
         // Click map icon to switch views
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_map)).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_map)).performClick()
 
         // Assert map view is now shown
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.map_top_bar)).assertExists()
+        composeTestRule.onNodeWithTag(getString(R.string.map_top_bar)).assertExists()
 
         // Click restaurant icon to switch views
-        composeTestRule.onNodeWithContentDescription(composeTestRule.getString(R.string.switch_to_rest)).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.switch_to_rest)).performClick()
 
         // Assert restaurant view is shown again
-        composeTestRule.onNodeWithTag(composeTestRule.getString(R.string.restaurant_top_bar)).assertExists()
+        composeTestRule.onNodeWithTag(getString(R.string.restaurant_top_bar)).assertExists()
     }
 }

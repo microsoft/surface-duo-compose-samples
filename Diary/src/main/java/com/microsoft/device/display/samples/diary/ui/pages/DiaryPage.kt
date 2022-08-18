@@ -35,36 +35,13 @@ fun TwoPaneScope.DiaryPage(
     selectedDate: LocalDate,
     updateContent: () -> Unit
 ) {
-    val twoPaneScope = this
     val context = LocalContext.current
     val rootDataDir: File = context.applicationContext.dataDir
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    if (isSinglePane) {
-                        Text(text = stringResource(R.string.app_name))
-                    }
-                },
-                backgroundColor = MaterialTheme.colors.primaryVariant,
-                actions = {
-                    if (twoPaneScope.isSinglePane) {
-                        IconButton(
-                            onClick = { twoPaneScope.navigateToPane1() }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = stringResource(R.string.date_picker)
-                            )
-                        }
-                    }
-                }
-            )
-        }
+        topBar = { DiaryTopBar() }
     ) {
-        Column {
-
+        Column(modifier = Modifier.padding(it)) {
             TextField(
                 value = text,
                 placeholder = { Text(stringResource(R.string.diary_placeholder)) },
@@ -74,7 +51,6 @@ fun TwoPaneScope.DiaryPage(
                     .fillMaxSize()
                     .weight(0.9f)
             )
-
             Button(
                 modifier = Modifier
                     .width(150.dp)
@@ -89,4 +65,25 @@ fun TwoPaneScope.DiaryPage(
             }
         }
     }
+}
+
+@Composable
+fun TwoPaneScope.DiaryTopBar() {
+    TopAppBar(
+        title = {
+            if (isSinglePane)
+                Text(text = stringResource(R.string.app_name))
+        },
+        backgroundColor = MaterialTheme.colors.primaryVariant,
+        actions = {
+            if (this@DiaryTopBar.isSinglePane) {
+                IconButton(onClick = { this@DiaryTopBar.navigateToPane1() }) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.date_picker)
+                    )
+                }
+            }
+        }
+    )
 }

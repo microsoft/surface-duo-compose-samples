@@ -7,6 +7,7 @@ package com.microsoft.device.display.samples.navigationrail
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.semantics.SemanticsProperties.VerticalScrollAxisRange
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performScrollTo
@@ -38,7 +39,7 @@ import org.junit.Test
 @ExperimentalAnimationApi
 class GalleryTest {
     @get: Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that the content of the gallery view is vertically scrollable
@@ -52,15 +53,15 @@ class GalleryTest {
                     galleryList = DataProvider.plantList,
                     currentImageId = id,
                     onImageSelected = { newId -> id = newId },
-                    horizontalPadding = 10.dp
+                    horizontalPadding = 10.dp,
+                    paddingValues = PaddingValues()
                 )
             }
         }
 
         // Assert that last plant is not visible at the start
         val lastEntry = DataProvider.plantList.last()
-        val lastEntryDescription =
-            composeTestRule.getString(R.string.image_description, lastEntry.name, lastEntry.id)
+        val lastEntryDescription = getString(R.string.image_description, lastEntry.name, lastEntry.id)
         composeTestRule.onNodeWithContentDescription(lastEntryDescription).assertDoesNotExist()
 
         // Assert that gallery has vertical scroll action, then scroll to the end of the gallery
@@ -83,10 +84,10 @@ class GalleryTest {
         }
 
         // Assert "plants" title is visible in gallery view
-        composeTestRule.onNodeWithText("plants").assertIsDisplayed()
+        composeTestRule.onNodeWithText(getString(R.string.plants).lowercase()).assertIsDisplayed()
 
         // Assert that placeholder view isn't shown on start up (only one pane)
-        val placeholderText = composeTestRule.activity.getString(R.string.placeholder_msg, "plants")
+        val placeholderText = getString(R.string.placeholder_msg, getString(R.string.plants).lowercase())
         composeTestRule.onNodeWithText(placeholderText).assertDoesNotExist()
     }
 }

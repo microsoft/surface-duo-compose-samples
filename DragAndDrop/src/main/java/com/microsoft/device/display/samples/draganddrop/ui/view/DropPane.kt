@@ -11,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -48,14 +49,10 @@ fun DropPaneWithTopBar(
     updateDragImage: (Painter?) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(backgroundColor = colors.primary) {}
-        },
-        floatingActionButton = {
-            ResetFloatingActionButton(updateDragText, updateDragImage)
-        }
+        topBar = { TopAppBar(backgroundColor = colors.primary) {} },
+        floatingActionButton = { ResetFloatingActionButton(updateDragText, updateDragImage) }
     ) {
-        DropPane(dragText, updateDragText, dragImage, updateDragImage)
+        DropPane(dragText, updateDragText, dragImage, updateDragImage, paddingValues = it)
     }
 }
 
@@ -65,7 +62,8 @@ fun DropPane(
     updateDragText: (String?) -> Unit,
     dragImage: Painter?,
     updateDragImage: (Painter?) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues()
 ) {
     var isDroppingText by remember { mutableStateOf(false) }
     var isDroppingImage by remember { mutableStateOf(false) }
@@ -73,6 +71,7 @@ fun DropPane(
 
     DropContainer(
         modifier = modifier
+            .padding(paddingValues)
             .testTag(stringResource(R.string.drop_pane)),
         onDrag = { inBounds, isDragging ->
             if (!inBounds || !isDragging) {
@@ -112,6 +111,7 @@ fun DropPaneContent(dragText: String?, isDroppingText: Boolean, dragImage: Paint
 @Composable
 fun RowScope.DropImageBox(dragImage: Painter?, isDroppingImage: Boolean) {
     val boxColor = if (isDroppingImage) mediumGray else lightGray
+
     Box(
         modifier = Modifier
             .weight(1f)
@@ -148,6 +148,7 @@ fun DropImagePlaceholder() {
 @Composable
 fun RowScope.DropTextBox(text: String?, isDroppingText: Boolean) {
     val boxColor = if (isDroppingText) mediumGray else lightGray
+
     Box(
         modifier = Modifier
             .weight(1f)

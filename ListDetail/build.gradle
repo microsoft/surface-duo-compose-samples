@@ -36,6 +36,7 @@ android {
             excludes += ['META-INF/licenses/**', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
         }
     }
+    namespace 'com.microsoft.device.display.samples.listdetail'
 }
 
 dependencies {
@@ -63,4 +64,6 @@ dependencies {
     androidTestImplementation testDependencies.composeJunit
     androidTestImplementation testDependencies.uiAutomator
     androidTestImplementation microsoftDependencies.composeTesting
+
+    debugImplementation testDependencies.composeUITestManifest
 }

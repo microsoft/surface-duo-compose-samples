@@ -8,6 +8,7 @@ package com.microsoft.device.display.samples.listdetail.ui.view
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,10 +49,9 @@ fun TwoPaneScope.DetailViewWithTopBar(selectedIndex: Int) {
         topBar = {
             DetailViewTopBar()
         },
-        content = {
-            DetailView(selectedIndex)
-        }
-    )
+    ) {
+        DetailView(selectedIndex, it)
+    }
 }
 
 @Composable
@@ -82,10 +82,10 @@ fun TwoPaneScope.DetailViewTopBarButton() {
 }
 
 @Composable
-fun DetailView(selectedIndex: Int) {
+fun DetailView(selectedIndex: Int, paddingValues: PaddingValues) {
     val selectedImageId = images[selectedIndex]
 
-    Column {
+    Column(modifier = Modifier.padding(paddingValues)) {
         Box(
             modifier = Modifier
                 .testTag(stringResource(R.string.detail_view))
@@ -116,9 +116,7 @@ fun DetailView(selectedIndex: Int) {
 @Composable
 fun ImageInfoTile(modifier: Modifier) {
     Row(
-        modifier = modifier.horizontalScroll(
-            rememberScrollState()
-        ),
+        modifier = modifier.horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

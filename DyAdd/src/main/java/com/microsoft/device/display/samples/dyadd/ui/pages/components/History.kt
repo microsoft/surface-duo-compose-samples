@@ -29,14 +29,9 @@ import kotlinx.coroutines.launch
 fun History(addRecordToTop: Boolean, modifier: Modifier = Modifier) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
     LazyColumn(
-        modifier = modifier
-            .padding(
-                start = 20.dp,
-                end = 20.dp,
-                bottom = 5.dp,
-                top = 15.dp
-            ),
+        modifier = modifier.padding(start = 20.dp, end = 20.dp, bottom = 5.dp, top = 15.dp),
         state = listState,
     ) {
         items(historyModel.records.size) { index ->

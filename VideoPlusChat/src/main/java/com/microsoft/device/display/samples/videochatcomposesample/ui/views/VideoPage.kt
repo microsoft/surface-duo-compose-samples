@@ -51,26 +51,14 @@ fun VideoPage(
 @Composable
 fun FullscreenButton(modifier: Modifier, isFullScreen: Boolean, updateFullScreen: (Boolean) -> Unit) {
     fun onClick() = updateFullScreen(!isFullScreen)
+    val drawableResId = if (isFullScreen) R.drawable.exitfullscreen else R.drawable.fullscreen
+    val stringResId = if (isFullScreen) R.string.contentFull else R.string.contentMin
 
-    if (isFullScreen) Icon(
+    Icon(
         tint = MaterialTheme.colors.onBackground,
-        painter = painterResource(id = R.drawable.exitfullscreen),
-        contentDescription = stringResource(id = R.string.contentFull),
-        modifier = modifier.clickable(
-            onClick = {
-                onClick()
-            }
-        )
-
-    ) else Icon(
-        tint = MaterialTheme.colors.onBackground,
-        painter = painterResource(id = R.drawable.fullscreen),
-        contentDescription = stringResource(id = R.string.contentMin),
-        modifier = modifier.clickable(
-            onClick = {
-                onClick()
-            }
-        )
+        painter = painterResource(id = drawableResId),
+        contentDescription = stringResource(id = stringResId),
+        modifier = modifier.clickable(onClick = { onClick() })
     )
 }
 

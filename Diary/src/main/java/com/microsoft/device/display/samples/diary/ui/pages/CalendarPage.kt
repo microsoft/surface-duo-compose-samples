@@ -42,31 +42,10 @@ fun TwoPaneScope.CalendarPage(
     updateDate: (LocalDate) -> Unit,
     updateContent: () -> Unit
 ) {
-    val twoPaneScope = this
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                },
-                backgroundColor = MaterialTheme.colors.primaryVariant,
-                actions = {
-                    if (twoPaneScope.isSinglePane) {
-                        IconButton(
-                            onClick = { twoPaneScope.navigateToPane2() }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = stringResource(R.string.edit_diary)
-                            )
-                        }
-                    }
-                }
-            )
-        }
-    ) {
-
-        Column {
+        topBar = { CalendarTopBar() }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
             AndroidView(
                 {
                     CalendarView(it)
@@ -87,14 +66,12 @@ fun TwoPaneScope.CalendarPage(
                 }
 
             )
-
             Spacer(
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .height(1.dp)
                     .fillMaxWidth()
             )
-
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,10 +87,9 @@ fun TwoPaneScope.CalendarPage(
                     )
                 )
             )
-
             Text(
+                modifier = Modifier.padding(10.dp),
                 text = content,
-                Modifier.padding(10.dp),
                 style = TextStyle(
                     fontSize = 18.sp,
                     textAlign = TextAlign.Left,
@@ -121,4 +97,22 @@ fun TwoPaneScope.CalendarPage(
             )
         }
     }
+}
+
+@Composable
+fun TwoPaneScope.CalendarTopBar() {
+    TopAppBar(
+        title = { Text(text = stringResource(id = R.string.app_name)) },
+        backgroundColor = MaterialTheme.colors.primaryVariant,
+        actions = {
+            if (this@CalendarTopBar.isSinglePane) {
+                IconButton(onClick = { this@CalendarTopBar.navigateToPane2() }) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = stringResource(R.string.edit_diary)
+                    )
+                }
+            }
+        }
+    )
 }

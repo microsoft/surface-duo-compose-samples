@@ -63,10 +63,10 @@ fun Pane1(windowMode: WindowMode, sliderState: SliderState = rememberSliderState
         topBar = { CompanionPaneTopBar(stringResource(R.string.app_name)) }
     ) {
         when (windowMode) {
-            WindowMode.SINGLE_PORTRAIT -> PortraitLayout()
-            WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout(sliderState)
-            WindowMode.DUAL_PORTRAIT -> DualPortraitPane1()
-            WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1()
+            WindowMode.SINGLE_PORTRAIT -> PortraitLayout(it)
+            WindowMode.SINGLE_LANDSCAPE -> LandscapeLayout(sliderState, it)
+            WindowMode.DUAL_PORTRAIT -> DualPortraitPane1(it)
+            WindowMode.DUAL_LANDSCAPE -> DualLandscapePane1(it)
         }
     }
 }
@@ -78,7 +78,7 @@ fun Pane2(windowMode: WindowMode, sliderState: SliderState = rememberSliderState
             Scaffold(
                 topBar = { CompanionPaneTopBar() }
             ) {
-                DualPortraitPane2(sliderState)
+                DualPortraitPane2(sliderState, it)
             }
         }
         WindowMode.DUAL_LANDSCAPE -> DualLandscapePane2(sliderState)

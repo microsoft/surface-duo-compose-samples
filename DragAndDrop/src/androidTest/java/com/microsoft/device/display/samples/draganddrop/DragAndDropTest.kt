@@ -11,8 +11,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
-import com.microsoft.device.display.samples.draganddrop.ui.theme.DragAndDropSamplesTheme
-import com.microsoft.device.display.samples.draganddrop.ui.view.DragAndDropApp
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import org.junit.Rule
@@ -38,12 +36,6 @@ class DragAndDropTest {
      */
     @Test
     fun app_showsBothPanes_before_and_after_horizontalFold() {
-        composeTestRule.setContent {
-            DragAndDropSamplesTheme {
-                DragAndDropApp()
-            }
-        }
-
         // Assert the drag pane is now shown
         composeTestRule.onNodeWithTag(
             composeTestRule.getString(R.string.drag_pane)

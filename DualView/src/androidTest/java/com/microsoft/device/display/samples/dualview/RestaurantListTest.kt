@@ -18,12 +18,11 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.text.TextStyle
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.dualview.models.restaurants
 import com.microsoft.device.display.samples.dualview.ui.theme.DualViewAppTheme
 import com.microsoft.device.display.samples.dualview.ui.theme.selectedBody1
@@ -35,20 +34,10 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
 
 class RestaurantListTest {
-    private val composeTestRule = createAndroidComposeRule<MainActivity>()
-    private val publisherRule = WindowLayoutInfoPublisherRule()
-
     @get: Rule
-    val testRule: TestRule
-
-    init {
-        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-        RuleChain.outerRule(composeTestRule)
-    }
+    val composeTestRule = createComposeRule()
 
     /**
      * Tests that clicking on each restaurant list item updates the item's text style
@@ -91,7 +80,7 @@ class RestaurantListTest {
 
         // Assert that the details for the first restaurant are horizontally scrollable
         composeTestRule.onNode(
-            matcher = hasAnyChild(hasText(composeTestRule.getString(R.string.pestle_rock)))
+            matcher = hasAnyChild(hasText(getString(R.string.pestle_rock)))
                 and SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange),
             useUnmergedTree = true
         ).assertExists()
@@ -108,7 +97,7 @@ class RestaurantListTest {
 
         // Assert that the details for the first restaurant are not horizontally scrollable
         composeTestRule.onNode(
-            matcher = hasAnyChild(hasText(composeTestRule.getString(R.string.pestle_rock)))
+            matcher = hasAnyChild(hasText(getString(R.string.pestle_rock)))
                 and SemanticsMatcher.keyIsDefined(SemanticsProperties.HorizontalScrollAxisRange),
             useUnmergedTree = true
         ).assertDoesNotExist()
@@ -127,7 +116,7 @@ class RestaurantListTest {
             composeTestRule.onNode(hasScrollToIndexAction()).performScrollToIndex(index)
 
             // Get semantics node for current restaurant
-            val currentRestaurantTitle = composeTestRule.getString(restaurants[index].title)
+            val currentRestaurantTitle = getString(restaurants[index].title)
             val currentRestaurant = composeTestRule.onNodeWithContentDescription(currentRestaurantTitle)
 
             // Check that the unselected text style is being used

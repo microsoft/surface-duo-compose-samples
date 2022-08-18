@@ -6,8 +6,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.display.samples.listdetail.models.images
-import com.microsoft.device.display.samples.listdetail.ui.theme.ListDetailComposeSampleTheme
-import com.microsoft.device.display.samples.listdetail.ui.view.ListDetailApp
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
@@ -34,12 +32,6 @@ class ListDetailTest {
      */
     @Test
     fun app_verticalFold_showDetailAfterListClicks() {
-        composeTestRule.setContent {
-            ListDetailComposeSampleTheme {
-                ListDetailApp()
-            }
-        }
-
         // Simulate vertical foldFeature
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
@@ -62,12 +54,6 @@ class ListDetailTest {
      */
     @Test
     fun app_horizontalFold_showsList() {
-        composeTestRule.setContent {
-            ListDetailComposeSampleTheme {
-                ListDetailApp()
-            }
-        }
-
         // Simulate horizontal foldFeature
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 

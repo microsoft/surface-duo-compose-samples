@@ -19,14 +19,12 @@ import com.microsoft.device.display.samples.dyadd.ui.pages.calculatorModel
 
 @Composable
 fun Answer(modifier: Modifier = Modifier) {
-    val eq: String = if (!calculatorModel.isOnX) " " + equationStringEquivalent(calculatorModel.currentEquation) + " " else ""
+    val eq: String =
+        if (!calculatorModel.isOnX) " " + equationStringEquivalent(calculatorModel.currentEquation) + " " else ""
     val y: String = if (!calculatorModel.isOnX) calculatorModel.y else ""
+
     LazyColumn(
-        modifier = modifier
-            .padding(
-                start = 20.dp,
-                end = 20.dp,
-            )
+        modifier = modifier.padding(start = 20.dp, end = 20.dp)
     ) {
         item {
             Text(
