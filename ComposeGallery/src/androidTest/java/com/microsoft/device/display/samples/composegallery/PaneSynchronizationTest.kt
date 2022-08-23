@@ -8,8 +8,8 @@ package com.microsoft.device.display.samples.composegallery
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
-import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
@@ -60,11 +60,8 @@ class PaneSynchronizationTest {
         // Check that detail pane has updated with the correct information
         composeTestRule.onNode(
             hasText(lastItem.id)
-                and hasAnySibling(hasContentDescription(lastItem.contentDescription))
-        ).assertIsDisplayed()
-        composeTestRule.onNode(
-            hasContentDescription(lastItem.contentDescription)
-                and hasAnySibling(hasText(lastItem.id))
+                and hasContentDescription(lastItem.contentDescription)
+                and hasNoClickAction()
         ).assertIsDisplayed()
     }
 
