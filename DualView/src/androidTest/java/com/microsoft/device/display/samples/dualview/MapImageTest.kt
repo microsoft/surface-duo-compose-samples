@@ -6,9 +6,6 @@
 package com.microsoft.device.display.samples.dualview
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.hasAnySibling
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -53,11 +50,7 @@ class MapImageTest {
             composeTestRule.onNode(hasScrollToIndexAction()).performScrollToIndex(index)
 
             // Click on restaurant item
-            composeTestRule.onNode(
-                hasContentDescription(composeTestRule.getString(rest.title)) and hasParent(
-                    hasAnySibling(hasText(composeTestRule.getString(R.string.list_title)))
-                )
-            ).performClick()
+            composeTestRule.onNode(hasText(composeTestRule.getString(rest.title))).performClick()
 
             if (index == nonSelectionOption) {
                 // Assert the unselected image placeholder is shown
@@ -67,7 +60,7 @@ class MapImageTest {
             } else {
                 // Assert the shown selected image matches the item clicked from the list
                 composeTestRule.onNodeWithContentDescription(
-                    composeTestRule.getString(rest.description)
+                    composeTestRule.getString(id = R.string.map_description_selected, composeTestRule.getString(rest.title))
                 ).assertExists()
             }
         }

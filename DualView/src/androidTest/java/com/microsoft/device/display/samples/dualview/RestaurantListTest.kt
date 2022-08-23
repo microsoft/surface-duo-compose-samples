@@ -19,7 +19,7 @@ import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.text.TextStyle
@@ -117,7 +117,7 @@ class RestaurantListTest {
 
             // Get semantics node for current restaurant
             val currentRestaurantTitle = getString(restaurants[index].title)
-            val currentRestaurant = composeTestRule.onNodeWithContentDescription(currentRestaurantTitle)
+            val currentRestaurant = composeTestRule.onNodeWithText(currentRestaurantTitle)
 
             // Check that the unselected text style is being used
             currentRestaurant.assertTextStyleEquals(typography.body1)

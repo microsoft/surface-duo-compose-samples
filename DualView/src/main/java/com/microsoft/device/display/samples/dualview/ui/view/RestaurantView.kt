@@ -171,7 +171,7 @@ fun RestaurantTile(
         modifier = modifier.wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RestaurantThumbnail(restaurant.imageResourceId, restaurant.title)
+        RestaurantThumbnail(restaurant.imageResourceId, restaurant.imageDescription)
         Column(
             modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(4.dp),
