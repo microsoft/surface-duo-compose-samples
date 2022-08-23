@@ -124,7 +124,7 @@ fun AdjustScale() {
                 .height(5.dp),
             contentScale = ContentScale.Inside,
             alignment = Alignment.Center,
-            contentDescription = stringResource(R.string.dot)
+            contentDescription = null
         )
         Image(
             painter = painterResource(R.drawable.scale_icon),
