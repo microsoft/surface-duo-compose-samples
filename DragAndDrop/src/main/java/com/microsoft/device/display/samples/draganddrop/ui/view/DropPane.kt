@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.draganddrop.R
 import com.microsoft.device.display.samples.draganddrop.ui.theme.lightGray
@@ -133,10 +134,10 @@ fun RowScope.DropImageBox(dragImage: Painter?, isDroppingImage: Boolean) {
 
 @Composable
 fun DropImagePlaceholder() {
-    Column {
+    Column(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Image(
             painter = painterResource(id = R.drawable.drag_and_drop_ic_photo_black),
-            contentDescription = stringResource(R.string.image_contentDescription)
+            contentDescription = null
         )
         Text(
             text = stringResource(R.string.drag_image_text),
@@ -170,10 +171,10 @@ fun RowScope.DropTextBox(text: String?, isDroppingText: Boolean) {
 
 @Composable
 fun DropTextPlaceholder() {
-    Column {
+    Column(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Image(
             painter = painterResource(id = R.drawable.drag_and_drop_ic_text_fields_black),
-            contentDescription = stringResource(R.string.image_contentDescription)
+            contentDescription = null
         )
         Text(
             text = stringResource(R.string.drag_text_text),
