@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import com.microsoft.device.display.samples.twopage.R
 import com.microsoft.device.display.samples.twopage.utils.PageLayout
 
@@ -27,6 +29,7 @@ fun SecondPage(modifier: Modifier) {
 @Composable
 fun SecondPageContent() {
     Text(
+        modifier = Modifier.semantics { heading() },
         text = stringResource(R.string.page2_title1),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6
@@ -37,6 +40,7 @@ fun SecondPageContent() {
         style = MaterialTheme.typography.body1
     )
     Text(
+        modifier = Modifier.semantics { heading() },
         text = stringResource(R.string.page2_title2),
         color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.h6

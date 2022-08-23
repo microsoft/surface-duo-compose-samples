@@ -20,6 +20,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.twopage.R
@@ -40,6 +42,7 @@ fun FirstPage(modifier: Modifier) {
 fun FirstPageContent() {
     Spacer(modifier = Modifier.height(10.dp))
     Text(
+        modifier = Modifier.semantics { heading() },
         text = stringResource(R.string.article_title),
         color = MaterialTheme.colors.onBackground,
         style = typography.h5
