@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -143,6 +144,7 @@ private fun ItemName(name: String) {
 private fun ItemLocation(location: String) {
     Spacer(Modifier.height(LOCATION_TOP_PADDING))
     Row(
+        modifier = Modifier.semantics(mergeDescendants = true) {},
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {

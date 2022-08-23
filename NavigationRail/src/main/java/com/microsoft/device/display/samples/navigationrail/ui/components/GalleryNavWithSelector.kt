@@ -49,9 +49,7 @@ fun TwoPaneNavScope.GalleryNavRail(
                 this@GalleryNavRail.currentPane1Destination
         galleries.forEach { gallery ->
             NavRailItemWithSelector(
-                icon = {
-                    NavItemIcon(icon = gallery.icon, description = stringResource(gallery.title))
-                },
+                icon = { NavItemIcon(icon = gallery.icon, description = null) },
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
@@ -83,9 +81,7 @@ fun TwoPaneNavScope.GalleryBottomNav(
                 this@GalleryBottomNav.currentPane1Destination
         galleries.forEach { gallery ->
             BottomNavItemWithSelector(
-                icon = {
-                    NavItemIcon(icon = gallery.icon, description = stringResource(gallery.title))
-                },
+                icon = { NavItemIcon(icon = gallery.icon, description = null) },
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
@@ -99,7 +95,7 @@ fun TwoPaneNavScope.GalleryBottomNav(
 }
 
 @Composable
-private fun NavItemIcon(icon: Int, description: String) {
+private fun NavItemIcon(icon: Int, description: String?) {
     Icon(painterResource(icon), description)
 }
 
