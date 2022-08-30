@@ -5,11 +5,11 @@
 
 package com.microsoft.device.display.samples.videochatcomposesample.ui.views
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -52,14 +52,18 @@ fun VideoPage(
 fun FullscreenButton(modifier: Modifier, isFullScreen: Boolean, updateFullScreen: (Boolean) -> Unit) {
     fun onClick() = updateFullScreen(!isFullScreen)
     val drawableResId = if (isFullScreen) R.drawable.exitfullscreen else R.drawable.fullscreen
-    val stringResId = if (isFullScreen) R.string.contentFull else R.string.contentMin
+    val stringResId = if (isFullScreen) R.string.contentMin else R.string.contentFull
 
-    Icon(
-        tint = MaterialTheme.colors.onBackground,
-        painter = painterResource(id = drawableResId),
-        contentDescription = stringResource(id = stringResId),
-        modifier = modifier.clickable(onClick = { onClick() })
-    )
+    IconButton(
+        modifier = modifier,
+        onClick = { onClick() }
+    ) {
+        Icon(
+            tint = MaterialTheme.colors.onBackground,
+            painter = painterResource(id = drawableResId),
+            contentDescription = stringResource(id = stringResId)
+        )
+    }
 }
 
 @Composable

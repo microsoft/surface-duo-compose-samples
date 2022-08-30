@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.videochatcomposesample.ui.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +23,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -84,9 +85,7 @@ fun ChatTitle() {
 @Composable
 fun ChatInputBar(focusManager: FocusManager) {
     var text by remember { mutableStateOf("") }
-    fun closeKeyBoard() {
-        focusManager.clearFocus()
-    }
+    val closeKeyBoard = { focusManager.clearFocus() }
 
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         BottomAppBar(
@@ -100,35 +99,15 @@ fun ChatInputBar(focusManager: FocusManager) {
                     .align(Alignment.CenterVertically)
             ) {
                 TextField(
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.ArrowForward,
-                            stringResource(id = R.string.send),
-                            modifier = Modifier
-                                .clickable
-                                {
-                                    // TODO Handle Chat Sending here
-                                    closeKeyBoard()
-                                },
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    },
-                    value = text,
-                    onValueChange = { text = it },
-                    placeholder = {
-                        Text(
-                            stringResource(id = R.string.sendchat),
-                            style = TextStyle(
-                                color = MaterialTheme.colors.onBackground,
-                                fontSize = 10.sp
-                            )
-                        )
-                    },
                     modifier = Modifier
                         .align(Alignment.Center)
                         .clip(RoundedCornerShape(10.dp))
                         .background(MaterialTheme.colors.primaryVariant)
                         .fillMaxWidth(0.95f),
+                    trailingIcon = { SendChatIcon(closeKeyBoard) },
+                    value = text,
+                    onValueChange = { text = it },
+                    placeholder = { PlaceholderText() },
                     textStyle = TextStyle(
                         color = MaterialTheme.colors.onBackground,
                         fontSize = 10.sp,
@@ -166,6 +145,7 @@ fun ChatList(modifier: Modifier = Modifier) {
 @Composable
 fun IndividualChatMessage(chat: ChatMessage) {
     Row(
+        modifier = Modifier.semantics(mergeDescendants = true) {},
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -180,6 +160,28 @@ fun IndividualChatMessage(chat: ChatMessage) {
             stringResource(id = chat.message),
             color = MaterialTheme.colors.onBackground,
             fontSize = 15.sp
+        )
+    }
+}
+
+@Composable
+fun PlaceholderText() {
+    Text(
+        stringResource(id = R.string.sendchat),
+        style = TextStyle(
+            color = MaterialTheme.colors.onBackground,
+            fontSize = 10.sp
+        )
+    )
+}
+
+@Composable
+fun SendChatIcon(closeKeyBoard: () -> Unit) {
+    IconButton(onClick = { closeKeyBoard() }) {
+        Icon(
+            imageVector = Icons.Default.ArrowForward,
+            stringResource(id = R.string.send),
+            tint = MaterialTheme.colors.onBackground
         )
     }
 }
