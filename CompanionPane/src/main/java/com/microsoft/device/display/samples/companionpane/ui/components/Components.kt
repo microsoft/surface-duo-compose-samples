@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -43,7 +45,7 @@ fun SliderControl(modifier: Modifier, sliderPosition: Float, onValueChange: (Flo
 @Composable
 fun ImageWithText(id: Int, text: String, imageWidth: Dp, width: Dp) {
     Column(
-        modifier = Modifier.width(width),
+        modifier = Modifier.width(width).semantics(mergeDescendants = true) {},
         verticalArrangement = Arrangement.spacedBy(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -69,6 +71,6 @@ fun ImagePanel(modifier: Modifier) {
         modifier = modifier,
         contentScale = ContentScale.Inside,
         alignment = Alignment.Center,
-        contentDescription = null
+        contentDescription = stringResource(R.string.image_description)
     )
 }

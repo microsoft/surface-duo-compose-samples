@@ -11,6 +11,7 @@ import com.microsoft.device.display.samples.dualview.R
 data class Restaurant(
     @StringRes val title: Int,
     val imageResourceId: Int = 0,
+    @StringRes val imageDescription: Int,
     val rating: Double = 0.0,
     val voteCount: Int = 0,
     val cuisine: CuisineType,
@@ -32,6 +33,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.pestle_rock,
         R.drawable.pestle_rock_image,
+        R.string.pestle_rock_image,
         4.4,
         2303,
         Restaurant.CuisineType.Thai,
@@ -42,6 +44,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.sams_pizza,
         R.drawable.sams_pizza_image,
+        R.string.sams_pizza_image,
         4.9,
         1343,
         Restaurant.CuisineType.American,
@@ -52,6 +55,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.sizzle_and_crunch,
         R.drawable.sizzle_crunch_image,
+        R.string.sizzle_and_crunch_image,
         3.9,
         966,
         Restaurant.CuisineType.Thai,
@@ -62,6 +66,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.cantinetta,
         R.drawable.cantinetta_image,
+        R.string.cantinetta_image,
         4.6,
         1322,
         Restaurant.CuisineType.Italian,
@@ -72,6 +77,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.arayas_place,
         R.drawable.arayas_place_image,
+        R.string.arayas_place_image,
         4.6,
         1322,
         Restaurant.CuisineType.Thai,
@@ -82,6 +88,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.kimchi_bistro,
         R.drawable.kimchi_bistro_image,
+        R.string.kimchi_bistro_image,
         3.6,
         4565,
         Restaurant.CuisineType.Korean,
@@ -92,6 +99,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.topolopompo,
         R.drawable.topolopompo_image,
+        R.string.topolopompo_image,
         4.5,
         6001,
         Restaurant.CuisineType.FineDine,
@@ -102,6 +110,7 @@ val restaurants: List<Restaurant> = listOf(
     Restaurant(
         R.string.morsel,
         R.drawable.morsel_image,
+        R.string.morsel_image,
         4.7,
         787,
         Restaurant.CuisineType.Breakfast,

@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,26 +55,39 @@ fun InfoBox(
     description2: String?,
     textStyle: TextStyle,
 ) {
-    Row(
+    InfoBoxRow(
         modifier = Modifier
             .height(INFO_BOX_HEIGHT)
             .background(MaterialTheme.colors.secondaryVariant, InfoBoxShape)
-            .horizontalScroll(rememberScrollState()),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(INFO_SPACE_BY, Alignment.CenterHorizontally)
+            .horizontalScroll(rememberScrollState())
     ) {
         Spacer(Modifier.width(INFO_HORIZ_PADDING))
         info1?.let { info ->
-            InfoIcon(icon1, description1)
-            InfoText(info, textStyle)
-            Spacer(Modifier.width(INFO_BETWEEN_PADDING))
+            InfoBoxRow(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+                InfoIcon(icon1, description1)
+                InfoText(info, textStyle)
+                Spacer(Modifier.width(INFO_BETWEEN_PADDING))
+            }
         }
         info2?.let { info ->
             check(icon2 != null && description2 != null) { "Second fact exists in item but gallery does not have icon or content description for it " }
-            InfoIcon(icon2, description2)
-            InfoText(info, textStyle)
+            InfoBoxRow(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+                InfoIcon(icon2, description2)
+                InfoText(info, textStyle)
+            }
         }
         Spacer(Modifier.width(INFO_HORIZ_PADDING))
+    }
+}
+
+@Composable
+private fun InfoBoxRow(modifier: Modifier, content: @Composable () -> Unit) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(INFO_SPACE_BY, Alignment.CenterHorizontally)
+    ) {
+        content()
     }
 }
 

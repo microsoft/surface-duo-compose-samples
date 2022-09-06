@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,11 +46,7 @@ private val horizontalPadding = 20.dp
 
 @Composable
 fun TwoPaneScope.DetailViewWithTopBar(selectedIndex: Int) {
-    Scaffold(
-        topBar = {
-            DetailViewTopBar()
-        },
-    ) {
+    Scaffold(topBar = { DetailViewTopBar() }) {
         DetailView(selectedIndex, it)
     }
 }
@@ -69,11 +66,7 @@ fun TwoPaneScope.DetailViewTopBar() {
 
 @Composable
 fun TwoPaneScope.DetailViewTopBarButton() {
-    IconButton(
-        onClick = {
-            navigateToPane1()
-        }
-    ) {
+    IconButton(onClick = { navigateToPane1() }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
             contentDescription = stringResource(R.string.back_to_list)
@@ -140,61 +133,65 @@ fun ImageInfoTile(modifier: Modifier) {
 
 @Composable
 fun CameraInfoTile() {
-    ImageView(
-        imageId = R.drawable.image_icon,
-        contentDescription = stringResource(R.string.image_icon),
-        modifier = Modifier
-            .width(imageSize)
-            .height(imageSize)
-    )
-    Spacer(modifier = Modifier.width(20.dp))
-    Column(modifier = Modifier.wrapContentWidth()) {
-        Text(
-            text = stringResource(R.string.camera),
-            style = TextStyle(
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold
-            )
+    Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+        ImageView(
+            imageId = R.drawable.image_icon,
+            contentDescription = stringResource(R.string.image_icon),
+            modifier = Modifier
+                .width(imageSize)
+                .height(imageSize)
         )
-        Spacer(modifier = Modifier.width(3.dp))
-        Text(
-            modifier = Modifier.wrapContentWidth(),
-            text = stringResource(R.string.camera_info),
-            style = TextStyle(
-                fontSize = 12.sp,
-                color = colorResource(id = R.color.light_gary)
+        Spacer(modifier = Modifier.width(20.dp))
+        Column(modifier = Modifier.wrapContentWidth()) {
+            Text(
+                text = stringResource(R.string.camera),
+                style = TextStyle(
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+            Spacer(modifier = Modifier.width(3.dp))
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                text = stringResource(R.string.camera_info),
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    color = colorResource(id = R.color.light_gray)
+                )
+            )
+        }
     }
 }
 
 @Composable
 fun DeviceInfoTile() {
-    Spacer(modifier = Modifier.width(40.dp))
-    ImageView(
-        imageId = R.drawable.camera_icon,
-        contentDescription = stringResource(R.string.camera_icon),
-        modifier = Modifier
-            .width(imageSize)
-            .height(imageSize)
-    )
-    Spacer(modifier = Modifier.width(20.dp))
-    Column(modifier = Modifier.wrapContentWidth()) {
-        Text(
-            text = stringResource(R.string.device),
-            style = TextStyle(
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold
-            )
+    Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+        Spacer(modifier = Modifier.width(40.dp))
+        ImageView(
+            imageId = R.drawable.camera_icon,
+            contentDescription = stringResource(R.string.camera_icon),
+            modifier = Modifier
+                .width(imageSize)
+                .height(imageSize)
         )
-        Spacer(modifier = Modifier.height(3.dp))
-        Text(
-            modifier = Modifier.wrapContentWidth(),
-            text = stringResource(R.string.device_info),
-            style = TextStyle(
-                fontSize = 12.sp,
-                color = colorResource(id = R.color.light_gary)
+        Spacer(modifier = Modifier.width(20.dp))
+        Column(modifier = Modifier.wrapContentWidth()) {
+            Text(
+                text = stringResource(R.string.device),
+                style = TextStyle(
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+            Spacer(modifier = Modifier.height(3.dp))
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                text = stringResource(R.string.device_info),
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    color = colorResource(id = R.color.light_gray)
+                )
+            )
+        }
     }
 }

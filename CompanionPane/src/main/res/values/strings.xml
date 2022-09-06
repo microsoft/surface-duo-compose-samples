@@ -5,13 +5,13 @@
 
 <resources>
     <string name="app_name">Companion Pane - Compose</string>
+    <string name="image_description">Tree with cloudy sky</string>
 
     <!-- Effects -->
     <string name="magic_wand">Magic Wand</string>
     <string name="definition">Definition</string>
     <string name="vignette">Vignette</string>
     <string name="brightness">Brightness</string>
-    <string name="dot">Dot</string>
     <string name="scale">Scale</string>
     <string name="filter">Filter</string>
     <string name="hdr">HDR</string>

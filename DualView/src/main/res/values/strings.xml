@@ -13,6 +13,7 @@
     <string name="restaurant_top_bar">Restaurant Top Bar</string>
     <string name="map_top_bar">Map Top Bar</string>
     <string name="map_image">Map image</string>
+    <string name="map_description_selected">Map with %s restaurant location selected</string>
 
     <!-- Cuisine Types -->
     <string name="american">American</string>
@@ -41,4 +42,14 @@
     <string name="kimchi_bistro_des">Small, no frills Korean restaurant with an extensive menu served in simple digs inside a mall.</string>
     <string name="topolopompo_des">Compact locale with counter service dishing up classic Mediterranean eats such as hummus &amp; falafel.</string>
     <string name="morsel_des">Homey cafe with sofas, board games &amp; quiet corners for gourmet coffee &amp; craft biscuit sandwiches.</string>
+
+    <!-- Restaurant image descriptions -->
+    <string name="pestle_rock_image">Image of noodles, meat, and other small plates</string>
+    <string name="sams_pizza_image">Image of pizza with chicken and peppers</string>
+    <string name="sizzle_and_crunch_image">Image of beef, tofu, and vegetables</string>
+    <string name="cantinetta_image">Image of bread baskets, wine glasses, and a salad</string>
+    <string name="arayas_place_image">Image of a modern dining room</string>
+    <string name="kimchi_bistro_image">Image of Korean side dishes</string>
+    <string name="topolopompo_image">Image of a classy dining room</string>
+    <string name="morsel_image">Image of a burger with lettuce, onion, tomato, and cheese</string>
 </resources>

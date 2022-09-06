@@ -6,7 +6,6 @@
 package com.microsoft.device.display.samples.dualview.ui.view
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -89,11 +88,14 @@ fun TwoPaneScope.MapTopBar() {
 @Composable
 fun MapView(selectedIndex: Int, paddingValues: PaddingValues) {
     var selectedMapId = R.drawable.unselected_map
-    var selectedTitleId = R.string.map_description
+    var selectedMapDescription = stringResource(id = R.string.map_description)
 
     if (selectedIndex > nonSelection) {
         selectedMapId = restaurants[selectedIndex].mapImageResourceId
-        selectedTitleId = restaurants[selectedIndex].description
+        selectedMapDescription = stringResource(
+            id = R.string.map_description_selected,
+            stringResource(restaurants[selectedIndex].title)
+        )
     }
 
     Box(
@@ -104,14 +106,12 @@ fun MapView(selectedIndex: Int, paddingValues: PaddingValues) {
                 stringResource(R.string.map_image)
             )
     ) {
-        ScalableImageView(
-            imageId = selectedMapId, selectedTitleId
-        )
+        ScalableImageView(imageId = selectedMapId, mapDescription = selectedMapDescription)
     }
 }
 
 @Composable
-fun ScalableImageView(@DrawableRes imageId: Int, @StringRes descriptionId: Int) {
+fun ScalableImageView(@DrawableRes imageId: Int, mapDescription: String) {
     val minScale = 1f
     val maxScale = 8f
     val defaultScale = 2f
@@ -125,7 +125,7 @@ fun ScalableImageView(@DrawableRes imageId: Int, @StringRes descriptionId: Int) 
 
     Image(
         painter = painterResource(id = imageId),
-        contentDescription = stringResource(id = descriptionId),
+        contentDescription = mapDescription,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .graphicsLayer(
