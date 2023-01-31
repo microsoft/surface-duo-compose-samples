@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.microsoft.device.display.samples.dyadd"
@@ -39,7 +39,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion composeVersion
+        kotlinCompilerExtensionVersion composeCompilerVersion
     }
     packagingOptions {
         resources {
