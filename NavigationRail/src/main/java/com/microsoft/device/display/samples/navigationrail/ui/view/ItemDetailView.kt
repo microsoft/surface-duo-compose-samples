@@ -10,7 +10,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpRect
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.NavHostController
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
@@ -27,8 +25,6 @@ import com.microsoft.device.display.samples.navigationrail.models.Image
 import com.microsoft.device.display.samples.navigationrail.ui.components.ItemTopBar
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 
-@ExperimentalMaterialApi
-@ExperimentalUnitApi
 @Composable
 fun TwoPaneNavScope.ItemDetailViewWithTopBar(
     isDualPortrait: Boolean,
@@ -38,7 +34,6 @@ fun TwoPaneNavScope.ItemDetailViewWithTopBar(
     windowHeight: Dp,
     imageId: Int?,
     updateImageId: (Int?) -> Unit,
-    currentRoute: String,
     navController: NavHostController
 ) {
     // Retrieve selected image information
@@ -47,12 +42,14 @@ fun TwoPaneNavScope.ItemDetailViewWithTopBar(
     // Set up back press action to return to the gallery and clear image selection
     val onBackPressed = {
         updateImageId(null)
-        navController.navigateUp()
+        navController.navigateBack()
     }
     BackHandler(enabled = isSinglePane) { onBackPressed() }
 
     // Find current gallery
-    val gallerySection = navDestinations.find { it.route == currentRoute }
+    val currentGallery =
+        if (isSinglePane) navController.previousBackStackEntry?.destination?.route else currentPane1Destination
+    val gallerySection = navDestinations.find { it.route == currentGallery }
 
     if (selectedImage == null) {
         if (!isSinglePane)
@@ -86,8 +83,6 @@ fun TwoPaneNavScope.ItemDetailViewWithTopBar(
  * @param selectedImage: currently selected image
  * @param gallerySection: current gallery section
  */
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
 @Composable
 fun ItemDetailView(
     isDualPortrait: Boolean,

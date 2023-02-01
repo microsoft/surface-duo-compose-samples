@@ -78,7 +78,7 @@ enum class DrawerState { Collapsed, Expanded }
  * @param hiddenContent: the content that will only be shown when the drawer is expanded
  * @param peekContent: the content that will be shown even when the drawer is collapsed
  */
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BoxWithConstraintsScope.ContentDrawer(
     modifier: Modifier = Modifier,

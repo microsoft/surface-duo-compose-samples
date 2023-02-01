@@ -5,9 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.semantics.SemanticsProperties.VerticalScrollAxisRange
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
@@ -23,7 +20,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
 import com.microsoft.device.dualscreen.testing.compose.foldableRuleChain
@@ -36,10 +32,6 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 
-@ExperimentalFoundationApi
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
 @RunWith(FoldableJUnit4ClassRunner::class)
 class PaneSynchronizationTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()

@@ -5,16 +5,12 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.display.samples.navigationrail.ui.theme.NavigationRailAppTheme
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
@@ -24,10 +20,6 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalFoundationApi
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
 class NavComponentTest {
     @get: Rule
     val composeTestRule = createComposeRule()
@@ -99,7 +91,7 @@ class NavComponentTest {
     fun app_largeScreen_navRailIsShown() {
         composeTestRule.setContent {
             NavigationRailAppTheme {
-                NavigationRailApp(WindowState(windowWidthDp = 1000.dp))
+                NavigationRailApp(WindowState(windowWidthDp = 1000.dp, windowHeightDp = 500.dp))
             }
         }
 

@@ -5,10 +5,7 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +18,9 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -44,8 +39,6 @@ private val BORDER_SIZE = 7.dp
 private val GALLERY_SPACING = 2.dp
 private const val NUM_COLUMNS = 2
 
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
 @Composable
 fun TwoPaneNavScope.GalleryViewWithTopBar(
     section: GallerySections,
@@ -53,50 +46,44 @@ fun TwoPaneNavScope.GalleryViewWithTopBar(
     navController: NavHostController,
     isDualScreen: Boolean,
     imageId: Int?,
-    updateImageId: (Int?) -> Unit,
-    currentRoute: String,
-    updateRoute: (String) -> Unit
+    updateImageId: (Int?) -> Unit
 ) {
-    // Make sure the current gallery section should be displayed
-    DisposableEffect(isSinglePane) {
-        if (isSinglePane && imageId != null) {
-            navController.navigateTo(ITEM_DETAIL_ROUTE, Screen.Pane2, defaultNavOptions)
-        } else if (section.route != currentRoute) {
-            navController.navigateTo(currentRoute, screen = Screen.Pane1, defaultNavOptions)
-        }
-
-        // REVISIT: check if another effect would fit this use case better
-        onDispose { }
-    }
-
-    val activity = (LocalContext.current as? Activity)
     BackHandler(enabled = isSinglePane) {
-        // Update gallery route to previous back stack entry and navigate up
-        navController.previousBackStackEntry?.destination?.route?.let { updateRoute(it) }
-        val success = navController.navigateUp()
+        val prevRoute = navController.previousBackStackEntry?.destination?.route
 
-        // If navigate up fails, we're at the start destination of the graph, so exit the activity
-        if (!success)
-            activity?.finish()
+        if (imageId == null && prevRoute?.equals(ITEM_DETAIL_ROUTE) == true)
+            navController.navigateBack()
+
+        navController.navigateBack()
     }
 
     // Use navigation rail when dual screen (more space), otherwise use bottom navigation
     Scaffold(
         bottomBar = {
             if (!isDualScreen)
-                GalleryBottomNav(navController, navDestinations, updateImageId, updateRoute)
+                GalleryBottomNav(navController, navDestinations, updateImageId)
         },
     ) { paddingValues ->
         Row(Modifier.padding(paddingValues)) {
             if (isDualScreen)
-                this@GalleryViewWithTopBar.GalleryNavRail(navController, navDestinations, updateImageId, updateRoute)
+                this@GalleryViewWithTopBar.GalleryNavRail(
+                    navController,
+                    navDestinations,
+                    updateImageId
+                )
             Scaffold(
                 topBar = { GalleryTopBar(section.route, horizontalPadding) }
             ) { paddingValues ->
                 GalleryView(
                     galleryList = section.list,
                     currentImageId = imageId,
-                    onImageSelected = { id -> this@GalleryViewWithTopBar.onImageSelected(id, updateImageId, navController) },
+                    onImageSelected = { id ->
+                        this@GalleryViewWithTopBar.onImageSelected(
+                            id,
+                            updateImageId,
+                            navController
+                        )
+                    },
                     horizontalPadding = horizontalPadding,
                     paddingValues = paddingValues
                 )
@@ -119,7 +106,7 @@ private fun TwoPaneNavScope.onImageSelected(
 
     // Navigate to ItemDetailView if not showing two panes
     if (isSinglePane)
-        navController.navigateTo(ITEM_DETAIL_ROUTE, Screen.Pane2, defaultNavOptions)
+        navController.navigateTo(ITEM_DETAIL_ROUTE, Screen.Pane2, launchSingleTop)
 }
 
 /**
@@ -130,7 +117,6 @@ private fun TwoPaneNavScope.onImageSelected(
  * @param onImageSelected: action to perform when a gallery item/image is selected
  * @param horizontalPadding: amount of horizontal padding to put around the gallery grid
  */
-@ExperimentalFoundationApi
 @Composable
 fun GalleryView(
     galleryList: List<Image>,
@@ -166,7 +152,6 @@ fun GalleryView(
  * @param currentImageId: id of the currently selected image
  * @param onImageSelected: action to perform when the item is selected
  */
-@ExperimentalFoundationApi
 @Composable
 fun GalleryItem(image: Image, currentImageId: Int?, onImageSelected: (Int) -> Unit) {
     Image(

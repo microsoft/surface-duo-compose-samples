@@ -5,9 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalConfiguration
@@ -28,7 +25,6 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.unit.DpRect
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.display.samples.navigationrail.models.DataProvider.plantList
@@ -45,10 +41,6 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalFoundationApi
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
 class DetailTest {
     @get: Rule
     val composeTestRule = createComposeRule()
@@ -204,7 +196,6 @@ class DetailTest {
                 windowHeight = LocalConfiguration.current.screenHeightDp.dp,
                 imageId = 1,
                 updateImageId = {},
-                currentRoute = "plants",
                 navController = rememberNavController()
             )
         }

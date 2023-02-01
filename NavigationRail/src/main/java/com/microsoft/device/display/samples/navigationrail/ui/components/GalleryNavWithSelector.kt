@@ -5,7 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.components
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
@@ -23,19 +22,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.microsoft.device.display.samples.navigationrail.R
 import com.microsoft.device.display.samples.navigationrail.ui.view.GallerySections
-import com.microsoft.device.display.samples.navigationrail.ui.view.defaultNavOptions
+import com.microsoft.device.display.samples.navigationrail.ui.view.launchSingleTop
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 
 private val NAV_RAIL_TOP_SPACING = 32.dp
 
-@ExperimentalAnimationApi
 @Composable
 fun TwoPaneNavScope.GalleryNavRail(
     navController: NavHostController,
     galleries: Array<GallerySections>,
-    updateImageId: (Int?) -> Unit,
-    updateRoute: (String) -> Unit,
+    updateImageId: (Int?) -> Unit
 ) {
     NavigationRail(
         modifier = Modifier.testTag(stringResource(id = R.string.nav_rail)),
@@ -49,11 +46,11 @@ fun TwoPaneNavScope.GalleryNavRail(
                 this@GalleryNavRail.currentPane1Destination
         galleries.forEach { gallery ->
             NavRailItemWithSelector(
-                icon = { NavItemIcon(icon = gallery.icon, description = null) },
+                icon = { NavItemIcon(icon = gallery.icon) },
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    this@GalleryNavRail.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    this@GalleryNavRail.navItemOnClick(navController, gallery.route, updateImageId)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
@@ -62,13 +59,11 @@ fun TwoPaneNavScope.GalleryNavRail(
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun TwoPaneNavScope.GalleryBottomNav(
     navController: NavHostController,
     galleries: Array<GallerySections>,
-    updateImageId: (Int?) -> Unit,
-    updateRoute: (String) -> Unit,
+    updateImageId: (Int?) -> Unit
 ) {
     BottomNavigation(
         modifier = Modifier.testTag(stringResource(id = R.string.bottom_nav)),
@@ -81,11 +76,11 @@ fun TwoPaneNavScope.GalleryBottomNav(
                 this@GalleryBottomNav.currentPane1Destination
         galleries.forEach { gallery ->
             BottomNavItemWithSelector(
-                icon = { NavItemIcon(icon = gallery.icon, description = null) },
+                icon = { NavItemIcon(icon = gallery.icon) },
                 label = { NavItemLabel(stringResource(gallery.title)) },
                 selected = isNavItemSelected(currentDestination, gallery.route),
                 onClick = {
-                    this@GalleryBottomNav.navItemOnClick(navController, gallery.route, updateImageId, updateRoute)
+                    this@GalleryBottomNav.navItemOnClick(navController, gallery.route, updateImageId)
                 },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary
@@ -95,8 +90,9 @@ fun TwoPaneNavScope.GalleryBottomNav(
 }
 
 @Composable
-private fun NavItemIcon(icon: Int, description: String?) {
-    Icon(painterResource(icon), description)
+private fun NavItemIcon(icon: Int) {
+    // Set contentDescription null for screen readers (navigation item is described according to label)
+    Icon(painterResource(icon), null)
 }
 
 @Composable
@@ -121,14 +117,10 @@ private fun isNavItemSelected(
 private fun TwoPaneNavScope.navItemOnClick(
     navController: NavHostController,
     navItem: String,
-    updateImageId: (Int?) -> Unit,
-    updateRoute: (String) -> Unit,
+    updateImageId: (Int?) -> Unit
 ) {
     // Navigate to new destination
-    navController.navigateTo(navItem, Screen.Pane1, defaultNavOptions)
-
-    // Update current route to new destination
-    updateRoute(navItem)
+    navController.navigateTo(navItem, Screen.Pane1, launchSingleTop)
 
     // Reset selected image when switching gallery
     updateImageId(null)
