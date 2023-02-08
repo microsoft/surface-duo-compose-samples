@@ -8,7 +8,7 @@ ext {
     kotlinVersion = "1.8.0"
     compileSdkVersion = 33
     targetSdkVersion = 32
-    minSdkVersion = 23
+    minSdkVersion = 24
 
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
@@ -77,10 +77,10 @@ ext {
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = "1.0.1-alpha05"
-    windowStateVersion = "1.0.0-alpha07"
-    composeTestingVersion = "1.0.0-alpha07"
-    dragAndDropVersion = "1.0.0-alpha03"
+    twoPaneLayoutVersion = "1.0.1-alpha06"
+    windowStateVersion = "1.0.0-alpha08"
+    composeTestingVersion = "1.0.0-alpha08"
+    dragAndDropVersion = "1.0.0-alpha04"
     microsoftDependencies = [
             twoPaneLayout       : "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
