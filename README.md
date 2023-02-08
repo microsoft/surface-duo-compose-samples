@@ -26,11 +26,11 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.2.0`
+- Jetpack Compose version: `1.3.3`
 
-- Jetpack WindowManager version: `1.0.0`
+- Jetpack WindowManager version: `1.1.0-alpha04`
 
-- Android Studio version: Chipmunk `2021.2.1`
+- Android Studio version: Dolphin `2021.3.1`
 
 ## Microsoft Compose Libraries
 
@@ -70,6 +70,10 @@ The samples are built with Microsoft Compose libraries, [TwoPaneLayout](https://
 
 | Blog post | Video |
 |---|---|
+| [Relay Anchor Leg: Overall impressions](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-3/) | [Twitch #102: Relay for Jetpack Compose](https://www.youtube.com/watch?v=Gnf8NJQwENU) |
+| [Relay Leg 2: Tips and tricks](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-2/) | _see above_ |
+| [Pass the design baton with Relay](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-1/) | _see above_ |
+| [Compose TwoPaneLayout updates](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-updates/) | [Twitch #100: Compose TwoPaneLayout updates](https://www.youtube.com/watch?v=ZeqJThroeUw) |
 | [Jetpack Compose Accompanist TwoPane](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accompanist-twopane/) | [Twitch #89: Jetpack Compose Accompanist TwoPane](https://www.youtube.com/watch?v=xt-iJCStEy0) |
 | [Improving app accessibility with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accessibility/) | [Twitch #88: Jetpack Compose Accessibility](https://www.youtube.com/watch?v=BNy9jwTyRco) |
 | [Dual-screen example adds Jetpack Compose to the experience](https://devblogs.microsoft.com/surface-duo/jetpack-compose-existing-app/) | [Twitch #86: Adding Jetpack Compose to existing apps](https://www.youtube.com/watch?v=9c7s0I6VcFU) |
