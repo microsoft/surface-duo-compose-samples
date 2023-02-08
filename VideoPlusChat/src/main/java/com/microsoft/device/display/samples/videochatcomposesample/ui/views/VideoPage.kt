@@ -13,6 +13,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,11 +74,13 @@ fun Video(modifier: Modifier, currentPosition: Long, updatePosition: (Long) -> U
         MediaItem.fromUri("https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4")
 
     val player = remember {
-        ExoPlayer.Builder(context).build().apply {
-            this.setMediaItem(mediaItem)
-            this.playWhenReady = true
-            this.prepare()
-        }
+        mutableStateOf(
+            ExoPlayer.Builder(context).build().apply {
+                this.setMediaItem(mediaItem)
+                this.playWhenReady = true
+                this.prepare()
+            }
+        )
     }
 
     DisposableEffect(
@@ -85,19 +88,19 @@ fun Video(modifier: Modifier, currentPosition: Long, updatePosition: (Long) -> U
             modifier = modifier,
             factory = {
                 StyledPlayerView(context).apply {
-                    this.player = player
+                    this.player = player.value
                     setShowPreviousButton(false)
                     setShowNextButton(false)
                 }
             },
             update = {
-                player.seekTo(currentPosition)
+                player.value.seekTo(currentPosition)
             }
         )
     ) {
         onDispose {
-            updatePosition(player.currentPosition)
-            player.release()
+            updatePosition(player.value.currentPosition)
+            player.value.release()
         }
     }
 }
