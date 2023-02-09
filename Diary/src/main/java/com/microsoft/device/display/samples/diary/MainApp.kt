@@ -1,5 +1,7 @@
 package com.microsoft.device.display.samples.diary
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +17,7 @@ import java.time.LocalDate
 /**
  *  For handling window navigation for Surface Duo, this acts as a main Controller for both the Composable
  */
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainApp() {
     val context = LocalContext.current

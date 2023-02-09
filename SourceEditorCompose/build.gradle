@@ -35,7 +35,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion composeVersion
+        kotlinCompilerExtensionVersion composeCompilerVersion
     }
     packagingOptions {
         resources {
@@ -46,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
     implementation composeDependencies.composeUI

@@ -4,6 +4,6 @@
   ~ Licensed under the MIT License.
   -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <color android:name="ic_launcher_background">#FFFFFF</color>
+<resources>
+    <color name="ic_launcher_background">#3DDC84</color>
 </resources>

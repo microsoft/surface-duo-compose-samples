@@ -5,9 +5,6 @@
 
 package com.microsoft.device.display.samples.navigationrail.ui.view
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,22 +12,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpRect
-import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayoutNav
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.composable
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-@ExperimentalAnimationApi
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
+private val GALLERY_HORIZ_PADDING = 16.dp
+
 @Composable
 fun NavigationRailApp(windowState: WindowState) {
-    // Set up starting route for navigation in pane 1
-    var currentRoute by rememberSaveable { mutableStateOf(navDestinations.first().route) }
-    val updateRoute: (String) -> Unit = { newRoute -> currentRoute = newRoute }
-
     // Set up variable to store selected image id
     var imageId: Int? by rememberSaveable { mutableStateOf(null) }
     val updateImageId: (Int?) -> Unit = { newId -> imageId = newId }
@@ -43,16 +35,10 @@ fun NavigationRailApp(windowState: WindowState) {
         foldBoundsDp = windowState.foldBoundsDp,
         windowHeight = windowState.windowHeightDp,
         imageId = imageId,
-        updateImageId = updateImageId,
-        currentRoute = currentRoute,
-        updateRoute = updateRoute
+        updateImageId = updateImageId
     )
 }
 
-@ExperimentalUnitApi
-@ExperimentalAnimationApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
 @Composable
 fun NavigationRailAppContent(
     isDualScreen: Boolean,
@@ -62,34 +48,40 @@ fun NavigationRailAppContent(
     foldBoundsDp: DpRect,
     windowHeight: Dp,
     imageId: Int?,
-    updateImageId: (Int?) -> Unit,
-    currentRoute: String,
-    updateRoute: (String) -> Unit
+    updateImageId: (Int?) -> Unit
 ) {
-    // Create nav controller
     val navController = rememberNavController()
-
-    // Create app destinations for TwoPaneLayoutNav
-    val appDestinations = appDestinations(
-        isDualScreen = isDualScreen,
-        navController = navController,
-        imageId = imageId,
-        updateImageId = updateImageId,
-        currentRoute = currentRoute,
-        updateRoute = updateRoute,
-        isDualPortrait = isDualPortrait,
-        isDualLandscape = isDualLandscape,
-        foldIsOccluding = foldIsOccluding,
-        foldBoundsDp = foldBoundsDp,
-        windowHeight = windowHeight
-    )
 
     TwoPaneLayoutNav(
         paneMode = TwoPaneMode.HorizontalSingle,
         navController = navController,
-        destinations = appDestinations,
-        singlePaneStartDestination = navDestinations.first().route,
-        pane1StartDestination = navDestinations.first().route,
+        singlePaneStartDestination = GallerySections.PLANTS.route,
+        pane1StartDestination = GallerySections.PLANTS.route,
         pane2StartDestination = ITEM_DETAIL_ROUTE
-    )
+    ) {
+        navDestinations.map { section ->
+            composable(section.route) {
+                GalleryViewWithTopBar(
+                    section = section,
+                    horizontalPadding = GALLERY_HORIZ_PADDING,
+                    navController = navController,
+                    isDualScreen = isDualScreen,
+                    imageId = imageId,
+                    updateImageId = updateImageId
+                )
+            }
+        }
+        composable(ITEM_DETAIL_ROUTE) {
+            ItemDetailViewWithTopBar(
+                isDualPortrait = isDualPortrait,
+                isDualLandscape = isDualLandscape,
+                foldIsOccluding = foldIsOccluding,
+                foldBoundsDp = foldBoundsDp,
+                windowHeight = windowHeight,
+                imageId = imageId,
+                updateImageId = updateImageId,
+                navController = navController
+            )
+        }
+    }
 }

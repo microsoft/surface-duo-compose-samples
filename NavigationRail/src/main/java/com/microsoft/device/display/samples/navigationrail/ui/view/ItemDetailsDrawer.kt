@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -58,8 +57,6 @@ private val LONG_DETAILS_TOP_PADDING = 35.dp
 private val LONG_DETAILS_BOTTOM_PADDING = 10.dp
 private const val LONG_DETAILS_LINE_HEIGHT = 32f
 
-@ExperimentalUnitApi
-@ExperimentalMaterialApi
 @Composable
 fun BoxWithConstraintsScope.ItemDetailsDrawer(
     image: Image,
@@ -179,7 +176,7 @@ private fun ItemConditions(gallerySection: GallerySections?, fact1: String, fact
     }
 }
 
-@ExperimentalUnitApi
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 private fun ItemDetailsLong(details: String) {
     val scrollState = rememberScrollState()
